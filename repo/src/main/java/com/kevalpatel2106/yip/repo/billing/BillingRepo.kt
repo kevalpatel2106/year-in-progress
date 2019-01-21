@@ -25,7 +25,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
                 if (billingResponseCode != BillingClient.BillingResponse.OK) {
                     isPurchased.onNext(false)
                 } else {
-                    billingClient.queryPurchaseHistoryAsync(sku) { responseCode, purchasesList ->
+                    billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
                         if (responseCode != BillingClient.BillingResponse.OK) {
                             isPurchased.onNext(false)
                         } else {
@@ -82,7 +82,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
                 }
             })
         }.doAfterSuccess {
-            refreshPurchaseState(sku, activity)
+            isPurchased.onNext(true)
         }.subscribeOn(RxSchedulers.main)
                 .map { sku }
     }
