@@ -6,20 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(
-    DIFF_CALLBACK
+        DIFF_CALLBACK
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {
-            TYPE_LOADING -> LoadingViewHolder.create(
-                parent
-            )
-            TYPE_ERROR -> ErrorViewHolder.create(
-                parent
-            )
-            TYPE_EMPTY -> EmptyViewHolder.create(
-                parent
-            )
+            TYPE_LOADING -> LoadingViewHolder.create(parent)
+            TYPE_ERROR -> ErrorViewHolder.create(parent)
+            TYPE_EMPTY -> EmptyViewHolder.create(parent)
             else -> getViewHolder(parent, viewType)
         }
     }
@@ -60,8 +54,8 @@ abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(
 
             @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(
-                oldItem: YipItemRepresentable,
-                newItem: YipItemRepresentable
+                    oldItem: YipItemRepresentable,
+                    newItem: YipItemRepresentable
             ): Boolean {
                 return oldItem == newItem
             }

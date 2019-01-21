@@ -16,9 +16,9 @@
         android:id="@+id/empty_list_item_text"
         style="@style/SmallText.Secondary"
         android:layout_width="match_parent"
-        android:fontFamily="@font/lato"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_micro"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:maxLines="2"
         tools:text="@tools:sample/lorem" />

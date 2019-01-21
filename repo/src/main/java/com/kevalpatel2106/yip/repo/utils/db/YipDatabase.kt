@@ -2,13 +2,12 @@ package com.kevalpatel2106.yip.repo.utils.db
 
 import android.app.Application
 import android.content.Context
-import androidx.core.content.ContextCompat
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.kevalpatel2106.yip.entity.PrebuiltProgress
+import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import java.util.*
@@ -49,28 +48,28 @@ abstract class YipDatabase : RoomDatabase() {
 
 internal fun getPrebuiltProgresses(application: Application): ArrayList<ProgressDto> {
     val prebuiltProgress = ArrayList<ProgressDto>()
-    PrebuiltProgress.values().filter {
-        it != PrebuiltProgress.CUSTOM
+    ProgressType.values().filter {
+        it != ProgressType.CUSTOM
     }.forEach {
         prebuiltProgress.add(
-            ProgressDto(
-                color = it.color,
-                start = Date(System.currentTimeMillis()),
-                end = Date(System.currentTimeMillis() + 1000),
-                title = it.getName(application),
-                order = it.ordinal,
-                prebuiltProgress = it
-            )
+                ProgressDto(
+                        color = it.color,
+                        start = Date(System.currentTimeMillis()),
+                        end = Date(System.currentTimeMillis() + 1000),
+                        title = it.getName(application),
+                        order = it.ordinal,
+                        progressType = it
+                )
         )
     }
     return prebuiltProgress
 }
 
-private fun PrebuiltProgress.getName(context: Context) = when (this) {
-    PrebuiltProgress.YEAR_PROGRESS -> context.getString(R.string.this_year)
-    PrebuiltProgress.DAY_PROGRESS -> context.getString(R.string.today)
-    PrebuiltProgress.WEEK_PROGRESS -> context.getString(R.string.this_week)
-    PrebuiltProgress.MONTH_PROGRESS -> context.getString(R.string.this_month)
-    PrebuiltProgress.QUARTER_PROGRESS -> context.getString(R.string.this_quarter)
-    PrebuiltProgress.CUSTOM -> "-"
+private fun ProgressType.getName(context: Context) = when (this) {
+    ProgressType.YEAR_PROGRESSType -> context.getString(R.string.this_year)
+    ProgressType.DAY_PROGRESSType -> context.getString(R.string.today)
+    ProgressType.WEEK_PROGRESSType -> context.getString(R.string.this_week)
+    ProgressType.MONTH_PROGRESSType -> context.getString(R.string.this_month)
+    ProgressType.QUARTER_PROGRESSType -> context.getString(R.string.this_quarter)
+    ProgressType.CUSTOM -> "-"
 }

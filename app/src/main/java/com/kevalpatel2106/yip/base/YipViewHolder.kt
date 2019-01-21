@@ -15,8 +15,8 @@ internal class LoadingViewHolder(containerView: View) : YipViewHolder(containerV
     companion object {
         fun create(parent: ViewGroup): LoadingViewHolder {
             return LoadingViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_list_loading, parent, false)
+                    LayoutInflater.from(parent.context)
+                            .inflate(R.layout.row_list_loading, parent, false)
             )
         }
     }
@@ -32,8 +32,8 @@ internal class ErrorViewHolder(containerView: View) : YipViewHolder(containerVie
     companion object {
         fun create(parent: ViewGroup): ErrorViewHolder {
             return ErrorViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_list_error, parent, false)
+                    LayoutInflater.from(parent.context)
+                            .inflate(R.layout.row_list_error, parent, false)
             )
         }
     }
@@ -48,8 +48,8 @@ internal class EmptyViewHolder(containerView: View) : YipViewHolder(containerVie
     companion object {
         fun create(parent: ViewGroup): EmptyViewHolder {
             return EmptyViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_list_empty_list, parent, false)
+                    LayoutInflater.from(parent.context)
+                            .inflate(R.layout.row_list_empty_list, parent, false)
             )
         }
     }

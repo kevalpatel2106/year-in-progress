@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 class DashboardActivity : AppCompatActivity() {
 
-    private lateinit var bottomSheet: BottomSheet
+    private lateinit var bottomNavigationSheet: BottomSheet
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
@@ -49,23 +49,18 @@ class DashboardActivity : AppCompatActivity() {
         // Inject dependency
         getAppComponent().inject(this@DashboardActivity)
         model = ViewModelProviders
-            .of(this@DashboardActivity, viewModelProvider)
-            .get(DashboardViewModel::class.java)
-        model.refreshPurchaseState(this@DashboardActivity)
+                .of(this@DashboardActivity, viewModelProvider)
+                .get(DashboardViewModel::class.java)
 
-        bottomSheet = BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
-            .title(R.string.application_name)
-            .sheet(R.menu.menu_botom_sheet)
-            .listener { _, which ->
-                when (which) {
-                    R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
-                    R.id.menu_send_feedback -> sendMailToDev()
-                    R.id.menu_rate_us -> openPlayStorePage()
-                }
-            }
-            .build()
+        setUpBottomNavigation()
+        setUpFab()
+        setUpList()
 
-        // Set the fab
+        // Start monitoring progress.
+        model.progresses.nullSafeObserve(this@DashboardActivity) { adapter.get().submitList(it.toMutableList()) }
+    }
+
+    private fun setUpFab() {
         add_progress_fab.setOnClickListener {
             if (BillingRepo.isPurchased.value == true) {
                 EditProgressActivity.createNew(this@DashboardActivity)
@@ -73,15 +68,30 @@ class DashboardActivity : AppCompatActivity() {
                 PaymentActivity.launch(this@DashboardActivity)
             }
         }
+    }
 
-        // Set progressbar list
+    private fun setUpBottomNavigation() {
+        bottomNavigationSheet = BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
+                .title(R.string.application_name)
+                .sheet(R.menu.menu_botom_sheet)
+                .listener { _, which ->
+                    when (which) {
+                        R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
+                        R.id.menu_send_feedback -> sendMailToDev()
+                        R.id.menu_rate_us -> openPlayStorePage()
+                    }
+                }
+                .build()
+    }
+
+    private fun setUpList() {
         expandable_page_container.addStateChangeCallbacks(object : PageStateChangeCallbacks {
             override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
                 bottom_app_bar.visibility = View.VISIBLE
             }
 
             override fun onPageAboutToExpand(expandAnimDuration: Long) {
-                bottomSheet.hide()
+                bottomNavigationSheet.hide()
                 bottom_app_bar.visibility = View.GONE
             }
 
@@ -99,16 +109,6 @@ class DashboardActivity : AppCompatActivity() {
             this.setHasStableIds(true)
             this.clickListener = { expandDetail(it) }
         }
-        model.progresses.nullSafeObserve(this@DashboardActivity) { adapter.get().submitList(it.toMutableList()) }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> if (!bottomSheet.isShowing) {
-                bottomSheet.show()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun expandDetail(clicked: Progress) {
@@ -124,10 +124,19 @@ class DashboardActivity : AppCompatActivity() {
         progress_list_rv.collapse()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> if (!bottomNavigationSheet.isShowing) {
+                bottomNavigationSheet.show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onBackPressed() {
         when {
             progress_list_rv.expandedItem.itemId != -1L -> collapseDetail()
-            bottomSheet.isShowing -> bottomSheet.hide()
+            bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }
     }

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.gms.ads.AdView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_ads_view"
-        style="@style/SmallText.Secondary"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/dashboard_banner_add_id"/>
+<com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_ads_view"
+    style="@style/SmallText.Secondary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    ads:adSize="SMART_BANNER"
+    ads:adUnitId="@string/dashboard_banner_add_id" />
 

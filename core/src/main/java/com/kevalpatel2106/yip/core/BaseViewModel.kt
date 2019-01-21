@@ -9,10 +9,8 @@
 package com.kevalpatel2106.yip.core
 
 import androidx.annotation.CallSuper
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 /**
  * Base class for [ViewModel].

@@ -31,16 +31,16 @@ import com.kevalpatel2106.feature.core.R
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 fun <T : AppCompatActivity> Context.prepareLaunchIntent(
-    aClass: Class<T>,
-    isNewTask: Boolean = false
+        aClass: Class<T>,
+        isNewTask: Boolean = false
 ): Intent {
 
     return Intent(this, aClass).apply {
         if (isNewTask) {
             addFlags(
-                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        or Intent.FLAG_ACTIVITY_NEW_TASK
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            or Intent.FLAG_ACTIVITY_NEW_TASK
             )
         }
     }
@@ -50,15 +50,15 @@ fun <T : AppCompatActivity> Context.prepareLaunchIntent(
  * Display the snack bar.
  */
 fun Activity.showSnack(
-    message: String,
-    duration: Int = 2000,
-    actonTitle: Int = -1,
-    actionListener: ((View) -> Unit)? = null
+        message: String,
+        duration: Int = 2000,
+        actonTitle: Int = -1,
+        actionListener: ((View) -> Unit)? = null
 ): Snackbar {
     val snackbar = Snackbar.make(
-        findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as ViewGroup,
-        message,
-        duration
+            findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as ViewGroup,
+            message,
+            duration
     ).apply {
         actonTitle.takeIf { it > 0 }?.let { actionTitle ->
             setAction(actionTitle, actionListener)
@@ -103,17 +103,16 @@ fun Context.sendMailToDev() {
 
 fun Context.updateWidgets() = sendBroadcast(Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE))
 
-
 fun Context.openPlayStorePage() {
     try {
         startActivity(Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.play_store_deep_link))
+                Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.play_store_deep_link))
         ))
     } catch (anfe: android.content.ActivityNotFoundException) {
         startActivity(Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.play_store_url))
+                Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.play_store_url))
         ))
     }
 }

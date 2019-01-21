@@ -17,7 +17,6 @@ import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import kotlinx.android.synthetic.main.fragment_detail.*
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 internal class DetailFragment : Fragment() {
@@ -34,8 +33,8 @@ internal class DetailFragment : Fragment() {
         super.onAttach(context)
         context.getAppComponent().inject(this@DetailFragment)
         model = ViewModelProviders
-            .of(this@DetailFragment, viewModelProvider)
-            .get(DetailViewModel::class.java)
+                .of(this@DetailFragment, viewModelProvider)
+                .get(DetailViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,7 +52,7 @@ internal class DetailFragment : Fragment() {
         model.progressStartTime.nullSafeObserve(this@DetailFragment) {
             detail_start_time_tv.text = it
         }
-        model.progressStartTime.nullSafeObserve(this@DetailFragment) {
+        model.progressEndTime.nullSafeObserve(this@DetailFragment) {
             detail_end_time_tv.text = it
         }
         model.progressPercent.nullSafeObserve(this@DetailFragment) {
@@ -76,15 +75,15 @@ internal class DetailFragment : Fragment() {
         model.isDeleteOptionVisible.nullSafeObserve(this@DetailFragment) { isVisible ->
             detail_delete_iv.showOrHide(isVisible)
         }
-        var snackbar: Snackbar? = null
+        var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
             detail_delete_iv.isEnabled = !isDeleting
             detail_edit_btn.isEnabled = !isDeleting
 
             if (isDeleting) {
-                snackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
+                deleteInProgressSnackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
             } else {
-                snackbar?.dismiss()
+                deleteInProgressSnackbar?.dismiss()
             }
         }
 
@@ -107,11 +106,11 @@ internal class DetailFragment : Fragment() {
 
     private fun conformDelete(title: String) {
         AlertDialog.Builder(context, R.style.YipAlertDialogTheme)
-            .setMessage(getString(R.string.pregress_delete_confirmation_message, title))
-            .setPositiveButton(getString(R.string.pregress_delete_confirmation_delete_title)) { _, _ -> model.deleteProgress() }
-            .setNegativeButton(android.R.string.cancel, null)
-            .setCancelable(true)
-            .show()
+                .setMessage(getString(R.string.progress_delete_confirmation_message, title))
+                .setPositiveButton(getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> model.deleteProgress() }
+                .setNegativeButton(android.R.string.cancel, null)
+                .setCancelable(true)
+                .show()
     }
 
     companion object {

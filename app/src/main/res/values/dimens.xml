@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--General dimentions-->
     <item name="match_parent" type="dimen">-1</item>
     <item name="wrap_content" type="dimen">-2</item>
-
-    <dimen name="md_activity_horizontal_margin">@dimen/spacing_small</dimen>
-    <dimen name="md_activity_vertical_margin">@dimen/spacing_small</dimen>
-    <dimen name="md_nano_text_size">12sp</dimen>
     <dimen name="bottom_appbar_height">@dimen/spacing_anti</dimen>
-    <dimen name="time_left_text_size">24sp</dimen>
-    <dimen name="progress_percent_text_size">36sp</dimen>
 
+    <!--Progress list widget dimension-->
     <dimen name="widget_min_width">190dp</dimen>
     <dimen name="widget_min_height">@dimen/spacing_huge</dimen>
     <dimen name="widget_row_height">40dp</dimen>
+
+    <!--Progress detail dimensions-->
+    <dimen name="time_left_text_size">24sp</dimen>
+    <dimen name="progress_percent_text_size">36sp</dimen>
+    <!--TODO: Categorize dimensions-->
 </resources>

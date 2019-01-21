@@ -51,8 +51,8 @@ internal class EditProgressActivity : AppCompatActivity() {
 
         getAppComponent().inject(this@EditProgressActivity)
         model = ViewModelProviders
-            .of(this@EditProgressActivity, viewModelProvider)
-            .get(EditViewProgressModel::class.java)
+                .of(this@EditProgressActivity, viewModelProvider)
+                .get(EditViewProgressModel::class.java)
 
         // Actionbar set up
         setSupportActionBar(edit_toolbar)
@@ -106,7 +106,7 @@ internal class EditProgressActivity : AppCompatActivity() {
             invalidateOptionsMenu()
             edit_color.isEnabled = !it
         }
-        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity){
+        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) {
             edit_start_time.isEnabled = !it
             edit_end_time.isEnabled = !it
         }
@@ -133,28 +133,28 @@ internal class EditProgressActivity : AppCompatActivity() {
     }
 
     private fun getDatePicker(
-        preset: Calendar = Calendar.getInstance(),
-        listener: (date: Date) -> Unit
+            preset: Calendar = Calendar.getInstance(),
+            listener: (date: Date) -> Unit
     ): DatePickerDialog {
         return DatePickerDialog(
-            this@EditProgressActivity,
-            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                val cal = Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth, 0, 0)
-                }
-                listener.invoke(Date(cal.timeInMillis))
-            },
-            preset.get(Calendar.YEAR),
-            preset.get(Calendar.MONTH),
-            preset.get(Calendar.DAY_OF_MONTH)
+                this@EditProgressActivity,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    val cal = Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth, 0, 0)
+                    }
+                    listener.invoke(Date(cal.timeInMillis))
+                },
+                preset.get(Calendar.YEAR),
+                preset.get(Calendar.MONTH),
+                preset.get(Calendar.DAY_OF_MONTH)
         )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_progress_save, menu)
         menu?.findItem(R.id.menu_progress_save)?.showOrHideLoader(
-            context = this@EditProgressActivity,
-            isShow = model.isLoadingProgress.value == true
+                context = this@EditProgressActivity,
+                isShow = model.isLoadingProgress.value == true
         )
         return super.onCreateOptionsMenu(menu)
     }

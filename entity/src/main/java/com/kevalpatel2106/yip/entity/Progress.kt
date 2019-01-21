@@ -9,19 +9,19 @@ import java.util.*
 @Parcelize
 @TypeParceler<Date, DateParcelConverter>()
 data class Progress(
-    val id: Long,
-    val order: Int,
-    val prebuiltProgress: PrebuiltProgress,
-    val title: String,
+        val id: Long,
+        val order: Int,
+        val progressType: ProgressType,
+        val title: String,
 
-    var start: Date,
+        var start: Date,
 
-    var end: Date,
+        var end: Date,
 
-    @ColorInt
-    var color: ProgressColor = ProgressColor.COLOR_BLUE,
+        @ColorInt
+        var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
-    val isEnabled: Boolean = true
+        val isEnabled: Boolean = true
 ) : Parcelable {
 
     fun percent(now: Date) = (now.time - start.time) * 100 / (end.time - start.time).toFloat()

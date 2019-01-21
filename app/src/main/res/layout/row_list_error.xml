@@ -10,8 +10,8 @@
         android:id="@+id/error_list_item_text"
         style="@style/SmallText.Secondary"
         android:layout_width="match_parent"
-        android:fontFamily="@font/lato"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:maxLines="2"
         tools:text="@tools:sample/lorem" />
@@ -20,9 +20,9 @@
         android:id="@+id/error_list_item_btn"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
-        android:fontFamily="@font/lato"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:fontFamily="@font/lato"
         android:text="@string/retry"
         android:textColor="@color/colorAccent" />
 </LinearLayout>

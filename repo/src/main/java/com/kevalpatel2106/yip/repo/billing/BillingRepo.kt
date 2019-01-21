@@ -16,9 +16,9 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
 
     fun refreshPurchaseState(sku: String, activity: Activity) {
         val billingClient: BillingClient = BillingClient
-            .newBuilder(activity)
-            .setListener { _, _ -> /* Do nothing */ }
-            .build()
+                .newBuilder(activity)
+                .setListener { _, _ -> /* Do nothing */ }
+                .build()
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
@@ -46,26 +46,26 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
     fun purchase(sku: String, activity: Activity): Single<String> {
         return Single.create<Purchase> { emitter ->
             val billingClient: BillingClient = BillingClient
-                .newBuilder(activity)
-                .setListener { responseCode, purchases ->
-                    if (responseCode != BillingClient.BillingResponse.OK) {
+                    .newBuilder(activity)
+                    .setListener { responseCode, purchases ->
+                        if (responseCode != BillingClient.BillingResponse.OK) {
 
-                        // If the item already owned...don't worry. We will consume it.
-                        if (responseCode != BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
-                            emitter.tryOnError(Exception(getPaymentMessage(responseCode)))
-                        }
-                        return@setListener
-                    } else {
-
-                        val purchasedSku = purchases?.find { it.sku == sku }
-                        if (purchasedSku != null) {
-                            emitter.onSuccess(purchasedSku)
+                            // If the item already owned...don't worry. We will consume it.
+                            if (responseCode != BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
+                                emitter.tryOnError(Exception(getPaymentMessage(responseCode)))
+                            }
+                            return@setListener
                         } else {
-                            emitter.tryOnError(Exception("Purchase failed. Please try again."))
+
+                            val purchasedSku = purchases?.find { it.sku == sku }
+                            if (purchasedSku != null) {
+                                emitter.onSuccess(purchasedSku)
+                            } else {
+                                emitter.tryOnError(Exception("Purchase failed. Please try again."))
+                            }
                         }
                     }
-                }
-                .build()
+                    .build()
 
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
@@ -84,14 +84,14 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
         }.doAfterSuccess {
             refreshPurchaseState(sku, activity)
         }.subscribeOn(RxSchedulers.main)
-            .map { sku }
+                .map { sku }
     }
 
     private fun consumeOrPurchase(
-        billingClient: BillingClient,
-        emitter: SingleEmitter<Purchase>,
-        sku: String,
-        activity: Activity
+            billingClient: BillingClient,
+            emitter: SingleEmitter<Purchase>,
+            sku: String,
+            activity: Activity
     ) {
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { queryCode, purchases ->
             if (queryCode != BillingClient.BillingResponse.OK) {
@@ -121,17 +121,17 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
     }
 
     private fun buyNewProduct(
-        billingClient: BillingClient,
-        activity: Activity,
-        sku: String,
-        emitter: SingleEmitter<Purchase>
+            billingClient: BillingClient,
+            activity: Activity,
+            sku: String,
+            emitter: SingleEmitter<Purchase>
     ) {
         //Initiate the purchase flow
         @Suppress("DEPRECATION")
         val purchaseParams = BillingFlowParams.newBuilder()
-            .setSku(sku)
-            .setType(BillingClient.SkuType.INAPP)
-            .build()
+                .setSku(sku)
+                .setType(BillingClient.SkuType.INAPP)
+                .build()
 
         val launchCode = billingClient.launchBillingFlow(activity, purchaseParams)
         if (launchCode != BillingClient.BillingResponse.OK) {

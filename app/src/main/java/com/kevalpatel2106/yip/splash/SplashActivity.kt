@@ -21,8 +21,11 @@ internal class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
         model = ViewModelProviders
-            .of(this@SplashActivity, viewModelProvider)
-            .get(SplashViewModel::class.java)
+                .of(this@SplashActivity, viewModelProvider)
+                .get(SplashViewModel::class.java)
+
+        // Refresh the purchase state.
+        model.refreshPurchaseState(this@SplashActivity)
 
         // Perform anonymous auth
         model.signInAsAnonymousUser()

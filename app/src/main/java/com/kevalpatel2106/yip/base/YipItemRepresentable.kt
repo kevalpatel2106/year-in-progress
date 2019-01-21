@@ -8,8 +8,8 @@ data class EmptyRepresentable(internal val message: String) : YipItemRepresentab
 }
 
 data class ErrorRepresentable(
-    internal val message: String,
-    internal val retry: () -> Unit
+        internal val message: String,
+        internal val retry: () -> Unit
 ) : YipItemRepresentable(YipAdapter.TYPE_ERROR) {
     override fun equals(other: Any?): Boolean = (other as? ErrorRepresentable)?.message == message
     override fun hashCode(): Int = message.hashCode()

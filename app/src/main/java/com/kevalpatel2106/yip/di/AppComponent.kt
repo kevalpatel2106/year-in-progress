@@ -29,6 +29,6 @@ internal interface AppComponent {
 
 internal fun Context.getAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-        .coreComponent((applicationContext as YIPApplication).coreComponent)
-        .build()
+            .coreComponent((applicationContext as YIPApplication).coreComponent)
+            .build()
 }

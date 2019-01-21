@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+
+dependencies{
+    api 'junit:junit:4.12'
+    api "androidx.test:rules:1.1.1"
+    api "androidx.test:monitor:1.1.1"
+    api 'androidx.test:runner:1.1.1'
+    api("org.mockito:mockito-core:${versions.mockito}", excludeGrp)
+    api("org.robolectric:robolectric:4.1", excludeGrp)
+    api("androidx.arch.core:core-testing:2.0.0", excludeGrp)
+}

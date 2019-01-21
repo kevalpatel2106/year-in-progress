@@ -3,3 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
+
+dependencies{
+    testImplementation project(':testUtils')
+}

@@ -13,6 +13,7 @@ import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
+import com.kevalpatel2106.yip.webviews.WebViewActivity
 import javax.inject.Inject
 
 internal class SettingsFragment : PreferenceFragmentCompat() {
@@ -26,8 +27,8 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         super.onAttach(context)
         context.getAppComponent().inject(this@SettingsFragment)
         model = ViewModelProviders
-            .of(this@SettingsFragment, viewModelProvider)
-            .get(SettingsViewModel::class.java)
+                .of(this@SettingsFragment, viewModelProvider)
+                .get(SettingsViewModel::class.java)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -49,6 +50,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         when (preference.key) {
             getString(R.string.pref_key_buy_pro) -> context?.let { PaymentActivity.launch(it) }
             getString(R.string.pref_key_contact) -> context?.sendMailToDev()
+            getString(R.string.pref_key_privacy_policy) -> context?.let { WebViewActivity.showPrivacyPolicy(it) }
         }
         return super.onPreferenceTreeClick(preference)
     }

@@ -1,14 +1,15 @@
 package com.kevalpatel2106.yip.splash
 
-import android.app.Application
+import android.app.Activity
 import com.google.firebase.auth.FirebaseAuth
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class SplashViewModel @Inject constructor(
-    @Suppress("UNUSED_PARAMETER") application: Application
+        private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
@@ -30,5 +31,9 @@ internal class SplashViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    internal fun refreshPurchaseState(activity: Activity) {
+        billingRepo.refreshPurchaseState(BillingRepo.SKU_ID, activity)
     }
 }

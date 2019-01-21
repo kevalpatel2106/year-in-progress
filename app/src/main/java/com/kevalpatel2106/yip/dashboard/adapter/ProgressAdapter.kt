@@ -25,7 +25,6 @@ internal class ProgressAdapter @Inject constructor(private val ntpProvider: NtpP
         }
     }
 
-
     companion object {
         internal const val PROGRESS_BAR_TYPE = 34533
         internal const val ADS_TYPE = 546

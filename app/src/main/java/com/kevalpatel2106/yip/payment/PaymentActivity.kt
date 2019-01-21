@@ -24,18 +24,12 @@ internal class PaymentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
-
-        // Set toolbar
-        setSupportActionBar(payment_toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = getString(R.string.activity_title_payment)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
+        setActionbar()
 
         getAppComponent().inject(this@PaymentActivity)
         model = ViewModelProviders
-            .of(this@PaymentActivity, viewModelProvider)
-            .get(PaymentViewModel::class.java)
+                .of(this@PaymentActivity, viewModelProvider)
+                .get(PaymentViewModel::class.java)
 
         purchase_btn.setOnClickListener { model.purchase(this@PaymentActivity) }
 
@@ -49,6 +43,14 @@ internal class PaymentActivity : AppCompatActivity() {
         model.isPurchasing.nullSafeObserve(this@PaymentActivity) {
             purchase_btn.isEnabled = !it
         }
+    }
+
+    private fun setActionbar() {
+        setSupportActionBar(payment_toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = getString(R.string.title_activity_payment)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

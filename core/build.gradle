@@ -7,4 +7,5 @@ apply plugin: 'jacoco'
 dependencies {
     api project(':entity')
     api project(':repo')
+    testImplementation project(':testUtils')
 }

@@ -10,7 +10,11 @@ internal class YIPApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Initialize admob
         MobileAds.initialize(this, getString(R.string.admob_app_id))
+
+        // Enable stetho
         Stetho.initializeWithDefaults(this)
     }
 }

@@ -24,12 +24,12 @@ internal class ProgressListRemoteFactory(private val application: Application) :
         with(progresses[position]) {
             rowView.setTextViewText(R.id.widget_battery_list_name_tv, this.title)
             rowView.setTextViewText(
-                R.id.widget_battery_list_level_tv,
-                application.getString(R.string.progress_percentage,this.percent(ntpProvider.now()))
+                    R.id.widget_battery_list_level_tv,
+                    application.getString(R.string.progress_percentage, this.percent(ntpProvider.now()))
             )
             rowView.setTextColor(
-                R.id.widget_battery_list_level_tv,
-                this.color.value
+                    R.id.widget_battery_list_level_tv,
+                    this.color.value
             )
         }
         return rowView

@@ -2,8 +2,8 @@ package com.kevalpatel2106.yip.repo.utils.db
 
 import androidx.annotation.ColorInt
 import androidx.room.TypeConverter
-import com.kevalpatel2106.yip.entity.PrebuiltProgress
 import com.kevalpatel2106.yip.entity.ProgressColor
+import com.kevalpatel2106.yip.entity.ProgressType
 import java.util.*
 
 internal object DbTypeConverter {
@@ -22,20 +22,20 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun toType(value: Int): PrebuiltProgress {
+    fun toType(value: Int): ProgressType {
         return when (value) {
-            PrebuiltProgress.YEAR_PROGRESS.key -> PrebuiltProgress.YEAR_PROGRESS
-            PrebuiltProgress.MONTH_PROGRESS.key -> PrebuiltProgress.MONTH_PROGRESS
-            PrebuiltProgress.WEEK_PROGRESS.key -> PrebuiltProgress.WEEK_PROGRESS
-            PrebuiltProgress.DAY_PROGRESS.key -> PrebuiltProgress.DAY_PROGRESS
-            PrebuiltProgress.QUARTER_PROGRESS.key -> PrebuiltProgress.QUARTER_PROGRESS
-            else -> PrebuiltProgress.CUSTOM
+            ProgressType.YEAR_PROGRESSType.key -> ProgressType.YEAR_PROGRESSType
+            ProgressType.MONTH_PROGRESSType.key -> ProgressType.MONTH_PROGRESSType
+            ProgressType.WEEK_PROGRESSType.key -> ProgressType.WEEK_PROGRESSType
+            ProgressType.DAY_PROGRESSType.key -> ProgressType.DAY_PROGRESSType
+            ProgressType.QUARTER_PROGRESSType.key -> ProgressType.QUARTER_PROGRESSType
+            else -> ProgressType.CUSTOM
         }
     }
 
     @JvmStatic
     @TypeConverter
-    fun fromType(value: PrebuiltProgress): Int {
+    fun fromType(value: ProgressType): Int {
         return value.key
     }
 

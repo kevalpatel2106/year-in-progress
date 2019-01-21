@@ -17,17 +17,17 @@ class NtpProvider @Inject constructor(private val application: Application) {
     @SuppressLint("CheckResult")
     private fun initializeTrueTime() {
         TrueTimeRx.build()
-            .withConnectionTimeout(31_428)
-            .withRetryCount(100)
-            .withSharedPreferencesCache(application)
-            .withLoggingEnabled(BuildConfig.DEBUG)
-            .initializeRx(application.getString(R.string.google_ntp))
-            .subscribeOn(RxSchedulers.network)
-            .subscribe({
-                // Do nothing
-            }, {
-                it.printStackTrace()
-            })
+                .withConnectionTimeout(31_428)
+                .withRetryCount(100)
+                .withSharedPreferencesCache(application)
+                .withLoggingEnabled(BuildConfig.DEBUG)
+                .initializeRx(application.getString(R.string.google_ntp))
+                .subscribeOn(RxSchedulers.network)
+                .subscribe({
+                    // Do nothing
+                }, {
+                    it.printStackTrace()
+                })
     }
 
     fun now(): Date = if (TrueTimeRx.isInitialized()) {

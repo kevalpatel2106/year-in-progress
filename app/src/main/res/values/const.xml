@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pref_key_buy_pro">pref_key_buy_pro</string>
-    <string name="pref_key_version">pref_key_version</string>
-    <string name="pref_key_contact">pref_key_contact</string>
-    <string name="admob_app_id">ca-app-pub-3202373510164662~8879669592</string>
-    <string name="dashboard_banner_add_id">ca-app-pub-3202373510164662/2449992610</string>
-    <string name="test_dashboard_banner_add_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!--Preferences-->
+    <string name="pref_key_buy_pro" translatable="false">pref_key_buy_pro</string>
+    <string name="pref_key_version" translatable="false">pref_key_version</string>
+    <string name="pref_key_contact" translatable="false">pref_key_contact</string>
+    <string name="pref_key_privacy_policy" translatable="false">pref_key_privacy_policy</string>
+    <!--TODO: Categorize the constants-->
 </resources>

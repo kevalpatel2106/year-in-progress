@@ -14,27 +14,27 @@
   ~ limitations under the License.
   -->
 
-<androidx.preference.PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        >
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.preference.Preference
-            android:key="@string/pref_key_buy_pro"
-            android:title="@string/pref_title_buy_pro"
-            android:icon="@drawable/ic_money"
-            />
+        android:icon="@drawable/ic_money"
+        android:key="@string/pref_key_buy_pro"
+        android:title="@string/pref_title_buy_pro" />
 
     <androidx.preference.PreferenceCategory android:title="@string/about_header">
         <androidx.preference.Preference
-                android:key="@string/pref_key_version"
-                android:icon="@drawable/ic_info"
-                android:title="@string/pref_title_version"
-                />
+            android:icon="@drawable/ic_privacy"
+            android:key="@string/pref_key_privacy_policy"
+            android:title="@string/pref_title_privacy_policy" />
 
         <androidx.preference.Preference
-                android:key="@string/pref_key_contact"
-                android:icon="@drawable/ic_mail"
-                android:title="@string/pref_title_contact"
-                />
+            android:icon="@drawable/ic_info"
+            android:key="@string/pref_key_version"
+            android:title="@string/pref_title_version" />
+
+        <androidx.preference.Preference
+            android:icon="@drawable/ic_mail"
+            android:key="@string/pref_key_contact"
+            android:title="@string/pref_title_contact" />
     </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>

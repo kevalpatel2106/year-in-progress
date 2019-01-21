@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.row_list_ads.view.*
 import kotlinx.android.synthetic.main.row_progress.*
 import java.util.*
 
-
 internal class ProgressViewHolder(itemView: View) : YipViewHolder(itemView) {
     fun bind(progress: Progress, now: Date, onClick: ((progress: Progress) -> Unit)?) {
         progress_name_title.text = progress.title
@@ -40,7 +39,7 @@ internal class AdsViewHolder(itemView: View) : YipViewHolder(itemView) {
     companion object {
         fun create(parent: ViewGroup): AdsViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.row_list_ads, parent, false)
-            view.list_ads_view.loadAd(AdRequest.Builder().build())
+            view.list_ads_view.loadAd(AdRequest.Builder().build())  // Initialize ads.
             return AdsViewHolder(view)
         }
     }

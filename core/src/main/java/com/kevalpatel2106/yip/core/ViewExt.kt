@@ -9,28 +9,25 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.kevalpatel2106.feature.core.R
 
 @SuppressLint("ObsoleteSdkInt")
 fun ProgressBar.setProgressTint(@ColorInt color: Int) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         val wrapDrawable = DrawableCompat.wrap(progressDrawable ?: indeterminateDrawable)
         DrawableCompat.setTint(
-            wrapDrawable,
-            color
+                wrapDrawable,
+                color
         )
         progressDrawable = DrawableCompat.unwrap(wrapDrawable)
     } else {
         progressDrawable?.setColorFilter(
-            color,
-            PorterDuff.Mode.SRC_IN
+                color,
+                PorterDuff.Mode.SRC_IN
         )
         indeterminateDrawable?.setColorFilter(
-            color,
-            PorterDuff.Mode.SRC_IN
+                color,
+                PorterDuff.Mode.SRC_IN
         )
     }
 }
