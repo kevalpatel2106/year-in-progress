@@ -25,9 +25,9 @@ ext {
     ]
 
     playStoreVersion = [
-            "version_code": 1,
+            "version_code": 2,
             "major"       : 0,
-            "minor"       : 1,
+            "minor"       : 2,
             "patch"       : 0
     ]
 
@@ -75,7 +75,7 @@ ext {
     signingConfig = {
         //This are th play store signing config.
         playStore {
-            if (System.getenv("CI") == "true") { // TODO Enable this while you have production key
+            if (System.getenv("CI") == "true") {
 
                 storeFile file(System.getenv('KEY_PATH'))
                 storePassword System.getenv('KEY_PASSWORD')
