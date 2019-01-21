@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="bs_dialogBackground">@color/colorPrimary</item>
+        <item name="bs_dividerColor">@color/divider_color</item>
+        <item name="bs_listStyle">@style/BottomSheet.List</item>
+    </style>
+
+    <style name="EditScreenTitleStyle" parent="EditScreenTitleTivStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small</item>
+    </style>
+
+    <style name="EditScreenTitleTivStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/MediumText.Accent</item>
+    </style>
+
+    <style name="EditScreenImageStyle">
+        <item name="android:layout_marginTop">@dimen/spacing_pico</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="EditScreenValueStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/MediumText.Primary</item>
+        <item name="android:layout_marginTop">@dimen/spacing_micro</item>
+    </style>
+
+    <style name="ProBenefitImageStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/spacing_micro</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small</item>
+        <item name="android:layout_height">@dimen/spacing_huge</item>
+    </style>
+
+    <style name="ProBenefitTextStyle" parent="MediumText.Primary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/widget_row_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/spacing_small"
+    android:paddingEnd="@dimen/spacing_small"
+    android:id="@+id/battery_list_row"
+    tools:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/widget_battery_list_level_tv"
+        style="@style/MediumText.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        tools:text="100%" />
+
+    <TextView
+        android:id="@+id/widget_battery_list_name_tv"
+        style="@style/MediumText.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_toStartOf="@id/widget_battery_list_level_tv"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:singleLine="true"
+        tools:text="@tools:sample/lorem/random" />
+</RelativeLayout>

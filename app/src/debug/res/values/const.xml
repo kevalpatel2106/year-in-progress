@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--https://developers.google.com/admob/android/test-ads-->
+    <string name="dashboard_banner_add_id">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

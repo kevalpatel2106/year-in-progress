@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#1C313A</color>
+    <color name="colorPrimary">#455A64</color>
+    <color name="colorPrimaryLight">#718792</color>
+
+    <color name="colorAccentDark">#8C0032</color>
+    <color name="colorAccent">#C2185B</color>
+    <color name="colorAccentLight">#FA5788</color>
+
+    <!--text colors-->
+    <color name="colorPrimaryText">#111</color>
+    <color name="colorSecondaryText">#888888</color>
+
+    <!--Background colors-->
+    <color name="window_background_color_bright">#FFF</color>
+    <color name="window_background_color">#EFEFEF</color>
+    <color name="ic_launcher_background">#455A64</color>
+
+    <color name="icon_color">@android:color/white</color>
+    <color name="divider_color">#BDBDBD</color>
+</resources>

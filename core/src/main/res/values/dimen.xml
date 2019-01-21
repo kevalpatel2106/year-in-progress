@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="divider_height">1px</dimen>
+    <dimen name="md_nano_text_size">12sp</dimen>
+</resources>

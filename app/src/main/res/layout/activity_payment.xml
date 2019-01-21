@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/payment_app_bar"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/payment_toolbar"
+                android:layout_width="match_parent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_height="?actionBarSize"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/payment_btn_card"
+            app:cardBackgroundColor="@color/window_background_color_bright"
+            android:layout_height="wrap_content"
+            app:contentPadding="@dimen/spacing_small"
+            app:cardElevation="@dimen/spacing_small">
+
+        <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:paddingTop="@dimen/spacing_pico"
+                android:paddingBottom="@dimen/spacing_pico"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_small"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorAccent"
+                android:id="@+id/purchase_btn"
+                android:text="@string/buy_now"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+            android:id="@+id/purchase_scroll"
+            android:layout_width="match_parent"
+            android:padding="@dimen/spacing_small"
+            android:layout_above="@id/payment_btn_card"
+            android:layout_below="@id/payment_app_bar"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    style="@style/MediumText.Primary"
+                    android:text="@string/pro_benefit_title"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    style="@style/ProBenefitImageStyle"
+                    app:srcCompat="@drawable/ic_ads"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ProBenefitTextStyle"
+                    android:text="No more ads"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    app:srcCompat="@drawable/ic_target"
+                    style="@style/ProBenefitImageStyle"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ProBenefitTextStyle"
+                    android:text="Add custom Goals to track the deadline."/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    style="@style/ProBenefitImageStyle"
+                    app:srcCompat="@drawable/ic_heart_red"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ProBenefitTextStyle"
+                    android:text="Support ongoing development"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

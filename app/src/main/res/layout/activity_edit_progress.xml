@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/edit_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/edit_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_small"
+            tools:ignore="RtlSymmetry">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/spacing_huge" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_title_image"
+                style="@style/EditScreenImageStyle"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_process_title_title"
+                app:srcCompat="@drawable/ic_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_process_title_title"
+                style="@style/EditScreenTitleStyle"
+                android:layout_marginTop="@dimen/spacing_pico"
+                android:text="@string/edit_title_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_progress_title_til"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:counterEnabled="true"
+                app:counterMaxLength="@integer/max_process_title"
+                app:counterOverflowTextAppearance="@style/NanoText.Red"
+                app:counterTextAppearance="@style/NanoText.Secondary"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/NanoText.Red"
+                app:helperText="(e.g. This financial year)"
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/NanoText.Secondary"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@id/edit_process_title_title">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edit_progress_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/MediumText.Primary"
+                    android:textColor="@color/colorSecondaryText">
+
+                    <requestFocus />
+                </androidx.appcompat.widget.AppCompatEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_start_time_title"
+                style="@style/EditScreenTitleStyle"
+                android:text="@string/edit_start_time_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_progress_title_til" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_start_time"
+                style="@style/EditScreenValueStyle"
+                android:background="?selectableItemBackground"
+                android:drawableEnd="@drawable/ic_date_range"
+                android:paddingBottom="@dimen/spacing_nano"
+                android:paddingTop="@dimen/spacing_nano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_start_time_title"
+                tools:text="@tools:sample/date/ddmmyy" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_end_time_title"
+                style="@style/EditScreenTitleStyle"
+                android:text="@string/edit_end_time_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_start_time" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_end_time"
+                style="@style/EditScreenValueStyle"
+                android:background="?selectableItemBackground"
+                android:drawableEnd="@drawable/ic_date_range"
+                android:paddingBottom="@dimen/spacing_nano"
+                android:paddingTop="@dimen/spacing_nano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_end_time_title"
+                tools:text="@tools:sample/date/ddmmyy" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_time_image"
+                style="@style/EditScreenImageStyle"
+                app:layout_constraintEnd_toStartOf="@+id/edit_start_time_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_start_time_title"
+                app:srcCompat="@drawable/ic_clock" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_color_title"
+                style="@style/EditScreenTitleStyle"
+                android:text="@string/edit_color_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_end_time" />
+
+            <com.thebluealliance.spectrum.SpectrumPalette
+                android:id="@+id/edit_color"
+                style="@style/EditScreenValueStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_color_title"
+                app:spectrum_autoPadding="true"
+                app:spectrum_columnCount="5"
+                tools:layout_height="@dimen/spacing_huge"
+                tools:text="@tools:sample/full_names" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_color_image"
+                style="@style/EditScreenImageStyle"
+                app:layout_constraintEnd_toStartOf="@+id/edit_color_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_color_title"
+                app:srcCompat="@drawable/ic_paint_board" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

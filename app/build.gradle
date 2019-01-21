@@ -1,0 +1,24 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+apply plugin: 'io.fabric'
+
+dependencies {
+    implementation project(':core')
+    implementation 'com.github.betterme-dev:BottomSheet:android-x-SNAPSHOT'
+    implementation 'me.saket:inboxrecyclerview:1.0.0-rc1'
+    implementation 'androidx.preference:preference:1.1.0-alpha02'
+    implementation 'com.thebluealliance:spectrum:0.7.1'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-ads:17.1.2'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+
+    // Debug libs
+    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+}
+apply plugin: 'com.google.gms.google-services'

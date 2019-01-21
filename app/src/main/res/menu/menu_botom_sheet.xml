@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+    <item
+            android:id="@+id/menu_settings"
+            android:title="@string/menu_title_settings"
+            android:icon="@drawable/ic_settings"/>
+
+    <item
+            android:id="@+id/menu_send_feedback"
+            android:title="@string/menu_title_feedback"
+            android:icon="@drawable/ic_feedback"/>
+
+    <item
+            android:id="@+id/menu_rate_us"
+            android:title="@string/menu_title_rate_us"
+            android:icon="@drawable/ic_star"/>
+</menu>

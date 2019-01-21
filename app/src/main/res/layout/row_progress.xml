@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_pico"
+        android:layout_marginBottom="@dimen/spacing_pico"
+        app:cardElevation="@dimen/spacing_pico"
+        app:contentPadding="@dimen/spacing_small"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/window_background_color_bright">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/foreground_view"
+            android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                style="@style/LargeText.Secondary"
+                tools:text="@tools:sample/lorem"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:fontFamily="@font/lato"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/progress_name_title"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="@dimen/spacing_anti"
+                android:layout_height="wrap_content"
+                style="@style/LargeText.Accent"
+                android:textSize="24sp"
+                android:id="@+id/progress_percent"
+                android:textStyle="bold"
+                android:gravity="end"
+                tools:text="43.00%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_name_title"
+                android:layout_marginTop="@dimen/spacing_nano"/>
+
+        <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_micro"
+                android:id="@+id/progress_bar"
+                android:max="100"
+                tools:progress="10"
+                android:scaleY="1.5"
+                android:indeterminate="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/progress_percent"
+                app:layout_constraintTop_toTopOf="@+id/progress_percent"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_percent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

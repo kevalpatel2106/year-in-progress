@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+
+dependencies {
+    implementation project(':entity')
+
+    implementation 'com.github.instacart.truetime-android:library:3.4'
+    implementation 'com.github.instacart.truetime-android:library-extension-rx:3.4'
+    api 'com.android.billingclient:billing:1.2'
+
+    // Room dependencies
+    api("androidx.room:room-runtime:$versions.room", excludeGrp)
+    implementation("androidx.room:room-rxjava2:$versions.room", excludeGrp)
+    kapt "androidx.room:room-compiler:$versions.room"
+    kaptAndroidTest "androidx.room:room-compiler:$versions.room"
+    androidTestImplementation "androidx.room:room-testing:$versions.room"
+}

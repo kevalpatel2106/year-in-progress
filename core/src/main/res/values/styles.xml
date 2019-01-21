@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<resources>
+
+    <!-- Primary texts -->
+    <style name="LargeText.Primary" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorHint">?android:attr/textColorSecondary</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="MediumText.Primary" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorHint">?android:attr/textColorSecondary</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="SmallText.Primary" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="NanoText.Primary" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/md_nano_text_size</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <!-- Secondary texts -->
+    <style name="LargeText.Secondary" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="MediumText.Secondary" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="SmallText.Secondary" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="NanoText.Secondary" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/md_nano_text_size</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <!-- Accent texts -->
+    <style name="LargeText.Accent" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="MediumText.Accent" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="SmallText.Accent" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="NanoText.Accent" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textSize">@dimen/md_nano_text_size</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <!-- White texts -->
+    <style name="LargeText.White" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="MediumText.White" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="SmallText.White" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="NanoText.White" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/md_nano_text_size</item>
+        <item name="android:textColorHint">@color/colorSecondaryText</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <style name="NanoText.Red" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <item name="android:textSize">@dimen/md_nano_text_size</item>
+        <item name="android:textColorHint">@android:color/holo_red_dark</item>
+        <item name="android:fontFamily">@font/lato</item>
+    </style>
+
+    <!--Dialogs-->
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_small</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+</resources>

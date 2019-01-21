@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_small">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/spacing_huge"
+        android:layout_height="@dimen/spacing_huge"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_empty" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/empty_list_item_text"
+        style="@style/SmallText.Secondary"
+        android:layout_width="match_parent"
+        android:fontFamily="@font/lato"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_micro"
+        android:gravity="center"
+        android:maxLines="2"
+        tools:text="@tools:sample/lorem" />
+</LinearLayout>

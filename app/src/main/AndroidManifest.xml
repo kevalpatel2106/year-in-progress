@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.kevalpatel2106.yip">
+
+    <!-- GoogleTV support -->
+    <uses-feature
+            android:name="android.hardware.touchscreen"
+            android:required="false"/>
+    <uses-feature
+            android:name="android.hardware.screen.portrait"
+            android:required="false"/>
+
+    <application
+            android:name=".YIPApplication"
+            android:allowBackup="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/application_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="@string/admob_app_id"/>
+
+        <activity android:name=".edit.EditProgressActivity"/>
+        <activity android:name=".payment.PaymentActivity"/>
+        <activity
+                android:name=".settings.SettingsActivity"
+                android:label="@string/title_activity_settings"/>
+        <activity
+                android:name=".dashboard.DashboardActivity"
+                android:theme="@style/AppTheme.Main"/>
+        <activity
+                android:name=".splash.SplashActivity"
+                android:noHistory="true"
+                android:theme="@style/AppTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                        android:host="twitter.com"
+                        android:scheme="https"
+                        android:path="/progressbar201x"/>
+
+                <data
+                        android:host="twitter.com"
+                        android:scheme="https"
+                        android:path="/year_progress"/>
+
+                <data
+                        android:host="progressbarserver.appspot.com"
+                        android:scheme="https"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".widget.ProgressListWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/widget_provider_progress_list"/>
+        </receiver>
+        <service
+                android:name=".widget.ProgressListRemoteService"
+                android:exported="false"
+                android:permission="android.permission.BIND_REMOTEVIEWS"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="support_email" translatable="false">kevalpatel2106@gmail.com</string-array>
+    <string name="email_scheme" translatable="false">mailto:</string>
+    <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=com.kevalpatel2106.yip</string>
+    <string name="play_store_deep_link" translatable="false">market://details?id=com.kevalpatel2106.yip</string>
+</resources>
