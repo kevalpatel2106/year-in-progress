@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Group
 import androidx.core.graphics.drawable.DrawableCompat
 
 @SuppressLint("ObsoleteSdkInt")
@@ -46,6 +48,11 @@ fun darkenColor(@ColorInt color: Int, factor: Float = 0.3f): Int {
         Color.colorToHSV(color, this)
         this[2] *= factor
     })
+}
+
+fun Group.showOrHideAll(constraintLayout: ConstraintLayout, isShow: Boolean) {
+    showOrHide(isShow)
+    updatePreLayout(constraintLayout)
 }
 
 fun MenuItem.showOrHideLoader(context: Context, isShow: Boolean) {

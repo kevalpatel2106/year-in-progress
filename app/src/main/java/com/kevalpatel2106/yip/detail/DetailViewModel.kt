@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.detail
 
 import android.app.Application
+import android.content.Intent
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -40,6 +41,7 @@ internal class DetailViewModel @Inject internal constructor(
     internal val progressColor = MutableLiveData<Int>()
     internal val progressTimeLeft = MutableLiveData<SpannableString>()
 
+    internal val isProgressComplete = MutableLiveData<Boolean>()
     internal val isDeleteOptionVisible = MutableLiveData<Boolean>()
     internal val isDeleting = MutableLiveData<Boolean>()
     internal val isLoading = MutableLiveData<Boolean>()
@@ -62,8 +64,13 @@ internal class DetailViewModel @Inject internal constructor(
                     progressEndTime.value = sdf.format(item.end)
                     progressPercent.value = item.percent(ntpProvider.now())
                     progressColor.value = item.color.value
-                    progressTimeLeft.value = prepareTimeLeft(item.end, item.color)
 
+                    if (item.end.before(Date(System.currentTimeMillis()))) {
+                        isProgressComplete.value = true
+                    } else {
+                        progressTimeLeft.value = prepareTimeLeft(item.end, item.color)
+                        isProgressComplete.value = true
+                    }
                     isDeleteOptionVisible.value = !item.progressType.isPreBuild()
                 }, {
                     errorMessage.value = it.message
@@ -162,6 +169,16 @@ internal class DetailViewModel @Inject internal constructor(
                     minsEndIndex,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
+        }
+    }
+
+    internal fun prepareShareAchievement(): Intent {
+        return Intent().apply {
+            action = Intent.ACTION_SEND
+            progressTitle.value?.let { title ->
+                putExtra(Intent.EXTRA_TEXT, application.getString(R.string.achivement_share_message, title))
+            }
+            type = "text/plain"
         }
     }
 }

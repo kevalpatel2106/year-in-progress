@@ -52,5 +52,16 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <!--Detail screen-->
+    <style name="DetailToolbarButtonStyle">
+        <item name="android:layout_width">@dimen/spacing_xxlarge</item>
+        <item name="android:layout_height">@dimen/spacing_xxlarge</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/detail_title_button_padding</item>
+        <item name="android:tint">@color/icon_color</item>
+    </style>
+
     <!--TODO Categorize styles-->
 </resources>

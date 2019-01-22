@@ -21,24 +21,12 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/detail_close_iv"
-            android:layout_width="@dimen/spacing_xxlarge"
-            android:layout_height="@dimen/spacing_xxlarge"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="@dimen/spacing_micro"
-            android:tint="@color/icon_color"
+            style="@style/DetailToolbarButtonStyle"
             app:srcCompat="@drawable/ic_close" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/detail_delete_iv"
-            android:layout_width="@dimen/spacing_xxlarge"
-            android:layout_height="@dimen/spacing_xxlarge"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="@dimen/spacing_micro"
-            android:tint="@color/icon_color"
+            style="@style/DetailToolbarButtonStyle"
             app:srcCompat="@drawable/ic_delete" />
 
         <ScrollView
@@ -52,6 +40,7 @@
             android:scrollbars="none">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -126,7 +115,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/colorPrimary"
                     android:text="@string/edit_btn_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +132,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv"
                     tools:text="23 days 1 hour 13 minutes" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_complete_title"
+                    style="@style/LargeText.White"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/spacing_small"
+                    android:paddingStart="@dimen/spacing_small"
+                    android:text="@string/detail_progress_complete_message"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_edit_btn" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/detail_complete_share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:backgroundTint="@android:color/white"
+                    android:text="@string/detail_progress_complete_share_btn_title"
+                    android:textColor="@color/colorPrimaryText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_complete_title" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/detail_complete_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="detail_complete_share_btn,detail_complete_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </RelativeLayout>

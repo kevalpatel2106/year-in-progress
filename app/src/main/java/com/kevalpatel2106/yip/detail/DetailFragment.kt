@@ -19,6 +19,7 @@ import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
+
 internal class DetailFragment : Fragment() {
 
     @Inject
@@ -90,6 +91,15 @@ internal class DetailFragment : Fragment() {
         // Set the edit button.
         detail_edit_btn.setOnClickListener {
             context?.let { context -> EditProgressActivity.edit(context, model.progressId) }
+        }
+
+        // Set the progress complete view.
+        model.isProgressComplete.nullSafeObserve(this@DetailFragment) { isComplete ->
+            detail_time_left_tv.showOrHide(!isComplete)
+            detail_complete_container.showOrHideAll(detail_constraint_layout, isComplete)
+        }
+        detail_complete_share_btn.setOnClickListener {
+            startActivity(model.prepareShareAchievement())
         }
 
         // Set up close button

@@ -13,5 +13,6 @@
     <!--Progress detail dimensions-->
     <dimen name="time_left_text_size">24sp</dimen>
     <dimen name="progress_percent_text_size">36sp</dimen>
+    <dimen name="detail_title_button_padding">12dp</dimen>
     <!--TODO: Categorize dimensions-->
 </resources>
