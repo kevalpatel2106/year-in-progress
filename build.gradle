@@ -19,9 +19,12 @@ buildscript {
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0"
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'io.fabric.tools:gradle:1.27.0'
-        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath('com.google.firebase:firebase-plugins:1.1.5') {
+            exclude group: 'com.google.guava', module: 'guava-jdk5'
+        }
     }
 }
+apply plugin: 'com.vanniktech.android.junit.jacoco'
 apply from: './gradle/config.gradle'
 
 allprojects {
