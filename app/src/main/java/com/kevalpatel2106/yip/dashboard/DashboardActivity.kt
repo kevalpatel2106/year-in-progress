@@ -114,12 +114,12 @@ class DashboardActivity : AppCompatActivity() {
     private fun expandDetail(clicked: Progress) {
         supportFragmentManager.commit {
             replace(R.id.expandable_page_container, DetailFragment.newInstance(clicked.id))
+            addToBackStack(null)
         }
         progress_list_rv.expandItem(clicked.id)
     }
 
     internal fun collapseDetail() {
-        if (progress_list_rv.expandedItem.itemId == -1L) return
         supportFragmentManager.popBackStackImmediate()
         progress_list_rv.collapse()
     }

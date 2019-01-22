@@ -52,7 +52,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
 
                             // If the item already owned...don't worry. We will consume it.
                             if (responseCode != BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
-                                emitter.tryOnError(Exception(getPaymentMessage(responseCode)))
+                                emitter.tryOnError(Exception(getPaymentMessage(application, responseCode)))
                             }
                             return@setListener
                         } else {
@@ -70,7 +70,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
                     if (billingResponseCode != BillingClient.BillingResponse.OK) {
-                        emitter.tryOnError(Exception(getPaymentMessage(billingResponseCode)))
+                        emitter.tryOnError(Exception(getPaymentMessage(application, billingResponseCode)))
                         return
                     }
                     consumeOrPurchase(billingClient, emitter, sku, activity)
@@ -78,7 +78,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
 
                 override fun onBillingServiceDisconnected() {
                     //IAP service connection failed.
-                    emitter.tryOnError(Exception(getPaymentMessage(BillingClient.BillingResponse.SERVICE_DISCONNECTED)))
+                    emitter.tryOnError(Exception(getPaymentMessage(application, BillingClient.BillingResponse.SERVICE_DISCONNECTED)))
                 }
             })
         }.doAfterSuccess {
@@ -95,7 +95,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
     ) {
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { queryCode, purchases ->
             if (queryCode != BillingClient.BillingResponse.OK) {
-                emitter.tryOnError(Exception(getPaymentMessage(queryCode)))
+                emitter.tryOnError(Exception(getPaymentMessage(application, queryCode)))
                 return@queryPurchaseHistoryAsync
             }
 
@@ -110,7 +110,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
                             buyNewProduct(billingClient, activity, sku, emitter)
                         }
                         BillingClient.BillingResponse.OK -> emitter.onSuccess(previousPurchasedProduct)
-                        else -> emitter.tryOnError(Exception(getPaymentMessage(consumeCode)))
+                        else -> emitter.tryOnError(Exception(getPaymentMessage(application, consumeCode)))
                     }
                 }
             } else {
@@ -135,7 +135,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
 
         val launchCode = billingClient.launchBillingFlow(activity, purchaseParams)
         if (launchCode != BillingClient.BillingResponse.OK) {
-            emitter.tryOnError(Exception(getPaymentMessage(launchCode)))
+            emitter.tryOnError(Exception(getPaymentMessage(application, launchCode)))
         }
     }
 

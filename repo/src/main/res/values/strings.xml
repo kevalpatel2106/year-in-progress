@@ -9,4 +9,14 @@
     <string name="this_week">This week</string>
     <string name="today">Today</string>
     <string name="this_year">This year</string>
+    <string name="billing_code_ok">Transaction successful.</string>
+    <string name="billing_code_already_purchased">Item is already purchased.</string>
+    <string name="billing_code_dev_error">Something went wrong. Please contact developer.</string>
+    <string name="billing_code_unavailable">Invalid purchase item. Please contact developer.</string>
+    <string name="billing_code_not_supported">Looks like your device doesn\'t support billing method. Please contact developer.</string>
+    <string name="billing_code_unabvailable">Looks like your device doesn\'t support billing method. Please contact developer.</string>
+    <string name="billing_code_service_unavailable">Cannot initiate the transaction. Check your network connection and try again.</string>
+    <string name="billing_code_service_disconnected">Billing interrupted. Don\'t worry, you aren\'t billed for purchase. Please try again.</string>
+    <string name="billing_code_user_cancel">Billing interrupted by you. Please try again.</string>
+    <string name="billing_code_genaric_error">Something went wrong. Please try again..</string>
 </resources>

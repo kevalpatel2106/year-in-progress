@@ -1,18 +1,20 @@
 package com.kevalpatel2106.yip.repo.billing
 
 import android.annotation.SuppressLint
+import android.content.Context
 import com.android.billingclient.api.BillingClient
+import com.kevalpatel2106.yip.repo.R
 
 @SuppressLint("SwitchIntDef")
-internal fun getPaymentMessage(@BillingClient.BillingResponse responseCode: Int) = when (responseCode) {
-    BillingClient.BillingResponse.OK -> "Transaction successful."
-    BillingClient.BillingResponse.ITEM_ALREADY_OWNED -> "Item is already purchased."
-    BillingClient.BillingResponse.DEVELOPER_ERROR -> "Something went wrong. Please contact developer."
-    BillingClient.BillingResponse.ITEM_UNAVAILABLE -> "Invalid purchase item. Please contact developer."
-    BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED -> "Looks like your device doesn't support billing method. Please contact developer."
-    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> "Looks like your device doesn't support billing method. Please contact developer."
-    BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> "Cannot initiate the transaction. Check your network connection and try again."
-    BillingClient.BillingResponse.SERVICE_DISCONNECTED -> "Billing interrupted. Don\'t worry, you aren\'t billed for purchase. Please try again."
-    BillingClient.BillingResponse.USER_CANCELED -> "Billing interrupted by you. Please try again."
-    else -> "Something went wrong. Please try again.."
+internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse responseCode: Int) = when (responseCode) {
+    BillingClient.BillingResponse.OK -> context.getString(R.string.billing_code_ok)
+    BillingClient.BillingResponse.ITEM_ALREADY_OWNED -> context.getString(R.string.billing_code_already_purchased)
+    BillingClient.BillingResponse.DEVELOPER_ERROR -> context.getString(R.string.billing_code_dev_error)
+    BillingClient.BillingResponse.ITEM_UNAVAILABLE -> context.getString(R.string.billing_code_unavailable)
+    BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED -> context.getString(R.string.billing_code_not_supported)
+    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> context.getString(R.string.billing_code_unabvailable)
+    BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> context.getString(R.string.billing_code_service_unavailable)
+    BillingClient.BillingResponse.SERVICE_DISCONNECTED -> context.getString(R.string.billing_code_service_disconnected)
+    BillingClient.BillingResponse.USER_CANCELED -> context.getString(R.string.billing_code_user_cancel)
+    else -> context.getString(R.string.billing_code_genaric_error)
 }
