@@ -69,7 +69,7 @@ internal class DetailViewModel @Inject internal constructor(
                         isProgressComplete.value = true
                     } else {
                         progressTimeLeft.value = prepareTimeLeft(item.end, item.color)
-                        isProgressComplete.value = true
+                        isProgressComplete.value = false
                     }
                     isDeleteOptionVisible.value = !item.progressType.isPreBuild()
                 }, {
