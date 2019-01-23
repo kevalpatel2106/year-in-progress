@@ -13,19 +13,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.base.DateFormatter
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showOrHideLoader
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.activity_edit_progress.*
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 
 internal class EditProgressActivity : AppCompatActivity() {
-    private val sdf by lazy { SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) }
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             model.onProgressTitleChanged(s.toString())
@@ -39,6 +38,9 @@ internal class EditProgressActivity : AppCompatActivity() {
             // Do nothing
         }
     }
+
+    @Inject
+    lateinit var sdf: DateFormatter
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
@@ -72,7 +74,7 @@ internal class EditProgressActivity : AppCompatActivity() {
             getDatePicker(listener = { date -> model.onProgressStartDateSelected(date) }).show()
         }
         model.currentStartDate.nullSafeObserve(this@EditProgressActivity) {
-            edit_start_time.text = sdf.format(it)
+            edit_start_time.text = sdf.formatDateOnly(it)
         }
 
         // End time set up
@@ -84,7 +86,7 @@ internal class EditProgressActivity : AppCompatActivity() {
             }.show()
         }
         model.currentEndDate.nullSafeObserve(this@EditProgressActivity) {
-            edit_end_time.text = sdf.format(it)
+            edit_end_time.text = sdf.formatDateOnly(it)
         }
 
         // Color set up

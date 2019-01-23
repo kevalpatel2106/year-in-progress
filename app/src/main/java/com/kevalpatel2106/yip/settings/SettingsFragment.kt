@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.R
@@ -43,7 +45,16 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         // Set up buy pro option
         val buyProPref = findPreference<Preference>(getString(R.string.pref_key_buy_pro))
         model.isCheckingPurchases.nullSafeObserve(this@SettingsFragment) { buyProPref.isEnabled = !it }
-        model.isPurchased.nullSafeObserve(this@SettingsFragment) { buyProPref.isVisible = !it }
+        val buyProPrefHeader = findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
+        model.isPurchased.nullSafeObserve(this@SettingsFragment) { buyProPrefHeader.isVisible = !it }
+
+        // Set the date selector
+        findPreference<ListPreference>(getString(R.string.pref_key_date_format)).summaryProvider =
+                ListPreference.SimpleSummaryProvider.getInstance()
+
+        // Set the time selector
+        findPreference<ListPreference>(getString(R.string.pref_key_time_format)).summaryProvider =
+                ListPreference.SimpleSummaryProvider.getInstance()
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

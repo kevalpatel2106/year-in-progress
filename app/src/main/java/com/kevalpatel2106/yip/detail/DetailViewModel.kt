@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.base.DateFormatter
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
@@ -15,7 +16,6 @@ import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.isPreBuild
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -24,9 +24,9 @@ import javax.inject.Inject
 internal class DetailViewModel @Inject internal constructor(
         private val application: Application,
         private val yipRepo: YipRepo,
-        private val ntpProvider: NtpProvider
+        private val ntpProvider: NtpProvider,
+        private val sdf: DateFormatter
 ) : BaseViewModel() {
-    private val sdf by lazy { SimpleDateFormat("dd-MMM-yyyy hh:mm", Locale.getDefault()) }
 
     internal var progressId: Long = 0
         set(value) {
