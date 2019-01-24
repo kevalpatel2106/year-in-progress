@@ -47,9 +47,11 @@
     </style>
 
     <style name="ProBenefitTextStyle" parent="MediumText.Primary">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">@dimen/spacing_small</item>
+        <item name="android:gravity">center_vertical|start</item>
     </style>
 
     <!--Detail screen-->

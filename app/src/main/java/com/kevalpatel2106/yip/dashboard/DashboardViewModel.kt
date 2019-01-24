@@ -53,7 +53,7 @@ internal class DashboardViewModel @Inject constructor(
 
             return@map list.apply {
                 // Add the ads if the user is not pro.
-                if (isNotEmpty() && !isPro) add(AdsItem)
+                if (isNotEmpty() && !isPro) add(if (size > 4) 4 else size, AdsItem)
             }
         }.doOnNext {
             // Update all widgets with new progress info

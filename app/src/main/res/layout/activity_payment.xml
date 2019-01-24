@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -49,41 +50,60 @@
         android:layout_below="@id/payment_app_bar"
         android:padding="@dimen/spacing_small">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appcompatIv1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_speedometer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView"
                 style="@style/MediumText.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:gravity="center_horizontal"
-                android:text="@string/pro_benefit_title" />
+                android:text="@string/pro_benefit_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appcompatIv1"
+                tools:layout_editor_absoluteY="158dp" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                style="@style/ProBenefitImageStyle"
-                app:srcCompat="@drawable/ic_ads" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView2"
+                style="@style/ProBenefitTextStyle"
+                android:drawableStart="@drawable/ic_ads"
+                android:text="@string/pro_benefit_no_ads"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView3"
+                style="@style/ProBenefitTextStyle"
+                android:drawableStart="@drawable/ic_priority"
+                android:text="@string/pro_benefit_change_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ProBenefitTextStyle"
-                android:text="No more ads" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                style="@style/ProBenefitImageStyle"
-                app:srcCompat="@drawable/ic_target" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ProBenefitTextStyle"
-                android:text="Add custom Goals to track the deadline." />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                style="@style/ProBenefitImageStyle"
-                app:srcCompat="@drawable/ic_heart_red" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ProBenefitTextStyle"
-                android:text="Support ongoing development" />
-        </LinearLayout>
+                android:drawableStart="@drawable/ic_heart_red"
+                android:text="@string/pro_benefit_support_dev"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </RelativeLayout>

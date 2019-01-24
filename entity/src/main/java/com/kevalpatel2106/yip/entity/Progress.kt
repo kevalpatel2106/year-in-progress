@@ -24,5 +24,8 @@ data class Progress(
         val isEnabled: Boolean = true
 ) : Parcelable {
 
-    fun percent(now: Date) = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
+    fun percent(now: Date): Float {
+        val percent = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
+        return if (percent > 100f) 100f else percent
+    }
 }

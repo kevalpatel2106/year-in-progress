@@ -20,8 +20,6 @@ import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.payment.PaymentActivity
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_main.*
@@ -62,11 +60,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setUpFab() {
         add_progress_fab.setOnClickListener {
-            if (BillingRepo.isPurchased.value == true) {
-                EditProgressActivity.createNew(this@DashboardActivity)
-            } else {
-                PaymentActivity.launch(this@DashboardActivity)
-            }
+            EditProgressActivity.createNew(this@DashboardActivity)
         }
     }
 
