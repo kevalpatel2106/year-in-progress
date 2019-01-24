@@ -85,8 +85,9 @@
     <string name="detail_progress_complete_share_btn_title">Share #GoalAchived</string>
 
     <!--Payment screen-->
-    <string name="pro_benefit_title">Features unlocked by the <b>one-time</b> upgrade include:</string>
-    <string name="buy_now">Get Pro</string>
+    <string name="buy_now">Upgrade to Pro</string>
+    <string name="pro_benefit_title">Upgrade to <b>PRO</b> to support further development and gain access to some great features:</string>
     <string name="purchase_successful">Purchased successful.</string>
+    <string name="pro_only">PRO Only</string>
     <!--TODO: Categorize the strings-->
 </resources>

@@ -7,6 +7,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.entity.*
 import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -29,6 +30,7 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal val currentStartDate = MutableLiveData<Date>()
     internal val currentEndDate = MutableLiveData<Date>()
     internal val currentColor = MutableLiveData<ProgressColor>()
+    internal val lockColorPicker = MutableLiveData<Boolean>()
     internal val isPrebuiltProgress = MutableLiveData<Boolean>()
 
     internal val colors = MutableLiveData<IntArray>()
@@ -46,6 +48,7 @@ internal class EditViewProgressModel @Inject internal constructor(
         colors.value = ProgressColor.values().map { it.value }.toIntArray()
         isLoadingProgress.value = false
         isPrebuiltProgress.value = false
+        lockColorPicker.value = false
 
         // Initial progress values.
         val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
@@ -53,6 +56,9 @@ internal class EditViewProgressModel @Inject internal constructor(
         currentStartDate.value = Date(System.currentTimeMillis()).apply { setToDayMin() }
         currentEndDate.value = Date(tomorrow.timeInMillis).apply { setToDayMax() }
         currentColor.value = ProgressColor.COLOR_BLUE
+
+        // Monitor the pro status
+        BillingRepo.isPurchased.subscribe { lockColorPicker.value = !it }.addTo(compositeDisposable)
     }
 
     private fun monitorProgress(id: Long) {
