@@ -28,6 +28,7 @@ import javax.inject.Inject
 
 
 class DashboardActivity : AppCompatActivity() {
+    private var isDetailExpanded = false
 
     private lateinit var bottomNavigationSheet: BottomSheet
 
@@ -108,14 +109,14 @@ class DashboardActivity : AppCompatActivity() {
     private fun expandDetail(clicked: Progress) {
         supportFragmentManager.commit {
             replace(R.id.expandable_page_container, DetailFragment.newInstance(clicked.id))
-            addToBackStack(null)
         }
         progress_list_rv.expandItem(clicked.id)
+        isDetailExpanded = true
     }
 
     internal fun collapseDetail() {
-        supportFragmentManager.popBackStackImmediate()
         progress_list_rv.collapse()
+        isDetailExpanded = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -129,7 +130,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when {
-            progress_list_rv.expandedItem.itemId != -1L -> collapseDetail()
+            isDetailExpanded -> collapseDetail()
             bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }
