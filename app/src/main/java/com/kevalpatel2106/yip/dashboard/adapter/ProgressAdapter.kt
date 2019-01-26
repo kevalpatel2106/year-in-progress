@@ -1,14 +1,15 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.view.ViewGroup
-import com.kevalpatel2106.yip.base.YipAdapter
-import com.kevalpatel2106.yip.base.YipItemRepresentable
-import com.kevalpatel2106.yip.base.YipViewHolder
 import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.recyclerview.YipAdapter
+import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import javax.inject.Inject
 
 internal class ProgressAdapter @Inject constructor(private val ntpProvider: NtpProvider) : YipAdapter() {
+
     internal var clickListener: ((progress: Progress) -> Unit)? = null
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {

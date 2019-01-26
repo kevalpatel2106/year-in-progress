@@ -7,10 +7,10 @@ apply plugin: 'io.fabric'
 
 dependencies {
     implementation project(':core')
+    implementation project(':recyclerview')
     testImplementation project(':testUtils')
 
     implementation 'com.github.betterme-dev:BottomSheet:android-x-SNAPSHOT'
-    implementation 'me.saket:inboxrecyclerview:1.0.0-rc1'
     implementation 'androidx.preference:preference:1.1.0-alpha02'
     implementation 'com.google.android:flexbox:1.1.0'
 

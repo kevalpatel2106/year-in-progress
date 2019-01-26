@@ -1,1 +1,1 @@
-include ':app', ':repo', ':entity', ':core', ':testUtils'
+include ':app', ':repo', ':entity', ':core', ':testUtils', ':recyclerview'

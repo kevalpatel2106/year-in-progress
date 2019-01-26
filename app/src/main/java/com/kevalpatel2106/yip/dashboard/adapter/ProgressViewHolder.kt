@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.base.YipViewHolder
 import com.kevalpatel2106.yip.core.setProgressTint
 import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 import kotlinx.android.synthetic.main.row_list_ads.view.*
 import kotlinx.android.synthetic.main.row_progress.*
 import java.util.*
 
 internal class ProgressViewHolder(itemView: View) : YipViewHolder(itemView) {
+
+    override fun isDragSupported(): Boolean = true
+
     fun bind(progress: Progress, now: Date, onClick: ((progress: Progress) -> Unit)?) {
         progress_name_title.text = progress.title
 
@@ -36,6 +39,9 @@ internal class ProgressViewHolder(itemView: View) : YipViewHolder(itemView) {
 }
 
 internal class AdsViewHolder(itemView: View) : YipViewHolder(itemView) {
+
+    override fun isDragSupported(): Boolean = false
+
     companion object {
         fun create(parent: ViewGroup): AdsViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.row_list_ads, parent, false)

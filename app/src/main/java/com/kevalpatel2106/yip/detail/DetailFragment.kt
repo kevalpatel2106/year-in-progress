@@ -14,7 +14,6 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.di.getAppComponent
-import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
@@ -79,18 +78,12 @@ internal class DetailFragment : Fragment() {
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
             detail_delete_iv.isEnabled = !isDeleting
-            detail_edit_btn.isEnabled = !isDeleting
 
             if (isDeleting) {
                 deleteInProgressSnackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
             } else {
                 deleteInProgressSnackbar?.dismiss()
             }
-        }
-
-        // Set the edit button.
-        detail_edit_btn.setOnClickListener {
-            context?.let { context -> EditProgressActivity.edit(context, model.progressId) }
         }
 
         // Set the progress complete view.

@@ -112,16 +112,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
                     tools:text="46%" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/detail_edit_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/edit_btn_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_time_left_tv" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/detail_time_left_tv"
                     style="@style/LargeText.White"
@@ -140,14 +130,14 @@
                     style="@style/LargeText.White"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/spacing_large"
+                    android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:paddingEnd="@dimen/spacing_small"
                     android:paddingStart="@dimen/spacing_small"
                     android:text="@string/detail_progress_complete_message"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_edit_btn" />
+                    app:layout_constraintTop_toBottomOf="@+id/detail_time_left_tv" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/detail_complete_share_btn"

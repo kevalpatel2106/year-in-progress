@@ -10,9 +10,9 @@
     <me.saket.inboxrecyclerview.InboxRecyclerView
         android:id="@+id/progress_list_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/bottom_appbar_height"
+        android:paddingBottom="@dimen/spacing_xxlarge"
         tools:listitem="@layout/row_progress" />
 
     <me.saket.inboxrecyclerview.page.ExpandablePageLayout

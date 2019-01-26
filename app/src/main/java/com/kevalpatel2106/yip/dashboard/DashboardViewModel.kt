@@ -3,10 +3,6 @@ package com.kevalpatel2106.yip.dashboard
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.base.EmptyRepresentable
-import com.kevalpatel2106.yip.base.ErrorRepresentable
-import com.kevalpatel2106.yip.base.LoadingRepresentable
-import com.kevalpatel2106.yip.base.YipItemRepresentable
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.recall
@@ -14,6 +10,10 @@ import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.recyclerview.representable.EmptyRepresentable
+import com.kevalpatel2106.yip.recyclerview.representable.ErrorRepresentable
+import com.kevalpatel2106.yip.recyclerview.representable.LoadingRepresentable
+import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import io.reactivex.BackpressureStrategy
@@ -27,6 +27,7 @@ internal class DashboardViewModel @Inject constructor(
         private val yipRepo: YipRepo
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
+    internal var expandedProgressId: Long = -1
 
     init {
         progresses.value = arrayListOf()

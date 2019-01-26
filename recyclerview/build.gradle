@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
+
+dependencies{
+    implementation project(':core')
+    api 'me.saket:inboxrecyclerview:1.0.0-rc1'
+}

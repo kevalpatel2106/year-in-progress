@@ -3,7 +3,6 @@ package com.kevalpatel2106.yip.dashboard
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -11,10 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocosw.bottomsheet.BottomSheet
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.nullSafeObserve
-import com.kevalpatel2106.yip.core.openPlayStorePage
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
-import com.kevalpatel2106.yip.core.sendMailToDev
+import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
@@ -22,14 +18,12 @@ import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import javax.inject.Inject
 
 
 class DashboardActivity : AppCompatActivity() {
-    private var isDetailExpanded = false
-
     private lateinit var bottomNavigationSheet: BottomSheet
 
     @Inject
@@ -42,7 +36,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_dashboard)
         setSupportActionBar(bottom_app_bar)
 
         // Inject dependency
@@ -61,7 +55,11 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setUpFab() {
         add_progress_fab.setOnClickListener {
-            EditProgressActivity.createNew(this@DashboardActivity)
+            if (model.expandedProgressId > 0) {
+                EditProgressActivity.edit(this@DashboardActivity, model.expandedProgressId)
+            } else {
+                EditProgressActivity.createNew(this@DashboardActivity)
+            }
         }
     }
 
@@ -82,28 +80,33 @@ class DashboardActivity : AppCompatActivity() {
     private fun setUpList() {
         expandable_page_container.addStateChangeCallbacks(object : PageStateChangeCallbacks {
             override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
-                bottom_app_bar.visibility = View.VISIBLE
+                bottom_app_bar.slideUp(collapseAnimDuration)
             }
 
             override fun onPageAboutToExpand(expandAnimDuration: Long) {
-                bottomNavigationSheet.hide()
-                bottom_app_bar.visibility = View.GONE
+                bottom_app_bar.slideDown(expandAnimDuration)
             }
 
             override fun onPageCollapsed() {
-                // Do nothing
+                add_progress_fab.setImageResource(com.kevalpatel2106.yip.R.drawable.ic_add)
             }
 
             override fun onPageExpanded() {
-                // Do nothing
+                add_progress_fab.setImageResource(com.kevalpatel2106.yip.R.drawable.ic_edit)
             }
         })
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
         progress_list_rv.setExpandablePage(expandable_page_container)
+//        progress_list_rv.enabledReordering(object : ItemDraggedListener{
+//            override fun onItemMove(fromPosition: Int, toPosition: Int) {
+//                // TODO
+//            }
+//        })
         progress_list_rv.adapter = adapter.get().apply {
             this.setHasStableIds(true)
             this.clickListener = { expandDetail(it) }
         }
+
     }
 
     private fun expandDetail(clicked: Progress) {
@@ -111,12 +114,12 @@ class DashboardActivity : AppCompatActivity() {
             replace(R.id.expandable_page_container, DetailFragment.newInstance(clicked.id))
         }
         progress_list_rv.expandItem(clicked.id)
-        isDetailExpanded = true
+        model.expandedProgressId = clicked.id
     }
 
     internal fun collapseDetail() {
         progress_list_rv.collapse()
-        isDetailExpanded = false
+        model.expandedProgressId = -1
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -130,7 +133,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when {
-            isDetailExpanded -> collapseDetail()
+            model.expandedProgressId != -1L -> collapseDetail()
             bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }

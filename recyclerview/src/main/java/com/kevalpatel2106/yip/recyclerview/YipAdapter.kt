@@ -1,13 +1,18 @@
-package com.kevalpatel2106.yip.base
+package com.kevalpatel2106.yip.recyclerview
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.kevalpatel2106.yip.recyclerview.representable.EmptyRepresentable
+import com.kevalpatel2106.yip.recyclerview.representable.ErrorRepresentable
+import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.recyclerview.viewholders.EmptyViewHolder
+import com.kevalpatel2106.yip.recyclerview.viewholders.ErrorViewHolder
+import com.kevalpatel2106.yip.recyclerview.viewholders.LoadingViewHolder
+import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
-abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(
-        DIFF_CALLBACK
-) {
+abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {
@@ -41,6 +46,7 @@ abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(
 
     abstract fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder
     abstract fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable)
+
     open fun shouldLoadNext() {
         // Override this function.
     }

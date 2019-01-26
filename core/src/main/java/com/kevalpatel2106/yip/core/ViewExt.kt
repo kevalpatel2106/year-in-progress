@@ -7,6 +7,8 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.TranslateAnimation
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -67,4 +69,22 @@ fun MenuItem.showOrHideLoader(context: Context, isShow: Boolean) {
         actionView = null
         isEnabled = true
     }
+}
+
+fun View.slideUp(animationDuration: Long = 300) {
+    val animate = TranslateAnimation(0f, 0f, height.toFloat(), 0f)
+    startAnimation(animate.apply {
+        duration = animationDuration
+        fillAfter = true
+        interpolator = DecelerateInterpolator()
+    })
+}
+
+fun View.slideDown(animationDuration: Long = 300) {
+    val animate = TranslateAnimation(0f, 0f, 0f, height.toFloat())
+    startAnimation(animate.apply {
+        duration = animationDuration
+        fillAfter = true
+        interpolator = DecelerateInterpolator()
+    })
 }
