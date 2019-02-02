@@ -48,6 +48,10 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         val buyProPrefHeader = findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
         model.isPurchased.nullSafeObserve(this@SettingsFragment) { buyProPrefHeader.isVisible = !it }
 
+        // Set the sort order
+        findPreference<ListPreference>(getString(R.string.pref_key_order)).summaryProvider =
+                ListPreference.SimpleSummaryProvider.getInstance()
+
         // Set the date selector
         findPreference<ListPreference>(getString(R.string.pref_key_date_format)).summaryProvider =
                 ListPreference.SimpleSummaryProvider.getInstance()

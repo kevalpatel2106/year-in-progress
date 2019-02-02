@@ -16,9 +16,6 @@ internal data class ProgressDto(
         @ColumnInfo(name = ProgressTableInfo.ID)
         var id: Long = 0,
 
-        @ColumnInfo(name = ProgressTableInfo.ORDER)
-        val order: Int,
-
         @ColumnInfo(name = ProgressTableInfo.TYPE)
         val progressType: ProgressType,
 
@@ -34,19 +31,24 @@ internal data class ProgressDto(
         @ColumnInfo(name = ProgressTableInfo.COLOR)
         var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
+        @Suppress("DEPRECATION")
+        @Deprecated("This field will be remove in next DB version upgrade.")
+        @ColumnInfo(name = ProgressTableInfo.ORDER)
+        val order: Int = 0,
+
+        @Suppress("DEPRECATION")
+        @Deprecated("This field will be remove in next DB version upgrade.")
         @ColumnInfo(name = ProgressTableInfo.IS_ENABLED)
         var isEnabled: Boolean = true
 )
 
 internal fun ProgressDto.toEntity() = Progress(
         id = id,
-        order = order,
         progressType = progressType,
         title = title,
         start = start,
         end = end,
-        color = color,
-        isEnabled = isEnabled
+        color = color
 )
 
 internal fun ProgressDto.modifyPrebuiltProgress(ntpProvider: NtpProvider): ProgressDto {
@@ -54,23 +56,23 @@ internal fun ProgressDto.modifyPrebuiltProgress(ntpProvider: NtpProvider): Progr
     now.timeInMillis = ntpProvider.now().time
 
     when (progressType) {
-        ProgressType.YEAR_PROGRESSType -> {
+        ProgressType.YEAR_PROGRESS -> {
             start = now.startOfTheYear()
             end = now.endOfTheYear()
         }
-        ProgressType.MONTH_PROGRESSType -> {
+        ProgressType.MONTH_PROGRESS -> {
             start = now.startOfTheMonth()
             end = now.endOfTheMonth()
         }
-        ProgressType.WEEK_PROGRESSType -> {
+        ProgressType.WEEK_PROGRESS -> {
             start = now.startOfTheWeek()
             end = now.endOfTheWeek()
         }
-        ProgressType.DAY_PROGRESSType -> {
+        ProgressType.DAY_PROGRESS -> {
             start = now.startOfTheDay()
             end = now.endOfTheDay()
         }
-        ProgressType.QUARTER_PROGRESSType -> {
+        ProgressType.QUARTER_PROGRESS -> {
             start = now.getFirstDayOfQuarter()
             end = now.getLastDayOfQuarter()
         }

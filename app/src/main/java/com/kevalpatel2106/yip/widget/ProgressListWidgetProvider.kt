@@ -23,7 +23,7 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         // Update the list only
-        sharedPrefsProvider.getStringFromPreferences(WIDGET_IDS)?.split(",")?.map {
+        sharedPrefsProvider.getStringFromPreference(WIDGET_IDS)?.split(",")?.map {
             it.toInt()
         }?.toIntArray()?.let {
             (context?.getSystemService(Context.APPWIDGET_SERVICE) as? AppWidgetManager)?.notifyAppWidgetViewDataChanged(

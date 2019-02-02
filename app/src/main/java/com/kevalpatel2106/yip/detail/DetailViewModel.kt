@@ -8,12 +8,12 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.base.DateFormatter
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import java.util.*
 import java.util.concurrent.TimeUnit

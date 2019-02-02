@@ -24,11 +24,11 @@ internal object DbTypeConverter {
     @TypeConverter
     fun toType(value: Int): ProgressType {
         return when (value) {
-            ProgressType.YEAR_PROGRESSType.key -> ProgressType.YEAR_PROGRESSType
-            ProgressType.MONTH_PROGRESSType.key -> ProgressType.MONTH_PROGRESSType
-            ProgressType.WEEK_PROGRESSType.key -> ProgressType.WEEK_PROGRESSType
-            ProgressType.DAY_PROGRESSType.key -> ProgressType.DAY_PROGRESSType
-            ProgressType.QUARTER_PROGRESSType.key -> ProgressType.QUARTER_PROGRESSType
+            ProgressType.YEAR_PROGRESS.key -> ProgressType.YEAR_PROGRESS
+            ProgressType.MONTH_PROGRESS.key -> ProgressType.MONTH_PROGRESS
+            ProgressType.WEEK_PROGRESS.key -> ProgressType.WEEK_PROGRESS
+            ProgressType.DAY_PROGRESS.key -> ProgressType.DAY_PROGRESS
+            ProgressType.QUARTER_PROGRESS.key -> ProgressType.QUARTER_PROGRESS
             else -> ProgressType.CUSTOM
         }
     }

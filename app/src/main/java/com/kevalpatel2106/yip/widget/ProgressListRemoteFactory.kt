@@ -40,7 +40,9 @@ internal class ProgressListRemoteFactory(private val application: Application) :
     }
 
     override fun onDataSetChanged() {
-        val devices = yipRepo.observeAllProgress().firstElement().blockingGet()
+        val devices = yipRepo.observeAllProgress()
+                .firstElement()
+                .blockingGet()
         progresses.clear()
         progresses.addAll(devices)
     }

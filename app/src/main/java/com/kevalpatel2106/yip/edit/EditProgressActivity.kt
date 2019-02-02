@@ -14,13 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.base.ColorPicker
-import com.kevalpatel2106.yip.base.DateFormatter
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showOrHideLoader
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
+import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import kotlinx.android.synthetic.main.activity_edit_progress.*
 import java.util.*
 import javax.inject.Inject

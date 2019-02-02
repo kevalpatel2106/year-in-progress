@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Pref keys-->
+    <string name="pref_key_date_format" translatable="false">pref_key_date_format</string>
+    <string name="pref_key_time_format" translatable="false">pref_key_time_format</string>
+    <string name="pref_key_order" translatable="false">pref_key_order</string>
+
+    <!--Values for sort order-->
+    <string name="order_title_a_to_z" translatable="false">order_title_a_to_z</string>
+    <string name="order_title_z_to_a" translatable="false">order_title_z_to_a</string>
+    <string name="order_end_time_ascending" translatable="false">order_end_time_ascending</string>
+    <string name="order_end_time_descending" translatable="false">order_end_time_descending</string>
+
+    <!--Values for date format-->
+    <string name="dd_MMM_yyyy" translatable="false">dd-MMM-yyyy</string>
+    <string name="dd_MM_yyyy" translatable="false">dd–MM–yyyy</string>
+    <string name="dd__MMM__yyyy" translatable="false">dd MMM yyyy</string>
+    <string name="MM_dd_yyyy" translatable="false">MM–dd-yyyy</string>
+    <string name="MMM_dd_yyyy" translatable="false">MMM dd yyyy</string>
+    <string name="MMM_dd__yyyy" translatable="false">MMM dd,yyyy</string>
+
+    <!--Values for hour format-->
+    <string name="hh_mm_a" translatable="false">hh:mm a</string>
+    <string name="hh_mm" translatable="false">HH:mm</string>
+</resources>

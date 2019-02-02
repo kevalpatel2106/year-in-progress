@@ -6,7 +6,7 @@
     "entities": [
       {
         "tableName": "progresses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `order` INTEGER NOT NULL, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `start_mills` INTEGER NOT NULL, `end_mills` INTEGER NOT NULL, `color` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `start_mills` INTEGER NOT NULL, `end_mills` INTEGER NOT NULL, `color` INTEGER NOT NULL, `order` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,13 +15,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "order",
-            "columnName": "order",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "prebuiltProgress",
+            "fieldPath": "progressType",
             "columnName": "type",
             "affinity": "INTEGER",
             "notNull": true
@@ -47,6 +41,12 @@
           {
             "fieldPath": "color",
             "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
             "affinity": "INTEGER",
             "notNull": true
           },

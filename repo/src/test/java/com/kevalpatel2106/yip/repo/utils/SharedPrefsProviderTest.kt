@@ -88,7 +88,7 @@ class SharedPrefsProviderTest {
         editor.putString(TEST_KEY, testVal)
         editor.apply()
 
-        assertTrue(sharedPrefsProvider.getStringFromPreferences(TEST_KEY) == testVal)
+        assertTrue(sharedPrefsProvider.getStringFromPreference(TEST_KEY) == testVal)
     }
 
     @Test
@@ -101,7 +101,7 @@ class SharedPrefsProviderTest {
         editor.apply()
 
 
-        assertTrue(sharedPrefsProvider.getBoolFromPreferences(TEST_KEY) == testVal)
+        assertTrue(sharedPrefsProvider.getBoolFromPreference(TEST_KEY) == testVal)
     }
 
     @Test

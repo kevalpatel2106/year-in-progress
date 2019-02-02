@@ -19,6 +19,7 @@
     <string name="pref_title_contact">Contact us</string>
     <string name="pref_title_privacy_policy">Privacy Policy</string>
     <string name="pref_title_changelog">Changelog</string>
+    <string name="pref_title_sort_by">Sorting by</string>
     <string-array name="date_format_titles">
         <item>01-Jan-2019</item>
         <item>01–01–2019</item>
@@ -28,20 +29,32 @@
         <item>Jan 21,2019</item>
     </string-array>
     <string-array name="date_format_values">
-        <item>dd-MMM-yyyy</item>
-        <item>dd–MM–yyyy</item>
-        <item>dd MMM yyyy</item>
-        <item>MM–dd-yyyy</item>
-        <item>MMM dd yyyy</item>
-        <item>MMM dd,yyyy</item>
+        <item>@string/dd_MMM_yyyy</item>
+        <item>@string/dd_MM_yyyy</item>
+        <item>@string/dd__MMM__yyyy</item>
+        <item>@string/MM_dd_yyyy</item>
+        <item>@string/MMM_dd_yyyy</item>
+        <item>@string/MMM_dd__yyyy</item>
     </string-array>
     <string-array name="time_format_titles">
         <item>12 Hours (01:00 PM)</item>
         <item>24 Hours (13:00)</item>
     </string-array>
     <string-array name="time_format_values">
-        <item>hh:mm a</item>
-        <item>HH:mm</item>
+        <item>@string/hh_mm_a</item>
+        <item>@string/hh_mm</item>
+    </string-array>
+    <string-array name="sort_order_titles">
+        <item>By title (A - Z)</item>
+        <item>By title (Z - A)</item>
+        <item>By end time (Ascending)</item>
+        <item>By end time (Descending)</item>
+    </string-array>
+    <string-array name="sort_order_values">
+        <item>@string/order_title_a_to_z</item>
+        <item>@string/order_title_z_to_a</item>
+        <item>@string/order_end_time_ascending</item>
+        <item>@string/order_end_time_descending</item>
     </string-array>
 
     <!--Bottom navigation titles-->

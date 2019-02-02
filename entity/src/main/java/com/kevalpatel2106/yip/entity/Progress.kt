@@ -10,22 +10,27 @@ import java.util.*
 @TypeParceler<Date, DateParcelConverter>()
 data class Progress(
         val id: Long,
-        val order: Int,
+
         val progressType: ProgressType,
         val title: String,
 
         var start: Date,
-
         var end: Date,
 
         @ColorInt
-        var color: ProgressColor = ProgressColor.COLOR_BLUE,
-
-        val isEnabled: Boolean = true
+        var color: ProgressColor = ProgressColor.COLOR_BLUE
 ) : Parcelable {
 
     fun percent(now: Date): Float {
         val percent = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
         return if (percent > 100f) 100f else percent
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other as? Progress)?.id == id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
     }
 }

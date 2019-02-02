@@ -71,6 +71,7 @@ internal class DashboardViewModel @Inject constructor(
             progresses.recall()
         }, {
             Timber.e(it)
+            it.printStackTrace()
 
             // Display error.
             progresses.value?.add(ErrorRepresentable(application.getString(R.string.dashboard_error_loading_progress)) {

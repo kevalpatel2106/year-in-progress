@@ -19,6 +19,14 @@
     <androidx.preference.PreferenceCategory android:title="General">
 
         <androidx.preference.ListPreference
+            android:defaultValue="@string/order_title_a_to_z"
+            android:entries="@array/sort_order_titles"
+            android:entryValues="@array/sort_order_values"
+            android:icon="@drawable/ic_sort"
+            android:key="@string/pref_key_order"
+            android:title="@string/pref_title_sort_by" />
+
+        <androidx.preference.ListPreference
             android:defaultValue="dd-MMM-yyyy"
             android:entries="@array/date_format_titles"
             android:entryValues="@array/date_format_values"
