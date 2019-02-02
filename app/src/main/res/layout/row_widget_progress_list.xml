@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
+        android:textStyle="bold"
         tools:text="100%" />
 
     <TextView
