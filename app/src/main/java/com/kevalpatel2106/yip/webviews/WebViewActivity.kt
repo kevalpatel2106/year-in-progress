@@ -76,5 +76,9 @@ internal class WebViewActivity : AppCompatActivity() {
         fun showPrivacyPolicy(context: Context) {
             launch(context, R.string.title_activity_privacy_policy, context.getString(R.string.privacy_policy_url))
         }
+
+        fun showChangelog(context: Context) {
+            launch(context, R.string.title_activity_changelog, context.getString(R.string.changelog_url))
+        }
     }
 }

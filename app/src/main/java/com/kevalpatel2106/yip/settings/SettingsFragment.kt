@@ -62,6 +62,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             getString(R.string.pref_key_buy_pro) -> context?.let { PaymentActivity.launch(it) }
             getString(R.string.pref_key_contact) -> context?.sendMailToDev()
             getString(R.string.pref_key_privacy_policy) -> context?.let { WebViewActivity.showPrivacyPolicy(it) }
+            getString(R.string.pref_key_changelog) -> context?.let { WebViewActivity.showChangelog(it) }
         }
         return super.onPreferenceTreeClick(preference)
     }

@@ -53,6 +53,11 @@
             android:title="@string/pref_title_privacy_policy" />
 
         <androidx.preference.Preference
+            android:icon="@drawable/ic_changelog"
+            android:key="@string/pref_key_changelog"
+            android:title="@string/pref_title_changelog" />
+
+        <androidx.preference.Preference
             android:icon="@drawable/ic_info"
             android:key="@string/pref_key_version"
             android:title="@string/pref_title_version" />

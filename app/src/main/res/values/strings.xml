@@ -5,6 +5,7 @@
     <!--Screen titles-->
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_privacy_policy">Privacy Policy</string>
+    <string name="title_activity_changelog">Changelog</string>
     <string name="title_activity_payment">Get Pro</string>
 
     <!--Dashboard-->
@@ -17,6 +18,7 @@
     <string name="pref_title_buy_pro">Buy Pro version</string>
     <string name="pref_title_contact">Contact us</string>
     <string name="pref_title_privacy_policy">Privacy Policy</string>
+    <string name="pref_title_changelog">Changelog</string>
     <string-array name="date_format_titles">
         <item>01-Jan-2019</item>
         <item>01–01–2019</item>
