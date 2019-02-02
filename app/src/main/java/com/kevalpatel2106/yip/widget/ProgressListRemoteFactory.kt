@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class ProgressListRemoteFactory(private val application: Application) : RemoteViewsService.RemoteViewsFactory {
@@ -41,6 +42,7 @@ internal class ProgressListRemoteFactory(private val application: Application) :
 
     override fun onDataSetChanged() {
         val devices = yipRepo.observeAllProgress()
+                .doOnError { Timber.e(it) }
                 .firstElement()
                 .blockingGet()
         progresses.clear()

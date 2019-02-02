@@ -15,6 +15,7 @@ import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -66,6 +67,7 @@ internal class DetailViewModel @Inject internal constructor(
                         isProgressComplete.value = false
                     }
                 }, {
+                    Timber.e(it)
                     errorMessage.value = it.message
                     closeDetail.value = Unit
                 })
@@ -78,6 +80,7 @@ internal class DetailViewModel @Inject internal constructor(
                     errorMessage.value = application.getString(R.string.progress_delete_successful)
                     closeDetail.value = Unit
                 }, {
+                    Timber.e(it)
                     errorMessage.value = it.message
                     closeDetail.value = Unit
                 })

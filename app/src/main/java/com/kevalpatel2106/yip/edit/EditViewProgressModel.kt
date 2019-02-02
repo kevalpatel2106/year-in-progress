@@ -9,6 +9,7 @@ import com.kevalpatel2106.yip.entity.*
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -77,7 +78,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                     currentEndDate.value = progress.end
                     currentStartDate.value = progress.start
                 }, {
-                    it.printStackTrace()
+                    Timber.e(it)
                     userMessage.value = it.message
                     close.value = true
                 })
@@ -156,10 +157,13 @@ internal class EditViewProgressModel @Inject internal constructor(
         }.delay(2500, TimeUnit.MILLISECONDS, RxSchedulers.main)
                 .doAfterTerminate {
                     isLoadingProgress.value = false
-                }.subscribe({
+                }
+                .subscribe({
                     close.value = true
                 }, {
+                    Timber.e(it)
                     userMessage.value = it.message
-                }).addTo(compositeDisposable)
+                })
+                .addTo(compositeDisposable)
     }
 }
