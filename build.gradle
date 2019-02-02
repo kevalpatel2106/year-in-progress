@@ -19,6 +19,7 @@ buildscript {
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0"
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath 'com.cookpad.android.licensetools:license-tools-plugin:1.6.0'
         classpath('com.google.firebase:firebase-plugins:1.1.5') {
             exclude group: 'com.google.guava', module: 'guava-jdk5'
         }
@@ -137,7 +138,7 @@ subprojects {
         dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
             implementation('com.jakewharton.timber:timber:4.7.1', excludeGrp)
-            implementation "io.reactivex.rxjava2:rxjava:2.2.4"
+            implementation "io.reactivex.rxjava2:rxjava:2.2.5"
 
             //Dagger dependencies
             implementation "com.google.dagger:dagger-android:${versions.daggerVersion}"

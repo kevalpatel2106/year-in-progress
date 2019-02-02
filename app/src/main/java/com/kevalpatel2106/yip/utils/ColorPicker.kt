@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.base
+package com.kevalpatel2106.yip.utils
 
 import android.content.Context
 import android.graphics.Canvas

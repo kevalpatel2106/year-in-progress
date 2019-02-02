@@ -16,6 +16,8 @@ import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.webviews.WebViewActivity
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.LibsBuilder
 import javax.inject.Inject
 
 internal class SettingsFragment : PreferenceFragmentCompat() {
@@ -67,8 +69,21 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             getString(R.string.pref_key_contact) -> context?.sendMailToDev()
             getString(R.string.pref_key_privacy_policy) -> context?.let { WebViewActivity.showPrivacyPolicy(it) }
             getString(R.string.pref_key_changelog) -> context?.let { WebViewActivity.showChangelog(it) }
+            getString(R.string.pref_key_open_source_licences) -> context?.showLibraryLicences()
         }
         return super.onPreferenceTreeClick(preference)
+    }
+
+
+    private fun Context.showLibraryLicences() {
+        LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                .withAboutIconShown(true)
+                .withAboutAppName(getString(R.string.application_name))
+                .withShowLoadingProgress(true)
+                .withLicenseDialog(true)
+                .withActivityTheme(R.style.AppTheme)
+                .withAboutVersionShown(true)
+                .start(this)
     }
 
     companion object {

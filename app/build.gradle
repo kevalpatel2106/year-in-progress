@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.cookpad.android.licensetools'
 
 dependencies {
     implementation project(':core')
@@ -14,6 +15,7 @@ dependencies {
     implementation 'com.github.betterme-dev:BottomSheet:android-x-SNAPSHOT'
     implementation 'androidx.preference:preference:1.1.0-alpha02'
     implementation 'com.google.android:flexbox:1.1.0'
+    implementation "com.mikepenz:aboutlibraries:6.2.0"
 
     // Firebase
     implementation 'com.google.firebase:firebase-ads:17.1.3'

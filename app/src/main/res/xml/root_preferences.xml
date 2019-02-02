@@ -65,6 +65,11 @@
             android:title="@string/pref_title_changelog" />
 
         <androidx.preference.Preference
+            android:icon="@drawable/ic_open_source"
+            android:key="@string/pref_key_open_source_licences"
+            android:title="@string/pref_title_open_source_licences" />
+
+        <androidx.preference.Preference
             android:icon="@drawable/ic_info"
             android:key="@string/pref_key_version"
             android:title="@string/pref_title_version" />

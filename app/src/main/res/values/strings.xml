@@ -20,6 +20,7 @@
     <string name="pref_title_privacy_policy">Privacy Policy</string>
     <string name="pref_title_changelog">Changelog</string>
     <string name="pref_title_sort_by">Sorting by</string>
+    <string name="pref_title_open_source_licences">Open-source licences</string>
     <string name="pref_made_love_with_uk">Made with ❤ from UK 🇬🇧</string>
     <string-array name="date_format_titles">
         <item>01-Jan-2019</item>
