@@ -72,9 +72,6 @@ internal class DetailFragment : Fragment() {
 
         // Set up the delete button
         detail_delete_iv.setOnClickListener { model.progressTitle.value?.let { title -> conformDelete(title) } }
-        model.isDeleteOptionVisible.nullSafeObserve(this@DetailFragment) { isVisible ->
-            detail_delete_iv.showOrHide(isVisible)
-        }
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
             detail_delete_iv.isEnabled = !isDeleting

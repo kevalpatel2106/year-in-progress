@@ -13,7 +13,6 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.isPreBuild
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import java.util.*
@@ -42,15 +41,10 @@ internal class DetailViewModel @Inject internal constructor(
     internal val progressTimeLeft = MutableLiveData<SpannableString>()
 
     internal val isProgressComplete = MutableLiveData<Boolean>()
-    internal val isDeleteOptionVisible = MutableLiveData<Boolean>()
     internal val isDeleting = MutableLiveData<Boolean>()
     internal val isLoading = MutableLiveData<Boolean>()
     internal val errorMessage = SingleLiveEvent<String>()
     internal val closeDetail = SingleLiveEvent<Unit>()
-
-    init {
-        isDeleteOptionVisible.value = false
-    }
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
@@ -71,7 +65,6 @@ internal class DetailViewModel @Inject internal constructor(
                         progressTimeLeft.value = prepareTimeLeft(item.end, item.color)
                         isProgressComplete.value = false
                     }
-                    isDeleteOptionVisible.value = !item.progressType.isPreBuild()
                 }, {
                     errorMessage.value = it.message
                     closeDetail.value = Unit
