@@ -20,6 +20,7 @@
     <string name="pref_title_privacy_policy">Privacy Policy</string>
     <string name="pref_title_changelog">Changelog</string>
     <string name="pref_title_sort_by">Sorting by</string>
+    <string name="pref_made_love_with_uk">Made with ❤ from UK 🇬🇧</string>
     <string-array name="date_format_titles">
         <item>01-Jan-2019</item>
         <item>01–01–2019</item>
@@ -107,5 +108,6 @@
     <string name="pro_benefit_change_color">Change the color of the progress based on the priority.</string>
     <string name="pro_benefit_no_ads">No more ads</string>
     <string name="pro_benefit_support_dev">Support ongoing development</string>
+    <string name="meu_title_delete">Delete</string>
     <!--TODO: Categorize the strings-->
 </resources>

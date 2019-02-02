@@ -14,8 +14,7 @@
   ~ limitations under the License.
   -->
 
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <androidx.preference.PreferenceCategory android:title="General">
 
         <androidx.preference.ListPreference
@@ -76,7 +75,5 @@
             android:title="@string/pref_title_contact" />
     </androidx.preference.PreferenceCategory>
 
-    <androidx.preference.Preference
-        android:summary="Made with ❤ from UK 🇬🇧"
-        app:iconSpaceReserved="false" />
+    <androidx.preference.Preference android:summary="@string/pref_made_love_with_uk" />
 </androidx.preference.PreferenceScreen>

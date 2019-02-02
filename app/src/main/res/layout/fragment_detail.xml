@@ -26,10 +26,10 @@
             app:srcCompat="@drawable/ic_close" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/detail_delete_iv"
+            android:id="@+id/option_menu"
             style="@style/DetailToolbarButtonStyle"
             android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/ic_overflow" />
 
         <ScrollView
             android:layout_width="match_parent"

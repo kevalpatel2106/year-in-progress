@@ -4,8 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +22,23 @@ import javax.inject.Inject
 
 
 internal class DetailFragment : Fragment() {
+
+    private val popupMenu: PopupMenu by lazy {
+        PopupMenu(option_menu.context, option_menu).apply {
+            menu.add(
+                    R.id.menu_progress_group,
+                    R.id.menu_delete_progress,
+                    Menu.NONE,
+                    getString(R.string.meu_title_delete)
+            )
+            setOnMenuItemClickListener { menuItem ->
+                if (menuItem.itemId == R.id.menu_delete_progress) {
+                    model.progressTitle.value?.let { title -> conformDelete(title) }
+                }
+                true
+            }
+        }
+    }
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
@@ -38,7 +57,8 @@ internal class DetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        model.progressId = arguments?.getLong(ARG_ID) ?: throw IllegalArgumentException("Invalid progress id.")
+        model.progressId = arguments?.getLong(ARG_ID)
+            ?: throw IllegalArgumentException("Invalid progress id.")
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
@@ -71,10 +91,10 @@ internal class DetailFragment : Fragment() {
         }
 
         // Set up the delete button
-        detail_delete_iv.setOnClickListener { model.progressTitle.value?.let { title -> conformDelete(title) } }
+        option_menu.setOnClickListener { popupMenu.show() }
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
-            detail_delete_iv.isEnabled = !isDeleting
+            option_menu.isEnabled = !isDeleting
 
             if (isDeleting) {
                 deleteInProgressSnackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
