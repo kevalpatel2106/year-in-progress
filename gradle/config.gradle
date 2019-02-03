@@ -74,25 +74,22 @@ ext {
     signingConfig = {
         //This are the play store signing config.
         playStore {
-            if (System.getenv("CI") == "true") {
+            File credentials = rootProject.file('./misc/keystore.properties')
+            if (credentials.exists()) {
+                Properties properties = new Properties()
+                properties.load(credentials.newDataInputStream())
 
-                storeFile file(System.getenv('KEY_PATH'))
-                storePassword System.getenv('KEY_PASSWORD')
-                keyAlias System.getenv('KEY_ALIAS')
-                keyPassword System.getenv('ALIAS_PASSWORD')
+                storeFile file(properties.getProperty('KEY_PATH'))
+                storePassword properties.getProperty('KEY_PASSWORD')
+                keyAlias properties.getProperty('KEY_ALIAS')
+                keyPassword properties.getProperty('ALIAS_PASSWORD')
             } else {
-                File credentials = rootProject.file('./misc/keystore.properties')
-                if (credentials.exists()) {
-                    Properties properties = new Properties()
-                    properties.load(credentials.newDataInputStream())
+                logger.error('Release keystore.properties not found. Generating with debug certificates.')
 
-                    storeFile file(properties.getProperty('KEY_PATH'))
-                    storePassword properties.getProperty('KEY_PASSWORD')
-                    keyAlias properties.getProperty('KEY_ALIAS')
-                    keyPassword properties.getProperty('ALIAS_PASSWORD')
-                } else {
-                    logger.error('Release keystore.properties not found. Cannot generate release build.')
-                }
+                storeFile file('./misc/debug.jks')
+                storePassword 'photoloc'
+                keyAlias 'kevalpatel2106'
+                keyPassword 'photoloc'
             }
         }
         //This are the debug signing config
