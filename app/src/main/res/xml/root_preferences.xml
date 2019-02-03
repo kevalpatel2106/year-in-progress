@@ -80,5 +80,5 @@
             android:title="@string/pref_title_contact" />
     </androidx.preference.PreferenceCategory>
 
-    <androidx.preference.Preference android:summary="@string/pref_made_love_with_uk" />
+    <com.kevalpatel2106.yip.settings.CentralTitlePreference android:summary="@string/pref_made_love_with_uk" />
 </androidx.preference.PreferenceScreen>
