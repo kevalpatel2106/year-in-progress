@@ -76,6 +76,7 @@ subprojects {
                             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), './proguard-rules.pro'
                             debuggable false
                             jniDebuggable false
+                            shrinkResources true
                             renderscriptDebuggable false
                             zipAlignEnabled true
                             if (rootProject.file('./misc/keystore.properties').exists()) {
