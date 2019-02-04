@@ -125,7 +125,7 @@ internal class DetailFragment : Fragment() {
     }
 
     private fun conformDelete(title: String) {
-        AlertDialog.Builder(context, R.style.YipAlertDialogTheme)
+        AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
                 .setMessage(getString(R.string.progress_delete_confirmation_message, title))
                 .setPositiveButton(getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> model.deleteProgress() }
                 .setNegativeButton(android.R.string.cancel, null)

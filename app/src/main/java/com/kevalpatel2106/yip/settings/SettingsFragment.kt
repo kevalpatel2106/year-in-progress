@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.settings
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +10,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.nullSafeObserve
@@ -16,9 +18,8 @@ import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.webviews.WebViewActivity
-import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.LibsBuilder
 import javax.inject.Inject
+
 
 internal class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -76,14 +77,8 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
 
 
     private fun Context.showLibraryLicences() {
-        LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                .withAboutIconShown(true)
-                .withAboutAppName(getString(R.string.application_name))
-                .withShowLoadingProgress(true)
-                .withLicenseDialog(true)
-                .withActivityTheme(R.style.AppTheme)
-                .withAboutVersionShown(true)
-                .start(this)
+        OssLicensesMenuActivity.setActivityTitle(getString(R.string.title_activity_licences))
+        startActivity(Intent(this, OssLicensesMenuActivity::class.java))
     }
 
     companion object {

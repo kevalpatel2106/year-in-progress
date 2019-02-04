@@ -7,6 +7,7 @@
     <string name="title_activity_privacy_policy">Privacy Policy</string>
     <string name="title_activity_changelog">Changelog</string>
     <string name="title_activity_payment">Get Pro</string>
+    <string name="title_activity_licences">Open source libraries</string>
 
     <!--Dashboard-->
     <string name="dashboard_no_progress_message">There is nothing to display!</string>

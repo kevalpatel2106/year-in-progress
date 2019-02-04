@@ -14,19 +14,13 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
--optimizationpasses 5
--verbose
+-renamesourcefileattribute SourceFile
 
-#Keep anotations there
--keepattributes *Annotation*
-
-##---------------Begin: proguard configuration for removing logs  ----------
-#remove log class
+# Proguard configuration for removing logs
 -assumenosideeffects class android.util.Log {
     public static *** d(...);
     public static *** v(...);
@@ -34,9 +28,15 @@
     public static *** w(...);
     public static *** e(...);
 }
-# Remove sout
 -assumenosideeffects class java.io.PrintStream {
      public void println(%);
      public void println(**);
  }
-##---------------End: proguard configuration for removing logs  ----------
+
+# Guava ProGuard (Sugar ORM depends on Guava)
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
+
+# Dagger depends on ErrorProne, but they are not used in runtime; Ignore
+-dontwarn com.google.errorprone.annotations.*

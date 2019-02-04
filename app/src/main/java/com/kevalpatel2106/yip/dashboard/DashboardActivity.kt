@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.dashboard
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -97,11 +98,6 @@ class DashboardActivity : AppCompatActivity() {
         })
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
         progress_list_rv.setExpandablePage(expandable_page_container)
-//        progress_list_rv.enabledReordering(object : ItemDraggedListener{
-//            override fun onItemMove(fromPosition: Int, toPosition: Int) {
-//                // TODO
-//            }
-//        })
         progress_list_rv.adapter = adapter.get().apply {
             this.setHasStableIds(true)
             this.clickListener = { expandDetail(it) }
@@ -110,6 +106,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun expandDetail(clicked: Progress) {
+        askForRating()
         supportFragmentManager.commit {
             replace(R.id.expandable_page_container, DetailFragment.newInstance(clicked.id))
         }
@@ -137,6 +134,19 @@ class DashboardActivity : AppCompatActivity() {
             bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }
+    }
+
+    private fun askForRating() {
+        AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
+                .setTitle("Rate us on Play store.")
+                .setMessage("Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.")
+                .setPositiveButton("Rate now") { _, _ -> openPlayStorePage() }
+                .setPositiveButton("Later", null)
+                .setNeutralButton("Don't ask again!") { _, _ ->
+
+                }
+                .setCancelable(false)
+                .show()
     }
 
     companion object {

@@ -39,7 +39,7 @@
     </style>
 
     <!--Alert dialogs-->
-    <style name="YipAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <style name="AppTheme.Dialog.Alert" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
