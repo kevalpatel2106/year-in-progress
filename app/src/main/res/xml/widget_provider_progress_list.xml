@@ -3,6 +3,6 @@
     android:initialLayout="@layout/widget_progress_list"
     android:minHeight="@dimen/widget_min_height"
     android:minWidth="@dimen/widget_min_width"
-    android:previewImage="@drawable/logo"
+    android:previewImage="@drawable/list_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="@integer/widget_refresh_time" />

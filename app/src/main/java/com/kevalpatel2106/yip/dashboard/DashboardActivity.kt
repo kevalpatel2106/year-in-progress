@@ -17,11 +17,13 @@ import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -32,6 +34,9 @@ class DashboardActivity : AppCompatActivity() {
 
     @Inject
     internal lateinit var adapter: Lazy<ProgressAdapter>
+
+    @Inject
+    internal lateinit var sharedPrefsProvider: SharedPrefsProvider
 
     private lateinit var model: DashboardViewModel
 
@@ -137,19 +142,23 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun askForRating() {
-        AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
-                .setTitle("Rate us on Play store.")
-                .setMessage("Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.")
-                .setPositiveButton("Rate now") { _, _ -> openPlayStorePage() }
-                .setPositiveButton("Later", null)
-                .setNeutralButton("Don't ask again!") { _, _ ->
-
-                }
-                .setCancelable(false)
-                .show()
+        if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false)
+                && Random.nextInt(9) == 1) {
+            AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
+                    .setTitle(R.string.rate_us_dialog_title)
+                    .setMessage(R.string.rate_us_dialog_message)
+                    .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ ->
+                        openPlayStorePage()
+                        sharedPrefsProvider.savePreferences(PREF_KEY_RATED, true)
+                    }
+                    .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
+                    .setCancelable(false)
+                    .show()
+        }
     }
 
     companion object {
+        private const val PREF_KEY_RATED = "pref_key_rated"
         fun launch(context: Context) = context.startActivity(context.prepareLaunchIntent(DashboardActivity::class.java))
     }
 }

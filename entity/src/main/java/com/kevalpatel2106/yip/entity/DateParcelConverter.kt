@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parceler
 import java.util.*
 
 internal object DateParcelConverter : Parceler<Date?> {
+
     override fun Date?.write(parcel: Parcel, flags: Int) {
         parcel.writeLong(this?.time ?: 0L)
     }

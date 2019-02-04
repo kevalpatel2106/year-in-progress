@@ -111,5 +111,9 @@
     <string name="pro_benefit_no_ads">No more ads</string>
     <string name="pro_benefit_support_dev">Support ongoing development</string>
     <string name="meu_title_delete">Delete</string>
+    <string name="rate_us_dialog_title">Rate us on Play store.</string>
+    <string name="rate_us_dialog_message">Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.</string>
+    <string name="rate_us_dialog_positive_btn">Rate now</string>
+    <string name="rate_us_dialog_negative_btn">Later</string>
     <!--TODO: Categorize the strings-->
 </resources>
