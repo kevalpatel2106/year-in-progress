@@ -42,10 +42,17 @@
             android:title="Time format" />
     </androidx.preference.PreferenceCategory>
 
+    <androidx.preference.PreferenceCategory android:title="@string/widget_header">
+
+        <androidx.preference.Preference
+            android:icon="@drawable/ic_widget"
+            android:key="@string/pref_key_add_widget"
+            android:title="@string/pref_title_add_widget" />
+    </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
         android:key="@string/pref_key_pro_version_header"
-        android:title="Pro Version">
+        android:title="@string/pro_header">
 
         <androidx.preference.Preference
             android:icon="@drawable/ic_money"
@@ -53,21 +60,19 @@
             android:title="@string/pref_title_buy_pro" />
     </androidx.preference.PreferenceCategory>
 
-    <androidx.preference.PreferenceCategory android:title="@string/about_header">
+    <androidx.preference.PreferenceCategory android:title="@string/legal_header">
         <androidx.preference.Preference
             android:icon="@drawable/ic_privacy"
             android:key="@string/pref_key_privacy_policy"
             android:title="@string/pref_title_privacy_policy" />
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_changelog"
-            android:key="@string/pref_key_changelog"
-            android:title="@string/pref_title_changelog" />
-
-        <androidx.preference.Preference
             android:icon="@drawable/ic_open_source"
             android:key="@string/pref_key_open_source_licences"
             android:title="@string/pref_title_open_source_licences" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory android:title="@string/about_header">
 
         <androidx.preference.Preference
             android:icon="@drawable/ic_info"
@@ -75,10 +80,15 @@
             android:title="@string/pref_title_version" />
 
         <androidx.preference.Preference
+            android:icon="@drawable/ic_changelog"
+            android:key="@string/pref_key_changelog"
+            android:title="@string/pref_title_changelog" />
+
+        <androidx.preference.Preference
             android:icon="@drawable/ic_mail"
             android:key="@string/pref_key_contact"
             android:title="@string/pref_title_contact" />
     </androidx.preference.PreferenceCategory>
 
-    <com.kevalpatel2106.yip.settings.CentralTitlePreference android:summary="@string/pref_made_love_with_uk" />
+    <com.kevalpatel2106.yip.settings.CentralTitlePreference android:summary="@string/pref_title_made_love_with_uk" />
 </androidx.preference.PreferenceScreen>

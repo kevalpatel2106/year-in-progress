@@ -80,5 +80,9 @@ internal class WebViewActivity : AppCompatActivity() {
         fun showChangelog(context: Context) {
             launch(context, R.string.title_activity_changelog, context.getString(R.string.changelog_url))
         }
+
+        fun showWidgetGuide(context: Context) {
+            launch(context, R.string.title_activity_changelog, context.getString(R.string.changelog_url))
+        }
     }
 }

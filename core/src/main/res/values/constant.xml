@@ -10,4 +10,5 @@
     <string name="play_store_deep_link" translatable="false">market://details?id=com.kevalpatel2106.yip</string>
     <string name="privacy_policy_url" translatable="false">https://year-in-progress.firebaseapp.com/privacy_policy.html</string>
     <string name="changelog_url" translatable="false">https://year-in-progress.firebaseapp.com/changelog.html</string>
+    <string name="add_widget_guide_url" translatable="false">https://year-in-progress.firebaseapp.com/add_widget.html</string>
 </resources>
