@@ -140,7 +140,7 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
     }
 
     companion object {
-        val isPurchased = BehaviorSubject.create<Boolean>()
+        val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
         const val SKU_ID = "pro_101"
     }
 }
