@@ -16,6 +16,12 @@
 # debugging stack traces.
 -keepattributes SourceFile,LineNumberTable
 
+# Setting the min sdk version for dead code elemination.
+# https://jakewharton.com/digging-into-d8-and-r8/
+-assumevalues class android.os.Build$VERSION {
+    int SDK_INT return 21..2147483647;
+}
+
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 -renamesourcefileattribute SourceFile
