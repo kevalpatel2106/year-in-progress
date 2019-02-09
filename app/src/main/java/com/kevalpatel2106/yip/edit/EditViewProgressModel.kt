@@ -27,7 +27,9 @@ internal class EditViewProgressModel @Inject internal constructor(
         }
 
     // Progress fields
-    internal val currentTitle = MutableLiveData<String>()
+    private var currentTitle: String? = null
+
+    internal val initialTitle = MutableLiveData<String>()
     internal val currentStartDate = MutableLiveData<Date>()
     internal val currentEndDate = MutableLiveData<Date>()
     internal val currentColor = MutableLiveData<ProgressColor>()
@@ -53,7 +55,7 @@ internal class EditViewProgressModel @Inject internal constructor(
 
         // Initial progress values.
         val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
-        currentTitle.value = ""
+        initialTitle.value = ""
         currentStartDate.value = Date(System.currentTimeMillis()).apply { setToDayMin() }
         currentEndDate.value = Date(tomorrow.timeInMillis).apply { setToDayMax() }
         currentColor.value = ProgressColor.COLOR_BLUE
@@ -73,7 +75,8 @@ internal class EditViewProgressModel @Inject internal constructor(
                     progressTypeType = progress.progressType
                     isPrebuiltProgress.value = progress.progressType.isPreBuild()
 
-                    currentTitle.value = progress.title
+                    currentTitle = progress.title
+                    initialTitle.value = progress.title
                     currentColor.value = progress.color
                     currentEndDate.value = progress.end
                     currentStartDate.value = progress.start
@@ -108,18 +111,18 @@ internal class EditViewProgressModel @Inject internal constructor(
     }
 
     internal fun onProgressTitleChanged(title: String) {
-        currentTitle.value = title
+        currentTitle = title
         isSomethingChanged = true
         if (title.length !in 0..titleLength) {
             errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
-        } else {
+        } else if (errorInvalidTitle.value != "") {
             errorInvalidTitle.value = ""
         }
     }
 
     internal fun saveProgress() {
         if (isLoadingProgress.value == true) return
-        if (currentTitle.value == null || currentTitle.value!!.length !in 1..titleLength) {
+        if (currentTitle == null || currentTitle!!.length !in 1..titleLength) {
             errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
             return
         }
@@ -134,7 +137,7 @@ internal class EditViewProgressModel @Inject internal constructor(
 
         // Sanitize data
         val title =
-                currentTitle.value?.capitalize()
+                currentTitle?.capitalize()
                     ?: throw IllegalStateException("Progress title cannot be null.")
         val startDate =
                 currentStartDate.value?.apply { setToDayMin() }

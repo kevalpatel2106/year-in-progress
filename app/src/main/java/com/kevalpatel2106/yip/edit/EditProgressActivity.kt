@@ -4,11 +4,10 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -27,20 +26,6 @@ import javax.inject.Inject
 
 
 internal class EditProgressActivity : AppCompatActivity() {
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            model.onProgressTitleChanged(s.toString())
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Do nothing
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // Do nothing
-        }
-    }
-
     @Inject
     lateinit var sdf: DateFormatter
 
@@ -64,11 +49,11 @@ internal class EditProgressActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        model.currentTitle.nullSafeObserve(this@EditProgressActivity) {
-            edit_progress_title.removeTextChangedListener(textWatcher)
+        // Set up the title.
+        edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
+        model.initialTitle.nullSafeObserve(this@EditProgressActivity) {
             edit_progress_title.setText(it)
             edit_progress_title.setSelection(it.length)
-            edit_progress_title.addTextChangedListener(textWatcher)
         }
 
         // Start time set up
