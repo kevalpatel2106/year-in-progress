@@ -38,7 +38,8 @@ internal class EditViewProgressModel @Inject internal constructor(
 
     internal val colors = MutableLiveData<IntArray>()
     internal var isSomethingChanged: Boolean = false
-    internal val close = SingleLiveEvent<Boolean>()
+    internal var isTitleChanged: Boolean = false
+    internal val closeSignal = SingleLiveEvent<Boolean>()
 
     // Errors
     internal val errorInvalidTitle = SingleLiveEvent<String>()
@@ -83,7 +84,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                 }, {
                     Timber.e(it)
                     userMessage.value = it.message
-                    close.value = true
+                    closeSignal.value = true
                 })
                 .addTo(compositeDisposable)
     }
@@ -112,7 +113,7 @@ internal class EditViewProgressModel @Inject internal constructor(
 
     internal fun onProgressTitleChanged(title: String) {
         currentTitle = title
-        isSomethingChanged = true
+        isTitleChanged = title != initialTitle.value
         if (title.length !in 0..titleLength) {
             errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
         } else if (errorInvalidTitle.value != "") {
@@ -162,7 +163,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                     isLoadingProgress.value = false
                 }
                 .subscribe({
-                    close.value = true
+                    closeSignal.value = true
                 }, {
                     Timber.e(it)
                     userMessage.value = it.message

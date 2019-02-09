@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.edit
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -51,9 +52,9 @@ internal class EditProgressActivity : AppCompatActivity() {
 
         // Set up the title.
         edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
-        model.initialTitle.nullSafeObserve(this@EditProgressActivity) {
-            edit_progress_title.setText(it)
-            edit_progress_title.setSelection(it.length)
+        model.initialTitle.nullSafeObserve(this@EditProgressActivity) { title ->
+            edit_progress_title.setText(title)
+            edit_progress_title.setSelection(title.length)
         }
 
         // Start time set up
@@ -95,7 +96,7 @@ internal class EditProgressActivity : AppCompatActivity() {
         }
 
         // Monitor userMessage
-        model.close.nullSafeObserve(this@EditProgressActivity) { finish() }
+        model.closeSignal.nullSafeObserve(this@EditProgressActivity) { finish() }
         model.userMessage.nullSafeObserve(this@EditProgressActivity) { showSnack(it) }
         model.errorInvalidTitle.observe(this@EditProgressActivity, Observer { error ->
             edit_progress_title_til.error = error
@@ -119,17 +120,22 @@ internal class EditProgressActivity : AppCompatActivity() {
         super.onNewIntent(intent)
     }
 
-    override fun onBackPressed() = confirmAndClose()
-
-    private fun confirmAndClose() {
+    override fun onBackPressed() {
         if (model.isLoadingProgress.value != true) {
-            if (model.isSomethingChanged) {
-                // TODO confirmation dialog
-                finish()
+            if (model.isSomethingChanged || model.isTitleChanged) {
+                conformBeforeExit()
             } else {
                 finish()
             }
         }
+    }
+
+    private fun conformBeforeExit() {
+        AlertDialog.Builder(this@EditProgressActivity, R.style.AppTheme_Dialog_Alert)
+                .setMessage(R.string.edit_progress_discard_confirm_message)
+                .setPositiveButton(R.string.edit_progress_discard_btn_title) { _, _ -> finish() }
+                .setNegativeButton(R.string.edit_progress_dismiss_btn_title) { dialog, _ -> dialog.cancel() }
+                .show()
     }
 
     private fun getDatePicker(
@@ -161,7 +167,7 @@ internal class EditProgressActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> confirmAndClose()
+            android.R.id.home -> onBackPressed()
             R.id.menu_progress_save -> model.saveProgress()
         }
         return super.onOptionsItemSelected(item)
