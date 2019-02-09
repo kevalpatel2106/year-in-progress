@@ -13,7 +13,7 @@ import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import java.util.*
 import java.util.concurrent.Executors
 
-@Database(entities = [ProgressDto::class], version = 1, exportSchema = true)
+@Database(entities = [ProgressDto::class], version = 2, exportSchema = true)
 @TypeConverters(DbTypeConverter::class)
 abstract class YipDatabase : RoomDatabase() {
     companion object {
@@ -35,8 +35,7 @@ abstract class YipDatabase : RoomDatabase() {
                         getPrebuiltProgresses(application).forEach { instance.getDeviceDao().insert(it) }
                     }
                 }
-            }).build()
-
+            }).addMigrations(Migration1To2).build()
             return instance
         }
 

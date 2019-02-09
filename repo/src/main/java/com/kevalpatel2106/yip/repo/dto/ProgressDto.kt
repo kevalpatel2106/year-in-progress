@@ -31,15 +31,8 @@ internal data class ProgressDto(
         @ColumnInfo(name = ProgressTableInfo.COLOR)
         var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
-        @Suppress("DEPRECATION")
-        @Deprecated("This field will be remove in next DB version upgrade.")
-        @ColumnInfo(name = ProgressTableInfo.ORDER)
-        val order: Int = 0,
-
-        @Suppress("DEPRECATION")
-        @Deprecated("This field will be remove in next DB version upgrade.")
-        @ColumnInfo(name = ProgressTableInfo.IS_ENABLED)
-        var isEnabled: Boolean = true
+        @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_MILLS)
+        val notifications: String = ""
 )
 
 internal fun ProgressDto.toEntity() = Progress(

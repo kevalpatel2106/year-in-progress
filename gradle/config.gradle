@@ -116,7 +116,7 @@ ext {
         //strip other than english resources
         resConfigs "en"
 
-        testInstrumentationRunner "com.kevalpatel2106.battery.monitor.testutils.CustomTestRunner"
+        testInstrumentationRunner "com.kevalpatel2106.yip.androidtestutils.CustomTestRunner"
     }
 
     libDefaultConfig = {
@@ -132,7 +132,7 @@ ext {
 
         consumerProguardFiles '../proguard-rules.pro'
 
-        testInstrumentationRunner "com.kevalpatel2106.battery.monitor.testutils.CustomTestRunner"
+        testInstrumentationRunner "com.kevalpatel2106.yip.androidtestutils.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {

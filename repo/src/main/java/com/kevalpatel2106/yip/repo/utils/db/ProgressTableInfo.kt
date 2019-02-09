@@ -8,6 +8,7 @@ object ProgressTableInfo {
     const val START_TIME = "start_mills"
     const val END_TIME = "end_mills"
     const val COLOR = "color"
+    const val NOTIFICATIONS_MILLS = "notification_mills"
 
     @Deprecated("This field will be remove in next DB version upgrade.")
     const val ORDER = "order"
