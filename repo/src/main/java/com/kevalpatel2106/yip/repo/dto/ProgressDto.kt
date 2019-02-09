@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.repo.db.ProgressTableInfo
 import com.kevalpatel2106.yip.repo.utils.*
-import com.kevalpatel2106.yip.repo.utils.db.ProgressTableInfo
 import java.util.*
 
 @Entity(tableName = ProgressTableInfo.TABLE_NAME)

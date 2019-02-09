@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.db
+package com.kevalpatel2106.yip.repo.db
 
 import android.app.Application
 import android.content.Context

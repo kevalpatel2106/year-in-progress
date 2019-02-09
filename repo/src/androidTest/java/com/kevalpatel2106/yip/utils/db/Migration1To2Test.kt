@@ -7,9 +7,9 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.repo.db.Migration1To2
+import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
-import com.kevalpatel2106.yip.repo.utils.db.Migration1To2
-import com.kevalpatel2106.yip.repo.utils.db.YipDatabase
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test

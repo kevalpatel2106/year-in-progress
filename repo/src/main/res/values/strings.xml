@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--NTP server address-->
-    <string name="google_ntp" translatable="false">time.google.com</string>
-
     <!--Prebuilt progress titles-->
     <string name="this_quarter">This quarter</string>
     <string name="this_month">This month</string>

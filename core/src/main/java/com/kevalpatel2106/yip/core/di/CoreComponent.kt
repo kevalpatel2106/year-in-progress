@@ -10,10 +10,10 @@ package com.kevalpatel2106.yip.core.di
 
 import android.app.Application
 import android.content.Context
+import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.di.RepositoryModule
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.db.YipDatabase
 import dagger.Component
 import javax.inject.Singleton
 

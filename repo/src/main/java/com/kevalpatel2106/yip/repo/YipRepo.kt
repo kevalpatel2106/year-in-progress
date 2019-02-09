@@ -4,13 +4,13 @@ import android.app.Application
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltProgress
 import com.kevalpatel2106.yip.repo.dto.toEntity
 import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.db.YipDatabase
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.db
+package com.kevalpatel2106.yip.repo.db
 
 object ProgressTableInfo {
     const val TABLE_NAME = "progresses"

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.db
+package com.kevalpatel2106.yip.repo.db
 
 import androidx.annotation.ColorInt
 import androidx.room.TypeConverter

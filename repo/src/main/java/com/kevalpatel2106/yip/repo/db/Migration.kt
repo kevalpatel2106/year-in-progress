@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.db
+package com.kevalpatel2106.yip.repo.db
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

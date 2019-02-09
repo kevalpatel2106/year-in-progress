@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import com.instacart.library.truetime.TrueTimeRx
 import com.kevalpatel2106.yip.repo.BuildConfig
-import com.kevalpatel2106.yip.repo.R
+import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NtpProvider @Inject constructor(private val application: Application) {
@@ -17,16 +18,16 @@ class NtpProvider @Inject constructor(private val application: Application) {
     @SuppressLint("CheckResult")
     private fun initializeTrueTime() {
         TrueTimeRx.build()
-                .withConnectionTimeout(31_428)
-                .withRetryCount(100)
+                .withConnectionTimeout(TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES).toInt())
+                .withRetryCount(RETRY_COUNT)
                 .withSharedPreferencesCache(application)
                 .withLoggingEnabled(BuildConfig.DEBUG)
-                .initializeRx(application.getString(R.string.google_ntp))
+                .initializeRx(TIME_GOOGLE)
                 .subscribeOn(RxSchedulers.network)
                 .subscribe({
-                    // Do nothing
+                    Timber.i("True time enabled. Current mills: ${it.time}")
                 }, {
-                    it.printStackTrace()
+                    Timber.e(it)
                 })
     }
 
@@ -35,5 +36,14 @@ class NtpProvider @Inject constructor(private val application: Application) {
     } else {
         initializeTrueTime()
         Date(System.currentTimeMillis())
+    }
+
+    companion object {
+        private const val RETRY_COUNT = 10
+
+        /**
+         * @see [https://developers.google.com/time/]
+         */
+        private const val TIME_GOOGLE = "time.google.com"
     }
 }
