@@ -18,7 +18,9 @@ data class Progress(
         var end: Date,
 
         @ColorInt
-        var color: ProgressColor = ProgressColor.COLOR_BLUE
+        var color: ProgressColor = ProgressColor.COLOR_BLUE,
+
+        var notifications: List<Long>
 ) : Parcelable {
 
     fun percent(now: Date): Float {

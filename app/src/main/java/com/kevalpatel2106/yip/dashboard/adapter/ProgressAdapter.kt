@@ -5,7 +5,7 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.recyclerview.YipAdapter
 import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
-import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import javax.inject.Inject
 
 internal class ProgressAdapter @Inject constructor(private val ntpProvider: NtpProvider) : YipAdapter() {

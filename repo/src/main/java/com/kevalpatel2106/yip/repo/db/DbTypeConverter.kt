@@ -22,6 +22,18 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
+    fun toLongList(value: String?): List<Long> {
+        return value?.split(",")?.filter { it.isNotBlank() }?.map { it.toLong() } ?: listOf()
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun toCommaSeparatedList(value: List<Long>): String {
+        return value.joinToString(",")
+    }
+
+    @JvmStatic
+    @TypeConverter
     fun toType(value: Int): ProgressType {
         return when (value) {
             ProgressType.YEAR_PROGRESS.key -> ProgressType.YEAR_PROGRESS

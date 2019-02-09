@@ -9,6 +9,7 @@
 package com.kevalpatel2106.yip.repo.utils
 
 import com.kevalpatel2106.testutils.MockSharedPreference
+import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before

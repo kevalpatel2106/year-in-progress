@@ -1,15 +1,16 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.providers
 
 import android.annotation.SuppressLint
 import android.app.Application
 import com.instacart.library.truetime.TrueTimeRx
 import com.kevalpatel2106.yip.repo.BuildConfig
+import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NtpProvider @Inject constructor(private val application: Application) {
+class NtpProvider @Inject internal constructor(private val application: Application) {
 
     init {
         initializeTrueTime()

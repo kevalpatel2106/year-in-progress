@@ -13,8 +13,8 @@ import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import com.kevalpatel2106.yip.repo.utils.NtpProvider
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit

@@ -7,6 +7,7 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.db.ProgressTableInfo
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.*
 import java.util.*
 
@@ -32,7 +33,7 @@ internal data class ProgressDto(
         var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
         @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_MILLS)
-        val notifications: String = ""
+        val notifications: List<Long> = listOf()
 )
 
 internal fun ProgressDto.toEntity() = Progress(
@@ -41,7 +42,8 @@ internal fun ProgressDto.toEntity() = Progress(
         title = title,
         start = start,
         end = end,
-        color = color
+        color = color,
+        notifications = notifications
 )
 
 internal fun ProgressDto.modifyPrebuiltProgress(ntpProvider: NtpProvider): ProgressDto {

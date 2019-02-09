@@ -8,9 +8,9 @@ import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltProgress
 import com.kevalpatel2106.yip.repo.dto.toEntity
-import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
+import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -21,7 +21,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class YipRepo @Inject constructor(
+class YipRepo @Inject internal constructor(
         private val application: Application,
         private val db: YipDatabase,
         private val ntpProvider: NtpProvider,

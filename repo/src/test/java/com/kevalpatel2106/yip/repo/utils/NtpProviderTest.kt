@@ -4,6 +4,7 @@ import android.app.Application
 import com.instacart.library.truetime.TrueTimeRx
 import com.kevalpatel2106.testutils.MockSharedPreference
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule

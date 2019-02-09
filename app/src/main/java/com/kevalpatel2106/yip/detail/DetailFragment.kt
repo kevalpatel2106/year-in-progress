@@ -16,7 +16,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.di.getAppComponent
-import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 

@@ -7,7 +7,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
-import com.kevalpatel2106.yip.repo.utils.NtpProvider
+import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import timber.log.Timber
 import javax.inject.Inject
 
