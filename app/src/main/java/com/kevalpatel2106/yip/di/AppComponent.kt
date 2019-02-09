@@ -10,6 +10,7 @@ import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
+import com.kevalpatel2106.yip.utils.BootCompleteReceiver
 import com.kevalpatel2106.yip.widget.ProgressListRemoteFactory
 import com.kevalpatel2106.yip.widget.ProgressListWidgetProvider
 import dagger.Component
@@ -25,6 +26,7 @@ internal interface AppComponent {
     fun inject(progressListRemoteFactory: ProgressListRemoteFactory)
     fun inject(progressListWidgetProvider: ProgressListWidgetProvider)
     fun inject(splashActivity: SplashActivity)
+    fun inject(bootCompleteReceiver: BootCompleteReceiver)
 }
 
 internal fun Context.getAppComponent(): AppComponent {

@@ -12,10 +12,6 @@ import javax.inject.Inject
 
 class NtpProvider @Inject internal constructor(private val application: Application) {
 
-    init {
-        initializeTrueTime()
-    }
-
     @SuppressLint("CheckResult")
     private fun initializeTrueTime() {
         TrueTimeRx.build()
