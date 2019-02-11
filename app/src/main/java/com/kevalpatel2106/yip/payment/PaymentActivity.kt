@@ -6,8 +6,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.di.getAppComponent
@@ -27,9 +27,7 @@ internal class PaymentActivity : AppCompatActivity() {
         setActionbar()
 
         getAppComponent().inject(this@PaymentActivity)
-        model = ViewModelProviders
-                .of(this@PaymentActivity, viewModelProvider)
-                .get(PaymentViewModel::class.java)
+        model = provideViewModel(viewModelProvider, PaymentViewModel::class.java)
 
         purchase_btn.setOnClickListener { model.purchase(this@PaymentActivity) }
 

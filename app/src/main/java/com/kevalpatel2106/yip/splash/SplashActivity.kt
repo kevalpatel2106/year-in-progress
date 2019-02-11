@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.di.getAppComponent
@@ -20,9 +20,7 @@ internal class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
-        model = ViewModelProviders
-                .of(this@SplashActivity, viewModelProvider)
-                .get(SplashViewModel::class.java)
+        model = provideViewModel(viewModelProvider, SplashViewModel::class.java)
 
         // Refresh the purchase state.
         model.refreshPurchaseState(this@SplashActivity)

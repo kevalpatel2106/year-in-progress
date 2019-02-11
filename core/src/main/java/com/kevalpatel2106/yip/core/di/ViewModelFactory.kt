@@ -8,8 +8,11 @@
 
 package com.kevalpatel2106.yip.core.di
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -35,4 +38,16 @@ class ViewModelFactory @Inject constructor(
             throw RuntimeException(e)
         }
     }
+}
+
+fun <T : ViewModel> Fragment.provideViewModel(viewModelProvider: ViewModelProvider.Factory, modelClass: Class<T>): T {
+    return ViewModelProviders
+            .of(this, viewModelProvider)
+            .get(modelClass)
+}
+
+fun <T : ViewModel> FragmentActivity.provideViewModel(viewModelProvider: ViewModelProvider.Factory, modelClass: Class<T>): T {
+    return ViewModelProviders
+            .of(this, viewModelProvider)
+            .get(modelClass)
 }

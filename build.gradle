@@ -35,6 +35,14 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 
+    afterEvaluate {
+        extensions.findByName('kapt')?.arguments {
+            // https://speakerdeck.com/jakewharton/helping-dagger-help-you-droidcon-uk-2018
+            arg('dagger.formatGeneratedSource', 'disabled')
+            arg('dagger.gradle.incremental', 'enabled')
+        }
+    }
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -141,6 +149,10 @@ subprojects {
             kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
             kaptAndroidTest "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
             compileOnly 'javax.annotation:jsr250-api:1.0'
+
+            compileOnly 'com.squareup.inject:inflation-inject:0.3.2'
+            kapt 'com.squareup.inject:inflation-inject-processor:0.3.2'
+            kaptAndroidTest 'com.squareup.inject:inflation-inject-processor:0.3.2'
 
             //Android libs
             if (project.hasProperty("android")) {

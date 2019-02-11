@@ -7,11 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocosw.bottomsheet.BottomSheet
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
@@ -47,9 +47,7 @@ class DashboardActivity : AppCompatActivity() {
 
         // Inject dependency
         getAppComponent().inject(this@DashboardActivity)
-        model = ViewModelProviders
-                .of(this@DashboardActivity, viewModelProvider)
-                .get(DashboardViewModel::class.java)
+        model = provideViewModel(viewModelProvider, DashboardViewModel::class.java)
 
         setUpBottomNavigation()
         setUpFab()

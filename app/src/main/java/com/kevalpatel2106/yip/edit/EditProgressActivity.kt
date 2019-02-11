@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showOrHideLoader
@@ -40,9 +40,7 @@ internal class EditProgressActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_progress)
 
         getAppComponent().inject(this@EditProgressActivity)
-        model = ViewModelProviders
-                .of(this@EditProgressActivity, viewModelProvider)
-                .get(EditViewProgressModel::class.java)
+        model = provideViewModel(viewModelProvider, EditViewProgressModel::class.java)
 
         // Actionbar set up
         setSupportActionBar(edit_toolbar)

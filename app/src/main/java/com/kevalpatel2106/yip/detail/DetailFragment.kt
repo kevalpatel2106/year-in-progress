@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
@@ -51,9 +51,7 @@ internal class DetailFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.getAppComponent().inject(this@DetailFragment)
-        model = ViewModelProviders
-                .of(this@DetailFragment, viewModelProvider)
-                .get(DetailViewModel::class.java)
+        model = provideViewModel(viewModelProvider, DetailViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
