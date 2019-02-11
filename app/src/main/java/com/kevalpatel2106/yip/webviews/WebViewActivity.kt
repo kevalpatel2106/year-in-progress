@@ -82,7 +82,7 @@ internal class WebViewActivity : AppCompatActivity() {
         }
 
         fun showWidgetGuide(context: Context) {
-            launch(context, R.string.title_activity_changelog, context.getString(R.string.changelog_url))
+            launch(context, R.string.title_activity_widget_guide, context.getString(R.string.add_widget_guide_url))
         }
     }
 }

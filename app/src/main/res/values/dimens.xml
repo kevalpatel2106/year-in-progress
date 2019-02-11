@@ -3,7 +3,6 @@
     <!--General dimentions-->
     <item name="match_parent" type="dimen">-1</item>
     <item name="wrap_content" type="dimen">-2</item>
-    <dimen name="bottom_appbar_height">@dimen/spacing_anti</dimen>
 
     <!--Progress list widget dimension-->
     <dimen name="widget_min_width">190dp</dimen>

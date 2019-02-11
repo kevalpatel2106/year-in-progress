@@ -15,6 +15,7 @@
 
 .DS_Store
 /build
+/misc/keystore.*
 /*/build
 /captures
 .externalNativeBuild

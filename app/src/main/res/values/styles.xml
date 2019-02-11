@@ -39,13 +39,6 @@
     </style>
 
     <!--Payment screen-->
-    <style name="ProBenefitImageStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:padding">@dimen/spacing_micro</item>
-        <item name="android:layout_marginTop">@dimen/spacing_small</item>
-        <item name="android:layout_height">@dimen/spacing_huge</item>
-    </style>
-
     <style name="ProBenefitTextStyle" parent="MediumText.Primary">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginTop">@dimen/spacing_small</item>

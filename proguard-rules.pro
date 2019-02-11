@@ -16,10 +16,16 @@
 # debugging stack traces.
 -keepattributes SourceFile,LineNumberTable
 
-# Setting the min sdk version for dead code elemination.
+# Setting the build versions for dead code elemination.
 # https://jakewharton.com/digging-into-d8-and-r8/
 -assumevalues class android.os.Build$VERSION {
     int SDK_INT return 21..2147483647;
+}
+-assumevalues class com.kevalpatel2106.yip.BuildConfig {
+    int DEBUG return false;
+}
+-assumevalues class com.kevalpatel2106.yip.*.BuildConfig {
+    int DEBUG return false;
 }
 
 # If you keep the line number information, uncomment this to
