@@ -36,15 +36,20 @@
         <item name="android:dividerHeight">@dimen/divider_height</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="colorControlNormal">@android:color/white</item>
+
+        <!--Seekbar-->
+        <item name="android:seekBarStyle">@style/YipTheme.Seekbar</item>
+        <item name="seekBarStyle">@style/YipTheme.Seekbar
+        </item> <!--This is essential for some devices, e.g. Samsung-->
     </style>
 
     <!--Alert dialogs-->
     <style name="AppTheme.Dialog.Alert" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/YipTheme.NegativeButton</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_nano</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/YipTheme.PositiveButton</item>
     </style>
 </resources>

@@ -110,6 +110,10 @@ internal class EditProgressActivity : AppCompatActivity() {
             edit_end_time.isEnabled = !it
         }
 
+        model.currentNotificationsList.nullSafeObserve(this@EditProgressActivity) {
+            notification_times.notificationPercents = it.toMutableList()
+        }
+
         onNewIntent(intent)
     }
 
@@ -166,7 +170,7 @@ internal class EditProgressActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.menu_progress_save -> model.saveProgress()
+            R.id.menu_progress_save -> model.saveProgress(notification_times.notificationPercents)
         }
         return super.onOptionsItemSelected(item)
     }

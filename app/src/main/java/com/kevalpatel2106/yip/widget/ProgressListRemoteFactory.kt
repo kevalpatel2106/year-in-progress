@@ -4,21 +4,19 @@ import android.app.Application
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import timber.log.Timber
 import javax.inject.Inject
 
-internal class ProgressListRemoteFactory(private val application: Application) : RemoteViewsService.RemoteViewsFactory {
+internal class ProgressListRemoteFactory @Inject constructor(
+        private val application: Application,
+        private val yipRepo: YipRepo,
+        private val ntpProvider: NtpProvider
+) : RemoteViewsService.RemoteViewsFactory {
+
     private val progresses: ArrayList<Progress> = arrayListOf()
-
-    @Inject
-    internal lateinit var yipRepo: YipRepo
-
-    @Inject
-    internal lateinit var ntpProvider: NtpProvider
 
     override fun getViewAt(position: Int): RemoteViews {
         val rowView = RemoteViews(application.packageName, R.layout.row_widget_progress_list)
@@ -36,10 +34,6 @@ internal class ProgressListRemoteFactory(private val application: Application) :
         return rowView
     }
 
-    override fun onCreate() {
-        application.getAppComponent().inject(this@ProgressListRemoteFactory)
-    }
-
     override fun onDataSetChanged() {
         val devices = yipRepo.observeAllProgress()
                 .doOnError { Timber.e(it) }
@@ -49,6 +43,7 @@ internal class ProgressListRemoteFactory(private val application: Application) :
         progresses.addAll(devices)
     }
 
+    override fun onCreate() = Unit
     override fun getLoadingView(): RemoteViews? = null
     override fun getItemId(position: Int): Long = progresses[position].id
     override fun hasStableIds(): Boolean = true

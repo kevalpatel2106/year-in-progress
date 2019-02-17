@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kevalpatel2106.yip">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!-- GoogleTV support -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- GoogleTV support -->
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -28,6 +27,7 @@
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -40,12 +40,10 @@
                     android:host="twitter.com"
                     android:path="/progressbar201x"
                     android:scheme="https" />
-
                 <data
                     android:host="twitter.com"
                     android:path="/year_progress"
                     android:scheme="https" />
-
                 <data
                     android:host="progressbarserver.appspot.com"
                     android:scheme="https" />
@@ -68,14 +66,18 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_progress_list" />
         </receiver>
+
         <service
             android:name=".widget.ProgressListRemoteService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <receiver android:name=".utils.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".notifications.ProgressNotificationReceiver" />
     </application>
+
 </manifest>

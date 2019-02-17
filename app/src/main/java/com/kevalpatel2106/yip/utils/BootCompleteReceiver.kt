@@ -3,8 +3,9 @@ package com.kevalpatel2106.yip.utils
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.kevalpatel2106.yip.di.getAppComponent
+import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
 import com.kevalpatel2106.yip.repo.providers.AlarmProvider
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 internal class BootCompleteReceiver : BroadcastReceiver() {
@@ -14,7 +15,7 @@ internal class BootCompleteReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action != Intent.ACTION_BOOT_COMPLETED || context == null) return
-        context.getAppComponent().inject(this@BootCompleteReceiver)
-        alarmProvider.updateAlarms(BootCompleteReceiver::class.java)
+        AndroidInjection.inject(this, context)
+        alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
     }
 }

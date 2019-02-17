@@ -22,13 +22,13 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun toLongList(value: String?): List<Long> {
-        return value?.split(",")?.filter { it.isNotBlank() }?.map { it.toLong() } ?: listOf()
+    fun toLongList(value: String?): List<Float> {
+        return value?.split(",")?.filter { it.isNotBlank() }?.map { it.toFloat() } ?: listOf()
     }
 
     @JvmStatic
     @TypeConverter
-    fun toCommaSeparatedList(value: List<Long>): String {
+    fun toCommaSeparatedList(value: List<Float>): String {
         return value.joinToString(",")
     }
 

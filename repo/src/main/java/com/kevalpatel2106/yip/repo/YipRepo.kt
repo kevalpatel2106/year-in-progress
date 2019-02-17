@@ -80,7 +80,8 @@ class YipRepo @Inject internal constructor(
             color: ProgressColor,
             startTime: Date,
             endTime: Date,
-            progressTypeType: ProgressType
+            progressTypeType: ProgressType,
+            notifications: List<Float>
     ): Single<Progress> {
         return Single.create<ProgressDto> { emitter ->
             val dto = ProgressDto(
@@ -89,7 +90,8 @@ class YipRepo @Inject internal constructor(
                     end = endTime,
                     progressType = progressTypeType,
                     start = startTime,
-                    title = title
+                    title = title,
+                    notifications = notifications
             )
             dto.id = db.getDeviceDao().insert(dto)
             emitter.onSuccess(dto)

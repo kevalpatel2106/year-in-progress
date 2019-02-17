@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/spacing_micro"
+    android:paddingEnd="@dimen/spacing_micro"
+    android:paddingTop="@dimen/spacing_micro"
+    tools:ignore="RtlSymmetry">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/notification_delete_icon_iv"
+        android:layout_width="@dimen/spacing_xlarge"
+        android:layout_height="@dimen/spacing_xlarge"
+        android:background="?selectableItemBackground"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/notification_time_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notification_time_tv"
+        style="@style/MediumText.Secondary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_micro"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@+id/notification_delete_icon_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem/random" />
+</androidx.constraintlayout.widget.ConstraintLayout>

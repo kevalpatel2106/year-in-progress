@@ -152,7 +152,6 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_color_title" />
 
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/edit_color_image"
                 style="@style/EditScreenImageStyle"
@@ -160,6 +159,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/edit_color_title"
                 app:srcCompat="@drawable/ic_paint_board" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/edit_notification_title"
+                style="@style/EditScreenTitleStyle"
+                android:paddingBottom="@dimen/spacing_micro"
+                android:text="@string/edit_notifications_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_color" />
+
+            <com.kevalpatel2106.yip.utils.NotificationViewer
+                android:id="@+id/notification_times"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_nano"
+                android:layout_marginTop="@dimen/spacing_nano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_notification_title" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_notification_image"
+                style="@style/EditScreenImageStyle"
+                app:layout_constraintEnd_toStartOf="@+id/edit_notification_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_notification_title"
+                app:srcCompat="@drawable/ic_notification_bell" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

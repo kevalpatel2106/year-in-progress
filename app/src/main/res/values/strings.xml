@@ -121,5 +121,10 @@
     <string name="edit_progress_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
     <string name="edit_progress_discard_btn_title">Discard</string>
     <string name="edit_progress_dismiss_btn_title">Dismiss</string>
+    <string name="edit_progress_add_notification">Add notification</string>
+    <string name="edit_notifications_title">Notifications</string>
+    <string name="row_notification_time_text">Notify when %s is complete</string>
+    <string name="set_notification_dialog_title">Set Notification</string>
+    <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
     <!--TODO: Categorize the strings-->
 </resources>

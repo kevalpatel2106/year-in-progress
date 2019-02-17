@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.entity.*
+import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.providers.AlarmProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import timber.log.Timber
 import java.util.*
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 internal class EditViewProgressModel @Inject internal constructor(
         private val application: Application,
-        private val yipRepo: YipRepo
+        private val yipRepo: YipRepo,
+        private val alarmProvider: AlarmProvider
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private var progressTypeType: ProgressType = ProgressType.CUSTOM
@@ -35,6 +38,7 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal val currentColor = MutableLiveData<ProgressColor>()
     internal val lockColorPicker = MutableLiveData<Boolean>()
     internal val isPrebuiltProgress = MutableLiveData<Boolean>()
+    internal val currentNotificationsList = MutableLiveData<List<Float>>()
 
     internal val colors = MutableLiveData<IntArray>()
     internal var isSomethingChanged: Boolean = false
@@ -60,6 +64,7 @@ internal class EditViewProgressModel @Inject internal constructor(
         currentStartDate.value = Date(System.currentTimeMillis()).apply { setToDayMin() }
         currentEndDate.value = Date(tomorrow.timeInMillis).apply { setToDayMax() }
         currentColor.value = ProgressColor.COLOR_BLUE
+        currentNotificationsList.value = listOf()
 
         // Monitor the pro status
         BillingRepo.isPurchased.subscribe { lockColorPicker.value = !it }.addTo(compositeDisposable)
@@ -81,6 +86,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                     currentColor.value = progress.color
                     currentEndDate.value = progress.end
                     currentStartDate.value = progress.start
+                    currentNotificationsList.value = progress.notificationPercent
                 }, {
                     Timber.e(it)
                     userMessage.value = it.message
@@ -121,7 +127,7 @@ internal class EditViewProgressModel @Inject internal constructor(
         }
     }
 
-    internal fun saveProgress() {
+    internal fun saveProgress(notificationsList: List<Float>) {
         if (isLoadingProgress.value == true) return
         if (currentTitle == null || currentTitle!!.length !in 1..titleLength) {
             errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
@@ -153,7 +159,8 @@ internal class EditViewProgressModel @Inject internal constructor(
                 startTime = startDate,
                 endTime = endDate,
                 progressTypeType = progressTypeType,
-                color = currentColor.value ?: throw IllegalStateException("Color cannot be null.")
+                color = currentColor.value ?: throw IllegalStateException("Color cannot be null."),
+                notifications = notificationsList
         ).doOnSubscribe {
             isLoadingProgress.value = true
         }.doOnSuccess {
@@ -163,6 +170,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                     isLoadingProgress.value = false
                 }
                 .subscribe({
+                    alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
                     closeSignal.value = true
                 }, {
                     Timber.e(it)

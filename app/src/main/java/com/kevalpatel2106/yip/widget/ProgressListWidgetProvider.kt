@@ -8,9 +8,9 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.splash.SplashActivity
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class ProgressListWidgetProvider : AppWidgetProvider() {
@@ -19,7 +19,7 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
     lateinit var sharedPrefsProvider: SharedPrefsProvider
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        context?.getAppComponent()?.inject(this@ProgressListWidgetProvider)
+        AndroidInjection.inject(this, context)
         super.onReceive(context, intent)
 
         // Update the list only

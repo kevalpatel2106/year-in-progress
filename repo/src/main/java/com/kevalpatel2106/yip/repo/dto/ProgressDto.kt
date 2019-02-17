@@ -32,8 +32,8 @@ internal data class ProgressDto(
         @ColumnInfo(name = ProgressTableInfo.COLOR)
         var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
-        @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_MILLS)
-        val notifications: List<Long> = listOf()
+        @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_PERCENTS)
+        val notifications: List<Float> = listOf()
 )
 
 internal fun ProgressDto.toEntity() = Progress(
@@ -43,7 +43,7 @@ internal fun ProgressDto.toEntity() = Progress(
         start = start,
         end = end,
         color = color,
-        notifications = notifications
+        notificationPercent = notifications
 )
 
 internal fun ProgressDto.modifyPrebuiltProgress(ntpProvider: NtpProvider): ProgressDto {

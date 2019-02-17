@@ -14,7 +14,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0-alpha03'
+        classpath 'com.android.tools.build:gradle:3.5.0-alpha04'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0"
         classpath 'com.google.gms:google-services:4.2.0'
@@ -149,6 +149,9 @@ subprojects {
             kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
             kaptAndroidTest "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
             compileOnly 'javax.annotation:jsr250-api:1.0'
+
+            kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
+            kaptAndroidTest "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
 
             compileOnly 'com.squareup.inject:inflation-inject:0.3.2'
             kapt 'com.squareup.inject:inflation-inject-processor:0.3.2'
