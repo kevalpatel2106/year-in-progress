@@ -39,7 +39,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         app:adSize="SMART_BANNER"
-        app:adUnitId="@string/dashboard_banner_add_id"
+        app:adUnitId="@string/dashboard_banner_ad_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

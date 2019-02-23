@@ -9,6 +9,9 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocosw.bottomsheet.BottomSheet
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
@@ -16,14 +19,13 @@ import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
-import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
+import timber.log.Timber
 import javax.inject.Inject
-import kotlin.random.Random
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -52,15 +54,39 @@ class DashboardActivity : AppCompatActivity() {
         setUpBottomNavigation()
         setUpFab()
         setUpList()
+        setUpAd()
 
         // Start monitoring progress.
         model.progresses.nullSafeObserve(this@DashboardActivity) { adapter.get().submitList(it.toMutableList()) }
+
+        // Rating and ads section
+        model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
+    }
+
+    private fun setUpAd() {
+        val interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = getString(R.string.detail_interstitial_ad_id)
+        interstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                interstitialAd.show()
+            }
+
+            override fun onAdFailedToLoad(p0: Int) {
+                super.onAdFailedToLoad(p0)
+                Timber.i("The interstitial ad loading failed.")
+            }
+        }
+
+        model.showAd.nullSafeObserve(this@DashboardActivity) {
+            interstitialAd.loadAd(AdRequest.Builder().build())
+        }
     }
 
     private fun setUpFab() {
         add_progress_fab.setOnClickListener {
-            if (model.expandedProgressId > 0) {
-                EditProgressActivity.edit(this@DashboardActivity, model.expandedProgressId)
+            if (model.isDetailExpanded()) {
+                EditProgressActivity.edit(this@DashboardActivity, model.expandProgress.value!!)
             } else {
                 EditProgressActivity.createNew(this@DashboardActivity)
             }
@@ -103,23 +129,23 @@ class DashboardActivity : AppCompatActivity() {
         progress_list_rv.setExpandablePage(expandable_page_container)
         progress_list_rv.adapter = adapter.get().apply {
             this.setHasStableIds(true)
-            this.clickListener = { expandDetail(it) }
+            this.clickListener = { model.userWantsToOpenDetail(it) }
         }
 
-    }
+        // Expand detail
+        model.expandProgress.nullSafeObserve(this@DashboardActivity) {
+            if (it < 0L) return@nullSafeObserve
 
-    private fun expandDetail(clicked: Progress) {
-        askForRating()
-        supportFragmentManager.commit {
-            replace(R.id.expandable_page_container, DetailFragment.newInstance(clicked.id))
+            supportFragmentManager.commit {
+                replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
+            }
+            progress_list_rv.expandItem(it)
         }
-        progress_list_rv.expandItem(clicked.id)
-        model.expandedProgressId = clicked.id
     }
 
     internal fun collapseDetail() {
         progress_list_rv.collapse()
-        model.expandedProgressId = -1
+        model.expandProgress.value = -1
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -133,30 +159,23 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when {
-            model.expandedProgressId != -1L -> collapseDetail()
+            model.isDetailExpanded() -> collapseDetail()
             bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }
     }
 
-    private fun askForRating() {
-        if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false)
-                && Random.nextInt(9) == 1) {
-            AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
-                    .setTitle(R.string.rate_us_dialog_title)
-                    .setMessage(R.string.rate_us_dialog_message)
-                    .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ ->
-                        openPlayStorePage()
-                        sharedPrefsProvider.savePreferences(PREF_KEY_RATED, true)
-                    }
-                    .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
-                    .setCancelable(false)
-                    .show()
-        }
+    private fun showRatingDialog() {
+        AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
+                .setTitle(R.string.rate_us_dialog_title)
+                .setMessage(R.string.rate_us_dialog_message)
+                .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> model.userWantsToRateNow() }
+                .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
+                .setCancelable(false)
+                .show()
     }
 
     companion object {
-        private const val PREF_KEY_RATED = "pref_key_rated"
         fun launch(context: Context) = context.startActivity(context.prepareLaunchIntent(DashboardActivity::class.java))
     }
 }

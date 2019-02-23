@@ -3,10 +3,7 @@ package com.kevalpatel2106.yip.dashboard
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.recall
-import com.kevalpatel2106.yip.core.updateWidgets
+import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.dashboard.adapter.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
@@ -16,20 +13,27 @@ import com.kevalpatel2106.yip.recyclerview.representable.LoadingRepresentable
 import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.random.Random
 
 internal class DashboardViewModel @Inject constructor(
         private val application: Application,
-        private val yipRepo: YipRepo
+        private val yipRepo: YipRepo,
+        private val sharedPrefsProvider: SharedPrefsProvider
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
-    internal var expandedProgressId: Long = -1
+    internal val askForRating = MutableLiveData<Unit>()
+    internal val showAd = MutableLiveData<Unit>()
+
+    internal var expandProgress = MutableLiveData<Long>()
 
     init {
+        expandProgress.value = -1
         progresses.value = arrayListOf()
         monitorProgresses()
     }
@@ -77,5 +81,34 @@ internal class DashboardViewModel @Inject constructor(
                 monitorProgresses()
             })
         }).addTo(compositeDisposable)
+    }
+
+    internal fun userWantsToRateNow() {
+        application.openPlayStorePage()
+        sharedPrefsProvider.savePreferences(PREF_KEY_RATED, true)
+    }
+
+    internal fun userWantsToOpenDetail(progress: Progress) {
+        expandProgress.value = progress.id
+
+        val randomNum = Random.nextInt(9)
+
+        // Show rating dialog
+        if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false) && randomNum == 1) {
+            askForRating.value = Unit
+        }
+
+        // Should show ads?
+        if (randomNum % 4 == 0 && BillingRepo.isPurchased.value != true) {
+            showAd.value = Unit
+        }
+    }
+
+    internal fun isDetailExpanded(): Boolean {
+        return expandProgress.value != null && expandProgress.value!! > 0L
+    }
+
+    companion object {
+        private const val PREF_KEY_RATED = "pref_key_rated"
     }
 }

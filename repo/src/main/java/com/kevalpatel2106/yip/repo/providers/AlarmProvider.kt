@@ -26,7 +26,7 @@ class AlarmProvider @Inject internal constructor(
     }
 
     @SuppressLint("CheckResult")
-    fun <T> updateAlarms(triggerReceiver: Class<T>) where T : BroadcastReceiver {
+    fun <T : BroadcastReceiver> updateAlarms(triggerReceiver: Class<T>) {
         yipDatabase.getDeviceDao()
                 .observeAll()
                 .firstElement()
@@ -37,11 +37,18 @@ class AlarmProvider @Inject internal constructor(
                 })
     }
 
-    private fun <T> updateAlarmsForProgress(progress: ProgressDto, triggerReceiver: Class<T>) where T : BroadcastReceiver {
+    private fun <T : BroadcastReceiver> updateAlarmsForProgress(
+            progress: ProgressDto,
+            triggerReceiver: Class<T>
+    ) {
         val nowMills = ntpProvider.now().time
         progress.notifications
-                .map { triggerPercent -> calculateTriggerMills(progress.start.time, progress.end.time, triggerPercent) }
-                .filter { triggerMills -> triggerMills > nowMills }
+                .map { triggerPercent ->
+                    calculateTriggerMills(progress.start.time, progress.end.time, triggerPercent)
+                }
+                .filter { triggerMills ->
+                    triggerMills > nowMills
+                }
                 .forEach { triggerMills ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         alarmManager.setExactAndAllowWhileIdle(
@@ -59,7 +66,11 @@ class AlarmProvider @Inject internal constructor(
                 }
     }
 
-    private fun <T> getPendingIntent(alarmTime: Long, progressId: Long, triggerClass: Class<T>): PendingIntent where T : BroadcastReceiver {
+    private fun <T : BroadcastReceiver> getPendingIntent(
+            alarmTime: Long,
+            progressId: Long,
+            triggerClass: Class<T>
+    ): PendingIntent {
         return PendingIntent.getBroadcast(
                 application,
                 alarmTime.toInt(),

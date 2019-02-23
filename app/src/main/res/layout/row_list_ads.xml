@@ -15,6 +15,6 @@
         android:layout_gravity="center"
         android:gravity="center"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/dashboard_banner_add_id" />
+        ads:adUnitId="@string/dashboard_banner_ad_id" />
 </com.google.android.material.card.MaterialCardView>
 

@@ -2,5 +2,6 @@
 <resources>
     <!--Admob config-->
     <string name="admob_app_id">ca-app-pub-3202373510164662~8879669592</string>
-    <string name="dashboard_banner_add_id">ca-app-pub-3202373510164662/2449992610</string>
+    <string name="dashboard_banner_ad_id">ca-app-pub-3202373510164662/2449992610</string>
+    <string name="detail_interstitial_ad_id">ca-app-pub-3202373510164662/1149697234</string>
 </resources>
