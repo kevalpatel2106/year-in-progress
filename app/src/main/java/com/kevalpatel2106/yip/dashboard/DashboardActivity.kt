@@ -119,6 +119,7 @@ class DashboardActivity : AppCompatActivity() {
 
             override fun onPageCollapsed() {
                 add_progress_fab.setImageResource(com.kevalpatel2106.yip.R.drawable.ic_add)
+                model.expandProgress.value = -1
             }
 
             override fun onPageExpanded() {

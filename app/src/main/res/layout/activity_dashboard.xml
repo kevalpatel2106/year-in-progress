@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/spacing_xxlarge"
+        android:paddingBottom="@dimen/spacing_anti"
         tools:listitem="@layout/row_progress" />
 
     <me.saket.inboxrecyclerview.page.ExpandablePageLayout
