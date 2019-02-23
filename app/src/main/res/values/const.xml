@@ -9,5 +9,6 @@
     <string name="pref_key_privacy_policy" translatable="false">pref_key_privacy_policy</string>
     <string name="pref_key_pro_version_header" translatable="false">pro_version_header</string>
     <string name="pref_key_open_source_licences" translatable="false">pref_key_open_source_licences</string>
+    <string name="ad_identifier">Ad</string>
     <!--TODO: Categorize the constants-->
 </resources>

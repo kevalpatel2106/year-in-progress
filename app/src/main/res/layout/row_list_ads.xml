@@ -1,20 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/spacing_anti"
+    android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/window_background_color_bright"
     app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/spacing_pico"
-    app:contentPadding="@dimen/spacing_nano">
+    app:cardElevation="@dimen/spacing_pico">
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_ads_view"
+    <com.google.android.gms.ads.formats.UnifiedNativeAdView
+        android:id="@+id/ad_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/dashboard_banner_ad_id" />
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_pico">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_attribution"
+                style="@style/NanoText.White"
+                android:layout_width="@dimen/spacing_small"
+                android:layout_height="@dimen/spacing_small"
+                android:background="#FFCC66"
+                android:text="@string/ad_identifier"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ad_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/spacing_nano"
+                android:layout_marginTop="@dimen/spacing_nano"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toEndOf="@+id/ad_attribution"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_headline"
+                style="@style/MediumText.Accent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_nano"
+                android:layout_marginStart="@dimen/spacing_nano"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/ad_call_to_action"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@id/ad_icon"
+                app:layout_constraintTop_toTopOf="@+id/ad_icon"
+                tools:text="@tools:sample/lorem" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_advertiser"
+                style="@style/SmallText.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_pico"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/ad_headline"
+                app:layout_constraintTop_toBottomOf="@+id/ad_headline"
+                tools:text="@tools:sample/lorem" />
+
+            <RatingBar
+                android:id="@+id/ad_stars"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_nano"
+                android:layout_marginStart="@dimen/spacing_micro"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.5"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_advertiser"
+                app:layout_constraintEnd_toStartOf="@+id/ad_call_to_action"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/ad_advertiser"
+                app:layout_constraintTop_toTopOf="@+id/ad_advertiser"
+                tools:rating="3.5" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_body"
+                style="@style/SmallText.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_nano"
+                android:layout_marginStart="@dimen/spacing_nano"
+                android:layout_marginTop="@dimen/spacing_micro"
+                app:layout_constraintEnd_toStartOf="@+id/ad_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ad_advertiser"
+                tools:text="@tools:sample/lorem" />
+
+            <com.google.android.gms.ads.formats.MediaView
+                android:id="@+id/ad_media"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_micro"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ad_body" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_price"
+                style="@style/NanoText.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_nano"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_store"
+                app:layout_constraintEnd_toStartOf="@id/ad_store"
+                app:layout_constraintTop_toTopOf="@+id/ad_store"
+                tools:text="£30.00" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_store"
+                style="@style/NanoText.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ad_call_to_action"
+                tools:text="Play Store" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ad_call_to_action"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@android:string/ok" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.gms.ads.formats.UnifiedNativeAdView>
 </com.google.android.material.card.MaterialCardView>
 
