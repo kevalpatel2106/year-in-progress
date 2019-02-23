@@ -111,6 +111,7 @@
     <string name="pro_benefit_title">Upgrade to <b>PRO</b> to support further development and gain access to some great features:</string>
     <string name="purchase_successful">Purchased successful.</string>
     <string name="pro_benefit_change_color">Change the color of the progress based on the priority.</string>
+    <string name="pro_benefit_notification">Set multiple notifications to track multiple thresholds of your deadline.</string>
     <string name="pro_benefit_no_ads">No more ads</string>
     <string name="pro_benefit_support_dev">Support ongoing development</string>
     <string name="meu_title_delete">Delete</string>

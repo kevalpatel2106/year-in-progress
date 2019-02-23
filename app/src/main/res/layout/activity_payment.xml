@@ -98,12 +98,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView4"
+                style="@style/ProBenefitTextStyle"
+                android:drawableStart="@drawable/ic_notification_bell_colored"
+                android:text="@string/pro_benefit_notification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ProBenefitTextStyle"
                 android:drawableStart="@drawable/ic_heart_red"
                 android:text="@string/pro_benefit_support_dev"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </RelativeLayout>
