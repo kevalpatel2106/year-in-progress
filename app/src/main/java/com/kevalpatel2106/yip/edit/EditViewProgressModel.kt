@@ -19,7 +19,8 @@ import javax.inject.Inject
 internal class EditViewProgressModel @Inject internal constructor(
         private val application: Application,
         private val yipRepo: YipRepo,
-        private val alarmProvider: AlarmProvider
+        private val alarmProvider: AlarmProvider,
+        private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private var progressTypeType: ProgressType = ProgressType.CUSTOM
@@ -67,7 +68,9 @@ internal class EditViewProgressModel @Inject internal constructor(
         currentNotificationsList.value = listOf()
 
         // Monitor the pro status
-        BillingRepo.isPurchased.subscribe { lockColorPicker.value = !it }.addTo(compositeDisposable)
+        billingRepo.observeIsPurchased()
+                .subscribe { lockColorPicker.value = !it }
+                .addTo(compositeDisposable)
     }
 
     private fun monitorProgress(id: Long) {

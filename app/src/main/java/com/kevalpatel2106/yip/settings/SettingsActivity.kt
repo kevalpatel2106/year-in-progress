@@ -10,15 +10,23 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showOrHide
+import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_settings.*
+import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
     private val compositeDisposable = CompositeDisposable()
 
+    @Inject
+    internal lateinit var billingRepo: BillingRepo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getAppComponent().inject(this@SettingsActivity)
+
         setContentView(R.layout.activity_settings)
         setToolbar()
         setAds()
@@ -30,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setAds() {
-        BillingRepo.isPurchased
+        billingRepo.observeIsPurchased()
                 .subscribe { isPro ->
                     settings_ads_view.showOrHide(!isPro)
                     if (!isPro) settings_ads_view.loadAd(AdRequest.Builder().build())

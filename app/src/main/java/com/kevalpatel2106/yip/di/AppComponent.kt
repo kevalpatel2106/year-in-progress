@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.payment.PaymentActivity
+import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
 import com.kevalpatel2106.yip.utils.NotificationViewer
@@ -30,6 +31,7 @@ internal interface AppComponent {
 
     fun inject(detailFragment: DetailFragment)
     fun inject(settingsFragment: SettingsFragment)
+    fun inject(settingsActivity: SettingsActivity)
 
     fun inject(notificationViewer: NotificationViewer)
 

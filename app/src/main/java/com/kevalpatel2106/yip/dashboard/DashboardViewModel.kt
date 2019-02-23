@@ -24,7 +24,8 @@ import kotlin.random.Random
 internal class DashboardViewModel @Inject constructor(
         private val application: Application,
         private val yipRepo: YipRepo,
-        private val sharedPrefsProvider: SharedPrefsProvider
+        private val sharedPrefsProvider: SharedPrefsProvider,
+        private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
     internal val askForRating = MutableLiveData<Unit>()
@@ -41,7 +42,7 @@ internal class DashboardViewModel @Inject constructor(
     private fun monitorProgresses() {
         Flowable.combineLatest(
                 yipRepo.observeAllProgress(),
-                BillingRepo.isPurchased.toFlowable(BackpressureStrategy.BUFFER),
+                billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
                 BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPurchased -> list to isPurchased }
         ).doOnSubscribe {
             // Show the loader.
@@ -99,7 +100,7 @@ internal class DashboardViewModel @Inject constructor(
         }
 
         // Should show ads?
-        if (randomNum % 4 == 0 && BillingRepo.isPurchased.value != true) {
+        if (randomNum % 4 == 0 && !billingRepo.isPurchased()) {
             showAd.value = Unit
         }
     }

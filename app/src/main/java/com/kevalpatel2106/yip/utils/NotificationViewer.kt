@@ -42,6 +42,9 @@ internal class NotificationViewer @JvmOverloads constructor(
     @Inject
     internal lateinit var ntpProvider: NtpProvider
 
+    @Inject
+    internal lateinit var billingRepo: BillingRepo
+
     private val inflater: LayoutInflater by lazy { LayoutInflater.from(context) }
     private val addNotificationView by lazy {
         inflater.inflate(R.layout.row_add_notification, this@NotificationViewer, false)
@@ -49,7 +52,7 @@ internal class NotificationViewer @JvmOverloads constructor(
                     setOnClickListener {
                         when {
                             notificationPercents.size == 0 -> showNotificationPickerDialog()  // First entry is free.
-                            BillingRepo.isPurchased.value == true -> showNotificationPickerDialog()
+                            billingRepo.isPurchased() -> showNotificationPickerDialog()
                             else -> PaymentActivity.launch(context)
                         }
                     }

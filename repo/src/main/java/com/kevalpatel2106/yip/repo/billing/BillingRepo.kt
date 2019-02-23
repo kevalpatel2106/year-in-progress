@@ -139,8 +139,16 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
         }
     }
 
+    fun isPurchased(): Boolean {
+        return isPurchased.value == true
+    }
+
+    fun observeIsPurchased(): BehaviorSubject<Boolean> {
+        return isPurchased
+    }
+
     companion object {
-        val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
+        private val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
         const val SKU_ID = "pro_101"
     }
 }

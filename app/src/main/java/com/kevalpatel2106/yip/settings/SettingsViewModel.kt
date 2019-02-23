@@ -15,7 +15,7 @@ internal class SettingsViewModel @Inject internal constructor(
 
     init {
         isPurchased.value = false
-        BillingRepo.isPurchased
+        billingRepo.observeIsPurchased()
                 .doOnSubscribe { isCheckingPurchases.value = true }
                 .doOnNext { isCheckingPurchases.value = false }
                 .subscribe { purchased -> isPurchased.value = purchased }

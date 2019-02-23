@@ -22,10 +22,10 @@
     int SDK_INT return 21..2147483647;
 }
 -assumevalues class com.kevalpatel2106.yip.BuildConfig {
-    int DEBUG return false;
+    boolean DEBUG return false;
 }
 -assumevalues class com.kevalpatel2106.yip.*.BuildConfig {
-    int DEBUG return false;
+    boolean DEBUG return false;
 }
 
 # If you keep the line number information, uncomment this to
