@@ -43,7 +43,7 @@ internal class DashboardViewModel @Inject constructor(
         Flowable.combineLatest(
                 yipRepo.observeAllProgress(),
                 billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
-                BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPurchased -> list to isPurchased }
+                BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
             // Show the loader.
             progresses.value?.clear()

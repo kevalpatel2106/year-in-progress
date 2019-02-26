@@ -12,6 +12,8 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.splash.SplashActivity
+import java.util.*
 
 /**
  * Helper class for showing and canceling progress
@@ -48,7 +50,7 @@ object ProgressNotification {
                         PendingIntent.getActivity(
                                 context,
                                 0,
-                                Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com")),
+                                Intent(context, SplashActivity::class.java),
                                 PendingIntent.FLAG_UPDATE_CURRENT)
                 )
                 .setStyle(
@@ -76,10 +78,10 @@ object ProgressNotification {
     }
 
     private fun getTitle(progress: Progress): String {
-        return "This is the title"
+        return progress.title
     }
 
     private fun getMessage(progress: Progress): String {
-        return "This is the message"
+        return "${progress.title} reached to ${progress.percent(Date(System.currentTimeMillis()))}%."
     }
 }
