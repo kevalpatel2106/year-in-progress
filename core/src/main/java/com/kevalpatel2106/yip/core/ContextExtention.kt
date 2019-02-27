@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.feature.core.BuildConfig
 import com.kevalpatel2106.feature.core.R
+import timber.log.Timber
 
 /**
  * Get the color from color res.
@@ -108,11 +109,18 @@ fun Context.openPlayStorePage() {
         startActivity(Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(getString(R.string.play_store_deep_link))
-        ))
-    } catch (anfe: android.content.ActivityNotFoundException) {
+        ).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+    } catch (e: Exception) {
+        Timber.e(e)
+
+        // Open in browser
         startActivity(Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(getString(R.string.play_store_url))
-        ))
+        ).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
     }
 }
