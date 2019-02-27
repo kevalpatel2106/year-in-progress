@@ -34,14 +34,8 @@ internal class DetailViewModel @Inject internal constructor(
             monitorProgress(value)
         }
 
-    internal val progressTitle = MutableLiveData<String>()
-    internal val progressPercent = MutableLiveData<Float>()
-    internal val progressStartTime = MutableLiveData<String>()
-    internal val progressEndTime = MutableLiveData<String>()
-    internal val progressColor = MutableLiveData<Int>()
-    internal val progressTimeLeft = MutableLiveData<SpannableString>()
+    val viewState = MutableLiveData<DetailViewState>()
 
-    internal val isProgressComplete = MutableLiveData<Boolean>()
     internal val isDeleting = MutableLiveData<Boolean>()
     internal val isLoading = MutableLiveData<Boolean>()
     internal val errorMessage = SingleLiveEvent<String>()
@@ -54,18 +48,26 @@ internal class DetailViewModel @Inject internal constructor(
                 }.doAfterTerminate {
                     isLoading.value = false
                 }.subscribe({ item ->
-                    progressTitle.value = item.title
-                    progressStartTime.value = sdf.format(item.start)
-                    progressEndTime.value = sdf.format(item.end)
-                    progressPercent.value = item.percent(ntpProvider.now())
-                    progressColor.value = item.color.value
+                    val percent = item.percent(ntpProvider.now())
+                    val isProgressComplete = percent >= 100f
 
-                    if (item.end.before(Date(System.currentTimeMillis()))) {
-                        isProgressComplete.value = true
-                    } else {
-                        progressTimeLeft.value = prepareTimeLeft(item.end, item.color)
-                        isProgressComplete.value = false
-                    }
+                    viewState.value = DetailViewState(
+                            progressTitleText = item.title,
+                            progressPercentText = application.getString(
+                                    R.string.progress_percentage,
+                                    percent
+                            ),
+                            progressTimeLeftText = if (isProgressComplete) {
+                                SpannableString("")
+                            } else {
+                                prepareTimeLeft(item.end, item.color)
+                            },
+                            progressColor = item.color.value,
+                            progressEndTimeText = sdf.format(item.end),
+                            progressStartTimeText = sdf.format(item.start),
+                            isProgressComplete = isProgressComplete,
+                            progressPercent = percent.toInt()
+                    )
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
@@ -171,7 +173,7 @@ internal class DetailViewModel @Inject internal constructor(
     internal fun prepareShareAchievement(): Intent {
         return Intent().apply {
             action = Intent.ACTION_SEND
-            progressTitle.value?.let { title ->
+            viewState.value?.progressTitleText?.let { title ->
                 putExtra(Intent.EXTRA_TEXT, application.getString(R.string.achivement_share_message, title))
             }
             type = "text/plain"

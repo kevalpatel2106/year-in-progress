@@ -8,15 +8,17 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
+import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
+import com.kevalpatel2106.yip.databinding.FragmentDetailBinding
 import com.kevalpatel2106.yip.di.getAppComponent
-import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
@@ -33,7 +35,7 @@ internal class DetailFragment : Fragment() {
             )
             setOnMenuItemClickListener { menuItem ->
                 if (menuItem.itemId == R.id.menu_delete_progress) {
-                    model.progressTitle.value?.let { title -> conformDelete(title) }
+                    model.viewState.value?.progressTitleText?.let { title -> conformDelete(title) }
                 }
                 true
             }
@@ -42,9 +44,6 @@ internal class DetailFragment : Fragment() {
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
-
-    @Inject
-    internal lateinit var ntpProvider: NtpProvider
 
     private lateinit var model: DetailViewModel
 
@@ -57,39 +56,25 @@ internal class DetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         model.progressId = arguments?.getLong(ARG_ID)
             ?: throw IllegalArgumentException("Invalid progress id.")
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+
+        return DataBindingUtil
+                .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
+                .apply {
+                    lifecycleOwner = this@DetailFragment
+                    viewModel = model
+                }
+                .root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up progress info
-        model.progressTitle.nullSafeObserve(this@DetailFragment) {
-            detail_title_tv.text = it
-        }
-        model.progressStartTime.nullSafeObserve(this@DetailFragment) {
-            detail_start_time_tv.text = it
-        }
-        model.progressEndTime.nullSafeObserve(this@DetailFragment) {
-            detail_end_time_tv.text = it
-        }
-        model.progressPercent.nullSafeObserve(this@DetailFragment) {
-            detail_progressbar.progress = it.toInt()
-            detail_progress_percent_tv.text = getString(R.string.progress_percentage, it)
-        }
-        model.progressTimeLeft.nullSafeObserve(this@DetailFragment) {
-            detail_time_left_tv.text = it
-        }
-
-        // Set colors
-        model.progressColor.nullSafeObserve(this@DetailFragment) {
-            detail_progressbar.setProgressTint(it)
-            detail_progress_percent_tv.setTextColor(it)
-            detail_card.setCardBackgroundColor(darkenColor(it))
-        }
-
-        // Set up the delete button
+        // Handle clicks
+        detail_complete_share_btn.setOnClickListener { startActivity(model.prepareShareAchievement()) }
         option_menu.setOnClickListener { popupMenu.show() }
+        detail_close_iv.setOnClickListener { (activity as? DashboardActivity)?.collapseDetail() }
+
+        // Handle the delete
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
             option_menu.isEnabled = !isDeleting
@@ -100,18 +85,6 @@ internal class DetailFragment : Fragment() {
                 deleteInProgressSnackbar?.dismiss()
             }
         }
-
-        // Set the progress complete view.
-        model.isProgressComplete.nullSafeObserve(this@DetailFragment) { isComplete ->
-            detail_time_left_tv.showOrHide(!isComplete)
-            detail_complete_container.showOrHideAll(detail_constraint_layout, isComplete)
-        }
-        detail_complete_share_btn.setOnClickListener {
-            startActivity(model.prepareShareAchievement())
-        }
-
-        // Set up close button
-        detail_close_iv.setOnClickListener { (activity as? DashboardActivity)?.collapseDetail() }
 
         // Handle errors.
         model.errorMessage.nullSafeObserve(this@DetailFragment) {
