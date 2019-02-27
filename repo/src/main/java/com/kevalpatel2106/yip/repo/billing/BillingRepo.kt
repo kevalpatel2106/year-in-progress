@@ -6,13 +6,17 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.Purchase
+import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
-class BillingRepo @Inject internal constructor(private val application: Application) {
+class BillingRepo @Inject internal constructor(
+        private val application: Application,
+        private val sharedPrefsProvider: SharedPrefsProvider
+) {
 
     fun refreshPurchaseState(sku: String, activity: Activity) {
         val billingClient: BillingClient = BillingClient
@@ -25,22 +29,43 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
                 if (billingResponseCode != BillingClient.BillingResponse.OK) {
                     isPurchased.onNext(false)
                 } else {
-                    billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
-                        if (responseCode != BillingClient.BillingResponse.OK) {
-                            isPurchased.onNext(false)
-                        } else {
-                            val purchasedSku = purchasesList?.find { it.sku == sku }
-                            isPurchased.onNext(purchasedSku != null)
-                        }
-                    }
+                    checkIsPurchased(billingClient, sku)
                 }
             }
 
             override fun onBillingServiceDisconnected() {
                 //IAP service connection failed.
-                isPurchased.onNext(false)
+                isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
             }
         })
+    }
+
+    private fun checkIsPurchased(billingClient: BillingClient, sku: String) {
+        // Go to offline caching
+        // It's fast and synchronous
+        val purchaseResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+        if (purchaseResult.responseCode == BillingClient.BillingResponse.OK
+                && purchaseResult.purchasesList?.isNotEmpty() == true) {
+
+            val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
+            sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
+            isPurchased.onNext(isPro)
+        } else {
+            isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
+        }
+
+        // Go check and update online status
+        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
+            if (responseCode == BillingClient.BillingResponse.OK) {
+
+                // Update base on online status.
+                val isPro = purchasesList?.find { it.sku == sku } != null
+                sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
+                isPurchased.onNext(isPro)
+            } else {
+                // If the check fails, it's okay. We'll do next time.
+            }
+        }
     }
 
     fun purchase(sku: String, activity: Activity): Single<String> {
@@ -139,16 +164,13 @@ class BillingRepo @Inject internal constructor(private val application: Applicat
         }
     }
 
-    fun isPurchased(): Boolean {
-        return isPurchased.value == true
-    }
+    fun isPurchased(): Boolean = isPurchased.value == true
 
-    fun observeIsPurchased(): BehaviorSubject<Boolean> {
-        return isPurchased
-    }
+    fun observeIsPurchased(): BehaviorSubject<Boolean> = isPurchased
 
     companion object {
         private val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
         const val SKU_ID = "pro_101"
+        const val IS_PRO_KEY = "is_pro"
     }
 }
