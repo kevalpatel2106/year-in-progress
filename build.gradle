@@ -76,8 +76,6 @@ subprojects {
                             zipAlignEnabled true
                             signingConfig signingConfigs.debug
 
-                            resValue "string", applicationNameKey, "${debugDetail.name}"
-
                             ext.enableCrashlytics = false
                             ext.alwaysUpdateBuildId = false
                         }
@@ -92,8 +90,6 @@ subprojects {
                             if (rootProject.file('./misc/keystore.properties').exists()) {
                                 signingConfig signingConfigs.playStore
                             }
-
-                            resValue "string", applicationNameKey, "${releaseDetail.name}"
                         }
                     }
                 } else if (project.pluginManager.hasPlugin("com.android.library")) {

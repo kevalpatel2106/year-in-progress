@@ -100,7 +100,7 @@ internal class DashboardViewModel @Inject constructor(
         }
 
         // Should show ads?
-        if (randomNum % 4 == 0 && !billingRepo.isPurchased()) {
+        if (randomNum == 0 && !billingRepo.isPurchased()) {
             showAd.value = Unit
         }
     }
