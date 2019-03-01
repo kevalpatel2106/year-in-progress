@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="application_name" translatable="false">Year in Progress Debug</string>
     <!--Admob config-->
-    <string name="admob_app_id">ca-app-pub-3202373510164662~8879669592</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-3202373510164662~8879669592</string>
     <!-- https://developers.google.com/admob/android/test-ads -->
-    <string name="dashboard_banner_ad_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="detail_interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="dashboard_banner_ad_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="detail_interstitial_ad_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
 </resources>

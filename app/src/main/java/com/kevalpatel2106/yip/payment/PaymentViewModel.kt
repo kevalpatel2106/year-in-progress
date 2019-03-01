@@ -14,11 +14,11 @@ internal class PaymentViewModel @Inject internal constructor(
         private val application: Application,
         private val billingRepo: BillingRepo
 ) : BaseViewModel() {
-    internal val isPurchasing = MutableLiveData<Boolean>()
+    val isPurchasing = MutableLiveData<Boolean>()
     internal val userMessage = SingleLiveEvent<String>()
     internal val closeActivity = MutableLiveData<Unit>()
 
-    internal fun purchase(activity: Activity) {
+    fun purchase(activity: Activity) {
         billingRepo.purchase(BillingRepo.SKU_ID, activity)
                 .doOnSubscribe { isPurchasing.value = true }
                 .doAfterTerminate { isPurchasing.value = false }

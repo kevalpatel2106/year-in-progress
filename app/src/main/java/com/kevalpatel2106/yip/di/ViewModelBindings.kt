@@ -10,6 +10,7 @@ import com.kevalpatel2106.yip.edit.EditViewProgressModel
 import com.kevalpatel2106.yip.payment.PaymentViewModel
 import com.kevalpatel2106.yip.settings.SettingsViewModel
 import com.kevalpatel2106.yip.splash.SplashViewModel
+import com.kevalpatel2106.yip.webviews.WebViewViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -49,4 +50,9 @@ internal abstract class ViewModelBindings {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     internal abstract fun bindSplashViewModel(viewViewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WebViewViewModel::class)
+    internal abstract fun bindWebViewViewModel(viewViewModel: WebViewViewModel): ViewModel
 }

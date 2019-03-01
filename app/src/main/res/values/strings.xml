@@ -127,5 +127,6 @@
     <string name="row_notification_time_text">Notify when %s is complete</string>
     <string name="set_notification_dialog_title">Set Notification</string>
     <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
+    <string name="error_webview">Cannot load the page. Check your internet connection.</string>
     <!--TODO: Categorize the strings-->
 </resources>

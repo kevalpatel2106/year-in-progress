@@ -28,6 +28,7 @@ fun loadUrl(view: View, url: String) {
 }
 
 @BindingAdapter("app:displayChild")
+@Suppress("CAST_NEVER_SUCCEEDS")
 fun displayChild(view: View, pos: Int) {
     (view as? ViewFlipper)?.displayedChild = pos
 }

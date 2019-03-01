@@ -29,7 +29,7 @@ internal class DashboardViewModel @Inject constructor(
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
     internal val askForRating = MutableLiveData<Unit>()
-    internal val showAd = MutableLiveData<Unit>()
+    internal val showInterstitialAd = MutableLiveData<Unit>()
 
     internal var expandProgress = MutableLiveData<Long>()
 
@@ -101,7 +101,7 @@ internal class DashboardViewModel @Inject constructor(
 
         // Should show ads?
         if (randomNum == 0 && !billingRepo.isPurchased()) {
-            showAd.value = Unit
+            showInterstitialAd.value = Unit
         }
     }
 

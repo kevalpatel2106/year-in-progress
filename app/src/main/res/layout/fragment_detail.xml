@@ -21,7 +21,7 @@
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="@dimen/spacing_micro"
         app:cardElevation="@dimen/spacing_micro"
-        app:darkerBackground="@{viewModel.viewState.progressColor}">
+        app:darkerBackground="@{viewModel.viewState.backgroundColor}">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/detail_progress_percent_tv"
-                        app:setProgressTint="@{viewModel.viewState.progressColor}"
+                        app:setProgressTint="@{viewModel.viewState.progressBarColor}"
                         tools:progress="50" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -120,7 +120,7 @@
                         android:layout_marginTop="@dimen/spacing_xxlarge"
                         android:fontFamily="@font/lato"
                         android:text="@{viewModel.viewState.progressPercentText}"
-                        android:textColor="@{viewModel.viewState.progressColor}"
+                        android:textColor="@{viewModel.viewState.progressPercentTextColor}"
                         android:textSize="@dimen/progress_percent_text_size"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +137,7 @@
                         android:gravity="center"
                         android:text="@{viewModel.viewState.progressTimeLeftText}"
                         android:textSize="@dimen/time_left_text_size"
-                        android:visibility="@{!viewModel.viewState.progressComplete}"
+                        android:visibility="@{viewModel.viewState.showTimeLeft}"
                         app:layout_constraintEnd_toEndOf="@+id/detail_end_time_tv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv"
@@ -153,7 +153,7 @@
                         android:paddingEnd="@dimen/spacing_small"
                         android:paddingStart="@dimen/spacing_small"
                         android:text="@string/detail_progress_complete_message"
-                        android:visibility="@{viewModel.viewState.progressComplete}"
+                        android:visibility="@{viewModel.viewState.showShareProgress}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/detail_time_left_tv" />
@@ -166,7 +166,7 @@
                         android:backgroundTint="@android:color/white"
                         android:text="@string/detail_progress_complete_share_btn_title"
                         android:textColor="@color/colorPrimaryText"
-                        android:visibility="@{viewModel.viewState.progressComplete}"
+                        android:visibility="@{viewModel.viewState.showShareProgress}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/detail_complete_title" />

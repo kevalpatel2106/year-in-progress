@@ -11,6 +11,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
@@ -52,21 +53,29 @@ internal class DetailViewModel @Inject internal constructor(
                     val isProgressComplete = percent >= 100f
 
                     viewState.value = DetailViewState(
+                            backgroundColor = darkenColor(item.color.value),
+
                             progressTitleText = item.title,
+
+                            progressPercentTextColor = item.color.value,
                             progressPercentText = application.getString(
                                     R.string.progress_percentage,
                                     percent
                             ),
+
                             progressTimeLeftText = if (isProgressComplete) {
                                 SpannableString("")
                             } else {
                                 prepareTimeLeft(item.end, item.color)
                             },
-                            progressColor = item.color.value,
                             progressEndTimeText = sdf.format(item.end),
                             progressStartTimeText = sdf.format(item.start),
-                            isProgressComplete = isProgressComplete,
-                            progressPercent = percent.toInt()
+
+                            showShareProgress = isProgressComplete,
+                            showTimeLeft = !isProgressComplete,
+
+                            progressPercent = percent.toInt(),
+                            progressBarColor = item.color.value
                     )
                 }, {
                     Timber.e(it)

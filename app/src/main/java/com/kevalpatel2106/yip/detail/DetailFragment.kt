@@ -45,12 +45,13 @@ internal class DetailFragment : Fragment() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private lateinit var model: DetailViewModel
+    private val model: DetailViewModel by lazy {
+        provideViewModel(viewModelProvider, DetailViewModel::class.java)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.getAppComponent().inject(this@DetailFragment)
-        model = provideViewModel(viewModelProvider, DetailViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

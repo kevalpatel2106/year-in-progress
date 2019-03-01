@@ -19,7 +19,6 @@ import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -37,19 +36,15 @@ class DashboardActivity : AppCompatActivity() {
     @Inject
     internal lateinit var adapter: Lazy<ProgressAdapter>
 
-    @Inject
-    internal lateinit var sharedPrefsProvider: SharedPrefsProvider
-
-    private lateinit var model: DashboardViewModel
+    private val model: DashboardViewModel by lazy {
+        provideViewModel(viewModelProvider, DashboardViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getAppComponent().inject(this@DashboardActivity)
         setContentView(R.layout.activity_dashboard)
         setSupportActionBar(bottom_app_bar)
-
-        // Inject dependency
-        getAppComponent().inject(this@DashboardActivity)
-        model = provideViewModel(viewModelProvider, DashboardViewModel::class.java)
 
         setUpBottomNavigation()
         setUpFab()
@@ -78,7 +73,7 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-        model.showAd.nullSafeObserve(this@DashboardActivity) {
+        model.showInterstitialAd.nullSafeObserve(this@DashboardActivity) {
             interstitialAd.loadAd(AdRequest.Builder().build())
         }
     }

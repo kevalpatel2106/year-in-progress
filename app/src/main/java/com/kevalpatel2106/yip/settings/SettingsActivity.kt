@@ -66,7 +66,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun launch(context: Context) {
+        internal fun launch(context: Context) {
             context.startActivity(context.prepareLaunchIntent(SettingsActivity::class.java))
         }
     }

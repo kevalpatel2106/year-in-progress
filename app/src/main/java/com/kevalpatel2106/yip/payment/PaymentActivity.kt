@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
 import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.activity_payment.*
 import javax.inject.Inject
@@ -19,36 +21,35 @@ internal class PaymentActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private lateinit var model: PaymentViewModel
+    private val model: PaymentViewModel by lazy {
+        provideViewModel(viewModelProvider, PaymentViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
-        setActionbar()
-
         getAppComponent().inject(this@PaymentActivity)
-        model = provideViewModel(viewModelProvider, PaymentViewModel::class.java)
-
-        purchase_btn.setOnClickListener { model.purchase(this@PaymentActivity) }
+        DataBindingUtil.setContentView<ActivityPaymentBinding>(this@PaymentActivity, R.layout.activity_payment)
+                .apply {
+                    lifecycleOwner = this@PaymentActivity
+                    viewModel = model
+                    activity = this@PaymentActivity
+                }
+        setActionbar()
 
         // Monitor
         model.userMessage.nullSafeObserve(this@PaymentActivity) {
             Toast.makeText(this@PaymentActivity, it, Toast.LENGTH_SHORT).show()
         }
-        model.closeActivity.nullSafeObserve(this@PaymentActivity) {
-            finish()
-        }
-        model.isPurchasing.nullSafeObserve(this@PaymentActivity) {
-            purchase_btn.isEnabled = !it
-        }
+        model.closeActivity.nullSafeObserve(this@PaymentActivity) { finish() }
     }
 
     private fun setActionbar() {
         setSupportActionBar(payment_toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = getString(R.string.title_activity_payment)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_close)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

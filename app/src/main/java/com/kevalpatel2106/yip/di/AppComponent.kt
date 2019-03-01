@@ -12,6 +12,7 @@ import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
 import com.kevalpatel2106.yip.utils.NotificationViewer
+import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.ProgressListRemoteService
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -28,6 +29,7 @@ internal interface AppComponent {
     fun inject(dashboardActivity: DashboardActivity)
     fun inject(editProgressActivity: EditProgressActivity)
     fun inject(paymentActivity: PaymentActivity)
+    fun inject(webViewActivity: WebViewActivity)
 
     fun inject(detailFragment: DetailFragment)
     fun inject(settingsFragment: SettingsFragment)

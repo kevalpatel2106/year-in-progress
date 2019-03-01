@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="application_name" translatable="false">Year in Progress</string>
     <!--Admob config-->
-    <string name="admob_app_id">ca-app-pub-3202373510164662~8879669592</string>
-    <string name="dashboard_banner_ad_id">ca-app-pub-3202373510164662/2449992610</string>
-    <string name="detail_interstitial_ad_id">ca-app-pub-3202373510164662/1149697234</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-3202373510164662~8879669592</string>
+    <string name="dashboard_banner_ad_id" translatable="false">ca-app-pub-3202373510164662/2449992610</string>
+    <string name="detail_interstitial_ad_id" translatable="false">ca-app-pub-3202373510164662/1149697234</string>
 </resources>

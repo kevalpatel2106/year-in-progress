@@ -1,45 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".webviews.WebViewActivity">
+<layout>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/webview_app_bar"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.kevalpatel2106.yip.webviews.WebViewViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".webviews.WebViewActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/webview_toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/webview_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <ViewFlipper
-        android:id="@+id/webview_flipper"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webview_app_bar">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/webview_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@{viewModel.viewState.title}" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <!--0. loader-->
-        <include layout="@layout/row_list_loading" />
-
-        <!--1 . Webview-->
-        <WebView
-            android:id="@+id/webview"
+        <ViewFlipper
+            android:id="@+id/webview_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            app:displayChild="@{viewModel.flipperPosition}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/webview_app_bar">
 
-    </ViewFlipper>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!--0. Loader -->
+            <include layout="@layout/row_list_loading" />
+
+            <!--1. Webview -->
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:loadUrl="@{viewModel.viewState.linkUrl}" />
+
+            <!--2. Error -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallText.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/error_webview" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/error_retry_item_btn"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/lato"
+                    android:onClick="@{() -> viewModel.loadPage()}"
+                    android:text="@string/retry"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
+        </ViewFlipper>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,56 +1,75 @@
 package com.kevalpatel2106.yip.webviews
 
 import android.content.Context
-import android.graphics.Bitmap
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
+import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.activity_web_view.*
+import javax.inject.Inject
 
 internal class WebViewActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_web_view)
+    @Inject
+    internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-        // Parse the arguments
-        if (!intent.hasExtra(ARG_LINK) || !intent.hasExtra(ARG_TITLE)) {
-            throw IllegalArgumentException("The launch intent must contain title and the link url.")
-        }
-
-        setToolbar(getString(intent.getIntExtra(ARG_TITLE, 0)))
-
-        //Setup web view for url
-        webview.webViewClient = object : WebViewClient() {
-
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                webview_flipper.displayedChild = 0
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                webview_flipper.displayedChild = 1
-            }
-        }
-        webview.settings.loadsImagesAutomatically = true
-        webview.settings.javaScriptEnabled = false
-        webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        webview.loadUrl(intent.getStringExtra(ARG_LINK))
+    private val model: WebViewViewModel by lazy {
+        return@lazy provideViewModel(viewModelProvider, WebViewViewModel::class.java)
     }
 
-    private fun setToolbar(title: String) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getAppComponent().inject(this@WebViewActivity)
+        DataBindingUtil.setContentView<ActivityWebViewBinding>(this@WebViewActivity, R.layout.activity_web_view)
+                .apply {
+                    lifecycleOwner = this@WebViewActivity
+                    viewModel = model
+                }
+
+        setToolbar()
+        setWebView()
+        onNewIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        model.submitLink(intent.getStringExtra(ARG_LINK), intent.getIntExtra(ARG_TITLE, 0))
+    }
+
+    private fun setWebView() {
+        webview.setUp()
+        webview.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                model.onPageLoaded()
+            }
+
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                super.onReceivedError(view, request, error)
+                model.onPageLoadingFailed()
+            }
+        }
+    }
+
+    private fun setToolbar() {
         setSupportActionBar(webview_toolbar)
-        supportActionBar?.title = title
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+            setDisplayShowTitleEnabled(true)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

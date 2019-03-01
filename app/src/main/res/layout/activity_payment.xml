@@ -1,118 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/payment_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <data>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/payment_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
+        <variable
+            name="viewModel"
+            type="com.kevalpatel2106.yip.payment.PaymentViewModel" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/payment_btn_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:cardBackgroundColor="@color/window_background_color_bright"
-        app:cardElevation="@dimen/spacing_small"
-        app:contentPadding="@dimen/spacing_small">
+        <variable
+            name="activity"
+            type="com.kevalpatel2106.yip.payment.PaymentActivity" />
+    </data>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/purchase_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/colorAccent"
-            android:paddingBottom="@dimen/spacing_pico"
-            android:paddingEnd="@dimen/spacing_small"
-            android:paddingStart="@dimen/spacing_small"
-            android:paddingTop="@dimen/spacing_pico"
-            android:text="@string/buy_now" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <ScrollView
-        android:id="@+id/purchase_scroll"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/payment_btn_card"
-        android:layout_below="@id/payment_app_bar"
-        android:padding="@dimen/spacing_small">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/payment_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appcompatIv1"
-                android:layout_width="150dp"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/payment_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/title_activity_payment" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/payment_btn_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:cardBackgroundColor="@color/window_background_color_bright"
+            app:cardElevation="@dimen/spacing_small"
+            app:contentPadding="@dimen/spacing_small">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/purchase_btn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_speedometer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorAccent"
+                android:enabled="@{!viewModel.isPurchasing}"
+                android:onClick="@{() -> viewModel.purchase(activity)}"
+                android:paddingBottom="@dimen/spacing_pico"
+                android:paddingEnd="@dimen/spacing_small"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingTop="@dimen/spacing_pico"
+                android:text="@string/buy_now" />
+        </com.google.android.material.card.MaterialCardView>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView"
-                style="@style/MediumText.Primary"
+        <ScrollView
+            android:id="@+id/purchase_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/payment_btn_card"
+            android:layout_below="@id/payment_app_bar"
+            android:padding="@dimen/spacing_small">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:gravity="center_horizontal"
-                android:text="@string/pro_benefit_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appcompatIv1"
-                tools:layout_editor_absoluteY="158dp" />
+                android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView2"
-                style="@style/ProBenefitTextStyle"
-                android:drawableStart="@drawable/ic_ads"
-                android:text="@string/pro_benefit_no_ads"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appcompatIv1"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_speedometer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView3"
-                style="@style/ProBenefitTextStyle"
-                android:drawableStart="@drawable/ic_priority"
-                android:text="@string/pro_benefit_change_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView"
+                    style="@style/MediumText.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:gravity="center_horizontal"
+                    android:text="@string/pro_benefit_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appcompatIv1"
+                    tools:layout_editor_absoluteY="158dp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView4"
-                style="@style/ProBenefitTextStyle"
-                android:drawableStart="@drawable/ic_notification_bell_colored"
-                android:text="@string/pro_benefit_notification"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView2"
+                    style="@style/ProBenefitTextStyle"
+                    android:drawableStart="@drawable/ic_ads"
+                    android:text="@string/pro_benefit_no_ads"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/ProBenefitTextStyle"
-                android:drawableStart="@drawable/ic_heart_red"
-                android:text="@string/pro_benefit_support_dev"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</RelativeLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView3"
+                    style="@style/ProBenefitTextStyle"
+                    android:drawableStart="@drawable/ic_priority"
+                    android:text="@string/pro_benefit_change_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView4"
+                    style="@style/ProBenefitTextStyle"
+                    android:drawableStart="@drawable/ic_notification_bell_colored"
+                    android:text="@string/pro_benefit_notification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/ProBenefitTextStyle"
+                    android:drawableStart="@drawable/ic_heart_red"
+                    android:text="@string/pro_benefit_support_dev"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>
