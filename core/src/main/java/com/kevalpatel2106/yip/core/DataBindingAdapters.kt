@@ -12,8 +12,8 @@ fun visibility(view: View, show: Boolean) {
     view.showOrHide(show)
 }
 
-@BindingAdapter("app:darkerBackground")
-fun darkerBackground(view: View, @ColorInt color: Int) {
+@BindingAdapter("app:backgroundColor")
+fun background(view: View, @ColorInt color: Int) {
     view.setBackgroundColor(color)
 }
 

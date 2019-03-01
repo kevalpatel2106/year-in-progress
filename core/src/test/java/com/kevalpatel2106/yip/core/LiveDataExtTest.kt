@@ -26,6 +26,7 @@ class LiveDataExtTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var testLiveData: MutableLiveData<String>
+
     @Mock
     private lateinit var eventObserver: Observer<String>
 
@@ -41,10 +42,7 @@ class LiveDataExtTest {
     @Test
     fun checkRecall() {
         testLiveData.observeForever(eventObserver)
-
         testLiveData.recall()
-
-        Mockito.verify(eventObserver, Mockito.times(2))
-                .onChanged(testString)
+        Mockito.verify(eventObserver, Mockito.times(2)).onChanged(testString)
     }
 }

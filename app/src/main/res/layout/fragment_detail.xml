@@ -21,7 +21,7 @@
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="@dimen/spacing_micro"
         app:cardElevation="@dimen/spacing_micro"
-        app:darkerBackground="@{viewModel.viewState.backgroundColor}">
+        app:backgroundColor="@{viewModel.viewState.backgroundColor}">
 
         <RelativeLayout
             android:layout_width="match_parent"
