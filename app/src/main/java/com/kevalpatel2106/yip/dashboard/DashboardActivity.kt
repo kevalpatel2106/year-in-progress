@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
+import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
@@ -43,13 +45,17 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@DashboardActivity)
-        setContentView(R.layout.activity_dashboard)
-        setSupportActionBar(bottom_app_bar)
+        DataBindingUtil.setContentView<ActivityDashboardBinding>(this, R.layout.activity_dashboard)
+                .apply {
+                    lifecycleOwner = this@DashboardActivity
+                    viewModel = model
+                }
 
+        setSupportActionBar(bottom_app_bar)
         setUpBottomNavigation()
         setUpFab()
         setUpList()
-        setUpAd()
+        setUpInterstitialAd()
 
         // Start monitoring progress.
         model.progresses.nullSafeObserve(this@DashboardActivity) { adapter.get().submitList(it.toMutableList()) }
@@ -58,7 +64,7 @@ class DashboardActivity : AppCompatActivity() {
         model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
     }
 
-    private fun setUpAd() {
+    private fun setUpInterstitialAd() {
         val interstitialAd = InterstitialAd(this)
         interstitialAd.adUnitId = getString(R.string.detail_interstitial_ad_id)
         interstitialAd.adListener = object : AdListener() {
@@ -72,7 +78,6 @@ class DashboardActivity : AppCompatActivity() {
                 Timber.i("The interstitial ad loading failed.")
             }
         }
-
         model.showInterstitialAd.nullSafeObserve(this@DashboardActivity) {
             interstitialAd.loadAd(AdRequest.Builder().build())
         }
@@ -81,7 +86,9 @@ class DashboardActivity : AppCompatActivity() {
     private fun setUpFab() {
         add_progress_fab.setOnClickListener {
             if (model.isDetailExpanded()) {
-                EditProgressActivity.edit(this@DashboardActivity, model.expandProgress.value!!)
+                model.expandProgress.value?.let { progressId ->
+                    EditProgressActivity.edit(this@DashboardActivity, progressId)
+                }
             } else {
                 EditProgressActivity.createNew(this@DashboardActivity)
             }

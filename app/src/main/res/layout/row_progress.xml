@@ -1,61 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_pico"
-    android:layout_marginTop="@dimen/spacing_pico"
-    app:cardBackgroundColor="@color/window_background_color_bright"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/spacing_pico"
-    app:contentPadding="@dimen/spacing_small">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/foreground_view"
+    <data>
+
+        <variable
+            name="progress"
+            type="com.kevalpatel2106.yip.entity.Progress" />
+
+        <variable
+            name="percentString"
+            type="String" />
+
+        <variable
+            name="percent"
+            type="Integer" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_pico"
+        android:layout_marginTop="@dimen/spacing_pico"
+        app:cardBackgroundColor="@color/window_background_color_bright"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/spacing_pico"
+        app:contentPadding="@dimen/spacing_small">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/progress_name_title"
-            style="@style/LargeText.Secondary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="@font/lato"
-            android:maxLines="1"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foreground_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/progress_percent"
-            style="@style/LargeText.Accent"
-            android:layout_width="@dimen/spacing_anti"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_nano"
-            android:gravity="end"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress_name_title"
-            tools:text="43.00%" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/progress_name_title"
+                style="@style/LargeText.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/lato"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{progress.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/spacing_micro"
-            android:indeterminate="false"
-            android:max="100"
-            android:scaleY="1.5"
-            app:layout_constraintBottom_toBottomOf="@+id/progress_percent"
-            app:layout_constraintEnd_toStartOf="@+id/progress_percent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/progress_percent"
-            tools:progress="10" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/progress_percent"
+                style="@style/LargeText.Accent"
+                android:layout_width="@dimen/spacing_anti"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_nano"
+                android:gravity="end"
+                android:text="@{percentString}"
+                android:textColor="@{progress.color.value}"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_name_title"
+                tools:text="43.00%" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_micro"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="@{percent}"
+                android:scaleY="1.5"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_percent"
+                app:layout_constraintEnd_toStartOf="@+id/progress_percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/progress_percent"
+                app:setProgressTint="@{progress.color.value}"
+                tools:progress="10" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

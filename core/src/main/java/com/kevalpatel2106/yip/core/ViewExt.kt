@@ -11,6 +11,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.ActionBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
 import androidx.core.graphics.drawable.DrawableCompat
@@ -87,4 +88,10 @@ fun View.slideDown(animationDuration: Long = 300) {
         fillAfter = true
         interpolator = DecelerateInterpolator()
     })
+}
+
+fun ActionBar.set(showHome: Boolean = true, showTitle: Boolean = true) {
+    setDisplayShowTitleEnabled(showTitle)
+    setDisplayShowHomeEnabled(showHome)
+    setDisplayHomeAsUpEnabled(showHome)
 }

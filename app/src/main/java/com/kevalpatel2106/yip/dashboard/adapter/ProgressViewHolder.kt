@@ -1,39 +1,40 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.setProgressTint
+import com.kevalpatel2106.yip.databinding.RowProgressBinding
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 import kotlinx.android.synthetic.main.row_list_ads.view.*
-import kotlinx.android.synthetic.main.row_progress.*
 import java.util.*
 
-internal class ProgressViewHolder(itemView: View) : YipViewHolder(itemView) {
+internal class ProgressViewHolder(private val binding: RowProgressBinding) : YipViewHolder(binding.root) {
 
     override fun isDragSupported(): Boolean = true
 
     fun bind(progress: Progress, now: Date, onClick: ((progress: Progress) -> Unit)?) {
-        progress_name_title.text = progress.title
-
-        Color.BLACK
-        progress_percent.setTextColor(progress.color.value)
-        progress_percent.text =
-                String.format(itemView.context.getString(R.string.progress_percentage), progress.percent(now))
-
-        progress_bar.setProgressTint(progress.color.value)
-        progress_bar.progress = progress.percent(now).toInt()
-
+        val percentage = progress.percent(now)
+        binding.apply {
+            this.progress = progress
+            percentString = itemView.context.getString(R.string.progress_percentage, percentage)
+            percent = percentage.toInt()
+        }
         containerView.setOnClickListener { onClick?.invoke(progress) }
     }
 
     companion object {
         fun create(parent: ViewGroup): ProgressViewHolder {
-            return ProgressViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_progress, parent, false))
+            val binding = DataBindingUtil.inflate<RowProgressBinding>(
+                    LayoutInflater.from(parent.context),
+                    R.layout.row_progress,
+                    parent,
+                    false
+            )
+            return ProgressViewHolder(binding)
         }
     }
 }

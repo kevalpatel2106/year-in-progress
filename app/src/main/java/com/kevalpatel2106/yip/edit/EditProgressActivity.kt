@@ -12,11 +12,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
-import com.kevalpatel2106.yip.core.nullSafeObserve
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
-import com.kevalpatel2106.yip.core.showOrHideLoader
-import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
@@ -33,20 +30,18 @@ internal class EditProgressActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private lateinit var model: EditViewProgressModel
+    private val model: EditViewProgressModel by lazy {
+        provideViewModel(viewModelProvider, EditViewProgressModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_progress)
-
         getAppComponent().inject(this@EditProgressActivity)
-        model = provideViewModel(viewModelProvider, EditViewProgressModel::class.java)
+        setContentView(R.layout.activity_edit_progress)
 
         // Actionbar set up
         setSupportActionBar(edit_toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.set(showTitle = false)
 
         // Set up the title.
         edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
