@@ -1,14 +1,14 @@
 package com.kevalpatel2106.yip.notifications
 
-import android.annotation.TargetApi
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
@@ -24,20 +24,26 @@ import java.util.*
  * class to create notifications in a backward-compatible way.
  */
 object ProgressNotification {
-    private const val CHANNEL_ID = "deadline_notification"
-    /**
-     * The unique identifier for this type of notification.
-     */
-    private const val NOTIFICATION_TAG = 3784
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal const val CHANNEL_ID = "deadline_notification"
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal const val COMPLETE_DOT = "|"
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal const val INCOMPLETE_DOT = "░"
 
     /**
      * Shows the notification, or updates a previously shown notification of
      * this type, with the given parameters.
      * @see .cancel
      */
+    @SuppressLint("NewApi")
     fun notify(context: Context, progress: Progress) {
-        val title = getTitle(progress)
-        val message = getMessage(progress)
+        val notificationId = generateNotificationId(progress.id)
+        val percent = progress.percent(Date(System.currentTimeMillis()))
+        val title = getTitle(context, progress.title, percent)
+        val message = getMessage(context, percent)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -46,13 +52,7 @@ object ProgressNotification {
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setTicker(message)
-                .setContentIntent(
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                Intent(context, SplashActivity::class.java),
-                                PendingIntent.FLAG_UPDATE_CURRENT)
-                )
+                .setContentIntent(getPendingIntent(context, notificationId))
                 .setStyle(
                         NotificationCompat.BigTextStyle()
                                 .bigText(message)
@@ -61,27 +61,45 @@ object ProgressNotification {
                 )
                 .setAutoCancel(true)
 
-        notify(context, builder.build())
-    }
-
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
-    private fun notify(context: Context, notification: Notification) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            nm.createNotificationChannel(NotificationChannel(
+        getDeadlineNotificationChannel(context)?.let { nm.createNotificationChannel(it) }
+        nm.notify(notificationId, builder.build())
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun getTitle(context: Context, progressTitle: String, percent: Float): String {
+        return String.format(context.getString(R.string.progress_notification_title), progressTitle, percent)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun getMessage(context: Context, percent: Float): String {
+        var dots = ""
+        repeat(percent.toInt() / 4) { dots += COMPLETE_DOT }
+        repeat((100 - percent.toInt()) / 4) { dots += INCOMPLETE_DOT }
+        return "$dots ${String.format(context.getString(R.string.progress_percentage), percent)}"
+    }
+
+    private fun getPendingIntent(context: Context, notificationId: Int): PendingIntent {
+        return PendingIntent.getActivity(
+                context,
+                notificationId,
+                Intent(context, SplashActivity::class.java),
+                PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun generateNotificationId(progressId: Long): Int = progressId.toInt()
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun getDeadlineNotificationChannel(context: Context): NotificationChannel? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel(
                     CHANNEL_ID,
-                    "Deadline notifications",
+                    context.getString(R.string.deadline_notification_channel_title),
                     NotificationManager.IMPORTANCE_HIGH
-            ))
+            )
+        } else {
+            null
         }
-        nm.notify(NOTIFICATION_TAG, notification)
-    }
-
-    private fun getTitle(progress: Progress): String {
-        return progress.title
-    }
-
-    private fun getMessage(progress: Progress): String {
-        return "${progress.title} reached to ${progress.percent(Date(System.currentTimeMillis()))}%."
     }
 }

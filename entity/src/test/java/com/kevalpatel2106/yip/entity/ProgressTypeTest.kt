@@ -8,7 +8,7 @@ import org.junit.runners.Parameterized
 
 
 @RunWith(Parameterized::class)
-class IsPrebuiltProgressTest(
+class ProgressTypeTest(
         @ColorInt private val progressType: ProgressType,
         private val isPrebuiltProgress: Boolean
 ) {
@@ -29,7 +29,7 @@ class IsPrebuiltProgressTest(
     }
 
     @Test
-    fun checkGetProgressColor() {
+    fun checkIsPrebuiltProgress() {
         Assert.assertEquals(isPrebuiltProgress, progressType.isPreBuild())
     }
 }

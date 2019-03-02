@@ -9,5 +9,8 @@
     <string name="pref_key_privacy_policy" translatable="false">pref_key_privacy_policy</string>
     <string name="pref_key_pro_version_header" translatable="false">pro_version_header</string>
     <string name="pref_key_open_source_licences" translatable="false">pref_key_open_source_licences</string>
+
+    <!--Notification channels-->
+    <string name="deadline_notification_channel_title" translatable="false">Deadline notifications</string>
     <!--TODO: Categorize the constants-->
 </resources>
