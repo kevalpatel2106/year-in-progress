@@ -3,7 +3,11 @@ package com.kevalpatel2106.yip.dashboard
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.*
+import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.openPlayStorePage
+import com.kevalpatel2106.yip.core.recall
+import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress

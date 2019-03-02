@@ -12,8 +12,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
+import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.set
+import com.kevalpatel2106.yip.core.showOrHideLoader
+import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter

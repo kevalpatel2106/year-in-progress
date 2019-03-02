@@ -18,10 +18,10 @@
         android:layout_marginStart="@dimen/spacing_micro"
         android:layout_marginTop="@dimen/spacing_nano"
         android:orientation="vertical"
+        app:backgroundColor="@{viewModel.viewState.backgroundColor}"
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="@dimen/spacing_micro"
-        app:cardElevation="@dimen/spacing_micro"
-        app:backgroundColor="@{viewModel.viewState.backgroundColor}">
+        app:cardElevation="@dimen/spacing_micro">
 
         <RelativeLayout
             android:layout_width="match_parent"

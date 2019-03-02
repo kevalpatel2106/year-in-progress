@@ -12,7 +12,7 @@ internal class CentralTitlePreference @JvmOverloads constructor(
         context: Context,
         attributes: AttributeSet? = null,
         diffStyleAttributes: Int = 0
-) : Preference(context, attributes, diffStyleAttributes){
+) : Preference(context, attributes, diffStyleAttributes) {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {
         super.onBindViewHolder(holder)

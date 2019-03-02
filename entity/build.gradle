@@ -4,6 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
-dependencies{
+dependencies {
     testImplementation project(':testUtils')
 }

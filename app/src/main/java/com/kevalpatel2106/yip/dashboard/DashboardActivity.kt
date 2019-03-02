@@ -14,8 +14,13 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.*
 import com.kevalpatel2106.yip.core.di.provideViewModel
+import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.openPlayStorePage
+import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.sendMailToDev
+import com.kevalpatel2106.yip.core.slideDown
+import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment

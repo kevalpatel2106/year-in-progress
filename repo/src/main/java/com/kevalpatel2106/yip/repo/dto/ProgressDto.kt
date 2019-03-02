@@ -8,7 +8,16 @@ import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.db.ProgressTableInfo
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
-import com.kevalpatel2106.yip.repo.utils.*
+import com.kevalpatel2106.yip.repo.utils.endOfTheDay
+import com.kevalpatel2106.yip.repo.utils.endOfTheMonth
+import com.kevalpatel2106.yip.repo.utils.endOfTheWeek
+import com.kevalpatel2106.yip.repo.utils.endOfTheYear
+import com.kevalpatel2106.yip.repo.utils.getFirstDayOfQuarter
+import com.kevalpatel2106.yip.repo.utils.getLastDayOfQuarter
+import com.kevalpatel2106.yip.repo.utils.startOfTheDay
+import com.kevalpatel2106.yip.repo.utils.startOfTheMonth
+import com.kevalpatel2106.yip.repo.utils.startOfTheWeek
+import com.kevalpatel2106.yip.repo.utils.startOfTheYear
 import java.util.*
 
 @Entity(tableName = ProgressTableInfo.TABLE_NAME)
