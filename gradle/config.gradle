@@ -175,6 +175,11 @@ ext {
                 testLogging {
                     events 'passed', 'skipped', 'failed'
                 }
+
+                // https://github.com/robolectric/robolectric/issues/2230
+                jacoco {
+                    includeNoLocationClasses = true
+                }
             }
         }
         reportDir "$rootDir/reports/test-reports"

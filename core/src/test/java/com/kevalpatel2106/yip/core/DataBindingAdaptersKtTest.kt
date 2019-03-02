@@ -11,6 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.*
+import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
@@ -57,7 +58,7 @@ class DataBindingAdaptersKtTest {
     }
 
     @Test
-    fun checkLoadUrl() {
+    fun checkLoadUrl_withWebView() {
         val url = "http://google.com"
         loadUrl(webView, url)
 
@@ -66,7 +67,14 @@ class DataBindingAdaptersKtTest {
     }
 
     @Test
-    fun checkDisplayChild() {
+    fun checkLoadUrl_withView() {
+        val url = "http://google.com"
+        loadUrl(view, url)
+        Mockito.verify(webView, never()).loadUrl(url)
+    }
+
+    @Test
+    fun checkDisplayChild_witViewFlipper() {
         val pos = 1
         displayChild(viewFlipper, pos)
 
@@ -74,4 +82,10 @@ class DataBindingAdaptersKtTest {
         Assert.assertEquals(pos, displayChildCaptor.value)
     }
 
+    @Test
+    fun checkDisplayChild_witView() {
+        val pos = 1
+        displayChild(view, pos)
+        Mockito.verify(viewFlipper, never()).displayedChild = pos
+    }
 }

@@ -25,7 +25,11 @@ data class Progress(
 
     fun percent(now: Date): Float {
         val percent = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
-        return if (percent > 100f) 100f else percent
+        return when {
+            percent > 100f -> 100f
+            percent < 0f -> 0f
+            else -> percent
+        }
     }
 
     override fun equals(other: Any?): Boolean {
