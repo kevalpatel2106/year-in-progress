@@ -8,7 +8,9 @@
 
 package com.kevalpatel2106.yip.core.di
 
+import android.app.AlarmManager
 import android.app.Application
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -32,5 +34,17 @@ internal class CoreModule(private val application: Application) {
     @Provides
     fun provideApplication(): Application {
         return application
+    }
+
+    @Singleton
+    @Provides
+    fun provideAlarmManager(): AlarmManager {
+        return application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppWidgetService(): AppWidgetManager {
+        return application.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
     }
 }

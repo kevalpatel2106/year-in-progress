@@ -39,17 +39,14 @@ abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(DIF
             }
             else -> {
                 bindViewHolder(holder, item)
-                if (position == itemCount - 1) shouldLoadNext()
             }
         }
     }
 
+    override fun getItemId(position: Int): Long = position.toLong()
+
     abstract fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder
     abstract fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable)
-
-    open fun shouldLoadNext() {
-        // Override this function.
-    }
 
     companion object {
         internal const val TYPE_LOADING = 3432

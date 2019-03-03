@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -29,13 +30,27 @@ import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import timber.log.Timber
 import javax.inject.Inject
 
 
 class DashboardActivity : AppCompatActivity() {
-    private lateinit var bottomNavigationSheet: BottomSheet
+
+    private val bottomNavigationSheet: BottomSheet by lazy {
+        BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
+                .title(R.string.application_name)
+                .sheet(R.menu.menu_botom_sheet)
+                .listener { _, which ->
+                    when (which) {
+                        R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
+                        R.id.menu_send_feedback -> sendMailToDev()
+                        R.id.menu_rate_us -> openPlayStorePage()
+                    }
+                }
+                .build()
+    }
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
@@ -57,7 +72,6 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
         setSupportActionBar(bottom_app_bar)
-        setUpBottomNavigation()
         setUpFab()
         setUpList()
         setUpInterstitialAd()
@@ -100,20 +114,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpBottomNavigation() {
-        bottomNavigationSheet = BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
-                .title(R.string.application_name)
-                .sheet(R.menu.menu_botom_sheet)
-                .listener { _, which ->
-                    when (which) {
-                        R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
-                        R.id.menu_send_feedback -> sendMailToDev()
-                        R.id.menu_rate_us -> openPlayStorePage()
-                    }
-                }
-                .build()
-    }
-
     private fun setUpList() {
         expandable_page_container.addStateChangeCallbacks(object : PageStateChangeCallbacks {
             override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
@@ -134,6 +134,7 @@ class DashboardActivity : AppCompatActivity() {
             }
         })
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
+        progress_list_rv.tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
         progress_list_rv.setExpandablePage(expandable_page_container)
         progress_list_rv.adapter = adapter.get().apply {
             this.setHasStableIds(true)

@@ -7,7 +7,6 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.db.ProgressTableInfo
-import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.endOfTheDay
 import com.kevalpatel2106.yip.repo.utils.endOfTheMonth
 import com.kevalpatel2106.yip.repo.utils.endOfTheWeek
@@ -55,9 +54,9 @@ internal fun ProgressDto.toEntity() = Progress(
         notificationPercent = notifications
 )
 
-internal fun ProgressDto.modifyPrebuiltProgress(ntpProvider: NtpProvider): ProgressDto {
+internal fun ProgressDto.modifyPrebuiltProgress(nowMills: Long): ProgressDto {
     val now = Calendar.getInstance()
-    now.timeInMillis = ntpProvider.now().time
+    now.timeInMillis = nowMills
 
     when (progressType) {
         ProgressType.YEAR_PROGRESS -> {

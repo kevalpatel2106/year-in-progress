@@ -58,8 +58,8 @@ class ProgressNotificationTest {
         @Test
         fun testNotificationMessage() {
             val message = ProgressNotification.getMessage(context, percent)
-            Assert.assertEquals(percent.toInt() / 4, message.count { it.toString() == ProgressNotification.COMPLETE_DOT })
-            Assert.assertEquals((100 - percent.toInt()) / 4, message.count { it.toString() == ProgressNotification.INCOMPLETE_DOT })
+            Assert.assertEquals(percent.toInt() / 2, message.count { it.toString() == ProgressNotification.COMPLETE_DOT })
+            Assert.assertEquals((100 - percent.toInt()) / 2, message.count { it.toString() == ProgressNotification.INCOMPLETE_DOT })
         }
     }
 

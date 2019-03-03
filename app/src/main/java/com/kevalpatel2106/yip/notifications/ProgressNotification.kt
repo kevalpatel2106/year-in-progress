@@ -31,7 +31,7 @@ object ProgressNotification {
     internal const val COMPLETE_DOT = "|"
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal const val INCOMPLETE_DOT = "░"
+    internal const val INCOMPLETE_DOT = ":"
 
     /**
      * Shows the notification, or updates a previously shown notification of
@@ -57,7 +57,6 @@ object ProgressNotification {
                         NotificationCompat.BigTextStyle()
                                 .bigText(message)
                                 .setBigContentTitle(title)
-                                .setSummaryText(message)
                 )
                 .setAutoCancel(true)
 
@@ -74,8 +73,8 @@ object ProgressNotification {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun getMessage(context: Context, percent: Float): String {
         var dots = ""
-        repeat(percent.toInt() / 4) { dots += COMPLETE_DOT }
-        repeat((100 - percent.toInt()) / 4) { dots += INCOMPLETE_DOT }
+        repeat(percent.toInt() / 2) { dots += COMPLETE_DOT }
+        repeat((100 - percent.toInt()) / 2) { dots += INCOMPLETE_DOT }
         return "$dots ${String.format(context.getString(R.string.progress_percentage), percent)}"
     }
 

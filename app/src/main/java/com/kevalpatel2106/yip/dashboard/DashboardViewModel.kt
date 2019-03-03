@@ -110,7 +110,7 @@ internal class DashboardViewModel @Inject constructor(
     }
 
     internal fun isDetailExpanded(): Boolean {
-        return expandProgress.value != null && expandProgress.value!! > 0L
+        return expandProgress.value ?: -1 > 0L
     }
 
     companion object {

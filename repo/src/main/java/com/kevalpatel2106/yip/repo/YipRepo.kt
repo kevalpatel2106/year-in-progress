@@ -39,9 +39,14 @@ class YipRepo @Inject internal constructor(
                 Function3<List<ProgressDto>, Long, String, Pair<List<ProgressDto>, String>> { list, _, order ->
                     list to order
                 }
-        ).map { (progressesDto, sortOrder) ->
+        ).zipWith(
+                ntpProvider.nowAsync().toFlowable(),
+                BiFunction { item: Pair<List<ProgressDto>, String>, date: Date ->
+                    Triple(item.first, item.second, date)
+                }
+        ).map { (progressesDto, sortOrder, now) ->
             val progresses = progressesDto.map { progress ->
-                progress.modifyPrebuiltProgress(ntpProvider).toEntity()
+                progress.modifyPrebuiltProgress(now.time).toEntity()
             }
 
             return@map when (sortOrder) {
@@ -60,8 +65,13 @@ class YipRepo @Inject internal constructor(
                 db.getDeviceDao().observe(progressId),
                 Flowable.interval(0, 1, TimeUnit.MINUTES, RxSchedulers.compute),
                 BiFunction<ProgressDto, Long, ProgressDto> { t1, _ -> t1 }
-        ).map { progress ->
-            progress.modifyPrebuiltProgress(ntpProvider).toEntity()
+        ).zipWith(
+                ntpProvider.nowAsync().toFlowable(),
+                BiFunction { item: ProgressDto, date: Date -> item to date }
+        ).map { (progressDto, now) ->
+            progressDto.modifyPrebuiltProgress(now.time)
+        }.map { dto ->
+            dto.toEntity()
         }.subscribeOn(RxSchedulers.database)
                 .observeOn(RxSchedulers.main)
     }

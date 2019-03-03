@@ -18,6 +18,9 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
     @Inject
     lateinit var sharedPrefsProvider: SharedPrefsProvider
 
+    @Inject
+    lateinit var appWidgetManager: AppWidgetManager
+
     override fun onReceive(context: Context?, intent: Intent?) {
         AndroidInjection.inject(this, context)
         super.onReceive(context, intent)
@@ -26,7 +29,7 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
         sharedPrefsProvider.getStringFromPreference(WIDGET_IDS)?.split(",")?.map {
             it.toInt()
         }?.toIntArray()?.let {
-            (context?.getSystemService(Context.APPWIDGET_SERVICE) as? AppWidgetManager)?.notifyAppWidgetViewDataChanged(
+            appWidgetManager.notifyAppWidgetViewDataChanged(
                     it,
                     R.id.widget_devices_list
             )

@@ -13,11 +13,10 @@
         android:id="@+id/detail_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/spacing_nano"
+        android:layout_marginBottom="@dimen/spacing_anti"
         android:layout_marginEnd="@dimen/spacing_micro"
         android:layout_marginStart="@dimen/spacing_micro"
         android:layout_marginTop="@dimen/spacing_nano"
-        android:orientation="vertical"
         app:backgroundColor="@{viewModel.viewState.backgroundColor}"
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="@dimen/spacing_micro"
@@ -25,8 +24,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/detail_close_iv"

@@ -3,11 +3,14 @@ package com.kevalpatel2106.yip.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.providers.AlarmProvider
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import dagger.android.AndroidInjection
+import io.reactivex.functions.BiFunction
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 internal class ProgressNotificationReceiver : BroadcastReceiver() {
@@ -25,16 +28,20 @@ internal class ProgressNotificationReceiver : BroadcastReceiver() {
         context?.let { ctx ->
             yipRepo.observeProgress(progressId)
                     .firstOrError()
-                    .filter { progress ->
+                    .zipWith(
+                            ntpProvider.nowAsync(),
+                            BiFunction { dtos: Progress, date: Date -> dtos to date }
+                    )
+                    .filter { (progress, now) ->
                         val triggerPercent = calculateTriggerPercent(
                                 progress.start.time,
                                 progress.end.time,
-                                ntpProvider.now().time
+                                now.time
                         )
                         return@filter progress.notificationPercent.findLast { it in triggerPercent - 1..triggerPercent + 1 } != null
                     }
-                    .subscribe({
-                        ProgressNotification.notify(ctx, it)
+                    .subscribe({ (progress, _) ->
+                        ProgressNotification.notify(ctx, progress)
                     }, {
                         Timber.e(it)
                     })

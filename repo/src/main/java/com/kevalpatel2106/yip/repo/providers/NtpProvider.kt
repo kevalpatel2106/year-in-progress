@@ -1,37 +1,40 @@
 package com.kevalpatel2106.yip.repo.providers
 
-import android.annotation.SuppressLint
 import android.app.Application
 import com.instacart.library.truetime.TrueTimeRx
 import com.kevalpatel2106.yip.repo.BuildConfig
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import timber.log.Timber
+import io.reactivex.Single
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NtpProvider @Inject internal constructor(private val application: Application) {
 
-    @SuppressLint("CheckResult")
-    private fun initializeTrueTime() {
-        TrueTimeRx.build()
+    private fun initializeTrueTime(): Single<Date> {
+        return TrueTimeRx.build()
                 .withConnectionTimeout(TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES).toInt())
                 .withRetryCount(RETRY_COUNT)
                 .withSharedPreferencesCache(application)
                 .withLoggingEnabled(BuildConfig.DEBUG)
                 .initializeRx(TIME_GOOGLE)
                 .subscribeOn(RxSchedulers.network)
-                .subscribe({
-                    Timber.i("True time enabled. Current mills: ${it.time}")
-                }, {
-                    Timber.e(it)
-                })
+                .observeOn(RxSchedulers.main)
     }
 
+    fun nowAsync(): Single<Date> = if (TrueTimeRx.isInitialized()) {
+        Single.just(TrueTimeRx.now())
+    } else {
+        initializeTrueTime().onErrorReturn { Date(System.currentTimeMillis()) }
+    }
+
+    @Deprecated(
+            message = "Use nowAsync to be sure.",
+            replaceWith = ReplaceWith("ntpProvider.nowAsync()", imports = arrayOf("com.kevalpatel2106.yip.repo.providers"))
+    )
     fun now(): Date = if (TrueTimeRx.isInitialized()) {
         TrueTimeRx.now()
     } else {
-        initializeTrueTime()
         Date(System.currentTimeMillis())
     }
 

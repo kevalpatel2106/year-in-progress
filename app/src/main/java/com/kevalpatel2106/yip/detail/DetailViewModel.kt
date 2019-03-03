@@ -12,10 +12,12 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
+import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -46,10 +48,16 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.observeProgress(id)
                 .doOnSubscribe {
                     isLoading.value = true
-                }.doAfterTerminate {
+                }
+                .doAfterTerminate {
                     isLoading.value = false
-                }.subscribe({ item ->
-                    val percent = item.percent(ntpProvider.now())
+                }
+                .zipWith(
+                        ntpProvider.nowAsync().toFlowable(),
+                        BiFunction { item: Progress, date: Date -> item to date }
+                )
+                .subscribe({ (item, now) ->
+                    val percent = item.percent(now)
                     val isProgressComplete = percent >= 100f
 
                     viewState.value = DetailViewState(

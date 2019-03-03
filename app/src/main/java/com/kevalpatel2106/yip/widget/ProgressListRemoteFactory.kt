@@ -21,11 +21,15 @@ internal class ProgressListRemoteFactory @Inject constructor(
     override fun getViewAt(position: Int): RemoteViews {
         val rowView = RemoteViews(application.packageName, R.layout.row_widget_progress_list)
         with(progresses[position]) {
+
             rowView.setTextViewText(R.id.widget_battery_list_name_tv, this.title)
+
+            @Suppress("DEPRECATION")
             rowView.setTextViewText(
                     R.id.widget_battery_list_level_tv,
                     application.getString(R.string.progress_percentage, this.percent(ntpProvider.now()))
             )
+
             rowView.setTextColor(
                     R.id.widget_battery_list_level_tv,
                     this.color.value

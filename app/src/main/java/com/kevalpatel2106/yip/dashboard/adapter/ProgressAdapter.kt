@@ -10,6 +10,10 @@ import javax.inject.Inject
 
 internal class ProgressAdapter @Inject constructor(private val ntpProvider: NtpProvider) : YipAdapter() {
 
+    init {
+        setHasStableIds(true)
+    }
+
     internal var clickListener: ((progress: Progress) -> Unit)? = null
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
@@ -20,6 +24,7 @@ internal class ProgressAdapter @Inject constructor(private val ntpProvider: NtpP
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable) {
         when (holder) {
             is ProgressViewHolder -> holder.bind((item as ProgressListItem).progress, ntpProvider.now(), clickListener)

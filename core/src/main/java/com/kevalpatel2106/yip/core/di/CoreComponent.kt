@@ -8,7 +8,9 @@
 
 package com.kevalpatel2106.yip.core.di
 
+import android.app.AlarmManager
 import android.app.Application
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.di.RepositoryModule
@@ -32,6 +34,10 @@ interface CoreComponent {
     fun getDatabase(): YipDatabase
 
     fun getSharedPrefs(): SharedPrefsProvider
+
+    fun getAlarmManager(): AlarmManager
+
+    fun getAppWidgetService(): AppWidgetManager
 
     companion object {
         fun build(application: Application): CoreComponent {
