@@ -20,23 +20,16 @@ data class Progress(
         @ColorInt
         var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
-        var notificationPercent: List<Float>
+        var notificationPercent: List<Float>,
+
+        var percent: Float = 0f
 ) : Parcelable {
 
-    fun percent(now: Date): Float {
-        val percent = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
-        return when {
-            percent > 100f -> 100f
-            percent < 0f -> 0f
-            else -> percent
-        }
-    }
-
     override fun equals(other: Any?): Boolean {
-        return (other as? Progress)?.id == id
+        return (other as? Progress)?.id == id && (other as? Progress)?.percent == percent
     }
 
     override fun hashCode(): Int {
-        return id.hashCode()
+        return id.hashCode() + percent.toInt()
     }
 }

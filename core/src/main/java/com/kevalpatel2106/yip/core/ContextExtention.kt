@@ -26,6 +26,8 @@ import com.kevalpatel2106.feature.core.BuildConfig
 import com.kevalpatel2106.feature.core.R
 import timber.log.Timber
 
+const val SNACK_BAR_DURATION = 2000L
+
 /**
  * Get the color from color res.
  */
@@ -52,7 +54,7 @@ fun <T : AppCompatActivity> Context.prepareLaunchIntent(
  */
 fun Activity.showSnack(
         message: String,
-        duration: Int = 2000,
+        duration: Int = SNACK_BAR_DURATION.toInt(),
         actonTitle: Int = -1,
         actionListener: ((View) -> Unit)? = null
 ): Snackbar {

@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.recyclerview
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +11,8 @@ import com.kevalpatel2106.yip.recyclerview.viewholders.ErrorViewHolder
 import com.kevalpatel2106.yip.recyclerview.viewholders.LoadingViewHolder
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
-abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(DIFF_CALLBACK) {
+abstract class YipAdapter(diffUtils: DiffUtil.ItemCallback<YipItemRepresentable>)
+    : ListAdapter<YipItemRepresentable, YipViewHolder>(diffUtils) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {
@@ -43,8 +43,6 @@ abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(DIF
         }
     }
 
-    override fun getItemId(position: Int): Long = position.toLong()
-
     abstract fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder
     abstract fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable)
 
@@ -52,20 +50,5 @@ abstract class YipAdapter : ListAdapter<YipItemRepresentable, YipViewHolder>(DIF
         internal const val TYPE_LOADING = 3432
         internal const val TYPE_ERROR = 324
         internal const val TYPE_EMPTY = 4533
-
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<YipItemRepresentable>() {
-
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(
-                    oldItem: YipItemRepresentable,
-                    newItem: YipItemRepresentable
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areItemsTheSame(oldItem: YipItemRepresentable, newItem: YipItemRepresentable): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }

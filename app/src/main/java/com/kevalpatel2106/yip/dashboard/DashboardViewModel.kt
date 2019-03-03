@@ -109,9 +109,7 @@ internal class DashboardViewModel @Inject constructor(
         }
     }
 
-    internal fun isDetailExpanded(): Boolean {
-        return expandProgress.value ?: -1 > 0L
-    }
+    internal fun isDetailExpanded(): Boolean = expandProgress.value ?: -1 > 0L
 
     companion object {
         private const val PREF_KEY_RATED = "pref_key_rated"

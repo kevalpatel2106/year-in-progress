@@ -12,12 +12,9 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
-import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
-import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -27,7 +24,6 @@ import javax.inject.Inject
 internal class DetailViewModel @Inject internal constructor(
         private val application: Application,
         private val yipRepo: YipRepo,
-        private val ntpProvider: NtpProvider,
         private val sdf: DateFormatter
 ) : BaseViewModel() {
 
@@ -52,13 +48,8 @@ internal class DetailViewModel @Inject internal constructor(
                 .doAfterTerminate {
                     isLoading.value = false
                 }
-                .zipWith(
-                        ntpProvider.nowAsync().toFlowable(),
-                        BiFunction { item: Progress, date: Date -> item to date }
-                )
-                .subscribe({ (item, now) ->
-                    val percent = item.percent(now)
-                    val isProgressComplete = percent >= 100f
+                .subscribe({ item ->
+                    val isProgressComplete = item.percent >= 100f
 
                     viewState.value = DetailViewState(
                             backgroundColor = darkenColor(item.color.value),
@@ -68,7 +59,7 @@ internal class DetailViewModel @Inject internal constructor(
                             progressPercentTextColor = item.color.value,
                             progressPercentText = application.getString(
                                     R.string.progress_percentage,
-                                    percent
+                                    item.percent
                             ),
 
                             progressTimeLeftText = if (isProgressComplete) {
@@ -82,7 +73,7 @@ internal class DetailViewModel @Inject internal constructor(
                             showShareProgress = isProgressComplete,
                             showTimeLeft = !isProgressComplete,
 
-                            progressPercent = percent.toInt(),
+                            progressPercent = item.percent.toInt(),
                             progressBarColor = item.color.value
                     )
                 }, {

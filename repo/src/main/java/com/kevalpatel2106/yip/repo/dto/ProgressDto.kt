@@ -7,6 +7,7 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.db.ProgressTableInfo
+import com.kevalpatel2106.yip.repo.utils.calculatePercent
 import com.kevalpatel2106.yip.repo.utils.endOfTheDay
 import com.kevalpatel2106.yip.repo.utils.endOfTheMonth
 import com.kevalpatel2106.yip.repo.utils.endOfTheWeek
@@ -44,14 +45,15 @@ internal data class ProgressDto(
         val notifications: List<Float> = listOf()
 )
 
-internal fun ProgressDto.toEntity() = Progress(
+internal fun ProgressDto.toEntity(now: Date) = Progress(
         id = id,
         progressType = progressType,
         title = title,
         start = start,
         end = end,
         color = color,
-        notificationPercent = notifications
+        notificationPercent = notifications,
+        percent = calculatePercent(now, start, end)
 )
 
 internal fun ProgressDto.modifyPrebuiltProgress(nowMills: Long): ProgressDto {

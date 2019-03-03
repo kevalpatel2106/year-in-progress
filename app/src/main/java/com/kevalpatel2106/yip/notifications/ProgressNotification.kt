@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.splash.SplashActivity
-import java.util.*
 
 /**
  * Helper class for showing and canceling progress
@@ -41,9 +40,8 @@ object ProgressNotification {
     @SuppressLint("NewApi")
     fun notify(context: Context, progress: Progress) {
         val notificationId = generateNotificationId(progress.id)
-        val percent = progress.percent(Date(System.currentTimeMillis()))
-        val title = getTitle(context, progress.title, percent)
-        val message = getMessage(context, percent)
+        val title = getTitle(context, progress.title, progress.percent)
+        val message = getMessage(context, progress.percent)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)

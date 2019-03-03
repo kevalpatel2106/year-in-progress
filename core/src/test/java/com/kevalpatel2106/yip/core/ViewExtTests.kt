@@ -23,7 +23,6 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(Enclosed::class)
 class ViewExtTests {
 
-
     @RunWith(Parameterized::class)
     class ActionbarSetUpTests(private val isTitleEnabled: Boolean, private val isHomeEnabled: Boolean) {
 
@@ -72,7 +71,6 @@ class ViewExtTests {
             org.junit.Assert.assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
         }
     }
-
 
     @RunWith(RobolectricTestRunner::class)
     class ViewExtRETest {

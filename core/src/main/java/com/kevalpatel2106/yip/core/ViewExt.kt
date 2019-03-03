@@ -14,6 +14,8 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.core.graphics.drawable.DrawableCompat
 
+private const val SLIDE_ANIMATION_DEFAULT_DURATION = 300L
+
 @SuppressLint("ObsoleteSdkInt")
 fun ProgressBar.setProgressTint(@ColorInt color: Int) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -65,7 +67,7 @@ fun MenuItem.showOrHideLoader(context: Context, isShow: Boolean) {
     }
 }
 
-fun View.slideUp(animationDuration: Long = 300) {
+fun View.slideUp(animationDuration: Long = SLIDE_ANIMATION_DEFAULT_DURATION) {
     val animate = TranslateAnimation(0f, 0f, height.toFloat(), 0f)
     startAnimation(animate.apply {
         duration = animationDuration
@@ -74,7 +76,7 @@ fun View.slideUp(animationDuration: Long = 300) {
     })
 }
 
-fun View.slideDown(animationDuration: Long = 300) {
+fun View.slideDown(animationDuration: Long = SLIDE_ANIMATION_DEFAULT_DURATION) {
     val animate = TranslateAnimation(0f, 0f, 0f, height.toFloat())
     startAnimation(animate.apply {
         duration = animationDuration

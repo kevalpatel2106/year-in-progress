@@ -28,7 +28,6 @@ import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
-import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
@@ -55,8 +54,7 @@ class DashboardActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    @Inject
-    internal lateinit var adapter: Lazy<ProgressAdapter>
+    private val adapter: ProgressAdapter by lazy { ProgressAdapter() }
 
     private val model: DashboardViewModel by lazy {
         provideViewModel(viewModelProvider, DashboardViewModel::class.java)
@@ -77,10 +75,14 @@ class DashboardActivity : AppCompatActivity() {
         setUpInterstitialAd()
 
         // Start monitoring progress.
-        model.progresses.nullSafeObserve(this@DashboardActivity) { adapter.get().submitList(it.toMutableList()) }
+        model.progresses.nullSafeObserve(this@DashboardActivity) {
+            adapter.submitList(it.toMutableList())
+        }
 
         // Rating and ads section
-        model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
+        model.askForRating.nullSafeObserve(this@DashboardActivity) {
+            showRatingDialog()
+        }
     }
 
     private fun setUpInterstitialAd() {
@@ -136,8 +138,7 @@ class DashboardActivity : AppCompatActivity() {
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
         progress_list_rv.tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
         progress_list_rv.setExpandablePage(expandable_page_container)
-        progress_list_rv.adapter = adapter.get().apply {
-            this.setHasStableIds(true)
+        progress_list_rv.adapter = adapter.apply {
             this.clickListener = { model.userWantsToOpenDetail(it) }
         }
 

@@ -5,6 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.SNACK_BAR_DURATION
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.recall
@@ -29,11 +30,11 @@ internal class EditViewProgressModel @Inject internal constructor(
         private val application: Application,
         private val yipRepo: YipRepo,
         private val alarmProvider: AlarmProvider,
-        private val billingRepo: BillingRepo
+        billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private var progressTypeType: ProgressType = ProgressType.CUSTOM
-    internal var progressId: Long = 0
+    internal var progressId: Long = 0L
         set(value) {
             if (value > 0L) monitorProgress(value)
             field = value
@@ -154,33 +155,24 @@ internal class EditViewProgressModel @Inject internal constructor(
             return
         }
 
-        // Sanitize data
-        val title =
-                currentTitle?.capitalize()
-                    ?: throw IllegalStateException("Progress title cannot be null.")
-        val startDate =
-                currentStartDate.value?.apply { setToDayMin() }
-                    ?: throw IllegalStateException("Start date cannot be null.")
-        val endDate =
-                currentEndDate.value?.apply { setToDayMax() }
-                    ?: throw IllegalStateException("End date cannot be null.")
-
         yipRepo.addUpdateProgress(
                 processId = progressId,
-                title = title,
-                startTime = startDate,
-                endTime = endDate,
+                title = currentTitle?.capitalize()
+                    ?: throw IllegalStateException("Progress title cannot be null."),
+                startTime = currentStartDate.value?.apply { setToDayMin() }
+                    ?: throw IllegalStateException("Start date cannot be null."),
+                endTime = currentEndDate.value?.apply { setToDayMax() }
+                    ?: throw IllegalStateException("End date cannot be null."),
+                color = currentColor.value
+                    ?: throw IllegalStateException("Color cannot be null."),
                 progressTypeType = progressTypeType,
-                color = currentColor.value ?: throw IllegalStateException("Color cannot be null."),
                 notifications = notificationsList
         ).doOnSubscribe {
             isLoadingProgress.value = true
         }.doOnSuccess {
             userMessage.value = application.getString(R.string.progress_saved_success)
-        }.delay(2500, TimeUnit.MILLISECONDS, RxSchedulers.main)
-                .doAfterTerminate {
-                    isLoadingProgress.value = false
-                }
+        }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
+                .doAfterTerminate { isLoadingProgress.value = false }
                 .subscribe({
                     alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
                     closeSignal.value = true

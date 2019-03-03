@@ -1,15 +1,7 @@
-/*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 ext {
 
     debugDetail = [
-            'name'       : "Year in Progress Debug",
+            'name'       : "Year in Progr-=ess Debug",
             'packageName': "com.kevalpatel2106.yip",
     ]
 
@@ -37,7 +29,7 @@ ext {
             'stetho'       : '1.5.0',
             'room'         : '2.1.0-alpha03',
             'espresso'     : "3.1.1",
-            'mockito'      : "2.19.0"
+            'mockito'      : "2.24.5"
     ]
 
     packageExcludes = {
@@ -57,8 +49,8 @@ ext {
         exclude group: 'androidx.legacy', module: 'legacy-support-v4'
         exclude group: 'androidx.annotation', module: 'annotation'
         exclude group: 'androidx.appcompat', module: 'appcompat'
-        exclude group: 'com.google.android.material', module: 'material'
         exclude group: 'androidx.constraintlayout', module: 'constraintlayout'
+        exclude group: 'com.google.android.material', module: 'material'
 
         // Android test won't work if we don't remove
         exclude group: 'org.xmlpull'

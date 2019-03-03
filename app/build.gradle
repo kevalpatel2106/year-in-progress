@@ -10,11 +10,10 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 dependencies {
     implementation project(':core')
     implementation project(':recyclerview')
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation project(':testUtils')
 
     implementation 'com.github.betterme-dev:BottomSheet:android-x-SNAPSHOT'
-    implementation 'androidx.preference:preference:1.1.0-alpha02'
+    implementation 'androidx.preference:preference:1.1.0-alpha03'
     implementation 'com.google.android:flexbox:1.1.0'
 
     implementation 'com.google.android.gms:play-services-oss-licenses:16.0.2'
@@ -24,7 +23,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     releaseImplementation 'com.google.firebase:firebase-perf:16.2.3'
-    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     // Debug libs
     debugImplementation 'com.facebook.stetho:stetho:1.5.0'

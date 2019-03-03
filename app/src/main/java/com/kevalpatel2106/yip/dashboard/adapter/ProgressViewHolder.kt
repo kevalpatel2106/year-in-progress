@@ -10,18 +10,16 @@ import com.kevalpatel2106.yip.databinding.RowProgressBinding
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 import kotlinx.android.synthetic.main.row_list_ads.view.*
-import java.util.*
 
 internal class ProgressViewHolder(private val binding: RowProgressBinding) : YipViewHolder(binding.root) {
 
     override fun isDragSupported(): Boolean = true
 
-    fun bind(progress: Progress, now: Date, onClick: ((progress: Progress) -> Unit)?) {
-        val percentage = progress.percent(now)
+    fun bind(progress: Progress, onClick: ((progress: Progress) -> Unit)?) {
         binding.apply {
             this.progress = progress
-            percentString = itemView.context.getString(R.string.progress_percentage, percentage)
-            percent = percentage.toInt()
+            percentString = itemView.context.getString(R.string.progress_percentage, progress.percent)
+            percent = progress.percent.toInt()
         }
         containerView.setOnClickListener { onClick?.invoke(progress) }
     }

@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 buildscript {
     apply from: './gradle/config.gradle'
     repositories {
@@ -150,10 +142,6 @@ subprojects {
             kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
             kaptAndroidTest "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
 
-            compileOnly 'com.squareup.inject:inflation-inject:0.3.2'
-            kapt 'com.squareup.inject:inflation-inject-processor:0.3.2'
-            kaptAndroidTest 'com.squareup.inject:inflation-inject-processor:0.3.2'
-
             //Android libs
             if (project.hasProperty("android")) {
                 implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
@@ -169,8 +157,8 @@ subprojects {
                 implementation('androidx.collection:collection-ktx:1.1.0-alpha01', excludeGrp)
 
                 //Arch
-                implementation "androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha01"
-                implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01"
+                implementation("androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha01", excludeGrp)
+                implementation("androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01", excludeGrp)
             }
         }
     }

@@ -18,7 +18,6 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class YipRepo @Inject internal constructor(
@@ -30,23 +29,18 @@ class YipRepo @Inject internal constructor(
 
     fun observeAllProgress(): Flowable<List<Progress>> {
         return Flowable.combineLatest(
-                db.getDeviceDao().observeAll(),
-                Flowable.interval(0, 1, TimeUnit.MINUTES, RxSchedulers.compute),
+                db.getDeviceDao().observeAll().map { it },
+                ntpProvider.nowAsyncInterval(),
                 sharedPrefsProvider.observeStringFromPreference(
                         application.getString(R.string.pref_key_order),
                         application.getString(R.string.order_title_a_to_z)
                 ).toFlowable(BackpressureStrategy.DROP),
-                Function3<List<ProgressDto>, Long, String, Pair<List<ProgressDto>, String>> { list, _, order ->
-                    list to order
-                }
-        ).zipWith(
-                ntpProvider.nowAsync().toFlowable(),
-                BiFunction { item: Pair<List<ProgressDto>, String>, date: Date ->
-                    Triple(item.first, item.second, date)
+                Function3<List<ProgressDto>, Date, String, Triple<List<ProgressDto>, String, Date>> { list, now, order ->
+                    Triple(list, order, now)
                 }
         ).map { (progressesDto, sortOrder, now) ->
             val progresses = progressesDto.map { progress ->
-                progress.modifyPrebuiltProgress(now.time).toEntity()
+                progress.modifyPrebuiltProgress(now.time).toEntity(now)
             }
 
             return@map when (sortOrder) {
@@ -56,22 +50,18 @@ class YipRepo @Inject internal constructor(
                 application.getString(R.string.order_end_time_descending) -> progresses.sortedByDescending { it.end.time }
                 else -> throw IllegalArgumentException("Invalid sort order: $sortOrder")
             }
-        }.subscribeOn(RxSchedulers.database)
-                .observeOn(RxSchedulers.main)
+        }.subscribeOn(RxSchedulers.database).observeOn(RxSchedulers.main)
     }
 
     fun observeProgress(progressId: Long): Flowable<Progress> {
         return Flowable.combineLatest(
                 db.getDeviceDao().observe(progressId),
-                Flowable.interval(0, 1, TimeUnit.MINUTES, RxSchedulers.compute),
-                BiFunction<ProgressDto, Long, ProgressDto> { t1, _ -> t1 }
-        ).zipWith(
-                ntpProvider.nowAsync().toFlowable(),
-                BiFunction { item: ProgressDto, date: Date -> item to date }
+                ntpProvider.nowAsyncInterval(),
+                BiFunction<ProgressDto, Date, Pair<ProgressDto, Date>> { progressDto, now ->
+                    progressDto to now
+                }
         ).map { (progressDto, now) ->
-            progressDto.modifyPrebuiltProgress(now.time)
-        }.map { dto ->
-            dto.toEntity()
+            progressDto.modifyPrebuiltProgress(now.time).toEntity(now)
         }.subscribeOn(RxSchedulers.database)
                 .observeOn(RxSchedulers.main)
     }
@@ -105,14 +95,12 @@ class YipRepo @Inject internal constructor(
             )
             dto.id = db.getDeviceDao().insert(dto)
             emitter.onSuccess(dto)
-        }.map {
-            it.toEntity()
+        }.zipWith(
+                ntpProvider.nowAsync(),
+                BiFunction { dto: ProgressDto, now: Date -> dto to now }
+        ).map { (dto, now) ->
+            dto.toEntity(now)
         }.subscribeOn(RxSchedulers.database)
                 .observeOn(RxSchedulers.main)
-    }
-
-    private fun getSortingOrder(): String {
-        return sharedPrefsProvider.getStringFromPreference(application.getString(R.string.pref_key_order))
-            ?: application.getString(R.string.order_title_a_to_z)
     }
 }

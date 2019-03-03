@@ -16,7 +16,6 @@ import com.kevalpatel2106.yip.core.getColorCompat
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
-import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.*
 import kotlinx.android.synthetic.main.row_notification_time.view.*
@@ -38,9 +37,6 @@ internal class NotificationViewer @JvmOverloads constructor(
 
     @Inject
     internal lateinit var dateFormatter: DateFormatter
-
-    @Inject
-    internal lateinit var ntpProvider: NtpProvider
 
     @Inject
     internal lateinit var billingRepo: BillingRepo

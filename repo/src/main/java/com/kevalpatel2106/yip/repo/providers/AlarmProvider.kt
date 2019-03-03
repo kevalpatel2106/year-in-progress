@@ -33,13 +33,7 @@ class AlarmProvider @Inject internal constructor(
                         BiFunction { dtos: List<ProgressDto>, date: Date -> dtos to date }
                 )
                 .subscribe({ (dtos, now) ->
-                    dtos.forEach { dto ->
-                        updateAlarmsForProgress(
-                                progress = dto,
-                                triggerReceiver = triggerReceiver,
-                                nowMills = now.time
-                        )
-                    }
+                    dtos.forEach { dto -> updateAlarmsForProgress(dto, triggerReceiver, now.time) }
                 }, {
                     Timber.e(it)
                 })
@@ -52,36 +46,19 @@ class AlarmProvider @Inject internal constructor(
             nowMills: Long
     ) {
         progress.notifications
-                .map { triggerPercent ->
-                    calculateTriggerMills(progress.start.time, progress.end.time, triggerPercent)
-                }
-                .filter { triggerMills ->
-                    triggerMills > nowMills
-                }
+                .map { getTriggerMills(progress.start.time, progress.end.time, it) }
+                .filter { triggerMills -> triggerMills > nowMills }
                 .forEach { triggerMills ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        alarmManager.setExactAndAllowWhileIdle(
-                                AlarmManager.RTC_WAKEUP,
-                                triggerMills,
-                                getPendingIntent(
-                                        application = application,
-                                        alarmTime = triggerMills,
-                                        progressId = progress.id,
-                                        triggerClass = triggerReceiver
-                                )
-                        )
-                    } else {
-                        alarmManager.setExact(
-                                AlarmManager.RTC_WAKEUP,
-                                triggerMills,
-                                getPendingIntent(
-                                        application = application,
-                                        alarmTime = triggerMills,
-                                        progressId = progress.id,
-                                        triggerClass = triggerReceiver
-                                )
-                        )
-                    }
+                    alarmManager.setExactCompat(
+                            AlarmManager.RTC_WAKEUP,
+                            triggerMills,
+                            getPendingIntent(
+                                    application = application,
+                                    alarmTime = triggerMills,
+                                    progressId = progress.id,
+                                    triggerClass = triggerReceiver
+                            )
+                    )
                 }
     }
 
@@ -102,8 +79,16 @@ class AlarmProvider @Inject internal constructor(
     }
 
     companion object {
-        private fun calculateTriggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
+        private fun getTriggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
             return startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
+        }
+
+        private fun AlarmManager.setExactCompat(type: Int, triggerAtMillis: Long, operation: PendingIntent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setExactAndAllowWhileIdle(type, triggerAtMillis, operation)
+            } else {
+                setExact(type, triggerAtMillis, operation)
+            }
         }
 
         const val ARG_PROGRESS_ID = "arg_progress_id"
