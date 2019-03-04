@@ -12,7 +12,6 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
-import com.kevalpatel2106.yip.core.recall
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
@@ -39,10 +38,6 @@ internal class DetailViewModel @Inject internal constructor(
     internal val isLoading = MutableLiveData<Boolean>()
     internal val errorMessage = SingleLiveEvent<String>()
     internal val closeDetail = SingleLiveEvent<Unit>()
-
-    init {
-        closeDetail.value = Unit
-    }
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
@@ -74,16 +69,21 @@ internal class DetailViewModel @Inject internal constructor(
                             progressEndTimeText = sdf.format(item.end),
                             progressStartTimeText = sdf.format(item.start),
 
-                            showShareProgress = isProgressComplete,
-                            showTimeLeft = !isProgressComplete,
+                            isProgressComplete = if (isProgressComplete) {
+                                ProgressFlipper.POS_SHARE_PROGRESS
+                            } else {
+                                ProgressFlipper.POS_TIME_LEFT
+                            },
 
                             progressPercent = item.percent.toInt(),
-                            progressBarColor = item.color.value
+                            progressBarColor = item.color.value,
+
+                            progressAchievementTextColor = item.color.value
                     )
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.recall()
+                    closeDetail.value = Unit
                 })
                 .addTo(compositeDisposable)
     }
@@ -92,11 +92,11 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.deleteProgress(progressId)
                 .subscribe({
                     errorMessage.value = application.getString(R.string.progress_delete_successful)
-                    closeDetail.recall()
+                    closeDetail.value = Unit
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.recall()
+                    closeDetail.value = Unit
                 })
                 .addTo(compositeDisposable)
     }

@@ -18,7 +18,13 @@ internal data class DetailViewState(
         val progressEndTimeText: String,
 
         val progressTimeLeftText: SpannableString,
-        val showTimeLeft: Boolean,
 
-        val showShareProgress: Boolean
+        @ColorInt val progressAchievementTextColor: Int,
+
+        val isProgressComplete: ProgressFlipper
 )
+
+internal enum class ProgressFlipper(val value: Int) {
+    POS_TIME_LEFT(value = 0),
+    POS_SHARE_PROGRESS(value = 1)
+}

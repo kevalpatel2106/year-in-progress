@@ -133,50 +133,71 @@
                         app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
                         tools:text="46%" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/detail_time_left_tv"
-                        style="@style/LargeText.White"
-                        android:layout_width="0dp"
+                    <ViewFlipper
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_xxlarge"
-                        android:gravity="center"
-                        android:text="@{viewModel.viewState.progressTimeLeftText}"
-                        android:textSize="@dimen/time_left_text_size"
-                        android:visibility="@{viewModel.viewState.showTimeLeft}"
-                        app:layout_constraintEnd_toEndOf="@+id/detail_end_time_tv"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv"
-                        tools:text="23 days 1 hour 13 minutes" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/detail_complete_title"
-                        style="@style/LargeText.White"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:paddingEnd="@dimen/spacing_small"
-                        android:paddingStart="@dimen/spacing_small"
-                        android:text="@string/detail_progress_complete_message"
-                        android:visibility="@{viewModel.viewState.showShareProgress}"
+                        app:displayChild="@{viewModel.viewState.isProgressComplete.value}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_time_left_tv" />
+                        app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/detail_complete_share_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:backgroundTint="@android:color/white"
-                        android:clickable="@{!viewModel.isDeleting}"
-                        android:onClick="@{() -> view.showShareAchievements()}"
-                        android:text="@string/detail_progress_complete_share_btn_title"
-                        android:textColor="@color/colorPrimaryText"
-                        android:visibility="@{viewModel.viewState.showShareProgress}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_complete_title" />
+                        <!--0. Time left-->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/detail_time_left_tv"
+                            style="@style/LargeText.White"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{viewModel.viewState.progressTimeLeftText}"
+                            android:textSize="@dimen/time_left_text_size"
+                            tools:text="23 days 1 hour 13 minutes" />
+
+                        <!--1. Share messages-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/spacing_huge"
+                                android:layout_height="@dimen/spacing_huge"
+                                android:src="@drawable/ic_achived" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/LargeText.White"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_micro"
+                                android:gravity="center"
+                                android:paddingEnd="@dimen/spacing_small"
+                                android:paddingStart="@dimen/spacing_small"
+                                android:text="@string/detail_progress_complete_title"
+                                android:textColor="@{viewModel.viewState.progressAchievementTextColor}"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/MediumText.White"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:gravity="center"
+                                android:paddingEnd="@dimen/spacing_small"
+                                android:paddingStart="@dimen/spacing_small"
+                                android:text="@string/detail_progress_complete_message" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:backgroundTint="@android:color/white"
+                                android:clickable="@{!viewModel.isDeleting}"
+                                android:onClick="@{() -> view.showShareAchievements()}"
+                                android:text="@string/detail_progress_complete_share_btn_title"
+                                android:textColor="@color/colorPrimaryText" />
+                        </LinearLayout>
+                    </ViewFlipper>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
         </RelativeLayout>

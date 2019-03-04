@@ -103,7 +103,8 @@
         <item quantity="other">hours</item>
     </plurals>
     <string name="achivement_share_message">I completed my goal of %s. #GoalAchived #YearInProgress</string>
-    <string name="detail_progress_complete_message"><![CDATA[Times Up! ⏳ You\'ve reached on the deadline.]]></string>
+    <string name="detail_progress_complete_title"><![CDATA[Times Up! ⏳]]></string>
+    <string name="detail_progress_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
     <string name="detail_progress_complete_share_btn_title">Share #GoalAchived</string>
 
     <!--Payment screen-->
