@@ -12,6 +12,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
+import com.kevalpatel2106.yip.core.recall
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
@@ -34,11 +35,14 @@ internal class DetailViewModel @Inject internal constructor(
         }
 
     val viewState = MutableLiveData<DetailViewState>()
-
-    internal val isDeleting = MutableLiveData<Boolean>()
+    val isDeleting = MutableLiveData<Boolean>()
     internal val isLoading = MutableLiveData<Boolean>()
     internal val errorMessage = SingleLiveEvent<String>()
     internal val closeDetail = SingleLiveEvent<Unit>()
+
+    init {
+        closeDetail.value = Unit
+    }
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
@@ -79,7 +83,7 @@ internal class DetailViewModel @Inject internal constructor(
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.value = Unit
+                    closeDetail.recall()
                 })
                 .addTo(compositeDisposable)
     }
@@ -88,11 +92,11 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.deleteProgress(progressId)
                 .subscribe({
                     errorMessage.value = application.getString(R.string.progress_delete_successful)
-                    closeDetail.value = Unit
+                    closeDetail.recall()
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.value = Unit
+                    closeDetail.recall()
                 })
                 .addTo(compositeDisposable)
     }

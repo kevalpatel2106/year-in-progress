@@ -96,22 +96,23 @@ internal class DashboardViewModel @Inject constructor(
     internal fun userWantsToOpenDetail(progress: Progress) {
         expandProgress.value = progress.id
 
-        val randomNum = Random.nextInt(9)
+        Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
+            // Should show rating dialog?
+            if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false) && randomNum == 1) {
+                askForRating.value = Unit
+            }
 
-        // Show rating dialog
-        if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false) && randomNum == 1) {
-            askForRating.value = Unit
-        }
-
-        // Should show ads?
-        if (randomNum == 0 && !billingRepo.isPurchased()) {
-            showInterstitialAd.value = Unit
+            // Should show ads?
+            if (randomNum == 0 && !billingRepo.isPurchased()) {
+                showInterstitialAd.value = Unit
+            }
         }
     }
 
     internal fun isDetailExpanded(): Boolean = expandProgress.value ?: -1 > 0L
 
     companion object {
+        private const val MAX_RANDOM_NUMBER = 9
         private const val PREF_KEY_RATED = "pref_key_rated"
     }
 }

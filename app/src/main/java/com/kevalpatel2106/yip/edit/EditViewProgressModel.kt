@@ -142,7 +142,7 @@ internal class EditViewProgressModel @Inject internal constructor(
 
     internal fun saveProgress(notificationsList: List<Float>) {
         if (isLoadingProgress.value == true) return
-        if (currentTitle == null || currentTitle!!.length !in 1..titleLength) {
+        if (currentTitle == null || currentTitle?.length !in 1..titleLength) {
             errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
             return
         }
@@ -150,7 +150,7 @@ internal class EditViewProgressModel @Inject internal constructor(
             userMessage.value = application.getString(R.string.error_start_date_after_end_date)
             return
         }
-        if (!isValidProgressColor(currentColor.value!!.value)) {
+        if (!isValidProgressColor(currentColor.value?.value)) {
             userMessage.value = application.getString(R.string.error_invalid_progress)
             return
         }

@@ -1,9 +1,25 @@
 package com.kevalpatel2106.yip.repo.billing
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.PurchasesUpdatedListener
 import com.kevalpatel2106.yip.repo.R
+
+internal fun prepareBillingClient(
+        activity: Activity,
+        purchasesUpdatedListener: PurchasesUpdatedListener
+): BillingClient {
+    return BillingClient
+            .newBuilder(activity)
+            .setListener(purchasesUpdatedListener)
+            .build()
+}
+
+internal fun isBillingCodeSuccess(@BillingClient.BillingResponse responseCode: Int): Boolean {
+    return responseCode == BillingClient.BillingResponse.OK
+}
 
 @SuppressLint("SwitchIntDef")
 internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse responseCode: Int) = when (responseCode) {

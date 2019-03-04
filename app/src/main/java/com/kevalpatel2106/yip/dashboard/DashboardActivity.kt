@@ -54,8 +54,6 @@ class DashboardActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private val adapter: ProgressAdapter by lazy { ProgressAdapter() }
-
     private val model: DashboardViewModel by lazy {
         provideViewModel(viewModelProvider, DashboardViewModel::class.java)
     }
@@ -74,29 +72,23 @@ class DashboardActivity : AppCompatActivity() {
         setUpList()
         setUpInterstitialAd()
 
-        // Start monitoring progress.
-        model.progresses.nullSafeObserve(this@DashboardActivity) {
-            adapter.submitList(it.toMutableList())
-        }
-
         // Rating and ads section
-        model.askForRating.nullSafeObserve(this@DashboardActivity) {
-            showRatingDialog()
-        }
+        model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
     }
 
     private fun setUpInterstitialAd() {
-        val interstitialAd = InterstitialAd(this)
-        interstitialAd.adUnitId = getString(R.string.detail_interstitial_ad_id)
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-                interstitialAd.show()
-            }
+        val interstitialAd = InterstitialAd(this).apply {
+            adUnitId = getString(R.string.detail_interstitial_ad_id)
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    show()
+                }
 
-            override fun onAdFailedToLoad(p0: Int) {
-                super.onAdFailedToLoad(p0)
-                Timber.i("The interstitial ad loading failed.")
+                override fun onAdFailedToLoad(p0: Int) {
+                    super.onAdFailedToLoad(p0)
+                    Timber.i("The interstitial ad loading failed.")
+                }
             }
         }
         model.showInterstitialAd.nullSafeObserve(this@DashboardActivity) {
@@ -138,8 +130,13 @@ class DashboardActivity : AppCompatActivity() {
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
         progress_list_rv.tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
         progress_list_rv.setExpandablePage(expandable_page_container)
-        progress_list_rv.adapter = adapter.apply {
-            this.clickListener = { model.userWantsToOpenDetail(it) }
+
+        val adapter = ProgressAdapter { model.userWantsToOpenDetail(it) }
+        progress_list_rv.adapter = adapter
+
+        // Start monitoring progress.
+        model.progresses.nullSafeObserve(this@DashboardActivity) {
+            adapter.submitList(it.toMutableList())
         }
 
         // Expand detail

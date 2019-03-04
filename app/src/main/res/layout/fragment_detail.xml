@@ -6,6 +6,10 @@
         <variable
             name="viewModel"
             type="com.kevalpatel2106.yip.detail.DetailViewModel" />
+
+        <variable
+            name="view"
+            type="com.kevalpatel2106.yip.detail.DetailFragment" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,12 +34,15 @@
                 android:id="@+id/detail_close_iv"
                 style="@style/DetailToolbarButtonStyle"
                 android:layout_alignParentStart="true"
+                android:onClick="@{() -> view.closeDetail()}"
                 app:srcCompat="@drawable/ic_close" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/option_menu"
                 style="@style/DetailToolbarButtonStyle"
                 android:layout_alignParentEnd="true"
+                android:clickable="@{!viewModel.isDeleting}"
+                android:onClick="@{() -> view.showDetailOptions()}"
                 app:srcCompat="@drawable/ic_overflow" />
 
             <ScrollView
@@ -162,6 +169,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:backgroundTint="@android:color/white"
+                        android:clickable="@{!viewModel.isDeleting}"
+                        android:onClick="@{() -> view.showShareAchievements()}"
                         android:text="@string/detail_progress_complete_share_btn_title"
                         android:textColor="@color/colorPrimaryText"
                         android:visibility="@{viewModel.viewState.showShareProgress}"

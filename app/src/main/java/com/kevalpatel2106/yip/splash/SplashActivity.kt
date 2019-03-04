@@ -15,12 +15,13 @@ internal class SplashActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private lateinit var model: SplashViewModel
+    private val model: SplashViewModel by lazy {
+        provideViewModel(viewModelProvider, SplashViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
-        model = provideViewModel(viewModelProvider, SplashViewModel::class.java)
 
         // Refresh the purchase state.
         model.refreshPurchaseState(this@SplashActivity)

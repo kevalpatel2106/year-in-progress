@@ -47,13 +47,56 @@ internal class EditProgressActivity : AppCompatActivity() {
         setSupportActionBar(edit_toolbar)
         supportActionBar?.set(showTitle = false)
 
-        // Set up the title.
-        edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
-        model.initialTitle.nullSafeObserve(this@EditProgressActivity) { title ->
-            edit_progress_title.setText(title)
-            edit_progress_title.setSelection(title.length)
+        setUpTitle()
+        setUpDates()
+        setUpColorPicker()
+        monitorUserMessages()
+
+        // Monitor loader
+        model.isLoadingProgress.nullSafeObserve(this@EditProgressActivity) {
+            invalidateOptionsMenu()
+            edit_color.isEnabled = !it
+        }
+        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) {
+            edit_start_time.isEnabled = !it
+            edit_end_time.isEnabled = !it
         }
 
+        model.currentNotificationsList.nullSafeObserve(this@EditProgressActivity) {
+            notification_times.notificationPercents = it.toMutableList()
+        }
+
+        onNewIntent(intent)
+    }
+
+    private fun monitorUserMessages() {
+        model.closeSignal.nullSafeObserve(this@EditProgressActivity) { finish() }
+        model.userMessage.nullSafeObserve(this@EditProgressActivity) { showSnack(it) }
+        model.errorInvalidTitle.observe(this@EditProgressActivity, Observer { error ->
+            edit_progress_title_til.error = error
+        })
+    }
+
+    private fun setUpColorPicker() {
+        edit_color.colorSelectedListener = object : ColorPicker.ColorPickerListener {
+            override fun onLockedColorClicked() {
+                PaymentActivity.launch(this@EditProgressActivity)
+            }
+
+            override fun onColorSelected(color: Int) {
+                model.onProgressColorSelected(color)
+            }
+        }
+        model.colors.nullSafeObserve(this@EditProgressActivity) { edit_color.setColors(it) }
+        model.currentColor.nullSafeObserve(this@EditProgressActivity) {
+            edit_color.setSelectedColor(it.value)
+        }
+        model.lockColorPicker.nullSafeObserve(this@EditProgressActivity) { lock ->
+            edit_color.lock(lock)
+        }
+    }
+
+    private fun setUpDates() {
         // Start time set up
         edit_start_time.setOnClickListener {
             getDatePicker(listener = { date -> model.onProgressStartDateSelected(date) }).show()
@@ -73,47 +116,14 @@ internal class EditProgressActivity : AppCompatActivity() {
         model.currentEndDate.nullSafeObserve(this@EditProgressActivity) {
             edit_end_time.text = sdf.formatDateOnly(it)
         }
+    }
 
-        // Color set up
-        edit_color.colorSelectedListener = object : ColorPicker.ColorPickerListener {
-            override fun onLockedColorClicked() {
-                PaymentActivity.launch(this@EditProgressActivity)
-            }
-
-            override fun onColorSelected(color: Int) {
-                model.onProgressColorSelected(color)
-            }
+    private fun setUpTitle() {
+        edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
+        model.initialTitle.nullSafeObserve(this@EditProgressActivity) { title ->
+            edit_progress_title.setText(title)
+            edit_progress_title.setSelection(title.length)
         }
-        model.colors.nullSafeObserve(this@EditProgressActivity) { edit_color.setColors(it) }
-        model.currentColor.nullSafeObserve(this@EditProgressActivity) {
-            edit_color.setSelectedColor(it.value)
-        }
-        model.lockColorPicker.nullSafeObserve(this@EditProgressActivity) { lock ->
-            edit_color.lock(lock)
-        }
-
-        // Monitor userMessage
-        model.closeSignal.nullSafeObserve(this@EditProgressActivity) { finish() }
-        model.userMessage.nullSafeObserve(this@EditProgressActivity) { showSnack(it) }
-        model.errorInvalidTitle.observe(this@EditProgressActivity, Observer { error ->
-            edit_progress_title_til.error = error
-        })
-
-        // Monitor loader
-        model.isLoadingProgress.nullSafeObserve(this@EditProgressActivity) {
-            invalidateOptionsMenu()
-            edit_color.isEnabled = !it
-        }
-        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) {
-            edit_start_time.isEnabled = !it
-            edit_end_time.isEnabled = !it
-        }
-
-        model.currentNotificationsList.nullSafeObserve(this@EditProgressActivity) {
-            notification_times.notificationPercents = it.toMutableList()
-        }
-
-        onNewIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -8,13 +8,13 @@ import com.kevalpatel2106.yip.recyclerview.YipAdapter
 import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
-internal class ProgressAdapter : YipAdapter(DIFF_CALLBACK) {
+internal class ProgressAdapter(
+        private var clickListener: ((progress: Progress) -> Unit)? = null
+) : YipAdapter(DIFF_CALLBACK) {
 
     init {
         setHasStableIds(true)
     }
-
-    internal var clickListener: ((progress: Progress) -> Unit)? = null
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {
@@ -24,10 +24,11 @@ internal class ProgressAdapter : YipAdapter(DIFF_CALLBACK) {
         }
     }
 
-    @Suppress("DEPRECATION")
     override fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable) {
         when (holder) {
-            is ProgressViewHolder -> holder.bind((item as ProgressListItem).progress, clickListener)
+            is ProgressViewHolder -> {
+                (item as? ProgressListItem)?.let { holder.bind(it.progress, clickListener) }
+            }
         }
     }
 

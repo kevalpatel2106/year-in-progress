@@ -22,7 +22,6 @@ import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
-
 internal class DetailFragment : Fragment() {
 
     private val popupMenu: PopupMenu by lazy {
@@ -62,6 +61,7 @@ internal class DetailFragment : Fragment() {
                 .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
                 .apply {
                     lifecycleOwner = this@DetailFragment
+                    view = this@DetailFragment
                     viewModel = model
                 }
                 .root
@@ -70,16 +70,9 @@ internal class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Handle clicks
-        detail_complete_share_btn.setOnClickListener { startActivity(model.prepareShareAchievement()) }
-        option_menu.setOnClickListener { popupMenu.show() }
-        detail_close_iv.setOnClickListener { (activity as? DashboardActivity)?.collapseDetail() }
-
         // Handle the delete
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
-            option_menu.isEnabled = !isDeleting
-
             if (isDeleting) {
                 deleteInProgressSnackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
             } else {
@@ -88,12 +81,8 @@ internal class DetailFragment : Fragment() {
         }
 
         // Handle errors.
-        model.errorMessage.nullSafeObserve(this@DetailFragment) {
-            activity?.showSnack(it)
-        }
-        model.closeDetail.nullSafeObserve(this@DetailFragment) {
-            (activity as? DashboardActivity)?.collapseDetail()
-        }
+        model.errorMessage.nullSafeObserve(this@DetailFragment) { activity?.showSnack(it) }
+        model.closeDetail.nullSafeObserve(this@DetailFragment) { closeDetail() }
     }
 
     private fun conformDelete(title: String) {
@@ -104,6 +93,12 @@ internal class DetailFragment : Fragment() {
                 .setCancelable(true)
                 .show()
     }
+
+    fun showDetailOptions() = popupMenu.show()
+
+    fun showShareAchievements() = startActivity(model.prepareShareAchievement())
+
+    fun closeDetail() = (activity as? DashboardActivity)?.collapseDetail()
 
     companion object {
         private const val ARG_ID = "arg_id"

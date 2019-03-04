@@ -23,6 +23,6 @@ internal class SettingsViewModel @Inject internal constructor(
     }
 
     internal fun refreshPurchaseState(activity: Activity) {
-        billingRepo.refreshPurchaseState(BillingRepo.SKU_ID, activity)
+        billingRepo.refreshPurchaseState(activity)
     }
 }
