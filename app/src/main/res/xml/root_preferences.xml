@@ -88,6 +88,11 @@
             android:icon="@drawable/ic_mail"
             android:key="@string/pref_key_contact"
             android:title="@string/pref_title_contact" />
+
+        <androidx.preference.Preference
+            android:icon="@drawable/ic_share"
+            android:key="@string/pref_key_share_friends"
+            android:title="@string/pref_title_share_friend" />
     </androidx.preference.PreferenceCategory>
 
     <com.kevalpatel2106.yip.settings.CentralTitlePreference android:summary="@string/pref_title_made_love_with_uk" />

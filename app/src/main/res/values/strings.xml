@@ -27,6 +27,7 @@
     <string name="pref_title_sort_by">Sorting by</string>
     <string name="pref_title_open_source_licences">Open-source licences</string>
     <string name="pref_title_add_widget">Add home screen widget</string>
+    <string name="pref_title_share_friend">Share with friends</string>
     <string name="pref_title_made_love_with_uk">Made with ❤ from UK 🇬🇧</string>
     <string-array name="date_format_titles">
         <item>01-Jan-2019</item>
@@ -130,5 +131,7 @@
     <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
     <string name="error_webview">Cannot load the page. Check your internet connection.</string>
     <string name="progress_notification_title">%s reached to %.2f%%</string>
+    <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
+    <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <!--TODO: Categorize the strings-->
 </resources>
