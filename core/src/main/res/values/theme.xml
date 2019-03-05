@@ -41,12 +41,18 @@
         <item name="android:seekBarStyle">@style/YipTheme.Seekbar</item>
         <item name="seekBarStyle">@style/YipTheme.Seekbar
         </item> <!--This is essential for some devices, e.g. Samsung-->
+
+        <!--Alert dialog-->
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
     </style>
 
     <!--Alert dialogs-->
     <style name="AppTheme.Dialog.Alert" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/window_background_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/YipTheme.NegativeButton</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_nano</item>
