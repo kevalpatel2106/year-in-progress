@@ -1,7 +1,6 @@
 package com.kevalpatel2106.yip.settings
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -9,8 +8,6 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
@@ -26,29 +23,22 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private lateinit var model: SettingsViewModel
+    private val model: SettingsViewModel by lazy {
+        provideViewModel(viewModelProvider, SettingsViewModel::class.java)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.getAppComponent().inject(this@SettingsFragment)
-        model = provideViewModel(viewModelProvider, SettingsViewModel::class.java)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        activity?.let { model.refreshPurchaseState(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findPreference<Preference>(getString(R.string.pref_key_version)).summary = BuildConfig.VERSION_NAME
-
-        // Set up buy pro option
-        val buyProPref = findPreference<Preference>(getString(R.string.pref_key_buy_pro))
-        model.isCheckingPurchases.nullSafeObserve(this@SettingsFragment) { buyProPref.isEnabled = !it }
-        val buyProPrefHeader = findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
-        model.isPurchased.nullSafeObserve(this@SettingsFragment) { buyProPrefHeader.isVisible = !it }
-
+        activity?.let { model.refreshPurchaseState(it) }
         // Set the sort order
         findPreference<ListPreference>(getString(R.string.pref_key_order)).summaryProvider =
                 ListPreference.SimpleSummaryProvider.getInstance()
@@ -60,6 +50,16 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         // Set the time selector
         findPreference<ListPreference>(getString(R.string.pref_key_time_format)).summaryProvider =
                 ListPreference.SimpleSummaryProvider.getInstance()
+
+
+        val versionPref = findPreference<Preference>(getString(R.string.pref_key_version))
+        val buyProPref = findPreference<Preference>(getString(R.string.pref_key_buy_pro))
+        val buyProPrefHeader = findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
+        model.viewState.nullSafeObserve(this@SettingsFragment) {
+            versionPref.summary = it.versionPreferenceSummary
+            buyProPref.isEnabled = it.isBuyProClickable
+            buyProPrefHeader.isVisible = it.isBuyProVisible
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -69,37 +69,14 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             getString(R.string.pref_key_add_widget) -> context?.let { WebViewActivity.showWidgetGuide(it) }
             getString(R.string.pref_key_privacy_policy) -> context?.let { WebViewActivity.showPrivacyPolicy(it) }
             getString(R.string.pref_key_changelog) -> context?.let { WebViewActivity.showChangelog(it) }
-            getString(R.string.pref_key_open_source_licences) -> context?.showLibraryLicences()
-            getString(R.string.pref_key_share_friends) -> startActivity(context?.prepareShareIntent())
+            getString(R.string.pref_key_open_source_licences) -> SettingsUseCase.showLibraryLicences(context)
+            getString(R.string.pref_key_share_friends) -> startActivity(SettingsUseCase.prepareShareIntent(context))
         }
         return super.onPreferenceTreeClick(preference)
     }
 
 
     companion object {
-
-        private fun Context.prepareShareIntent(): Intent {
-            return Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                putExtra(Intent.EXTRA_TEXT, getString(
-                        R.string.app_invite_message,
-                        getString(R.string.application_name),
-                        getString(R.string.app_invitation_url)
-                ))
-                putExtra(Intent.EXTRA_SUBJECT, getString(
-                        R.string.app_invitation_title,
-                        getString(R.string.application_name)
-                ))
-            }
-        }
-
-        private fun Context.showLibraryLicences() {
-            OssLicensesMenuActivity.setActivityTitle(getString(R.string.title_activity_licences))
-            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
-        }
-
         internal fun getNewInstance() = SettingsFragment()
     }
 }

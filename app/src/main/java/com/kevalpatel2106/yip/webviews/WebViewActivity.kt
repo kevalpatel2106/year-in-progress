@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
 import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.activity_web_view.*
@@ -26,7 +27,7 @@ internal class WebViewActivity : AppCompatActivity() {
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
     private val model: WebViewViewModel by lazy {
-        return@lazy provideViewModel(viewModelProvider, WebViewViewModel::class.java)
+        provideViewModel(viewModelProvider, WebViewViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,17 +39,9 @@ internal class WebViewActivity : AppCompatActivity() {
                     viewModel = model
                 }
 
-        setToolbar()
-        setWebView()
-        onNewIntent(intent)
-    }
+        setSupportActionBar(webview_toolbar)
+        supportActionBar?.set()
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        model.submitLink(intent.getStringExtra(ARG_LINK), intent.getIntExtra(ARG_TITLE, 0))
-    }
-
-    private fun setWebView() {
         webview.setUp()
         webview.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -61,15 +54,13 @@ internal class WebViewActivity : AppCompatActivity() {
                 model.onPageLoadingFailed()
             }
         }
+
+        onNewIntent(intent)
     }
 
-    private fun setToolbar() {
-        setSupportActionBar(webview_toolbar)
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
-            setDisplayShowTitleEnabled(true)
-        }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        model.submitLink(intent.getStringExtra(ARG_LINK), intent.getIntExtra(ARG_TITLE, 0))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

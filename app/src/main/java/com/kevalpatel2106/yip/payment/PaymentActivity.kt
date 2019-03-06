@@ -11,6 +11,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
 import com.kevalpatel2106.yip.di.getAppComponent
 import kotlinx.android.synthetic.main.activity_payment.*
@@ -34,22 +35,14 @@ internal class PaymentActivity : AppCompatActivity() {
                     viewModel = model
                     activity = this@PaymentActivity
                 }
-        setActionbar()
+        setSupportActionBar(payment_toolbar)
+        supportActionBar?.set()
 
         // Monitor
         model.userMessage.nullSafeObserve(this@PaymentActivity) {
             Toast.makeText(this@PaymentActivity, it, Toast.LENGTH_SHORT).show()
         }
-        model.closeActivity.nullSafeObserve(this@PaymentActivity) { finish() }
-    }
-
-    private fun setActionbar() {
-        setSupportActionBar(payment_toolbar)
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_close)
-        }
+        model.closeSignal.nullSafeObserve(this@PaymentActivity) { finish() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -57,10 +50,6 @@ internal class PaymentActivity : AppCompatActivity() {
             android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        if (model.isPurchasing.value != true) super.onBackPressed()
     }
 
     companion object {

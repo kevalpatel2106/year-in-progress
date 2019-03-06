@@ -96,7 +96,14 @@ internal class DetailFragment : Fragment() {
 
     fun showDetailOptions() = popupMenu.show()
 
-    fun showShareAchievements() = startActivity(model.prepareShareAchievement())
+    fun showShareAchievements() {
+        context?.let {
+            startActivity(DetailUseCase.prepareShareAchievementIntent(
+                    context = it,
+                    title = model.viewState.value?.progressTitleText
+            ))
+        }
+    }
 
     fun closeDetail() = (activity as? DashboardActivity)?.collapseDetail()
 

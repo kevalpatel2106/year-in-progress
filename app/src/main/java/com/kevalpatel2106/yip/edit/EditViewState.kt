@@ -1,13 +1,24 @@
 package com.kevalpatel2106.yip.edit
 
+import com.kevalpatel2106.yip.entity.ProgressColor
+import com.kevalpatel2106.yip.entity.ProgressType
+
 internal data class EditViewState(
-        var enableColorEdit: Boolean,
+        val progressType: ProgressType,
 
-        var allowEditDate: Boolean,
+        val titleText: String,
+        val titleErrorMsg: String?,
 
-        var titleText: String,
-        var titleErrorMsg: String,
+        val allowEditDate: Boolean,
+        val progressStartTimeText: String,
+        val progressEndTimeText: String,
 
-        var progressStartTimeText: String,
-        var progressEndTimeText: String
+        val progressColor: ProgressColor,
+        val progressColors: List<Int>,
+        val lockColorPicker: Boolean,
+        val allowColorPickerClick: Boolean,
+
+        val notificationList: List<Float>,
+
+        val activityTitle: String
 )

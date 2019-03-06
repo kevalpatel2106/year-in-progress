@@ -38,7 +38,7 @@
             android:id="@+id/webview_flipper"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:displayChild="@{viewModel.flipperPosition}"
+            app:displayChild="@{viewModel.flipperPosition.value}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/lato"
-                    android:onClick="@{() -> viewModel.loadPage()}"
+                    android:onClick="@{() -> viewModel.reload()}"
                     android:text="@string/retry"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>

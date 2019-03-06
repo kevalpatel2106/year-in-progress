@@ -10,19 +10,21 @@ import javax.inject.Inject
 internal class SettingsViewModel @Inject internal constructor(
         private val billingRepo: BillingRepo
 ) : BaseViewModel() {
-    internal val isPurchased = MutableLiveData<Boolean>()
-    internal val isCheckingPurchases = MutableLiveData<Boolean>()
+    internal val viewState = MutableLiveData<SettingsFragmentViewState>(SettingsFragmentViewState.initialState())
 
     init {
-        isPurchased.value = false
         billingRepo.observeIsPurchased()
-                .doOnSubscribe { isCheckingPurchases.value = true }
-                .doOnNext { isCheckingPurchases.value = false }
-                .subscribe { purchased -> isPurchased.value = purchased }
+                .doOnSubscribe {
+                    viewState.value = viewState.value?.copy(isBuyProClickable = false)
+                }
+                .doOnNext {
+                    viewState.value = viewState.value?.copy(isBuyProClickable = true)
+                }
+                .subscribe { purchased ->
+                    viewState.value = viewState.value?.copy(isBuyProVisible = !purchased)
+                }
                 .addTo(compositeDisposable)
     }
 
-    internal fun refreshPurchaseState(activity: Activity) {
-        billingRepo.refreshPurchaseState(activity)
-    }
+    internal fun refreshPurchaseState(activity: Activity) = billingRepo.refreshPurchaseState(activity)
 }

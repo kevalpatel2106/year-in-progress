@@ -26,3 +26,9 @@ fun <T> MutableLiveData<T>.recall() {
     this.value = value
 }
 
+class SignalLiveData : MutableLiveData<Unit>() {
+    fun invoke() {
+        value = Unit
+    }
+}
+

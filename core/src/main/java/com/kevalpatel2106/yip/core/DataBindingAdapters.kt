@@ -24,7 +24,7 @@ fun setProgressTint(view: View, @ColorInt color: Int) {
 
 @BindingAdapter("app:loadUrl")
 fun loadUrl(view: View, url: String) {
-    (view as? WebView)?.loadUrl(url)
+    if (url.isNotBlank()) (view as? WebView)?.loadUrl(url)
 }
 
 @BindingAdapter("app:displayChild")

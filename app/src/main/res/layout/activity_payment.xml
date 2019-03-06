@@ -28,6 +28,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/payment_toolbar"
+                app:navigationIcon="@drawable/ic_close"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/colorAccent"
-                android:enabled="@{!viewModel.isPurchasing}"
+                android:enabled="@{!viewModel.viewState.upgradeButtonClickable}"
                 android:onClick="@{() -> viewModel.purchase(activity)}"
                 android:paddingBottom="@dimen/spacing_pico"
                 android:paddingEnd="@dimen/spacing_small"
@@ -73,7 +74,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/appcompatIv1"
-                    android:layout_width="150dp"
+                    android:layout_width="@dimen/payment_header_image_width"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_speedometer"

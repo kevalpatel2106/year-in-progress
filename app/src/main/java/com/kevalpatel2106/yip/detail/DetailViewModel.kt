@@ -1,23 +1,17 @@
 package com.kevalpatel2106.yip.detail
 
 import android.app.Application
-import android.content.Intent
-import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.SignalLiveData
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
-import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import timber.log.Timber
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -35,18 +29,11 @@ internal class DetailViewModel @Inject internal constructor(
 
     val viewState = MutableLiveData<DetailViewState>()
     val isDeleting = MutableLiveData<Boolean>()
-    internal val isLoading = MutableLiveData<Boolean>()
     internal val errorMessage = SingleLiveEvent<String>()
-    internal val closeDetail = SingleLiveEvent<Unit>()
+    internal val closeDetail = SignalLiveData()
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
-                .doOnSubscribe {
-                    isLoading.value = true
-                }
-                .doAfterTerminate {
-                    isLoading.value = false
-                }
                 .subscribe({ item ->
                     val isProgressComplete = item.percent >= 100f
 
@@ -64,7 +51,7 @@ internal class DetailViewModel @Inject internal constructor(
                             progressTimeLeftText = if (isProgressComplete) {
                                 SpannableString("")
                             } else {
-                                prepareTimeLeft(item.end, item.color)
+                                DetailUseCase.prepareTimeLeft(application, item.end, item.color)
                             },
                             progressEndTimeText = sdf.format(item.end),
                             progressStartTimeText = sdf.format(item.start),
@@ -83,7 +70,7 @@ internal class DetailViewModel @Inject internal constructor(
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.value = Unit
+                    closeDetail.invoke()
                 })
                 .addTo(compositeDisposable)
     }
@@ -92,103 +79,12 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.deleteProgress(progressId)
                 .subscribe({
                     errorMessage.value = application.getString(R.string.progress_delete_successful)
-                    closeDetail.value = Unit
+                    closeDetail.invoke()
                 }, {
                     Timber.e(it)
                     errorMessage.value = it.message
-                    closeDetail.value = Unit
+                    closeDetail.invoke()
                 })
                 .addTo(compositeDisposable)
-    }
-
-    private fun prepareTimeLeft(endTime: Date, progressColor: ProgressColor): SpannableString {
-        // Find difference in mills
-        var diffMills = endTime.time - System.currentTimeMillis()
-        if (diffMills < 0) return SpannableString("")
-
-        // Calculate the days, hours and minutes
-        val days = TimeUnit.DAYS.convert(diffMills, TimeUnit.MILLISECONDS)
-        if (days != 0L) diffMills %= TimeUnit.MILLISECONDS.convert(days, TimeUnit.DAYS)
-        val hours = TimeUnit.HOURS.convert(diffMills, TimeUnit.MILLISECONDS)
-        if (hours != 0L) diffMills %= TimeUnit.MILLISECONDS.convert(hours, TimeUnit.HOURS)
-        val mins = TimeUnit.MINUTES.convert(diffMills, TimeUnit.MILLISECONDS)
-
-        // Prepare raw string
-        val rawString = application.getString(
-                R.string.time_left_title,
-                days,
-                application.resources.getQuantityString(R.plurals.days, days.toInt()),
-                hours,
-                application.resources.getQuantityString(R.plurals.hours, hours.toInt()),
-                mins,
-                application.resources.getQuantityString(R.plurals.minutes, mins.toInt())
-        )
-
-        return SpannableString(rawString).apply {
-            setSpan(
-                    RelativeSizeSpan(0.8f),
-                    0,
-                    rawString.indexOfFirst { it == '\n' },
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-
-            // Set spans for days left
-            val dayStartIndex = rawString.indexOf(days.toString())
-            val dayEndIndex = rawString.indexOf(days.toString()) + days.toString().length
-            setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    dayStartIndex,
-                    dayEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                    RelativeSizeSpan(1.3f),
-                    dayStartIndex,
-                    dayEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-
-            // Set spans for hours left
-            val hoursStartIndex = rawString.indexOf(hours.toString(), dayEndIndex)
-            val hoursEndIndex = hoursStartIndex + hours.toString().length
-            setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    hoursStartIndex,
-                    hoursEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                    RelativeSizeSpan(1.3f),
-                    hoursStartIndex,
-                    hoursEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-
-            // Set spans for minutes left
-            val minsStartIndex = rawString.indexOf(mins.toString(), hoursEndIndex)
-            val minsEndIndex = minsStartIndex + mins.toString().length
-            setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    minsStartIndex,
-                    minsEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                    RelativeSizeSpan(1.3f),
-                    minsStartIndex,
-                    minsEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-    }
-
-    internal fun prepareShareAchievement(): Intent {
-        return Intent().apply {
-            action = Intent.ACTION_SEND
-            viewState.value?.progressTitleText?.let { title ->
-                putExtra(Intent.EXTRA_TEXT, application.getString(R.string.achivement_share_message, title))
-            }
-            type = "text/plain"
-        }
     }
 }

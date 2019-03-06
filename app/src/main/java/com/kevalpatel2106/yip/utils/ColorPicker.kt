@@ -25,7 +25,6 @@ class ColorPicker @JvmOverloads constructor(
 
     var colorSelectedListener: ColorPickerListener? = null
 
-
     fun setColors(colors: IntArray) {
         removeAllViews()
         colors.forEach { color ->
