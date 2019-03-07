@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.core
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,11 +38,16 @@ class LiveDataExtTest {
 
         testLiveData = MutableLiveData()
         testLiveData.value = testString
+        testLiveData.observeForever(eventObserver)
+    }
+
+    @After
+    fun after() {
+        testLiveData.removeObserver(eventObserver)
     }
 
     @Test
     fun checkRecall() {
-        testLiveData.observeForever(eventObserver)
         testLiveData.recall()
         Mockito.verify(eventObserver, Mockito.times(2)).onChanged(testString)
     }

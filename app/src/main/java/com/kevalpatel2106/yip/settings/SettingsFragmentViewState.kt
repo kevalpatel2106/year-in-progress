@@ -7,6 +7,7 @@ data class SettingsFragmentViewState(
         val isBuyProVisible: Boolean,
         val versionPreferenceSummary: String
 ) {
+
     companion object {
         fun initialState(): SettingsFragmentViewState {
             return SettingsFragmentViewState(

@@ -17,7 +17,7 @@ import org.robolectric.RobolectricTestRunner
 
 
 @RunWith(RobolectricTestRunner::class)
-class SettingsUseCases {
+class SettingsUseCaseTest {
     private val testString = "testString"
 
     @Mock
@@ -25,7 +25,7 @@ class SettingsUseCases {
 
     @Before
     fun before() {
-        MockitoAnnotations.initMocks(this@SettingsUseCases)
+        MockitoAnnotations.initMocks(this@SettingsUseCaseTest)
         Mockito.`when`(context.getString(anyInt(), anyString(), anyString())).thenReturn(testString)
         Mockito.`when`(context.getString(anyInt(), anyString())).thenReturn(testString)
         Mockito.`when`(context.getString(anyInt())).thenReturn("")

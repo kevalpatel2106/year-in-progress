@@ -11,6 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
+import org.mockito.ArgumentMatchers
 import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -59,6 +60,13 @@ class DataBindingAdaptersKtTest {
     fun checkBackground() {
         background(view, Color.WHITE)
         Assert.assertEquals(Color.WHITE, (view.background as? ColorDrawable)?.color)
+    }
+
+    @Test
+    fun checkLoadEmptyUrl_withWebView() {
+        val url = ""
+        loadUrl(webView, url)
+        Mockito.verify(webView, never()).loadUrl(ArgumentMatchers.anyString())
     }
 
     @Test

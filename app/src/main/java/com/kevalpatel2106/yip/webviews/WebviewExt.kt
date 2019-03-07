@@ -5,13 +5,13 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import com.kevalpatel2106.yip.BuildConfig
 
-internal fun WebView.setUp() {
+internal fun WebView.setUp(isDebug: Boolean = BuildConfig.DEBUG) {
     scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
 
     settings.loadsImagesAutomatically = true
     settings.javaScriptEnabled = false
 
     // Disable the cache for debug mode.
-    settings.setAppCacheEnabled(!BuildConfig.DEBUG)
-    settings.cacheMode = if (BuildConfig.DEBUG) WebSettings.LOAD_NO_CACHE else WebSettings.LOAD_DEFAULT
+    settings.setAppCacheEnabled(isDebug)
+    settings.cacheMode = if (isDebug) WebSettings.LOAD_DEFAULT else WebSettings.LOAD_NO_CACHE
 }
