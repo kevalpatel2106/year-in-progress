@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/colorAccent"
-                android:enabled="@{!viewModel.viewState.upgradeButtonClickable}"
+                android:enabled="@{viewModel.viewState.upgradeButtonClickable}"
                 android:onClick="@{() -> viewModel.purchase(activity)}"
                 android:paddingBottom="@dimen/spacing_pico"
                 android:paddingEnd="@dimen/spacing_small"

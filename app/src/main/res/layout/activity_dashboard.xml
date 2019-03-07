@@ -21,8 +21,6 @@
             android:id="@+id/progress_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_anti"
             android:fitsSystemWindows="true"
             tools:listitem="@layout/row_progress" />
 

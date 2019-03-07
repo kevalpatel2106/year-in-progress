@@ -20,6 +20,7 @@ internal class ProgressAdapter(
         return when (viewType) {
             PROGRESS_BAR_TYPE -> ProgressViewHolder.create(parent)
             ADS_TYPE -> AdsViewHolder.create(parent)
+            PADDING_TYPE -> PaddingViewHolder.create(parent)
             else -> throw IllegalArgumentException("Invalid view type: $viewType")
         }
     }
@@ -44,6 +45,7 @@ internal class ProgressAdapter(
     companion object {
         internal const val PROGRESS_BAR_TYPE = 34533
         internal const val ADS_TYPE = 546
+        internal const val PADDING_TYPE = 2345
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<YipItemRepresentable>() {
 

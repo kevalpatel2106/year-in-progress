@@ -11,7 +11,9 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 import kotlinx.android.synthetic.main.row_list_ads.view.*
 
-internal class ProgressViewHolder(private val binding: RowProgressBinding) : YipViewHolder(binding.root) {
+internal class ProgressViewHolder(
+        private val binding: RowProgressBinding
+) : YipViewHolder(binding.root) {
 
     override fun isDragSupported(): Boolean = true
 
@@ -43,9 +45,23 @@ internal class AdsViewHolder(itemView: View) : YipViewHolder(itemView) {
 
     companion object {
         fun create(parent: ViewGroup): AdsViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.row_list_ads, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_list_ads, parent, false)
             view.list_ads_view.loadAd(AdRequest.Builder().build())  // Initialize ads.
             return AdsViewHolder(view)
+        }
+    }
+}
+
+internal class PaddingViewHolder(itemView: View) : YipViewHolder(itemView) {
+
+    override fun isDragSupported(): Boolean = false
+
+    companion object {
+        fun create(parent: ViewGroup): PaddingViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.row_padding_bottom, parent, false)
+            return PaddingViewHolder(view)
         }
     }
 }

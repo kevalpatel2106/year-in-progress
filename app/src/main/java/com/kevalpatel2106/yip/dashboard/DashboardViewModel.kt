@@ -9,6 +9,7 @@ import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.recall
 import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.PaddingItem
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.recyclerview.representable.EmptyRepresentable
@@ -60,6 +61,7 @@ internal class DashboardViewModel @Inject constructor(
             val list = progresses.map {
                 ProgressListItem(it)
             }.toMutableList() as ArrayList<YipItemRepresentable>
+            list.add(PaddingItem)
 
             return@map list.apply {
                 // Add the ads if the user is not pro.
@@ -74,7 +76,7 @@ internal class DashboardViewModel @Inject constructor(
                 // Show the empty list view.
                 progresses.value?.add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
             } else {
-                // Sow all the progress.
+                // Show all the progress.
                 progresses.value?.addAll(listItems)
             }
             progresses.recall()
