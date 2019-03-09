@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions", "MagicNumber")
+
 package com.kevalpatel2106.yip.repo.utils
 
 import java.util.Calendar

@@ -44,17 +44,13 @@ class YipRepo @Inject internal constructor(
             }
 
             return@map when (sortOrder) {
-                application.getString(R.string.order_title_a_to_z) -> {
-                    progresses.sortedBy { it.title }
+                application.getString(R.string.order_title_a_to_z) -> progresses.sortedBy { it.title }
+                application.getString(R.string.order_title_z_to_a) -> progresses.sortedByDescending { it.title }
+                application.getString(R.string.order_end_time_ascending) -> progresses.sortedBy {
+                    it.end.time
                 }
-                application.getString(R.string.order_title_z_to_a) -> {
-                    progresses.sortedByDescending { it.title }
-                }
-                application.getString(R.string.order_end_time_ascending) -> {
-                    progresses.sortedBy { it.end.time }
-                }
-                application.getString(R.string.order_end_time_descending) -> {
-                    progresses.sortedByDescending { it.end.time }
+                application.getString(R.string.order_end_time_descending) -> progresses.sortedByDescending {
+                    it.end.time
                 }
                 else -> throw IllegalArgumentException("Invalid sort order: $sortOrder")
             }
@@ -75,9 +71,9 @@ class YipRepo @Inject internal constructor(
     }
 
     fun deleteProgress(progressId: Long): Completable {
-        return Completable.create {
+        return Completable.create { emitter ->
             db.getDeviceDao().delete(progressId)
-            it.onComplete()
+            emitter.onComplete()
         }.subscribeOn(RxSchedulers.database)
             .observeOn(RxSchedulers.main)
     }

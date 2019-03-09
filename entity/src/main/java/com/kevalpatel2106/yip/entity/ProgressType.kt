@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.kevalpatel2106.yip.entity
 
 import androidx.annotation.ColorRes

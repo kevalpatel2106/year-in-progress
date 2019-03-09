@@ -25,11 +25,8 @@ data class Progress(
     var percent: Float = 0f
 ) : Parcelable {
 
-    override fun equals(other: Any?): Boolean {
-        return (other as? Progress)?.id == id && (other as? Progress)?.percent == percent
-    }
+    override fun equals(other: Any?): Boolean =
+        (other as? Progress)?.id == id && (other as? Progress)?.percent == percent
 
-    override fun hashCode(): Int {
-        return id.hashCode() + percent.toInt()
-    }
+    override fun hashCode(): Int = id.hashCode() + percent.toInt()
 }

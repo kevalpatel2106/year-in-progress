@@ -13,7 +13,6 @@ import com.google.android.flexbox.FlexboxLayout
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.darkenColor
 
-
 class ColorPicker @JvmOverloads constructor(
     context: Context,
     attributes: AttributeSet? = null,

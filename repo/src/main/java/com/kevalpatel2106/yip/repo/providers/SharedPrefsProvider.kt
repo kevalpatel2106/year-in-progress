@@ -90,22 +90,18 @@ class SharedPrefsProvider internal constructor(private val sharedPreference: Sha
     }
 
     @JvmOverloads
-    fun getStringFromPreference(key: String, defVal: String? = null): String? {
-        return sharedPreference.getString(key, defVal)
-    }
+    fun getStringFromPreference(key: String, defVal: String? = null): String? =
+        sharedPreference.getString(key, defVal)
 
     @JvmOverloads
-    fun getBoolFromPreference(key: String, defVal: Boolean = false): Boolean {
-        return sharedPreference.getBoolean(key, defVal)
-    }
+    fun getBoolFromPreference(key: String, defVal: Boolean = false): Boolean =
+        sharedPreference.getBoolean(key, defVal)
 
     @JvmOverloads
-    fun getLongFromPreference(key: String, defVal: Long = -1): Long {
-        return sharedPreference.getLong(key, defVal)
-    }
+    fun getLongFromPreference(key: String, defVal: Long = -1): Long =
+        sharedPreference.getLong(key, defVal)
 
     @JvmOverloads
-    fun getIntFromPreference(key: String, defVal: Int = -1): Int {
-        return sharedPreference.getInt(key, defVal)
-    }
+    fun getIntFromPreference(key: String, defVal: Int = -1): Int =
+        sharedPreference.getInt(key, defVal)
 }

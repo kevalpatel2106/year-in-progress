@@ -10,7 +10,7 @@ import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
 internal class ProgressAdapter(
     private var clickListener: ((progress: Progress) -> Unit)? = null
-) : YipAdapter(DIFF_CALLBACK) {
+) : YipAdapter(diffCallback) {
 
     init {
         setHasStableIds(true)
@@ -47,7 +47,7 @@ internal class ProgressAdapter(
         internal const val ADS_TYPE = 546
         internal const val PADDING_TYPE = 2345
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<YipItemRepresentable>() {
+        private val diffCallback = object : DiffUtil.ItemCallback<YipItemRepresentable>() {
 
             @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(
@@ -55,9 +55,9 @@ internal class ProgressAdapter(
                 newItem: YipItemRepresentable
             ): Boolean {
                 return if (oldItem is ProgressListItem && newItem is ProgressListItem) {
-                    oldItem.progress.title == newItem.progress.title
-                            && oldItem.progress.percent == newItem.progress.percent
-                            && oldItem.progress.color == newItem.progress.color
+                    oldItem.progress.title == newItem.progress.title &&
+                            oldItem.progress.percent == newItem.progress.percent &&
+                            oldItem.progress.color == newItem.progress.color
                 } else {
                     oldItem == newItem
                 }
