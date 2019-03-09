@@ -19,12 +19,12 @@ import dagger.android.AndroidInjectionModule
 
 @SessionScope
 @Component(
-        dependencies = [CoreComponent::class],
-        modules = [
-            AndroidInjectionModule::class,
-            ViewModelBindings::class,
-            BroadcastReceiverBindings::class
-        ]
+    dependencies = [CoreComponent::class],
+    modules = [
+        AndroidInjectionModule::class,
+        ViewModelBindings::class,
+        BroadcastReceiverBindings::class
+    ]
 )
 internal interface AppComponent {
     fun inject(yipApplication: YIPApplication)
@@ -46,6 +46,6 @@ internal interface AppComponent {
 
 internal fun Context.getAppComponent(): AppComponent {
     return DaggerAppComponent.builder()
-            .coreComponent((applicationContext as? YIPApplication)?.coreComponent)
-            .build()
+        .coreComponent((applicationContext as? YIPApplication)?.coreComponent)
+        .build()
 }

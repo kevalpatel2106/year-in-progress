@@ -24,7 +24,10 @@ import org.robolectric.RuntimeEnvironment
 class ViewExtTests {
 
     @RunWith(Parameterized::class)
-    class ActionbarSetUpTests(private val isTitleEnabled: Boolean, private val isHomeEnabled: Boolean) {
+    class ActionbarSetUpTests(
+        private val isTitleEnabled: Boolean,
+        private val isHomeEnabled: Boolean
+    ) {
 
         companion object {
             @JvmStatic
@@ -32,10 +35,10 @@ class ViewExtTests {
             fun data(): ArrayList<Array<Boolean>> {
                 @Suppress("BooleanLiteralArgument")
                 return arrayListOf(
-                        arrayOf(true, true),
-                        arrayOf(true, false),
-                        arrayOf(false, true),
-                        arrayOf(false, false)
+                    arrayOf(true, true),
+                    arrayOf(true, false),
+                    arrayOf(false, true),
+                    arrayOf(false, false)
                 )
             }
         }
@@ -61,13 +64,16 @@ class ViewExtTests {
         fun checkActionbarSetUp() {
             mockActionBar.set(isHomeEnabled, isTitleEnabled)
 
-            Mockito.verify(mockActionBar, Mockito.times(1)).setDisplayShowTitleEnabled(isTitleVisibleCaptor.capture())
+            Mockito.verify(mockActionBar, Mockito.times(1))
+                .setDisplayShowTitleEnabled(isTitleVisibleCaptor.capture())
             org.junit.Assert.assertEquals(isTitleEnabled, isTitleVisibleCaptor.value)
 
-            Mockito.verify(mockActionBar, Mockito.times(1)).setDisplayShowHomeEnabled(homeEnabledCaptor.capture())
+            Mockito.verify(mockActionBar, Mockito.times(1))
+                .setDisplayShowHomeEnabled(homeEnabledCaptor.capture())
             org.junit.Assert.assertEquals(isHomeEnabled, homeEnabledCaptor.value)
 
-            Mockito.verify(mockActionBar, Mockito.times(1)).setDisplayHomeAsUpEnabled(homeAsUpEnabledCaptor.capture())
+            Mockito.verify(mockActionBar, Mockito.times(1))
+                .setDisplayHomeAsUpEnabled(homeAsUpEnabledCaptor.capture())
             org.junit.Assert.assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
         }
     }

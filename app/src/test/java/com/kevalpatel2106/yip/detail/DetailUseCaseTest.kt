@@ -24,7 +24,7 @@ class DetailUseCaseTest {
     fun before() {
         MockitoAnnotations.initMocks(this@DetailUseCaseTest)
         Mockito.`when`(context.getString(R.string.achivement_share_message, testTitle))
-                .thenReturn(testString)
+            .thenReturn(testString)
     }
 
     @Test

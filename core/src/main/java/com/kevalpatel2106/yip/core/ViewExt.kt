@@ -21,18 +21,18 @@ fun ProgressBar.setProgressTint(@ColorInt color: Int) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         val wrapDrawable = DrawableCompat.wrap(progressDrawable ?: indeterminateDrawable)
         DrawableCompat.setTint(
-                wrapDrawable,
-                color
+            wrapDrawable,
+            color
         )
         progressDrawable = DrawableCompat.unwrap(wrapDrawable)
     } else {
         progressDrawable?.setColorFilter(
-                color,
-                PorterDuff.Mode.SRC_IN
+            color,
+            PorterDuff.Mode.SRC_IN
         )
         indeterminateDrawable?.setColorFilter(
-                color,
-                PorterDuff.Mode.SRC_IN
+            color,
+            PorterDuff.Mode.SRC_IN
         )
     }
 }

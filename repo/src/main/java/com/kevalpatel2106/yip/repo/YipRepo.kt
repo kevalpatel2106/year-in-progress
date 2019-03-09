@@ -17,27 +17,27 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 class YipRepo @Inject internal constructor(
-        private val application: Application,
-        private val db: YipDatabase,
-        private val ntpProvider: NtpProvider,
-        private val sharedPrefsProvider: SharedPrefsProvider
+    private val application: Application,
+    private val db: YipDatabase,
+    private val ntpProvider: NtpProvider,
+    private val sharedPrefsProvider: SharedPrefsProvider
 ) {
 
     fun observeAllProgress(): Flowable<List<Progress>> {
         return Flowable.combineLatest(
-                db.getDeviceDao().observeAll().map { it },
-                ntpProvider.nowAsyncInterval(),
-                sharedPrefsProvider.observeStringFromPreference(
-                        application.getString(R.string.pref_key_order),
-                        application.getString(R.string.order_title_a_to_z)
-                ).toFlowable(BackpressureStrategy.DROP),
-                Function3<List<ProgressDto>, Date, String, Triple<List<ProgressDto>, String, Date>> { list, now, order ->
-                    Triple(list, order, now)
-                }
+            db.getDeviceDao().observeAll().map { it },
+            ntpProvider.nowAsyncInterval(),
+            sharedPrefsProvider.observeStringFromPreference(
+                application.getString(R.string.pref_key_order),
+                application.getString(R.string.order_title_a_to_z)
+            ).toFlowable(BackpressureStrategy.DROP),
+            Function3<List<ProgressDto>, Date, String, Triple<List<ProgressDto>, String, Date>> { list, now, order ->
+                Triple(list, order, now)
+            }
         ).map { (progressesDto, sortOrder, now) ->
             val progresses = progressesDto.map { progress ->
                 progress.modifyPrebuiltProgress(now.time).toEntity(now)
@@ -55,15 +55,15 @@ class YipRepo @Inject internal constructor(
 
     fun observeProgress(progressId: Long): Flowable<Progress> {
         return Flowable.combineLatest(
-                db.getDeviceDao().observe(progressId),
-                ntpProvider.nowAsyncInterval(),
-                BiFunction<ProgressDto, Date, Pair<ProgressDto, Date>> { progressDto, now ->
-                    progressDto to now
-                }
+            db.getDeviceDao().observe(progressId),
+            ntpProvider.nowAsyncInterval(),
+            BiFunction<ProgressDto, Date, Pair<ProgressDto, Date>> { progressDto, now ->
+                progressDto to now
+            }
         ).map { (progressDto, now) ->
             progressDto.modifyPrebuiltProgress(now.time).toEntity(now)
         }.subscribeOn(RxSchedulers.database)
-                .observeOn(RxSchedulers.main)
+            .observeOn(RxSchedulers.main)
     }
 
     fun deleteProgress(progressId: Long): Completable {
@@ -71,36 +71,36 @@ class YipRepo @Inject internal constructor(
             db.getDeviceDao().delete(progressId)
             it.onComplete()
         }.subscribeOn(RxSchedulers.database)
-                .observeOn(RxSchedulers.main)
+            .observeOn(RxSchedulers.main)
     }
 
     fun addUpdateProgress(
-            processId: Long,
-            title: String,
-            color: ProgressColor,
-            startTime: Date,
-            endTime: Date,
-            progressTypeType: ProgressType,
-            notifications: List<Float>
+        processId: Long,
+        title: String,
+        color: ProgressColor,
+        startTime: Date,
+        endTime: Date,
+        progressTypeType: ProgressType,
+        notifications: List<Float>
     ): Single<Progress> {
         return Single.create<ProgressDto> { emitter ->
             val dto = ProgressDto(
-                    id = processId,
-                    color = color,
-                    end = endTime,
-                    progressType = progressTypeType,
-                    start = startTime,
-                    title = title,
-                    notifications = notifications
+                id = processId,
+                color = color,
+                end = endTime,
+                progressType = progressTypeType,
+                start = startTime,
+                title = title,
+                notifications = notifications
             )
             dto.id = db.getDeviceDao().insert(dto)
             emitter.onSuccess(dto)
         }.zipWith(
-                ntpProvider.nowAsync(),
-                BiFunction { dto: ProgressDto, now: Date -> dto to now }
+            ntpProvider.nowAsync(),
+            BiFunction { dto: ProgressDto, now: Date -> dto to now }
         ).map { (dto, now) ->
             dto.toEntity(now)
         }.subscribeOn(RxSchedulers.database)
-                .observeOn(RxSchedulers.main)
+            .observeOn(RxSchedulers.main)
     }
 }

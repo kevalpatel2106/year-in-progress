@@ -23,7 +23,7 @@ import javax.inject.Provider
  */
 @SessionScope
 class ViewModelFactory @Inject constructor(
-        private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+    private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -40,14 +40,20 @@ class ViewModelFactory @Inject constructor(
     }
 }
 
-fun <T : ViewModel> Fragment.provideViewModel(viewModelProvider: ViewModelProvider.Factory, modelClass: Class<T>): T {
+fun <T : ViewModel> Fragment.provideViewModel(
+    viewModelProvider: ViewModelProvider.Factory,
+    modelClass: Class<T>
+): T {
     return ViewModelProviders
-            .of(this, viewModelProvider)
-            .get(modelClass)
+        .of(this, viewModelProvider)
+        .get(modelClass)
 }
 
-fun <T : ViewModel> FragmentActivity.provideViewModel(viewModelProvider: ViewModelProvider.Factory, modelClass: Class<T>): T {
+fun <T : ViewModel> FragmentActivity.provideViewModel(
+    viewModelProvider: ViewModelProvider.Factory,
+    modelClass: Class<T>
+): T {
     return ViewModelProviders
-            .of(this, viewModelProvider)
-            .get(modelClass)
+        .of(this, viewModelProvider)
+        .get(modelClass)
 }

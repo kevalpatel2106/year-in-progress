@@ -12,69 +12,69 @@ import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 import kotlin.math.roundToLong
 
 class AlarmProvider @Inject internal constructor(
-        private val alarmManager: AlarmManager,
-        private val application: Application,
-        private val ntpProvider: NtpProvider,
-        private val yipDatabase: YipDatabase
+    private val alarmManager: AlarmManager,
+    private val application: Application,
+    private val ntpProvider: NtpProvider,
+    private val yipDatabase: YipDatabase
 ) {
 
     @SuppressLint("CheckResult")
     fun <T : BroadcastReceiver> updateAlarms(triggerReceiver: Class<T>) {
         yipDatabase.getDeviceDao()
-                .observeAll()
-                .firstOrError()
-                .zipWith(
-                        ntpProvider.nowAsync(),
-                        BiFunction { dtos: List<ProgressDto>, date: Date -> dtos to date }
-                )
-                .subscribe({ (dtos, now) ->
-                    dtos.forEach { dto -> updateAlarmsForProgress(dto, triggerReceiver, now.time) }
-                }, {
-                    Timber.e(it)
-                })
+            .observeAll()
+            .firstOrError()
+            .zipWith(
+                ntpProvider.nowAsync(),
+                BiFunction { dtos: List<ProgressDto>, date: Date -> dtos to date }
+            )
+            .subscribe({ (dtos, now) ->
+                dtos.forEach { dto -> updateAlarmsForProgress(dto, triggerReceiver, now.time) }
+            }, {
+                Timber.e(it)
+            })
     }
 
 
     private fun <T : BroadcastReceiver> updateAlarmsForProgress(
-            progress: ProgressDto,
-            triggerReceiver: Class<T>,
-            nowMills: Long
+        progress: ProgressDto,
+        triggerReceiver: Class<T>,
+        nowMills: Long
     ) {
         progress.notifications
-                .map { getTriggerMills(progress.start.time, progress.end.time, it) }
-                .filter { triggerMills -> triggerMills > nowMills }
-                .forEach { triggerMills ->
-                    alarmManager.setExactCompat(
-                            AlarmManager.RTC_WAKEUP,
-                            triggerMills,
-                            getPendingIntent(
-                                    application = application,
-                                    alarmTime = triggerMills,
-                                    progressId = progress.id,
-                                    triggerClass = triggerReceiver
-                            )
+            .map { getTriggerMills(progress.start.time, progress.end.time, it) }
+            .filter { triggerMills -> triggerMills > nowMills }
+            .forEach { triggerMills ->
+                alarmManager.setExactCompat(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerMills,
+                    getPendingIntent(
+                        application = application,
+                        alarmTime = triggerMills,
+                        progressId = progress.id,
+                        triggerClass = triggerReceiver
                     )
-                }
+                )
+            }
     }
 
     private fun <T : BroadcastReceiver> getPendingIntent(
-            application: Application,
-            alarmTime: Long,
-            progressId: Long,
-            triggerClass: Class<T>
+        application: Application,
+        alarmTime: Long,
+        progressId: Long,
+        triggerClass: Class<T>
     ): PendingIntent {
         return PendingIntent.getBroadcast(
-                application,
-                alarmTime.toInt(),
-                Intent(application, triggerClass).apply {
-                    putExtras(bundleOf(ARG_PROGRESS_ID to progressId))
-                },
-                PendingIntent.FLAG_UPDATE_CURRENT
+            application,
+            alarmTime.toInt(),
+            Intent(application, triggerClass).apply {
+                putExtras(bundleOf(ARG_PROGRESS_ID to progressId))
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
 
@@ -83,7 +83,11 @@ class AlarmProvider @Inject internal constructor(
             return startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
         }
 
-        private fun AlarmManager.setExactCompat(type: Int, triggerAtMillis: Long, operation: PendingIntent) {
+        private fun AlarmManager.setExactCompat(
+            type: Int,
+            triggerAtMillis: Long,
+            operation: PendingIntent
+        ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 setExactAndAllowWhileIdle(type, triggerAtMillis, operation)
             } else {

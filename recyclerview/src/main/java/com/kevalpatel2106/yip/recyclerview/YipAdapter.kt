@@ -11,8 +11,8 @@ import com.kevalpatel2106.yip.recyclerview.viewholders.ErrorViewHolder
 import com.kevalpatel2106.yip.recyclerview.viewholders.LoadingViewHolder
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
-abstract class YipAdapter(diffUtils: DiffUtil.ItemCallback<YipItemRepresentable>)
-    : ListAdapter<YipItemRepresentable, YipViewHolder>(diffUtils) {
+abstract class YipAdapter(diffUtils: DiffUtil.ItemCallback<YipItemRepresentable>) :
+    ListAdapter<YipItemRepresentable, YipViewHolder>(diffUtils) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {

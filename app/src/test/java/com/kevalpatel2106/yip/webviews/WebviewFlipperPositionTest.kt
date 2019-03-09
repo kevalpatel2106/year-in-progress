@@ -7,8 +7,8 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 internal class WebviewFlipperPositionTest(
-        private val position: WebviewFlipperPosition,
-        private val value: Int
+    private val position: WebviewFlipperPosition,
+    private val value: Int
 ) {
 
     companion object {
@@ -16,9 +16,9 @@ internal class WebviewFlipperPositionTest(
         @Parameterized.Parameters
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
-                    arrayOf(WebviewFlipperPosition.POS_ERROR, 2),
-                    arrayOf(WebviewFlipperPosition.POS_LOADING, 0),
-                    arrayOf(WebviewFlipperPosition.POS_WEBVIEW, 1)
+                arrayOf(WebviewFlipperPosition.POS_ERROR, 2),
+                arrayOf(WebviewFlipperPosition.POS_LOADING, 0),
+                arrayOf(WebviewFlipperPosition.POS_WEBVIEW, 1)
             )
         }
     }

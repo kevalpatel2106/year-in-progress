@@ -30,11 +30,11 @@ class ProgressNotificationTest {
             @Parameterized.Parameters
             fun data(): ArrayList<Float> {
                 return arrayListOf(
-                        0f,
-                        10.55f,
-                        50.99f,
-                        66.66f,
-                        100.0f
+                    0f,
+                    10.55f,
+                    50.99f,
+                    66.66f,
+                    100.0f
                 )
             }
         }
@@ -45,8 +45,10 @@ class ProgressNotificationTest {
         @Before
         fun before() {
             MockitoAnnotations.initMocks(this@TitleAndMessageTest)
-            Mockito.`when`(context.getString(R.string.progress_notification_title)).thenReturn(NOTIFICATION_TITLE)
-            Mockito.`when`(context.getString(R.string.progress_percentage)).thenReturn(PROGRESS_PERCENTAGE)
+            Mockito.`when`(context.getString(R.string.progress_notification_title))
+                .thenReturn(NOTIFICATION_TITLE)
+            Mockito.`when`(context.getString(R.string.progress_percentage))
+                .thenReturn(PROGRESS_PERCENTAGE)
         }
 
         @Test
@@ -58,29 +60,39 @@ class ProgressNotificationTest {
         @Test
         fun testNotificationMessage() {
             val message = ProgressNotification.getMessage(context, percent)
-            Assert.assertEquals(percent.toInt() / 2, message.count { it.toString() == ProgressNotification.COMPLETE_DOT })
-            Assert.assertEquals((100 - percent.toInt()) / 2, message.count { it.toString() == ProgressNotification.INCOMPLETE_DOT })
+            Assert.assertEquals(
+                percent.toInt() / 2,
+                message.count { it.toString() == ProgressNotification.COMPLETE_DOT })
+            Assert.assertEquals(
+                (100 - percent.toInt()) / 2,
+                message.count { it.toString() == ProgressNotification.INCOMPLETE_DOT })
         }
     }
 
     @RunWith(Parameterized::class)
-    class ProgressNotificationsIdTest(private val progressId: Long, private val notificationId: Int) {
+    class ProgressNotificationsIdTest(
+        private val progressId: Long,
+        private val notificationId: Int
+    ) {
         companion object {
             @JvmStatic
             @Parameterized.Parameters
             fun data(): ArrayList<Array<out Any>> {
                 return arrayListOf(
-                        arrayOf(0L, 0L.toInt()),
-                        arrayOf(28768364L, 28768364L.toInt()),
-                        arrayOf(-Long.MAX_VALUE, -Long.MAX_VALUE.toInt()),
-                        arrayOf(Long.MAX_VALUE, Long.MAX_VALUE.toInt())
+                    arrayOf(0L, 0L.toInt()),
+                    arrayOf(28768364L, 28768364L.toInt()),
+                    arrayOf(-Long.MAX_VALUE, -Long.MAX_VALUE.toInt()),
+                    arrayOf(Long.MAX_VALUE, Long.MAX_VALUE.toInt())
                 )
             }
         }
 
         @Test
         fun checkNotificationId() {
-            Assert.assertEquals(notificationId, ProgressNotification.generateNotificationId(progressId))
+            Assert.assertEquals(
+                notificationId,
+                ProgressNotification.generateNotificationId(progressId)
+            )
         }
     }
 
@@ -94,7 +106,8 @@ class ProgressNotificationTest {
         @Before
         fun before() {
             MockitoAnnotations.initMocks(this@ProgressNotificationsChannelTest)
-            Mockito.`when`(context.getString(R.string.deadline_notification_channel_title)).thenReturn(mockChannelTitle)
+            Mockito.`when`(context.getString(R.string.deadline_notification_channel_title))
+                .thenReturn(mockChannelTitle)
         }
 
         @Test
@@ -113,8 +126,8 @@ class ProgressNotificationTest {
         @Config(sdk = [Build.VERSION_CODES.P])
         fun testNotificationChannelId() {
             Assert.assertEquals(
-                    ProgressNotification.CHANNEL_ID,
-                    ProgressNotification.getDeadlineNotificationChannel(context)!!.id
+                ProgressNotification.CHANNEL_ID,
+                ProgressNotification.getDeadlineNotificationChannel(context)!!.id
             )
         }
 
@@ -122,8 +135,8 @@ class ProgressNotificationTest {
         @Config(sdk = [Build.VERSION_CODES.P])
         fun testNotificationChannelName() {
             Assert.assertEquals(
-                    mockChannelTitle,
-                    ProgressNotification.getDeadlineNotificationChannel(context)!!.name
+                mockChannelTitle,
+                ProgressNotification.getDeadlineNotificationChannel(context)!!.name
             )
         }
     }

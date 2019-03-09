@@ -2,7 +2,7 @@ package com.kevalpatel2106.yip.entity
 
 import android.os.Parcel
 import kotlinx.android.parcel.Parceler
-import java.util.*
+import java.util.Date
 
 internal object DateParcelConverter : Parceler<Date?> {
 

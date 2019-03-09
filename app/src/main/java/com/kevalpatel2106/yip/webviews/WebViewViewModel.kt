@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
 import javax.inject.Inject
 
-internal class WebViewViewModel @Inject constructor(private val application: Application) : BaseViewModel() {
+internal class WebViewViewModel @Inject constructor(private val application: Application) :
+    BaseViewModel() {
     val viewState = MutableLiveData<WebViewViewState>(WebViewViewState.initialState())
-    val flipperPosition = MutableLiveData<WebviewFlipperPosition>(WebviewFlipperPosition.POS_LOADING)
+    val flipperPosition =
+        MutableLiveData<WebviewFlipperPosition>(WebviewFlipperPosition.POS_LOADING)
 
     private var link: String = ""
 
@@ -31,8 +33,8 @@ internal class WebViewViewModel @Inject constructor(private val application: App
             throw IllegalArgumentException("Invalid link: $link or title: $title")
         this.link = link
         viewState.value = viewState.value?.copy(
-                linkUrl = link,
-                title = application.getString(title)
+            linkUrl = link,
+            title = application.getString(title)
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.repo.utils
 
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 internal fun Calendar.getFirstDayOfQuarter(): Date {
     set(Calendar.MONTH, get(Calendar.MONTH) / 3 * 3)

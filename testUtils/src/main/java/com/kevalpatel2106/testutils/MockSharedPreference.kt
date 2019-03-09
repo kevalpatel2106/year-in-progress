@@ -9,7 +9,7 @@
 package com.kevalpatel2106.testutils
 
 import android.content.SharedPreferences
-import java.util.*
+import java.util.HashMap
 
 
 /**
@@ -73,7 +73,8 @@ class MockSharedPreference : SharedPreferences {
 
     }
 
-    class MockSharedPreferenceEditor(private val preferenceMap: HashMap<String, Any?>) : SharedPreferences.Editor {
+    class MockSharedPreferenceEditor(private val preferenceMap: HashMap<String, Any?>) :
+        SharedPreferences.Editor {
 
         override fun putString(s: String, s1: String?): SharedPreferences.Editor {
             preferenceMap.put(s, s1)

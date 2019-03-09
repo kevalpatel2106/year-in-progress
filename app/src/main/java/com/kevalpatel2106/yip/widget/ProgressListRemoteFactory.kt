@@ -10,8 +10,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class ProgressListRemoteFactory @Inject constructor(
-        private val application: Application,
-        private val yipRepo: YipRepo
+    private val application: Application,
+    private val yipRepo: YipRepo
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private val progresses: ArrayList<Progress> = arrayListOf()
@@ -24,13 +24,13 @@ internal class ProgressListRemoteFactory @Inject constructor(
 
             @Suppress("DEPRECATION")
             rowView.setTextViewText(
-                    R.id.widget_battery_list_level_tv,
-                    application.getString(R.string.progress_percentage, this.percent)
+                R.id.widget_battery_list_level_tv,
+                application.getString(R.string.progress_percentage, this.percent)
             )
 
             rowView.setTextColor(
-                    R.id.widget_battery_list_level_tv,
-                    this.color.value
+                R.id.widget_battery_list_level_tv,
+                this.color.value
             )
         }
         return rowView
@@ -38,9 +38,9 @@ internal class ProgressListRemoteFactory @Inject constructor(
 
     override fun onDataSetChanged() {
         val devices = yipRepo.observeAllProgress()
-                .doOnError { Timber.e(it) }
-                .firstElement()
-                .blockingGet()
+            .doOnError { Timber.e(it) }
+            .firstElement()
+            .blockingGet()
         progresses.clear()
         progresses.addAll(devices)
     }

@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
@@ -17,19 +17,20 @@ class ProgressListItemTest {
     private val testTitle = "Test title"
     private val testColor = ProgressColor.COLOR_YELLOW
     private val testEndDate = Date(System.currentTimeMillis())
-    private val testStartDate = Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS))
+    private val testStartDate =
+        Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS))
     private val testProgressType = ProgressType.YEAR_PROGRESS
     private val testNotificationPercents = arrayListOf<Float>()
 
     private val progress = Progress(
-            id = testId,
-            title = testTitle,
-            color = testColor,
-            end = testEndDate,
-            start = testStartDate,
-            progressType = testProgressType,
-            notificationPercent = testNotificationPercents,
-            percent = 2f
+        id = testId,
+        title = testTitle,
+        color = testColor,
+        end = testEndDate,
+        start = testStartDate,
+        progressType = testProgressType,
+        notificationPercent = testNotificationPercents,
+        percent = 2f
     )
 
     private lateinit var progressListItem: ProgressListItem

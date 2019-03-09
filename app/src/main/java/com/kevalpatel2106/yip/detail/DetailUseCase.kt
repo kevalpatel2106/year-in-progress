@@ -9,7 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.ProgressColor
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 internal object DetailUseCase {
@@ -18,16 +18,19 @@ internal object DetailUseCase {
         return Intent().apply {
             action = Intent.ACTION_SEND
             title?.let {
-                putExtra(Intent.EXTRA_TEXT, context.getString(R.string.achivement_share_message, it))
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    context.getString(R.string.achivement_share_message, it)
+                )
             }
             type = "text/plain"
         }
     }
 
     fun prepareTimeLeft(
-            application: Application,
-            endTime: Date,
-            progressColor: ProgressColor
+        application: Application,
+        endTime: Date,
+        progressColor: ProgressColor
     ): SpannableString {
 
         // Find difference in mills
@@ -43,69 +46,69 @@ internal object DetailUseCase {
 
         // Prepare raw string
         val rawString = application.getString(
-                R.string.time_left_title,
-                days,
-                application.resources.getQuantityString(R.plurals.days, days.toInt()),
-                hours,
-                application.resources.getQuantityString(R.plurals.hours, hours.toInt()),
-                mins,
-                application.resources.getQuantityString(R.plurals.minutes, mins.toInt())
+            R.string.time_left_title,
+            days,
+            application.resources.getQuantityString(R.plurals.days, days.toInt()),
+            hours,
+            application.resources.getQuantityString(R.plurals.hours, hours.toInt()),
+            mins,
+            application.resources.getQuantityString(R.plurals.minutes, mins.toInt())
         )
 
         return SpannableString(rawString).apply {
             setSpan(
-                    RelativeSizeSpan(0.8f),
-                    0,
-                    rawString.indexOfFirst { it == '\n' },
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                RelativeSizeSpan(0.8f),
+                0,
+                rawString.indexOfFirst { it == '\n' },
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
             // Set spans for days left
             val dayStartIndex = rawString.indexOf(days.toString())
             val dayEndIndex = rawString.indexOf(days.toString()) + days.toString().length
             setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    dayStartIndex,
-                    dayEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(progressColor.value),
+                dayStartIndex,
+                dayEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                    RelativeSizeSpan(1.3f),
-                    dayStartIndex,
-                    dayEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                RelativeSizeSpan(1.3f),
+                dayStartIndex,
+                dayEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
             // Set spans for hours left
             val hoursStartIndex = rawString.indexOf(hours.toString(), dayEndIndex)
             val hoursEndIndex = hoursStartIndex + hours.toString().length
             setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    hoursStartIndex,
-                    hoursEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(progressColor.value),
+                hoursStartIndex,
+                hoursEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                    RelativeSizeSpan(1.3f),
-                    hoursStartIndex,
-                    hoursEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                RelativeSizeSpan(1.3f),
+                hoursStartIndex,
+                hoursEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
             // Set spans for minutes left
             val minsStartIndex = rawString.indexOf(mins.toString(), hoursEndIndex)
             val minsEndIndex = minsStartIndex + mins.toString().length
             setSpan(
-                    ForegroundColorSpan(progressColor.value),
-                    minsStartIndex,
-                    minsEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(progressColor.value),
+                minsStartIndex,
+                minsEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                    RelativeSizeSpan(1.3f),
-                    minsStartIndex,
-                    minsEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                RelativeSizeSpan(1.3f),
+                minsStartIndex,
+                minsEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
     }

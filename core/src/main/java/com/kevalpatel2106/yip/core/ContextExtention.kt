@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 package com.kevalpatel2106.yip.core
 
 import android.app.Activity
@@ -34,16 +26,16 @@ const val SNACK_BAR_DURATION = 2000L
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
 fun <T : AppCompatActivity> Context.prepareLaunchIntent(
-        aClass: Class<T>,
-        isNewTask: Boolean = false
+    aClass: Class<T>,
+    isNewTask: Boolean = false
 ): Intent {
 
     return Intent(this, aClass).apply {
         if (isNewTask) {
             addFlags(
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            or Intent.FLAG_ACTIVITY_NEW_TASK
+                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        or Intent.FLAG_ACTIVITY_NEW_TASK
             )
         }
     }
@@ -53,15 +45,15 @@ fun <T : AppCompatActivity> Context.prepareLaunchIntent(
  * Display the snack bar.
  */
 fun Activity.showSnack(
-        message: String,
-        duration: Int = SNACK_BAR_DURATION.toInt(),
-        actonTitle: Int = -1,
-        actionListener: ((View) -> Unit)? = null
+    message: String,
+    duration: Int = SNACK_BAR_DURATION.toInt(),
+    actonTitle: Int = -1,
+    actionListener: ((View) -> Unit)? = null
 ): Snackbar {
     val snackbar = Snackbar.make(
-            findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as ViewGroup,
-            message,
-            duration
+        findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as ViewGroup,
+        message,
+        duration
     ).apply {
         actonTitle.takeIf { it > 0 }?.let { actionTitle ->
             setAction(actionTitle, actionListener)
@@ -90,15 +82,23 @@ fun Context.sendMailToDev() {
             + "\nAPPLICATION VERSION : " + BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")"
             + "\n--------------------------\n")
 
-
     val emailIntent = Intent(Intent.ACTION_SENDTO)
     emailIntent.data = Uri.parse(getString(R.string.email_scheme))
     emailIntent.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.support_email))
     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Query regarding ${BuildConfig.APPLICATION_NAME}")
     emailIntent.putExtra(Intent.EXTRA_TEXT, emailText)
-    emailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+    emailIntent.addFlags(
+        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                or Intent.FLAG_ACTIVITY_NEW_TASK
+    )
     try {
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.contact_us_chooser_text)))
+        startActivity(
+            Intent.createChooser(
+                emailIntent,
+                getString(R.string.contact_us_chooser_text)
+            )
+        )
     } catch (ex: android.content.ActivityNotFoundException) {
         Toast.makeText(this, R.string.error_contact_us_no_email_client, Toast.LENGTH_SHORT).show()
     }
@@ -109,8 +109,8 @@ fun Context.updateWidgets() = sendBroadcast(Intent(AppWidgetManager.ACTION_APPWI
 fun Context.openPlayStorePage() {
     try {
         startActivity(Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.play_store_deep_link))
+            Intent.ACTION_VIEW,
+            Uri.parse(getString(R.string.play_store_deep_link))
         ).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         })
@@ -119,8 +119,8 @@ fun Context.openPlayStorePage() {
 
         // Open in browser
         startActivity(Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.play_store_url))
+            Intent.ACTION_VIEW,
+            Uri.parse(getString(R.string.play_store_url))
         ).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         })

@@ -22,8 +22,15 @@ import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.ColorPicker
-import kotlinx.android.synthetic.main.activity_edit_progress.*
-import java.util.*
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_end_time
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title_til
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_start_time
+import kotlinx.android.synthetic.main.activity_edit_progress.edit_toolbar
+import kotlinx.android.synthetic.main.activity_edit_progress.notification_times
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -143,35 +150,35 @@ internal class EditProgressActivity : AppCompatActivity() {
 
     private fun conformBeforeExit() {
         AlertDialog.Builder(this@EditProgressActivity, R.style.AppTheme_Dialog_Alert)
-                .setMessage(R.string.edit_progress_discard_confirm_message)
-                .setPositiveButton(R.string.edit_progress_discard_btn_title) { _, _ -> finish() }
-                .setNegativeButton(R.string.edit_progress_dismiss_btn_title) { dialog, _ -> dialog.cancel() }
-                .show()
+            .setMessage(R.string.edit_progress_discard_confirm_message)
+            .setPositiveButton(R.string.edit_progress_discard_btn_title) { _, _ -> finish() }
+            .setNegativeButton(R.string.edit_progress_dismiss_btn_title) { dialog, _ -> dialog.cancel() }
+            .show()
     }
 
     private fun getDatePicker(
-            preset: Calendar = Calendar.getInstance(),
-            listener: (date: Date) -> Unit
+        preset: Calendar = Calendar.getInstance(),
+        listener: (date: Date) -> Unit
     ): DatePickerDialog {
         return DatePickerDialog(
-                this@EditProgressActivity,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    val cal = Calendar.getInstance().apply {
-                        set(year, month, dayOfMonth, 0, 0)
-                    }
-                    listener.invoke(Date(cal.timeInMillis))
-                },
-                preset.get(Calendar.YEAR),
-                preset.get(Calendar.MONTH),
-                preset.get(Calendar.DAY_OF_MONTH)
+            this@EditProgressActivity,
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val cal = Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth, 0, 0)
+                }
+                listener.invoke(Date(cal.timeInMillis))
+            },
+            preset.get(Calendar.YEAR),
+            preset.get(Calendar.MONTH),
+            preset.get(Calendar.DAY_OF_MONTH)
         )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_progress_save, menu)
         menu?.findItem(R.id.menu_progress_save)?.showOrHideLoader(
-                context = this@EditProgressActivity,
-                isShow = model.isLoadingProgress.value == true
+            context = this@EditProgressActivity,
+            isShow = model.isLoadingProgress.value == true
         )
         return super.onCreateOptionsMenu(menu)
     }

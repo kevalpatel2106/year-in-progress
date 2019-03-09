@@ -9,9 +9,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 
 internal class CentralTitlePreference @JvmOverloads constructor(
-        context: Context,
-        attributes: AttributeSet? = null,
-        diffStyleAttributes: Int = 0
+    context: Context,
+    attributes: AttributeSet? = null,
+    diffStyleAttributes: Int = 0
 ) : Preference(context, attributes, diffStyleAttributes) {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {

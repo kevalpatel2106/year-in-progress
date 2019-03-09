@@ -44,9 +44,11 @@ class CustomTestRunner : AndroidJUnitRunner() {
     private fun keepScreenAwake(context: Context, name: String) {
         val power = context.getSystemService(Context.POWER_SERVICE) as PowerManager
 
-        power.newWakeLock(PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP
-                or PowerManager.ON_AFTER_RELEASE, name)
-                .acquire()
+        power.newWakeLock(
+            PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    or PowerManager.ON_AFTER_RELEASE, name
+        )
+            .acquire()
     }
 
     /**

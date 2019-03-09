@@ -18,7 +18,8 @@ import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
 import com.kevalpatel2106.yip.di.getAppComponent
-import kotlinx.android.synthetic.main.activity_web_view.*
+import kotlinx.android.synthetic.main.activity_web_view.webview
+import kotlinx.android.synthetic.main.activity_web_view.webview_toolbar
 import javax.inject.Inject
 
 internal class WebViewActivity : AppCompatActivity() {
@@ -33,11 +34,14 @@ internal class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@WebViewActivity)
-        DataBindingUtil.setContentView<ActivityWebViewBinding>(this@WebViewActivity, R.layout.activity_web_view)
-                .apply {
-                    lifecycleOwner = this@WebViewActivity
-                    viewModel = model
-                }
+        DataBindingUtil.setContentView<ActivityWebViewBinding>(
+            this@WebViewActivity,
+            R.layout.activity_web_view
+        )
+            .apply {
+                lifecycleOwner = this@WebViewActivity
+                viewModel = model
+            }
 
         setSupportActionBar(webview_toolbar)
         supportActionBar?.set()
@@ -49,7 +53,11 @@ internal class WebViewActivity : AppCompatActivity() {
                 model.onPageLoaded()
             }
 
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
                 super.onReceivedError(view, request, error)
                 model.onPageLoadingFailed()
             }
@@ -84,15 +92,27 @@ internal class WebViewActivity : AppCompatActivity() {
         }
 
         fun showPrivacyPolicy(context: Context) {
-            launch(context, R.string.title_activity_privacy_policy, context.getString(R.string.privacy_policy_url))
+            launch(
+                context,
+                R.string.title_activity_privacy_policy,
+                context.getString(R.string.privacy_policy_url)
+            )
         }
 
         fun showChangelog(context: Context) {
-            launch(context, R.string.title_activity_changelog, context.getString(R.string.changelog_url))
+            launch(
+                context,
+                R.string.title_activity_changelog,
+                context.getString(R.string.changelog_url)
+            )
         }
 
         fun showWidgetGuide(context: Context) {
-            launch(context, R.string.title_activity_widget_guide, context.getString(R.string.add_widget_guide_url))
+            launch(
+                context,
+                R.string.title_activity_widget_guide,
+                context.getString(R.string.add_widget_guide_url)
+            )
         }
     }
 }

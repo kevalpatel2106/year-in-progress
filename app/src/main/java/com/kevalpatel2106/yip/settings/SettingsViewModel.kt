@@ -8,24 +8,24 @@ import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import javax.inject.Inject
 
 internal class SettingsViewModel @Inject internal constructor(
-        private val billingRepo: BillingRepo
+    private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     internal val viewState = MutableLiveData<SettingsFragmentViewState>(
-            SettingsFragmentViewState.initialState()
+        SettingsFragmentViewState.initialState()
     )
 
     init {
         billingRepo.observeIsPurchased()
-                .doOnSubscribe {
-                    viewState.value = viewState.value?.copy(isBuyProClickable = false)
-                }
-                .doOnNext {
-                    viewState.value = viewState.value?.copy(isBuyProClickable = true)
-                }
-                .subscribe { purchased ->
-                    viewState.value = viewState.value?.copy(isBuyProVisible = !purchased)
-                }
-                .addTo(compositeDisposable)
+            .doOnSubscribe {
+                viewState.value = viewState.value?.copy(isBuyProClickable = false)
+            }
+            .doOnNext {
+                viewState.value = viewState.value?.copy(isBuyProClickable = true)
+            }
+            .subscribe { purchased ->
+                viewState.value = viewState.value?.copy(isBuyProVisible = !purchased)
+            }
+            .addTo(compositeDisposable)
     }
 
     internal fun refreshPurchaseState(activity: Activity) {

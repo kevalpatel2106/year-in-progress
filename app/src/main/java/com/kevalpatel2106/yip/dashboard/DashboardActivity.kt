@@ -28,7 +28,10 @@ import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
-import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.activity_dashboard.add_progress_fab
+import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
+import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
+import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
 import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import timber.log.Timber
@@ -39,16 +42,16 @@ class DashboardActivity : AppCompatActivity() {
 
     private val bottomNavigationSheet: BottomSheet by lazy {
         BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
-                .title(R.string.application_name)
-                .sheet(R.menu.menu_botom_sheet)
-                .listener { _, which ->
-                    when (which) {
-                        R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
-                        R.id.menu_send_feedback -> sendMailToDev()
-                        R.id.menu_rate_us -> openPlayStorePage()
-                    }
+            .title(R.string.application_name)
+            .sheet(R.menu.menu_botom_sheet)
+            .listener { _, which ->
+                when (which) {
+                    R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
+                    R.id.menu_send_feedback -> sendMailToDev()
+                    R.id.menu_rate_us -> openPlayStorePage()
                 }
-                .build()
+            }
+            .build()
     }
 
     @Inject
@@ -62,10 +65,10 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@DashboardActivity)
         DataBindingUtil.setContentView<ActivityDashboardBinding>(this, R.layout.activity_dashboard)
-                .apply {
-                    lifecycleOwner = this@DashboardActivity
-                    viewModel = model
-                }
+            .apply {
+                lifecycleOwner = this@DashboardActivity
+                viewModel = model
+            }
 
         setSupportActionBar(bottom_app_bar)
         setUpFab()
@@ -128,7 +131,8 @@ class DashboardActivity : AppCompatActivity() {
             }
         })
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
-        progress_list_rv.tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
+        progress_list_rv.tintPainter =
+            TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
         progress_list_rv.setExpandablePage(expandable_page_container)
 
         val adapter = ProgressAdapter { model.userWantsToOpenDetail(it) }
@@ -174,15 +178,16 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun showRatingDialog() {
         AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
-                .setTitle(R.string.rate_us_dialog_title)
-                .setMessage(R.string.rate_us_dialog_message)
-                .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> model.userWantsToRateNow() }
-                .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
-                .setCancelable(false)
-                .show()
+            .setTitle(R.string.rate_us_dialog_title)
+            .setMessage(R.string.rate_us_dialog_message)
+            .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> model.userWantsToRateNow() }
+            .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
+            .setCancelable(false)
+            .show()
     }
 
     companion object {
-        fun launch(context: Context) = context.startActivity(context.prepareLaunchIntent(DashboardActivity::class.java))
+        fun launch(context: Context) =
+            context.startActivity(context.prepareLaunchIntent(DashboardActivity::class.java))
     }
 }

@@ -11,7 +11,7 @@ internal class LoadingViewHolder(containerView: View) : YipViewHolder(containerV
 
     companion object {
         fun create(parent: ViewGroup) = LoadingViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.row_list_loading, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.row_list_loading, parent, false)
         )
     }
 }

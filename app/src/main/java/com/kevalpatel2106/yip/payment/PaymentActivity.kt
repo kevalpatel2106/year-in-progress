@@ -14,7 +14,7 @@ import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
 import com.kevalpatel2106.yip.di.getAppComponent
-import kotlinx.android.synthetic.main.activity_payment.*
+import kotlinx.android.synthetic.main.activity_payment.payment_toolbar
 import javax.inject.Inject
 
 internal class PaymentActivity : AppCompatActivity() {
@@ -29,12 +29,15 @@ internal class PaymentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@PaymentActivity)
-        DataBindingUtil.setContentView<ActivityPaymentBinding>(this@PaymentActivity, R.layout.activity_payment)
-                .apply {
-                    lifecycleOwner = this@PaymentActivity
-                    viewModel = model
-                    activity = this@PaymentActivity
-                }
+        DataBindingUtil.setContentView<ActivityPaymentBinding>(
+            this@PaymentActivity,
+            R.layout.activity_payment
+        )
+            .apply {
+                lifecycleOwner = this@PaymentActivity
+                viewModel = model
+                activity = this@PaymentActivity
+            }
         setSupportActionBar(payment_toolbar)
         supportActionBar?.set()
 
@@ -53,6 +56,7 @@ internal class PaymentActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun launch(context: Context) = context.startActivity(context.prepareLaunchIntent(PaymentActivity::class.java))
+        fun launch(context: Context) =
+            context.startActivity(context.prepareLaunchIntent(PaymentActivity::class.java))
     }
 }

@@ -30,41 +30,45 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
             it.toInt()
         }?.toIntArray()?.let {
             appWidgetManager.notifyAppWidgetViewDataChanged(
-                    it,
-                    R.id.widget_devices_list
+                it,
+                R.id.widget_devices_list
             )
         }
     }
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray?) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray?
+    ) {
         appWidgetIds?.forEach { widgetId ->
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_progress_list)
             remoteViews.setRemoteAdapter(
-                    R.id.widget_devices_list,
-                    Intent(context, ProgressListRemoteService::class.java).apply {
-                        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-                        data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-                    }
+                R.id.widget_devices_list,
+                Intent(context, ProgressListRemoteService::class.java).apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                }
             )
             remoteViews.setPendingIntentTemplate(
-                    R.id.widget_devices_list,
-                    PendingIntent.getActivity(
-                            context,
-                            0,
-                            SplashActivity.launchIntent(context),
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    )
+                R.id.widget_devices_list,
+                PendingIntent.getActivity(
+                    context,
+                    0,
+                    SplashActivity.launchIntent(context),
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             )
 
             // Click intent for title
             remoteViews.setOnClickPendingIntent(
-                    R.id.widget_title,
-                    PendingIntent.getActivity(
-                            context,
-                            0,
-                            SplashActivity.launchIntent(context),
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    )
+                R.id.widget_title,
+                PendingIntent.getActivity(
+                    context,
+                    0,
+                    SplashActivity.launchIntent(context),
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             )
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews)

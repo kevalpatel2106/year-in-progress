@@ -20,17 +20,17 @@ class BillingResponseExtKtTest(private val billingResponseCode: Int, private val
         @Parameterized.Parameters
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
-                    arrayOf(BillingClient.BillingResponse.OK, "1"),
-                    arrayOf(BillingClient.BillingResponse.BILLING_UNAVAILABLE, "8"),
-                    arrayOf(BillingClient.BillingResponse.DEVELOPER_ERROR, "3"),
-                    arrayOf(BillingClient.BillingResponse.ERROR, "4"),
-                    arrayOf(BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED, "5"),
-                    arrayOf(BillingClient.BillingResponse.ITEM_ALREADY_OWNED, "2"),
-                    arrayOf(BillingClient.BillingResponse.ITEM_NOT_OWNED, "4"),
-                    arrayOf(BillingClient.BillingResponse.SERVICE_DISCONNECTED, "6"),
-                    arrayOf(BillingClient.BillingResponse.SERVICE_UNAVAILABLE, "7"),
-                    arrayOf(BillingClient.BillingResponse.USER_CANCELED, "9"),
-                    arrayOf(546, "4")   // Generic code
+                arrayOf(BillingClient.BillingResponse.OK, "1"),
+                arrayOf(BillingClient.BillingResponse.BILLING_UNAVAILABLE, "8"),
+                arrayOf(BillingClient.BillingResponse.DEVELOPER_ERROR, "3"),
+                arrayOf(BillingClient.BillingResponse.ERROR, "4"),
+                arrayOf(BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED, "5"),
+                arrayOf(BillingClient.BillingResponse.ITEM_ALREADY_OWNED, "2"),
+                arrayOf(BillingClient.BillingResponse.ITEM_NOT_OWNED, "4"),
+                arrayOf(BillingClient.BillingResponse.SERVICE_DISCONNECTED, "6"),
+                arrayOf(BillingClient.BillingResponse.SERVICE_UNAVAILABLE, "7"),
+                arrayOf(BillingClient.BillingResponse.USER_CANCELED, "9"),
+                arrayOf(546, "4")   // Generic code
             )
         }
     }
@@ -46,7 +46,8 @@ class BillingResponseExtKtTest(private val billingResponseCode: Int, private val
         Mockito.`when`(context.getString(R.string.billing_code_dev_error)).thenReturn("3")
         Mockito.`when`(context.getString(R.string.billing_code_generic_error)).thenReturn("4")
         Mockito.`when`(context.getString(R.string.billing_code_not_supported)).thenReturn("5")
-        Mockito.`when`(context.getString(R.string.billing_code_service_disconnected)).thenReturn("6")
+        Mockito.`when`(context.getString(R.string.billing_code_service_disconnected))
+            .thenReturn("6")
         Mockito.`when`(context.getString(R.string.billing_code_service_unavailable)).thenReturn("7")
         Mockito.`when`(context.getString(R.string.billing_code_unavailable)).thenReturn("8")
         Mockito.`when`(context.getString(R.string.billing_code_user_cancel)).thenReturn("9")

@@ -17,14 +17,16 @@ import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.*
-import kotlinx.android.synthetic.main.row_notification_time.view.*
+import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.dialog_notification_percent_text
+import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.dialog_notification_seekbar
+import kotlinx.android.synthetic.main.row_notification_time.view.notification_delete_icon_iv
+import kotlinx.android.synthetic.main.row_notification_time.view.notification_time_tv
 import javax.inject.Inject
 
 internal class NotificationViewer @JvmOverloads constructor(
-        context: Context,
-        attributes: AttributeSet? = null,
-        diffStyleAttributes: Int = 0
+    context: Context,
+    attributes: AttributeSet? = null,
+    diffStyleAttributes: Int = 0
 ) : LinearLayout(context, attributes, diffStyleAttributes) {
 
     internal var notificationPercents = mutableListOf<Float>()
@@ -44,15 +46,15 @@ internal class NotificationViewer @JvmOverloads constructor(
     private val inflater: LayoutInflater by lazy { LayoutInflater.from(context) }
     private val addNotificationView by lazy {
         inflater.inflate(R.layout.row_add_notification, this@NotificationViewer, false)
-                .apply {
-                    setOnClickListener {
-                        when {
-                            notificationPercents.size == 0 -> showNotificationPickerDialog()  // First entry is free.
-                            billingRepo.isPurchased() -> showNotificationPickerDialog()
-                            else -> PaymentActivity.launch(context)
-                        }
+            .apply {
+                setOnClickListener {
+                    when {
+                        notificationPercents.size == 0 -> showNotificationPickerDialog()  // First entry is free.
+                        billingRepo.isPurchased() -> showNotificationPickerDialog()
+                        else -> PaymentActivity.launch(context)
                     }
                 }
+            }
     }
 
     init {
@@ -62,9 +64,9 @@ internal class NotificationViewer @JvmOverloads constructor(
 
     private fun addNotificationsRow(notificationPercent: Float) {
         val view = inflater.inflate(
-                R.layout.row_notification_time,
-                this@NotificationViewer,
-                false
+            R.layout.row_notification_time,
+            this@NotificationViewer,
+            false
         )
 
         val percentString = context.getString(R.string.progress_percentage, notificationPercent)
@@ -75,16 +77,16 @@ internal class NotificationViewer @JvmOverloads constructor(
             val dateStartIndex = rawText.indexOf(percentString)
             val dateEndIndex = dateStartIndex + percentString.length
             setSpan(
-                    ForegroundColorSpan(context.getColorCompat(R.color.colorPrimaryText)),
-                    dateStartIndex,
-                    dateEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(context.getColorCompat(R.color.colorPrimaryText)),
+                dateStartIndex,
+                dateEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                    RelativeSizeSpan(1.1f),
-                    dateStartIndex,
-                    dateEndIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                RelativeSizeSpan(1.1f),
+                dateStartIndex,
+                dateEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
         view.notification_delete_icon_iv.setOnClickListener {
@@ -99,30 +101,39 @@ internal class NotificationViewer @JvmOverloads constructor(
             var currentProgress = 0
 
             @SuppressLint("InflateParams")
-            val dialogView = inflater.inflate(R.layout.dialog_notification_time_picker, this@NotificationViewer, false)
-                    .apply {
-                        dialog_notification_percent_text.text = context.getString(
+            val dialogView = inflater.inflate(
+                R.layout.dialog_notification_time_picker,
+                this@NotificationViewer,
+                false
+            )
+                .apply {
+                    dialog_notification_percent_text.text = context.getString(
+                        R.string.set_notification_dialog_summary,
+                        currentProgress
+                    )
+                    dialog_notification_seekbar.setOnSeekBarChangeListener(object :
+                        SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(
+                            seekBar: SeekBar?,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                            currentProgress = progress
+                            dialog_notification_percent_text.text = context.getString(
                                 R.string.set_notification_dialog_summary,
                                 currentProgress
-                        )
-                        dialog_notification_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                                currentProgress = progress
-                                dialog_notification_percent_text.text = context.getString(
-                                        R.string.set_notification_dialog_summary,
-                                        currentProgress
-                                )
-                            }
+                            )
+                        }
 
-                            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                                // Do nothing
-                            }
+                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                            // Do nothing
+                        }
 
-                            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                                // Do nothing
-                            }
-                        })
-                    }
+                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                            // Do nothing
+                        }
+                    })
+                }
             setView(dialogView)
             setCancelable(false)
             setTitle(R.string.set_notification_dialog_title)

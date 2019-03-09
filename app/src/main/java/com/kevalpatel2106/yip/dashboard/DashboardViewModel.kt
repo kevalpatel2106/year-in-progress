@@ -27,10 +27,10 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 internal class DashboardViewModel @Inject constructor(
-        private val application: Application,
-        private val yipRepo: YipRepo,
-        private val sharedPrefsProvider: SharedPrefsProvider,
-        private val billingRepo: BillingRepo
+    private val application: Application,
+    private val yipRepo: YipRepo,
+    private val sharedPrefsProvider: SharedPrefsProvider,
+    private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
     internal val askForRating = MutableLiveData<Unit>()
@@ -46,9 +46,9 @@ internal class DashboardViewModel @Inject constructor(
 
     private fun monitorProgresses() {
         Flowable.combineLatest(
-                yipRepo.observeAllProgress(),
-                billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
-                BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
+            yipRepo.observeAllProgress(),
+            billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
+            BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
             // Show the loader.
             progresses.value?.clear()
@@ -100,7 +100,11 @@ internal class DashboardViewModel @Inject constructor(
 
         Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
             // Should show rating dialog?
-            if (!sharedPrefsProvider.getBoolFromPreference(PREF_KEY_RATED, false) && randomNum == 1) {
+            if (!sharedPrefsProvider.getBoolFromPreference(
+                    PREF_KEY_RATED,
+                    false
+                ) && randomNum == 1
+            ) {
                 askForRating.value = Unit
             }
 

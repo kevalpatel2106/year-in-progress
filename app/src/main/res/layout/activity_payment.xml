@@ -28,9 +28,9 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/payment_toolbar"
-                app:navigationIcon="@drawable/ic_close"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:navigationIcon="@drawable/ic_close"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="@string/title_activity_payment" />
         </com.google.android.material.appbar.AppBarLayout>

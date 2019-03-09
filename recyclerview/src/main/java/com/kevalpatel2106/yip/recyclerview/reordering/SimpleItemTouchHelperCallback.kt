@@ -14,13 +14,17 @@ import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
  *
  * @author Paul Burke (ipaulpro)
  */
-class SimpleItemTouchHelperCallback(private val draggedListener: ItemDraggedListener) : ItemTouchHelper.Callback() {
+class SimpleItemTouchHelperCallback(private val draggedListener: ItemDraggedListener) :
+    ItemTouchHelper.Callback() {
 
     override fun isLongPressDragEnabled(): Boolean = true
 
     override fun isItemViewSwipeEnabled(): Boolean = false
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
         (viewHolder as? YipViewHolder)?.let {
             val dragFlags = if (it.isDragSupported()) {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -32,7 +36,11 @@ class SimpleItemTouchHelperCallback(private val draggedListener: ItemDraggedList
         return 0
     }
 
-    override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        source: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         draggedListener.onItemMove(source.adapterPosition, target.adapterPosition)
         return true
     }

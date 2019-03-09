@@ -9,7 +9,7 @@ import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
 internal class ProgressAdapter(
-        private var clickListener: ((progress: Progress) -> Unit)? = null
+    private var clickListener: ((progress: Progress) -> Unit)? = null
 ) : YipAdapter(DIFF_CALLBACK) {
 
     init {
@@ -51,8 +51,8 @@ internal class ProgressAdapter(
 
             @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(
-                    oldItem: YipItemRepresentable,
-                    newItem: YipItemRepresentable
+                oldItem: YipItemRepresentable,
+                newItem: YipItemRepresentable
             ): Boolean {
                 return if (oldItem is ProgressListItem && newItem is ProgressListItem) {
                     oldItem.progress.title == newItem.progress.title
@@ -63,7 +63,10 @@ internal class ProgressAdapter(
                 }
             }
 
-            override fun areItemsTheSame(oldItem: YipItemRepresentable, newItem: YipItemRepresentable): Boolean {
+            override fun areItemsTheSame(
+                oldItem: YipItemRepresentable,
+                newItem: YipItemRepresentable
+            ): Boolean {
                 return if (oldItem is ProgressListItem && newItem is ProgressListItem) {
                     oldItem.progress.id == newItem.progress.id
                 } else {

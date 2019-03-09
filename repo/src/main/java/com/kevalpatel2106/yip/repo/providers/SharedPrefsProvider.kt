@@ -85,8 +85,8 @@ class SharedPrefsProvider internal constructor(private val sharedPreference: Sha
                 rxPreferences.getString(key)
             }
         }.asObservable()
-                .subscribeOn(RxSchedulers.disk)
-                .observeOn(RxSchedulers.main)
+            .subscribeOn(RxSchedulers.disk)
+            .observeOn(RxSchedulers.main)
     }
 
     @JvmOverloads

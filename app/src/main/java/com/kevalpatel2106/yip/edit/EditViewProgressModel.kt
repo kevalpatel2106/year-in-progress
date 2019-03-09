@@ -22,15 +22,16 @@ import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.providers.AlarmProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import timber.log.Timber
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class EditViewProgressModel @Inject internal constructor(
-        private val application: Application,
-        private val yipRepo: YipRepo,
-        private val alarmProvider: AlarmProvider,
-        billingRepo: BillingRepo
+    private val application: Application,
+    private val yipRepo: YipRepo,
+    private val alarmProvider: AlarmProvider,
+    billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private var progressTypeType: ProgressType = ProgressType.CUSTOM
@@ -79,33 +80,33 @@ internal class EditViewProgressModel @Inject internal constructor(
 
         // Monitor the pro status
         billingRepo.observeIsPurchased()
-                .subscribe { lockColorPicker.value = !it }
-                .addTo(compositeDisposable)
+            .subscribe { lockColorPicker.value = !it }
+            .addTo(compositeDisposable)
     }
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
-                .firstOrError()
-                .doOnSubscribe {
-                    isLoadingProgress.value = true
-                }.doAfterTerminate {
-                    isLoadingProgress.value = false
-                }.subscribe({ progress ->
-                    progressTypeType = progress.progressType
-                    isPrebuiltProgress.value = progress.progressType.isPreBuild()
+            .firstOrError()
+            .doOnSubscribe {
+                isLoadingProgress.value = true
+            }.doAfterTerminate {
+                isLoadingProgress.value = false
+            }.subscribe({ progress ->
+                progressTypeType = progress.progressType
+                isPrebuiltProgress.value = progress.progressType.isPreBuild()
 
-                    currentTitle = progress.title
-                    initialTitle.value = progress.title
-                    currentColor.value = progress.color
-                    currentEndDate.value = progress.end
-                    currentStartDate.value = progress.start
-                    currentNotificationsList.value = progress.notificationPercent
-                }, {
-                    Timber.e(it)
-                    userMessage.value = it.message
-                    closeSignal.value = true
-                })
-                .addTo(compositeDisposable)
+                currentTitle = progress.title
+                initialTitle.value = progress.title
+                currentColor.value = progress.color
+                currentEndDate.value = progress.end
+                currentStartDate.value = progress.start
+                currentNotificationsList.value = progress.notificationPercent
+            }, {
+                Timber.e(it)
+                userMessage.value = it.message
+                closeSignal.value = true
+            })
+            .addTo(compositeDisposable)
     }
 
     internal fun onProgressStartDateSelected(startDate: Date) {
@@ -134,7 +135,8 @@ internal class EditViewProgressModel @Inject internal constructor(
         currentTitle = title
         isTitleChanged = title != initialTitle.value
         if (title.length !in 0..titleLength) {
-            errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
+            errorInvalidTitle.value =
+                application.getString(R.string.error_progress_title_long, titleLength)
         } else if (errorInvalidTitle.value != "") {
             errorInvalidTitle.value = ""
         }
@@ -143,7 +145,8 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal fun saveProgress(notificationsList: List<Float>) {
         if (isLoadingProgress.value == true) return
         if (currentTitle == null || currentTitle?.length !in 1..titleLength) {
-            errorInvalidTitle.value = application.getString(R.string.error_progress_title_long, titleLength)
+            errorInvalidTitle.value =
+                application.getString(R.string.error_progress_title_long, titleLength)
             return
         }
         if (currentStartDate.value?.after(currentEndDate.value) == true) {
@@ -156,30 +159,30 @@ internal class EditViewProgressModel @Inject internal constructor(
         }
 
         yipRepo.addUpdateProgress(
-                processId = progressId,
-                title = currentTitle?.capitalize()
-                    ?: throw IllegalStateException("Progress title cannot be null."),
-                startTime = currentStartDate.value?.apply { setToDayMin() }
-                    ?: throw IllegalStateException("Start date cannot be null."),
-                endTime = currentEndDate.value?.apply { setToDayMax() }
-                    ?: throw IllegalStateException("End date cannot be null."),
-                color = currentColor.value
-                    ?: throw IllegalStateException("Color cannot be null."),
-                progressTypeType = progressTypeType,
-                notifications = notificationsList
+            processId = progressId,
+            title = currentTitle?.capitalize()
+                ?: throw IllegalStateException("Progress title cannot be null."),
+            startTime = currentStartDate.value?.apply { setToDayMin() }
+                ?: throw IllegalStateException("Start date cannot be null."),
+            endTime = currentEndDate.value?.apply { setToDayMax() }
+                ?: throw IllegalStateException("End date cannot be null."),
+            color = currentColor.value
+                ?: throw IllegalStateException("Color cannot be null."),
+            progressTypeType = progressTypeType,
+            notifications = notificationsList
         ).doOnSubscribe {
             isLoadingProgress.value = true
         }.doOnSuccess {
             userMessage.value = application.getString(R.string.progress_saved_success)
         }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
-                .doAfterTerminate { isLoadingProgress.value = false }
-                .subscribe({
-                    alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
-                    closeSignal.value = true
-                }, {
-                    Timber.e(it)
-                    userMessage.value = it.message
-                })
-                .addTo(compositeDisposable)
+            .doAfterTerminate { isLoadingProgress.value = false }
+            .subscribe({
+                alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
+                closeSignal.value = true
+            }, {
+                Timber.e(it)
+                userMessage.value = it.message
+            })
+            .addTo(compositeDisposable)
     }
 }

@@ -9,8 +9,8 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class ProgressTypeTest(
-        @ColorInt private val progressType: ProgressType,
-        private val isPrebuiltProgress: Boolean
+    @ColorInt private val progressType: ProgressType,
+    private val isPrebuiltProgress: Boolean
 ) {
 
     companion object {
@@ -18,12 +18,12 @@ class ProgressTypeTest(
         @Parameterized.Parameters
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
-                    arrayOf(ProgressType.DAY_PROGRESS, true),
-                    arrayOf(ProgressType.MONTH_PROGRESS, true),
-                    arrayOf(ProgressType.WEEK_PROGRESS, true),
-                    arrayOf(ProgressType.QUARTER_PROGRESS, true),
-                    arrayOf(ProgressType.YEAR_PROGRESS, true),
-                    arrayOf(ProgressType.CUSTOM, false)
+                arrayOf(ProgressType.DAY_PROGRESS, true),
+                arrayOf(ProgressType.MONTH_PROGRESS, true),
+                arrayOf(ProgressType.WEEK_PROGRESS, true),
+                arrayOf(ProgressType.QUARTER_PROGRESS, true),
+                arrayOf(ProgressType.YEAR_PROGRESS, true),
+                arrayOf(ProgressType.CUSTOM, false)
             )
         }
     }

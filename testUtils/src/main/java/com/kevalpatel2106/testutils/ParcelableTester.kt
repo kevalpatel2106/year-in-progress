@@ -21,30 +21,30 @@ inline fun <reified R : Parcelable> marshallParcelable(parcelable: R): ByteArray
 
 @SuppressLint("Recycle")
 fun marshall(bundle: Bundle): ByteArray =
-        Parcel.obtain().use {
-            it.writeBundle(bundle)
-            it.marshall()
-        }
+    Parcel.obtain().use {
+        it.writeBundle(bundle)
+        it.marshall()
+    }
 
 @SuppressLint("ParcelClassLoader")
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 inline fun <reified R : Parcelable> unmarshallParcelable(bytes: ByteArray): R = unmarshall(bytes)
-        .readBundle()
-        .run {
-            classLoader = R::class.java.classLoader
-            getParcelable(R::class.java.name)
-        }
+    .readBundle()
+    .run {
+        classLoader = R::class.java.classLoader
+        getParcelable(R::class.java.name)
+    }
 
 @SuppressLint("Recycle")
 fun unmarshall(bytes: ByteArray): Parcel =
-        Parcel.obtain().apply {
-            unmarshall(bytes, 0, bytes.size)
-            setDataPosition(0)
-        }
+    Parcel.obtain().apply {
+        unmarshall(bytes, 0, bytes.size)
+        setDataPosition(0)
+    }
 
 private fun <T> Parcel.use(block: (Parcel) -> T): T =
-        try {
-            block(this)
-        } finally {
-            this.recycle()
-        }
+    try {
+        block(this)
+    } finally {
+        this.recycle()
+    }

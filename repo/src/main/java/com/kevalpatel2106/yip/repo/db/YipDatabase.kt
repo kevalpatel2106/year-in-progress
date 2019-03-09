@@ -10,7 +10,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
-import java.util.*
+import java.util.ArrayList
+import java.util.Date
 import java.util.concurrent.Executors
 
 @Database(entities = [ProgressDto::class], version = 2, exportSchema = true)
@@ -32,7 +33,9 @@ abstract class YipDatabase : RoomDatabase() {
 
                     // Preload the data
                     Executors.newSingleThreadScheduledExecutor().execute {
-                        getPrebuiltProgresses(application).forEach { instance.getDeviceDao().insert(it) }
+                        getPrebuiltProgresses(application).forEach {
+                            instance.getDeviceDao().insert(it)
+                        }
                     }
                 }
             }).addMigrations(Migration1To2).build()
@@ -51,13 +54,13 @@ internal fun getPrebuiltProgresses(application: Application): ArrayList<Progress
         it != ProgressType.CUSTOM
     }.forEach {
         prebuiltProgress.add(
-                ProgressDto(
-                        color = it.color,
-                        start = Date(System.currentTimeMillis()),
-                        end = Date(System.currentTimeMillis() + 1000),
-                        title = it.getName(application),
-                        progressType = it
-                )
+            ProgressDto(
+                color = it.color,
+                start = Date(System.currentTimeMillis()),
+                end = Date(System.currentTimeMillis() + 1000),
+                title = it.getName(application),
+                progressType = it
+            )
         )
     }
     return prebuiltProgress

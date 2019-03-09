@@ -19,7 +19,7 @@ import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.databinding.FragmentDetailBinding
 import com.kevalpatel2106.yip.di.getAppComponent
-import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.fragment_detail.option_menu
 import javax.inject.Inject
 
 internal class DetailFragment : Fragment() {
@@ -27,10 +27,10 @@ internal class DetailFragment : Fragment() {
     private val popupMenu: PopupMenu by lazy {
         PopupMenu(option_menu.context, option_menu).apply {
             menu.add(
-                    R.id.menu_progress_group,
-                    R.id.menu_delete_progress,
-                    Menu.NONE,
-                    getString(R.string.meu_title_delete)
+                R.id.menu_progress_group,
+                R.id.menu_delete_progress,
+                Menu.NONE,
+                getString(R.string.meu_title_delete)
             )
             setOnMenuItemClickListener { menuItem ->
                 if (menuItem.itemId == R.id.menu_delete_progress) {
@@ -53,18 +53,22 @@ internal class DetailFragment : Fragment() {
         context.getAppComponent().inject(this@DetailFragment)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         model.progressId = arguments?.getLong(ARG_ID)
             ?: throw IllegalArgumentException("Invalid progress id.")
 
         return DataBindingUtil
-                .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
-                .apply {
-                    lifecycleOwner = this@DetailFragment
-                    view = this@DetailFragment
-                    viewModel = model
-                }
-                .root
+            .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
+            .apply {
+                lifecycleOwner = this@DetailFragment
+                view = this@DetailFragment
+                viewModel = model
+            }
+            .root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +78,10 @@ internal class DetailFragment : Fragment() {
         var deleteInProgressSnackbar: Snackbar? = null
         model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
             if (isDeleting) {
-                deleteInProgressSnackbar = activity?.showSnack(getString(R.string.detail_deleting_progress_message), Snackbar.LENGTH_INDEFINITE)
+                deleteInProgressSnackbar = activity?.showSnack(
+                    getString(R.string.detail_deleting_progress_message),
+                    Snackbar.LENGTH_INDEFINITE
+                )
             } else {
                 deleteInProgressSnackbar?.dismiss()
             }
@@ -87,21 +94,23 @@ internal class DetailFragment : Fragment() {
 
     private fun conformDelete(title: String) {
         AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-                .setMessage(getString(R.string.progress_delete_confirmation_message, title))
-                .setPositiveButton(getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> model.deleteProgress() }
-                .setNegativeButton(android.R.string.cancel, null)
-                .setCancelable(true)
-                .show()
+            .setMessage(getString(R.string.progress_delete_confirmation_message, title))
+            .setPositiveButton(getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> model.deleteProgress() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setCancelable(true)
+            .show()
     }
 
     fun showDetailOptions() = popupMenu.show()
 
     fun showShareAchievements() {
         context?.let {
-            startActivity(DetailUseCase.prepareShareAchievementIntent(
+            startActivity(
+                DetailUseCase.prepareShareAchievementIntent(
                     context = it,
                     title = model.viewState.value?.progressTitleText
-            ))
+                )
+            )
         }
     }
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.kevalpatel2106.yip.recyclerview.R
 import com.kevalpatel2106.yip.recyclerview.representable.EmptyRepresentable
-import kotlinx.android.synthetic.main.row_list_empty_list.*
+import kotlinx.android.synthetic.main.row_list_empty_list.empty_list_item_text
 
 
 internal class EmptyViewHolder(containerView: View) : YipViewHolder(containerView) {
@@ -17,7 +17,7 @@ internal class EmptyViewHolder(containerView: View) : YipViewHolder(containerVie
 
     companion object {
         fun create(parent: ViewGroup) = EmptyViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.row_list_empty_list, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.row_list_empty_list, parent, false)
         )
     }
 }

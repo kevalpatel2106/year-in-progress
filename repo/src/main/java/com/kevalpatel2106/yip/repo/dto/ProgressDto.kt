@@ -18,42 +18,43 @@ import com.kevalpatel2106.yip.repo.utils.startOfTheDay
 import com.kevalpatel2106.yip.repo.utils.startOfTheMonth
 import com.kevalpatel2106.yip.repo.utils.startOfTheWeek
 import com.kevalpatel2106.yip.repo.utils.startOfTheYear
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 @Entity(tableName = ProgressTableInfo.TABLE_NAME)
 internal data class ProgressDto(
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = ProgressTableInfo.ID)
-        var id: Long = 0,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = ProgressTableInfo.ID)
+    var id: Long = 0,
 
-        @ColumnInfo(name = ProgressTableInfo.TYPE)
-        val progressType: ProgressType,
+    @ColumnInfo(name = ProgressTableInfo.TYPE)
+    val progressType: ProgressType,
 
-        @ColumnInfo(name = ProgressTableInfo.TITLE)
-        val title: String,
+    @ColumnInfo(name = ProgressTableInfo.TITLE)
+    val title: String,
 
-        @ColumnInfo(name = ProgressTableInfo.START_TIME)
-        var start: Date,
+    @ColumnInfo(name = ProgressTableInfo.START_TIME)
+    var start: Date,
 
-        @ColumnInfo(name = ProgressTableInfo.END_TIME)
-        var end: Date,
+    @ColumnInfo(name = ProgressTableInfo.END_TIME)
+    var end: Date,
 
-        @ColumnInfo(name = ProgressTableInfo.COLOR)
-        var color: ProgressColor = ProgressColor.COLOR_BLUE,
+    @ColumnInfo(name = ProgressTableInfo.COLOR)
+    var color: ProgressColor = ProgressColor.COLOR_BLUE,
 
-        @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_PERCENTS)
-        val notifications: List<Float> = listOf()
+    @ColumnInfo(name = ProgressTableInfo.NOTIFICATIONS_PERCENTS)
+    val notifications: List<Float> = listOf()
 )
 
 internal fun ProgressDto.toEntity(now: Date) = Progress(
-        id = id,
-        progressType = progressType,
-        title = title,
-        start = start,
-        end = end,
-        color = color,
-        notificationPercent = notifications,
-        percent = calculatePercent(now, start, end)
+    id = id,
+    progressType = progressType,
+    title = title,
+    start = start,
+    end = end,
+    color = color,
+    notificationPercent = notifications,
+    percent = calculatePercent(now, start, end)
 )
 
 internal fun ProgressDto.modifyPrebuiltProgress(nowMills: Long): ProgressDto {

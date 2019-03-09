@@ -20,17 +20,17 @@ internal class ProgressNotificationReceiver : BroadcastReceiver() {
 
         context?.let { ctx ->
             yipRepo.observeProgress(progressId)
-                    .firstOrError()
-                    .filter { progress ->
-                        return@filter progress.notificationPercent.findLast {
-                            it in progress.percent - 1..progress.percent + 1
-                        } != null
-                    }
-                    .subscribe({ progress ->
-                        ProgressNotification.notify(ctx, progress)
-                    }, {
-                        Timber.e(it)
-                    })
+                .firstOrError()
+                .filter { progress ->
+                    return@filter progress.notificationPercent.findLast {
+                        it in progress.percent - 1..progress.percent + 1
+                    } != null
+                }
+                .subscribe({ progress ->
+                    ProgressNotification.notify(ctx, progress)
+                }, {
+                    Timber.e(it)
+                })
         }
     }
 }

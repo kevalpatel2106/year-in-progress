@@ -4,7 +4,7 @@ import androidx.annotation.ColorInt
 import androidx.room.TypeConverter
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
-import java.util.*
+import java.util.Date
 
 internal object DbTypeConverter {
 

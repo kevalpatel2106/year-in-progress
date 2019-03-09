@@ -15,9 +15,9 @@ import com.kevalpatel2106.yip.core.darkenColor
 
 
 class ColorPicker @JvmOverloads constructor(
-        context: Context,
-        attributes: AttributeSet? = null,
-        diffStyleAttributes: Int = 0
+    context: Context,
+    attributes: AttributeSet? = null,
+    diffStyleAttributes: Int = 0
 ) : FlexboxLayout(context, attributes, diffStyleAttributes) {
     private var isLockTouchEvent = false
     private val radius by lazy { context.resources.getDimension(R.dimen.spacing_small) }
@@ -65,10 +65,10 @@ class ColorPicker @JvmOverloads constructor(
 }
 
 internal class ColorDrawable @JvmOverloads constructor(
-        context: Context,
-        attributes: AttributeSet? = null,
-        diffStyleAttributes: Int = 0,
-        diffStyleRes: Int = 0
+    context: Context,
+    attributes: AttributeSet? = null,
+    diffStyleAttributes: Int = 0,
+    diffStyleRes: Int = 0
 ) : View(context, attributes, diffStyleAttributes, diffStyleRes) {
 
     private val lockImage by lazy { ContextCompat.getDrawable(context, R.drawable.ic_lock) }
@@ -137,18 +137,18 @@ internal class ColorDrawable @JvmOverloads constructor(
 
         if (lock) {
             lockImage?.setBounds(
-                    (centerX - centerIconRadius).toInt(),
-                    (centerY - centerIconRadius).toInt(),
-                    (centerX + centerIconRadius).toInt(),
-                    (centerY + centerIconRadius).toInt()
+                (centerX - centerIconRadius).toInt(),
+                (centerY - centerIconRadius).toInt(),
+                (centerX + centerIconRadius).toInt(),
+                (centerY + centerIconRadius).toInt()
             )
             lockImage?.draw(canvas)
         } else if (isSelected) {
             selectedImage?.setBounds(
-                    (centerX - centerIconRadius).toInt(),
-                    (centerY - centerIconRadius).toInt(),
-                    (centerX + centerIconRadius).toInt(),
-                    (centerY + centerIconRadius).toInt()
+                (centerX - centerIconRadius).toInt(),
+                (centerY - centerIconRadius).toInt(),
+                (centerX + centerIconRadius).toInt(),
+                (centerY + centerIconRadius).toInt()
             )
             selectedImage?.draw(canvas)
         }

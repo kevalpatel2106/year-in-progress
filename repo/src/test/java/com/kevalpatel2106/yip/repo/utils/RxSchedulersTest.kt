@@ -16,13 +16,13 @@ class RxSchedulersTest {
         var firstObservable = 0L
         var secondObservable = 0L
         val delayObservable = Observable.just(12)
-                .delay(100, TimeUnit.MILLISECONDS, RxSchedulers.database)
-                .observeOn(Schedulers.io())
+            .delay(100, TimeUnit.MILLISECONDS, RxSchedulers.database)
+            .observeOn(Schedulers.io())
 
         delayObservable.doOnSubscribe {
             delayObservable
-                    .doAfterTerminate { Assert.assertTrue(secondObservable - firstObservable > 100) }
-                    .subscribe { secondObservable = System.currentTimeMillis() }
+                .doAfterTerminate { Assert.assertTrue(secondObservable - firstObservable > 100) }
+                .subscribe { secondObservable = System.currentTimeMillis() }
         }.subscribe { firstObservable = System.currentTimeMillis() }
     }
 }

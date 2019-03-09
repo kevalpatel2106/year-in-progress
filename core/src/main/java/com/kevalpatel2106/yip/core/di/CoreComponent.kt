@@ -42,9 +42,9 @@ interface CoreComponent {
     companion object {
         fun build(application: Application): CoreComponent {
             return DaggerCoreComponent.builder()
-                    .coreModule(CoreModule(application))
-                    .repositoryModule(RepositoryModule(application))
-                    .build()
+                .coreModule(CoreModule(application))
+                .repositoryModule(RepositoryModule(application))
+                .build()
         }
     }
 }
