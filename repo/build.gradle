@@ -9,8 +9,6 @@ dependencies {
     testImplementation project(':testUtils')
     androidTestImplementation project(':androidTestUtils')
 
-    implementation('com.github.instacart.truetime-android:library:3.4', excludeGrp)
-    implementation('com.github.instacart.truetime-android:library-extension-rx:3.4', excludeGrp)
     implementation('com.f2prateek.rx.preferences2:rx-preferences:2.0.0', excludeGrp)
     api('com.android.billingclient:billing:1.2', excludeGrp)
 
