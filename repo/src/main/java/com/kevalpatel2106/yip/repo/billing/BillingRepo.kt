@@ -27,28 +27,27 @@ class BillingRepo @Inject internal constructor(
             startConnection(object : BillingClientStateListener {
 
                 override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
-                    if (billingResponseCode != BillingClient.BillingResponse.OK) {
-                        isPurchased.onNext(false)
-                    } else {
+                    if (isBillingCodeSuccess(billingResponseCode)) {
                         checkIsPurchased(this@apply, sku)
+                    } else {
+                        isPurchased.onNext(false)
                     }
                 }
 
                 override fun onBillingServiceDisconnected() {
-                    //IAP service connection failed.
+                    // IAP service connection failed.
                     isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
                 }
             })
         }
-
     }
 
     private fun checkIsPurchased(billingClient: BillingClient, sku: String) {
         // Go to offline caching
         // It's fast and synchronous
         val purchaseResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (purchaseResult.responseCode == BillingClient.BillingResponse.OK
-            && purchaseResult.purchasesList?.isNotEmpty() == true
+        if (isBillingCodeSuccess(purchaseResult.responseCode) &&
+            purchaseResult.purchasesList?.isNotEmpty() == true
         ) {
 
             val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
@@ -60,7 +59,7 @@ class BillingRepo @Inject internal constructor(
 
         // Go check and update online status
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
-            if (responseCode == BillingClient.BillingResponse.OK) {
+            if (isBillingCodeSuccess(responseCode)) {
 
                 // Update base on online status.
                 val isPro = purchasesList?.find { it.sku == sku } != null
@@ -183,7 +182,7 @@ class BillingRepo @Inject internal constructor(
         sku: String,
         emitter: SingleEmitter<Purchase>
     ) {
-        //Initiate the purchase flow
+        // Initiate the purchase flow
         @Suppress("DEPRECATION")
         val purchaseParams = BillingFlowParams.newBuilder()
             .setSku(sku)

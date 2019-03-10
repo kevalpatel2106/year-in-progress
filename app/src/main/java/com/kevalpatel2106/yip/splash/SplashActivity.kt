@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
-import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.di.getAppComponent
 import javax.inject.Inject
 
@@ -22,15 +21,9 @@ internal class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
-
-        // Refresh the purchase state.
         model.refreshPurchaseState(this@SplashActivity)
-
-        // Perform anonymous auth
         model.signInAsAnonymousUser()
-
-        // open dashboard
-        DashboardActivity.launch(this@SplashActivity)
+        AppLaunchHelper.launchFlow(this@SplashActivity, intent)
     }
 
     companion object {

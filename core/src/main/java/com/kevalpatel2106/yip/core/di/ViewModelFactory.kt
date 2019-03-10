@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 package com.kevalpatel2106.yip.core.di
 
 import androidx.fragment.app.Fragment
@@ -31,12 +23,8 @@ class ViewModelFactory @Inject constructor(
             ?: creators.asIterable().firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
             ?: throw IllegalArgumentException("unknown model class $modelClass")
 
-        return try {
-            @Suppress("UNCHECKED_CAST")
-            creator.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        @Suppress("UNCHECKED_CAST")
+        return creator.get() as T
     }
 }
 

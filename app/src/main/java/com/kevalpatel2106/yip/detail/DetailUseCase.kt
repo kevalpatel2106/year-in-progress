@@ -7,6 +7,10 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.view.Menu
+import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.pm.ShortcutManagerCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.ProgressColor
 import java.util.Date
@@ -14,19 +18,44 @@ import java.util.concurrent.TimeUnit
 
 internal object DetailUseCase {
 
+    internal fun preparePopupMenu(
+        anchor: View,
+        supportsPinningShortcut: Boolean = ShortcutManagerCompat
+            .isRequestPinShortcutSupported(anchor.context)
+    ): PopupMenu {
+        return PopupMenu(anchor.context, anchor).apply {
+            menu.add(
+                R.id.menu_progress_group,
+                R.id.menu_delete_progress,
+                Menu.NONE,
+                anchor.context.getString(R.string.meu_title_delete)
+            )
+
+            if (supportsPinningShortcut) {
+                menu.add(
+                    R.id.menu_progress_group,
+                    R.id.menu_pin_shortcut,
+                    Menu.NONE,
+                    anchor.context.getString(R.string.meu_title_pin_shortcut)
+                )
+            }
+        }
+    }
+
     internal fun prepareShareAchievementIntent(context: Context, title: String?): Intent {
         return Intent().apply {
             action = Intent.ACTION_SEND
-            title?.let {
+            title?.let { title ->
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    context.getString(R.string.achivement_share_message, it)
+                    context.getString(R.string.achivement_share_message, title)
                 )
             }
             type = "text/plain"
         }
     }
 
+    @Suppress("MagicNumber")
     fun prepareTimeLeft(
         application: Application,
         endTime: Date,

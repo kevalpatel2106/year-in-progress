@@ -2,6 +2,9 @@ package com.kevalpatel2106.yip.detail
 
 import android.app.Application
 import android.text.SpannableString
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
@@ -11,9 +14,9 @@ import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import com.kevalpatel2106.yip.splash.AppLaunchHelper
 import timber.log.Timber
 import javax.inject.Inject
-
 
 internal class DetailViewModel @Inject internal constructor(
     private val application: Application,
@@ -67,9 +70,9 @@ internal class DetailViewModel @Inject internal constructor(
 
                     progressAchievementTextColor = item.color.value
                 )
-            }, {
-                Timber.e(it)
-                errorMessage.value = it.message
+            }, { throwable ->
+                Timber.e(throwable)
+                errorMessage.value = throwable.message
                 closeDetail.invoke()
             })
             .addTo(compositeDisposable)
@@ -80,11 +83,33 @@ internal class DetailViewModel @Inject internal constructor(
             .subscribe({
                 errorMessage.value = application.getString(R.string.progress_delete_successful)
                 closeDetail.invoke()
-            }, {
-                Timber.e(it)
-                errorMessage.value = it.message
+            }, { throwable ->
+                Timber.e(throwable)
+                errorMessage.value = throwable.message
                 closeDetail.invoke()
             })
             .addTo(compositeDisposable)
+    }
+
+    internal fun pinShortcut() {
+        if (!ShortcutManagerCompat.isRequestPinShortcutSupported(application)) return
+
+        val shortcutInfo = ShortcutInfoCompat.Builder(
+            application,
+            application.getString(R.string.progress_pin_shortcut_id)
+        ).setIcon(
+            IconCompat.createWithResource(application, R.mipmap.ic_launcher_round)
+        ).setShortLabel(
+            viewState.value?.progressTitleText ?: application.getString(R.string.application_name)
+        ).setIntent(
+            AppLaunchHelper.launchWithProgressDetail(application, progressId)
+        ).setAlwaysBadged()
+            .build()
+
+        ShortcutManagerCompat.requestPinShortcut(
+            application,
+            shortcutInfo,
+            null
+        )
     }
 }

@@ -2,6 +2,9 @@
 <resources>
     <string name="app_invitation_url" translatable="false">https://getyip.page.link/install</string>
 
+    <!--App shortcuts ids.-->
+    <string name="progress_pin_shortcut_id" translatable="false">progress_pin_shortcut</string>
+
     <!--Preferences keys-->
     <string name="pref_key_buy_pro" translatable="false">pref_key_buy_pro</string>
     <string name="pref_key_version" translatable="false">pref_key_version</string>

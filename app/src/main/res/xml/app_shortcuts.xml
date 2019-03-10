@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Do not use @string for shortcut id. https://stackoverflow.com/a/40234996/4690731-->
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_add_circle"
+        android:shortcutDisabledMessage="@string/app_shortcut_disable"
+        android:shortcutId="create_deadline"
+        android:shortcutLongLabel="@string/app_shortcut_title_create_deadline_long"
+        android:shortcutShortLabel="@string/app_shortcut_title_create_deadline_short"
+        tools:ignore="UnusedAttribute">
+        <intent
+            android:action="com.kevalpatel2106.yip.create_new"
+            android:targetClass="com.kevalpatel2106.yip.splash.SplashActivity"
+            android:targetPackage="com.kevalpatel2106.yip" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

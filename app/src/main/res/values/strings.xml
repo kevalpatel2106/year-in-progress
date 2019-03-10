@@ -107,6 +107,8 @@
     <string name="detail_progress_complete_title"><![CDATA[Times Up! ⏳]]></string>
     <string name="detail_progress_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
     <string name="detail_progress_complete_share_btn_title">Share #GoalAchived</string>
+    <string name="meu_title_pin_shortcut">Pin shortcut</string>
+    <string name="meu_title_delete">Delete</string>
 
     <!--Payment screen-->
     <string name="buy_now">Upgrade to Pro</string>
@@ -116,7 +118,13 @@
     <string name="pro_benefit_notification">Set multiple notifications to track multiple thresholds of your deadline.</string>
     <string name="pro_benefit_no_ads">No more ads</string>
     <string name="pro_benefit_support_dev">Support ongoing development</string>
-    <string name="meu_title_delete">Delete</string>
+
+    <!--App shortcuts-->
+    <string name="app_shortcut_title_create_deadline_short">Add</string>
+    <string name="app_shortcut_title_create_deadline_long">Add Deadline</string>
+    <string name="app_shortcut_disable" translatable="false">Not available.</string><!--Max to chars-->
+
+
     <string name="rate_us_dialog_title">Rate us on Play store.</string>
     <string name="rate_us_dialog_message">Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.</string>
     <string name="rate_us_dialog_positive_btn">Rate now</string>
@@ -133,5 +141,6 @@
     <string name="progress_notification_title">%s reached to %.2f%%</string>
     <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
     <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
+    <string name="error_progress_not_exist">Deadline doesn\'t exist.</string>
     <!--TODO: Categorize the strings-->
 </resources>

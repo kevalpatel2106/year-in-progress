@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.recall
@@ -35,6 +36,7 @@ internal class DashboardViewModel @Inject constructor(
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
     internal val askForRating = MutableLiveData<Unit>()
     internal val showInterstitialAd = MutableLiveData<Unit>()
+    internal val userMessage = SingleLiveEvent<String>()
 
     internal var expandProgress = MutableLiveData<Long>()
 
@@ -95,24 +97,35 @@ internal class DashboardViewModel @Inject constructor(
         sharedPrefsProvider.savePreferences(PREF_KEY_RATED, true)
     }
 
-    internal fun userWantsToOpenDetail(progress: Progress) {
-        expandProgress.value = progress.id
+    internal fun userWantsToOpenDetail(progressId: Long) {
+        yipRepo.isProgressExist(progressId)
+            .subscribe({ exist ->
+                if (exist) {
+                    expandProgress.value = progressId
 
-        Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
-            // Should show rating dialog?
-            if (!sharedPrefsProvider.getBoolFromPreference(
-                    PREF_KEY_RATED,
-                    false
-                ) && randomNum == 1
-            ) {
-                askForRating.value = Unit
-            }
+                    Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
+                        // Should show rating dialog?
+                        if (!sharedPrefsProvider.getBoolFromPreference(
+                                PREF_KEY_RATED,
+                                false
+                            ) && randomNum == 1
+                        ) {
+                            askForRating.value = Unit
+                        }
 
-            // Should show ads?
-            if (randomNum == 0 && !billingRepo.isPurchased()) {
-                showInterstitialAd.value = Unit
-            }
-        }
+                        // Should show ads?
+                        if (randomNum == 0 && !billingRepo.isPurchased()) {
+                            showInterstitialAd.value = Unit
+                        }
+                    }
+                } else {
+                    userMessage.value = application.getString(R.string.error_progress_not_exist)
+                }
+            }, { throwable ->
+                Timber.e(throwable)
+                userMessage.value = application.getString(R.string.error_progress_not_exist)
+            })
+            .addTo(compositeDisposable)
     }
 
     internal fun isDetailExpanded(): Boolean = expandProgress.value ?: -1 > 0L

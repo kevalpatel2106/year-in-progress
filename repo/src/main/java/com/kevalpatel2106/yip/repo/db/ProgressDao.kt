@@ -6,9 +6,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 internal interface ProgressDao {
+
+    @Query(
+        "SELECT COUNT(${ProgressTableInfo.ID}) " +
+                "FROM ${ProgressTableInfo.TABLE_NAME} WHERE ${ProgressTableInfo.ID} = :progressId"
+    )
+    fun getCount(progressId: Long): Single<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(progress: ProgressDto): Long

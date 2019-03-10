@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -20,6 +21,7 @@ import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.sendMailToDev
+import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
@@ -37,8 +39,7 @@ import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import timber.log.Timber
 import javax.inject.Inject
 
-
-class DashboardActivity : AppCompatActivity() {
+internal class DashboardActivity : AppCompatActivity() {
 
     private val bottomNavigationSheet: BottomSheet by lazy {
         BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
@@ -75,8 +76,18 @@ class DashboardActivity : AppCompatActivity() {
         setUpList()
         setUpInterstitialAd()
 
+        model.userMessage.nullSafeObserve(this@DashboardActivity) { showSnack(it) }
+
         // Rating and ads section
         model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
+
+        onNewIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val detailId = intent?.getLongExtra(ARG_PROGRESS_DETAIL_ID, -1) ?: -1
+        if (detailId > 0) model.userWantsToOpenDetail(detailId)
     }
 
     private fun setUpInterstitialAd() {
@@ -135,7 +146,7 @@ class DashboardActivity : AppCompatActivity() {
             TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
         progress_list_rv.setExpandablePage(expandable_page_container)
 
-        val adapter = ProgressAdapter { model.userWantsToOpenDetail(it) }
+        val adapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
         progress_list_rv.adapter = adapter
 
         // Start monitoring progress.
@@ -187,7 +198,13 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun launch(context: Context) =
-            context.startActivity(context.prepareLaunchIntent(DashboardActivity::class.java))
+        private const val ARG_PROGRESS_DETAIL_ID = "progressId"
+
+        internal fun launch(context: Context, progressId: Long = -1) =
+            context.startActivity(launchIntent(context, progressId))
+
+        internal fun launchIntent(context: Context, progressId: Long = -1): Intent =
+            context.prepareLaunchIntent(DashboardActivity::class.java)
+                .apply { putExtra(ARG_PROGRESS_DETAIL_ID, progressId) }
     }
 }

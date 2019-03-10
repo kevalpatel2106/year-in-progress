@@ -6,13 +6,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.splash.SplashActivity
+import com.kevalpatel2106.yip.splash.AppLaunchHelper
 
 /**
  * Helper class for showing and canceling progress
@@ -50,7 +49,7 @@ object ProgressNotification {
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setTicker(message)
-            .setContentIntent(getPendingIntent(context, notificationId))
+            .setContentIntent(getPendingIntent(context, notificationId, progress.id))
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(message)
@@ -80,11 +79,15 @@ object ProgressNotification {
         return "$dots ${String.format(context.getString(R.string.progress_percentage), percent)}"
     }
 
-    private fun getPendingIntent(context: Context, notificationId: Int): PendingIntent {
+    private fun getPendingIntent(
+        context: Context,
+        notificationId: Int,
+        progressId: Long
+    ): PendingIntent {
         return PendingIntent.getActivity(
             context,
             notificationId,
-            Intent(context, SplashActivity::class.java),
+            AppLaunchHelper.launchWithProgressDetail(context, progressId),
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }

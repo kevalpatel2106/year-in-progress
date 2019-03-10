@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
@@ -25,16 +24,13 @@ import javax.inject.Inject
 internal class DetailFragment : Fragment() {
 
     private val popupMenu: PopupMenu by lazy {
-        PopupMenu(option_menu.context, option_menu).apply {
-            menu.add(
-                R.id.menu_progress_group,
-                R.id.menu_delete_progress,
-                Menu.NONE,
-                getString(R.string.meu_title_delete)
-            )
+        DetailUseCase.preparePopupMenu(option_menu).apply {
             setOnMenuItemClickListener { menuItem ->
-                if (menuItem.itemId == R.id.menu_delete_progress) {
-                    model.viewState.value?.progressTitleText?.let { title -> conformDelete(title) }
+                when {
+                    menuItem.itemId == R.id.menu_delete_progress -> {
+                        model.viewState.value?.progressTitleText?.let { title -> conformDelete(title) }
+                    }
+                    menuItem.itemId == R.id.menu_pin_shortcut -> model.pinShortcut()
                 }
                 true
             }
@@ -106,10 +102,10 @@ internal class DetailFragment : Fragment() {
     fun showDetailOptions() = popupMenu.show()
 
     fun showShareAchievements() {
-        context?.let {
+        context?.let { ctx ->
             startActivity(
                 DetailUseCase.prepareShareAchievementIntent(
-                    context = it,
+                    context = ctx,
                     title = model.viewState.value?.progressTitleText
                 )
             )

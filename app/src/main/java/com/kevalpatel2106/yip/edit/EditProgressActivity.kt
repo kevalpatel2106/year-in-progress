@@ -1,7 +1,5 @@
 package com.kevalpatel2106.yip.edit
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +17,8 @@ import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHideLoader
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
+import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
+import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.ColorPicker
@@ -29,10 +29,7 @@ import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_start_time
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_toolbar
 import kotlinx.android.synthetic.main.activity_edit_progress.notification_times
-import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
-
 
 internal class EditProgressActivity : AppCompatActivity() {
     @Inject
@@ -60,13 +57,13 @@ internal class EditProgressActivity : AppCompatActivity() {
         monitorUserMessages()
 
         // Monitor loader
-        model.isLoadingProgress.nullSafeObserve(this@EditProgressActivity) {
+        model.isLoadingProgress.nullSafeObserve(this@EditProgressActivity) { isLoading ->
             invalidateOptionsMenu()
-            edit_color.isEnabled = !it
+            edit_color.isEnabled = !isLoading
         }
-        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) {
-            edit_start_time.isEnabled = !it
-            edit_end_time.isEnabled = !it
+        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) { isPrebuilt ->
+            edit_start_time.isEnabled = !isPrebuilt
+            edit_end_time.isEnabled = !isPrebuilt
         }
 
         model.currentNotificationsList.nullSafeObserve(this@EditProgressActivity) {
@@ -148,32 +145,6 @@ internal class EditProgressActivity : AppCompatActivity() {
         }
     }
 
-    private fun conformBeforeExit() {
-        AlertDialog.Builder(this@EditProgressActivity, R.style.AppTheme_Dialog_Alert)
-            .setMessage(R.string.edit_progress_discard_confirm_message)
-            .setPositiveButton(R.string.edit_progress_discard_btn_title) { _, _ -> finish() }
-            .setNegativeButton(R.string.edit_progress_dismiss_btn_title) { dialog, _ -> dialog.cancel() }
-            .show()
-    }
-
-    private fun getDatePicker(
-        preset: Calendar = Calendar.getInstance(),
-        listener: (date: Date) -> Unit
-    ): DatePickerDialog {
-        return DatePickerDialog(
-            this@EditProgressActivity,
-            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                val cal = Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth, 0, 0)
-                }
-                listener.invoke(Date(cal.timeInMillis))
-            },
-            preset.get(Calendar.YEAR),
-            preset.get(Calendar.MONTH),
-            preset.get(Calendar.DAY_OF_MONTH)
-        )
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_progress_save, menu)
         menu?.findItem(R.id.menu_progress_save)?.showOrHideLoader(
@@ -194,9 +165,11 @@ internal class EditProgressActivity : AppCompatActivity() {
     companion object {
         private const val ARG_EDIT_PROGRESS_ID = "progress_id"
 
-        internal fun createNew(context: Context) {
-            context.startActivity(context.prepareLaunchIntent(EditProgressActivity::class.java))
-        }
+        internal fun createNew(context: Context) =
+            context.startActivity(createNewDeadlineIntent(context))
+
+        internal fun createNewDeadlineIntent(context: Context): Intent =
+            context.prepareLaunchIntent(EditProgressActivity::class.java)
 
         internal fun edit(context: Context, progressId: Long) {
             context.startActivity(context.prepareLaunchIntent(EditProgressActivity::class.java).apply {

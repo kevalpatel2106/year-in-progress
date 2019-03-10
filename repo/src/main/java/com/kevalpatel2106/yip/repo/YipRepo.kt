@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.kevalpatel2106.yip.repo
 
 import android.app.Application
@@ -70,6 +72,14 @@ class YipRepo @Inject internal constructor(
             .observeOn(RxSchedulers.main)
     }
 
+    fun isProgressExist(progressId: Long): Single<Boolean> {
+        return db.getDeviceDao()
+            .getCount(progressId)
+            .map { it > 0 }
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
+    }
+
     fun deleteProgress(progressId: Long): Completable {
         return Completable.create { emitter ->
             db.getDeviceDao().delete(progressId)
@@ -78,6 +88,7 @@ class YipRepo @Inject internal constructor(
             .observeOn(RxSchedulers.main)
     }
 
+    @Suppress("LongParameterList")
     fun addUpdateProgress(
         processId: Long,
         title: String,

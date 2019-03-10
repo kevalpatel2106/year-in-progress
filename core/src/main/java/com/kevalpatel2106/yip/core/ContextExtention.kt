@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.core
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -74,18 +75,26 @@ fun Activity.showSnack(
  * Send an email to the development team.
  */
 fun Context.sendMailToDev() {
-    val emailText = ("<ENTER YOUR MESSAGE HERE>\n\n\n\n--------------------------\n"
-            + "PLEASE DON'T REMOVE/EDIT BELOW INFO:\n"
-            + "\nDEVICE NAME : " + Build.MODEL + "(" + Build.DEVICE + ")"
-            + "\nMANUFACTURER : " + Build.MANUFACTURER
-            + "\nANDROID VERSION : " + Build.VERSION.SDK_INT
-            + "\nAPPLICATION VERSION : " + BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")"
-            + "\n--------------------------\n")
+    val emailTitle = "Query regarding ${BuildConfig.APPLICATION_NAME}"
+    val emailText = """"
+        <ENTER YOUR MESSAGE HERE>
+
+
+
+
+        ------------------------------
+        PLEASE DON'T REMOVE/EDIT BELOW INFO:
+        DEVICE NAME : ${Build.MODEL} (${Build.DEVICE})
+        MANUFACTURER : ${Build.MANUFACTURER}
+        ANDROID VERSION : ${Build.VERSION.SDK_INT}
+        APPLICATION VERSION : ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})
+        ------------------------------
+        """.trimIndent()
 
     val emailIntent = Intent(Intent.ACTION_SENDTO)
     emailIntent.data = Uri.parse(getString(R.string.email_scheme))
     emailIntent.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.support_email))
-    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Query regarding ${BuildConfig.APPLICATION_NAME}")
+    emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailTitle)
     emailIntent.putExtra(Intent.EXTRA_TEXT, emailText)
     emailIntent.addFlags(
         Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -114,7 +123,7 @@ fun Context.openPlayStorePage() {
         ).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         })
-    } catch (e: Exception) {
+    } catch (e: ActivityNotFoundException) {
         Timber.e(e)
 
         // Open in browser

@@ -18,9 +18,9 @@ internal class SplashViewModel @Inject constructor(
 
     internal fun signInAsAnonymousUser() {
         if (!checkIsAuthenticated()) {
-            firebaseAuth.signInAnonymously().addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Timber.d("Anonymous login successful. ID: ${it.result?.user?.uid}")
+            firebaseAuth.signInAnonymously().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Timber.d("Anonymous login successful. ID: ${task.result?.user?.uid}")
                 } else {
                     Timber.e("Anonymous login failed.")
                 }

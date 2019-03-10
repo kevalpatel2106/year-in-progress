@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.kevalpatel2106.yip.repo.di
 
 import android.app.Application

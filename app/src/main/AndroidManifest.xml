@@ -29,6 +29,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -48,6 +49,10 @@
                     android:host="progressbarserver.appspot.com"
                     android:scheme="https" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/app_shortcuts" />
         </activity>
         <activity android:name=".edit.EditProgressActivity" />
         <activity android:name=".payment.PaymentActivity" />

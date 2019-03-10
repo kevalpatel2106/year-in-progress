@@ -2,4 +2,5 @@
 <resources>
     <item name="menu_progress_group" type="id" />
     <item name="menu_delete_progress" type="id" />
+    <item name="menu_pin_shortcut" type="id" />
 </resources>
