@@ -15,13 +15,10 @@ class RepositoryModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideSharedPrefs(): SharedPrefsProvider {
-        return SharedPrefsProvider(PreferenceManager.getDefaultSharedPreferences(application))
-    }
+    fun provideSharedPrefs(): SharedPrefsProvider =
+        SharedPrefsProvider(PreferenceManager.getDefaultSharedPreferences(application))
 
     @Singleton
     @Provides
-    fun provideDatabase(): YipDatabase {
-        return YipDatabase.create(application)
-    }
+    fun provideDatabase(): YipDatabase = YipDatabase.create(application)
 }

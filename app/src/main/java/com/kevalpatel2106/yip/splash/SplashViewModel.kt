@@ -28,7 +28,6 @@ internal class SplashViewModel @Inject constructor(
         }
     }
 
-    internal fun refreshPurchaseState(activity: Activity) {
+    internal fun refreshPurchaseState(activity: Activity) =
         billingRepo.refreshPurchaseState(activity)
-    }
 }

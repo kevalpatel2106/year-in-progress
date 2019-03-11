@@ -20,25 +20,19 @@ internal class CoreModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideContext(): Context {
-        return application
-    }
+    fun provideContext(): Context = application
 
     @Singleton
     @Provides
-    fun provideApplication(): Application {
-        return application
-    }
+    fun provideApplication(): Application = application
 
     @Singleton
     @Provides
-    fun provideAlarmManager(): AlarmManager {
-        return application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
+    fun provideAlarmManager(): AlarmManager =
+        application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     @Singleton
     @Provides
-    fun provideAppWidgetService(): AppWidgetManager {
-        return application.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
-    }
+    fun provideAppWidgetService(): AppWidgetManager =
+        application.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
 }

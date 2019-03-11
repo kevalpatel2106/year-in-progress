@@ -6,6 +6,7 @@ import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.splash.AppLaunchHelper
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,6 +33,11 @@ internal class ProgressListRemoteFactory @Inject constructor(
             rowView.setTextColor(
                 R.id.widget_battery_list_level_tv,
                 this.color.value
+            )
+
+            rowView.setOnClickFillInIntent(
+                R.id.battery_list_row,
+                AppLaunchHelper.launchWithProgressDetail(application, this.id)
             )
         }
         return rowView

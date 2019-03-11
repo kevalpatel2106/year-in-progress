@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
-import com.kevalpatel2106.yip.splash.SplashActivity
+import com.kevalpatel2106.yip.splash.AppLaunchHelper
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -28,9 +28,9 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
         // Update the list only
         sharedPrefsProvider.getStringFromPreference(WIDGET_IDS)?.split(",")?.map {
             it.toInt()
-        }?.toIntArray()?.let {
+        }?.toIntArray()?.let { widgetIds ->
             appWidgetManager.notifyAppWidgetViewDataChanged(
-                it,
+                widgetIds,
                 R.id.widget_devices_list
             )
         }
@@ -55,7 +55,7 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    SplashActivity.launchIntent(context),
+                    AppLaunchHelper.launchIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
@@ -66,7 +66,7 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    SplashActivity.launchIntent(context),
+                    AppLaunchHelper.launchIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )

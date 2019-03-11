@@ -15,7 +15,5 @@ class ProgressListRemoteService : RemoteViewsService() {
         getAppComponent().inject(this@ProgressListRemoteService)
     }
 
-    override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
-        return progressRemoteViewsFactory
-    }
+    override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory = progressRemoteViewsFactory
 }
