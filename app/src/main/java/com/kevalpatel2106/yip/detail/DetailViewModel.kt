@@ -98,7 +98,7 @@ internal class DetailViewModel @Inject internal constructor(
             application,
             application.getString(R.string.progress_pin_shortcut_id)
         ).setIcon(
-            IconCompat.createWithResource(application, R.mipmap.ic_launcher_round)
+            IconCompat.createWithResource(application, R.drawable.progress_app_shortcut)
         ).setShortLabel(
             viewState.value?.progressTitleText ?: application.getString(R.string.application_name)
         ).setIntent(
