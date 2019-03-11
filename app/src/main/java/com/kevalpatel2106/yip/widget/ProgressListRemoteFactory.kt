@@ -16,7 +16,8 @@ internal class ProgressListRemoteFactory @Inject constructor(
 
     private val progresses: ArrayList<Progress> = arrayListOf()
 
-    override fun getViewAt(position: Int): RemoteViews {
+    override fun getViewAt(position: Int): RemoteViews? {
+        if (progresses.size - 1 < position) return null
         val rowView = RemoteViews(application.packageName, R.layout.row_widget_progress_list)
         with(progresses[position]) {
 
