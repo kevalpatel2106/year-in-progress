@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!--https://goo.gl/uuZP9Z-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name=".splash.SplashActivity"
             android:noHistory="true"
