@@ -63,6 +63,7 @@ class ColorPicker @JvmOverloads constructor(
     }
 }
 
+@Suppress("MagicNumber")
 internal class ColorDrawable @JvmOverloads constructor(
     context: Context,
     attributes: AttributeSet? = null,
@@ -122,8 +123,8 @@ internal class ColorDrawable @JvmOverloads constructor(
         val mViewHeight = View.MeasureSpec.getSize(heightMeasureSpec)
         val mViewWidth = View.MeasureSpec.getSize(widthMeasureSpec)
 
-        centerX = mViewHeight / 2F  //Center of the view
-        centerY = mViewWidth / 2F   //Center of the view
+        centerX = mViewHeight / 2F  // Center of the view
+        centerY = mViewWidth / 2F   // Center of the view
 
         this.setMeasuredDimension(mViewWidth, mViewHeight)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

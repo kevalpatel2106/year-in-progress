@@ -63,11 +63,15 @@ internal class DashboardViewModel @Inject constructor(
             val list = progresses.map {
                 ProgressListItem(it)
             }.toMutableList() as ArrayList<YipItemRepresentable>
-            list.add(PaddingItem)
 
             return@map list.apply {
                 // Add the ads if the user is not pro.
-                if (isNotEmpty() && !isPro) add(if (size > 4) 4 else size, AdsItem)
+                if (isNotEmpty() && !isPro) {
+                    add(
+                        if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size,
+                        AdsItem
+                    )
+                }
             }
         }.doOnNext {
             // Update all widgets with new progress info
@@ -79,11 +83,12 @@ internal class DashboardViewModel @Inject constructor(
                 progresses.value?.add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
             } else {
                 // Show all the progress.
+                listItems.add(PaddingItem)
                 progresses.value?.addAll(listItems)
             }
             progresses.recall()
-        }, {
-            Timber.e(it)
+        }, { throwable ->
+            Timber.e(throwable)
 
             // Display error.
             progresses.value?.add(ErrorRepresentable(application.getString(R.string.dashboard_error_loading_progress)) {
@@ -131,6 +136,7 @@ internal class DashboardViewModel @Inject constructor(
     internal fun isDetailExpanded(): Boolean = expandProgress.value ?: -1 > 0L
 
     companion object {
+        private const val MAX_POSITION_OF_AD = 4
         private const val MAX_RANDOM_NUMBER = 9
         private const val PREF_KEY_RATED = "pref_key_rated"
     }
