@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
-import com.kevalpatel2106.yip.splash.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

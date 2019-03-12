@@ -141,7 +141,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_end_time" />
 
-            <com.kevalpatel2106.yip.utils.ColorPicker
+            <com.kevalpatel2106.yip.views.ColorPicker
                 android:id="@+id/edit_color"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/spacing_huge"
@@ -169,7 +169,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_color" />
 
-            <com.kevalpatel2106.yip.utils.NotificationViewer
+            <com.kevalpatel2106.yip.views.NotificationViewer
                 android:id="@+id/notification_times"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

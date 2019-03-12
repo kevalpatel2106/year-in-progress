@@ -21,7 +21,7 @@ import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import com.kevalpatel2106.yip.utils.ColorPicker
+import com.kevalpatel2106.yip.views.ColorPicker
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_end_time
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title

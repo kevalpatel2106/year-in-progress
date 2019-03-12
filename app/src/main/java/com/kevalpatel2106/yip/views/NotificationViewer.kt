@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.utils
+package com.kevalpatel2106.yip.views
 
 import android.annotation.SuppressLint
 import android.content.Context

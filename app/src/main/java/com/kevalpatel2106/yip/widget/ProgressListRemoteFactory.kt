@@ -6,7 +6,7 @@ import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.YipRepo
-import com.kevalpatel2106.yip.splash.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import timber.log.Timber
 import javax.inject.Inject
 

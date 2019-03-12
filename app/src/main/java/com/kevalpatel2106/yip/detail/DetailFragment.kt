@@ -30,7 +30,7 @@ internal class DetailFragment : Fragment() {
                     menuItem.itemId == R.id.menu_delete_progress -> {
                         model.viewState.value?.progressTitleText?.let { title -> conformDelete(title) }
                     }
-                    menuItem.itemId == R.id.menu_pin_shortcut -> model.pinShortcut()
+                    menuItem.itemId == R.id.menu_pin_shortcut -> model.requestPinShortcut()
                 }
                 true
             }

@@ -20,6 +20,7 @@ import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
+import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
@@ -31,7 +32,8 @@ internal class DashboardViewModel @Inject constructor(
     private val application: Application,
     private val yipRepo: YipRepo,
     private val sharedPrefsProvider: SharedPrefsProvider,
-    private val billingRepo: BillingRepo
+    private val billingRepo: BillingRepo,
+    private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
     internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
     internal val askForRating = MutableLiveData<Unit>()
@@ -56,6 +58,8 @@ internal class DashboardViewModel @Inject constructor(
             progresses.value?.clear()
             progresses.value?.add(LoadingRepresentable)
             progresses.recall()
+        }.doOnNext { (progresses, _) ->
+            appShortcutHelper.updateDynamicShortcuts(progresses)
         }.map { (progresses, isPro) ->
 
             // Add Ads if the user is not pro.

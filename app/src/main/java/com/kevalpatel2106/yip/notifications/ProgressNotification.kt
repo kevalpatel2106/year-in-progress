@@ -11,7 +11,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.splash.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
 
 /**
  * Helper class for showing and canceling progress

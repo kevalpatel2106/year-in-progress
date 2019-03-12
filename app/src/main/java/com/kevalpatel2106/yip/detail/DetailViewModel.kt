@@ -2,9 +2,6 @@ package com.kevalpatel2106.yip.detail
 
 import android.app.Application
 import android.text.SpannableString
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
@@ -14,13 +11,15 @@ import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import com.kevalpatel2106.yip.splash.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class DetailViewModel @Inject internal constructor(
     private val application: Application,
     private val yipRepo: YipRepo,
+    private val appShortcutHelper: AppShortcutHelper,
     private val sdf: DateFormatter
 ) : BaseViewModel() {
 
@@ -91,25 +90,10 @@ internal class DetailViewModel @Inject internal constructor(
             .addTo(compositeDisposable)
     }
 
-    internal fun pinShortcut() {
-        if (!ShortcutManagerCompat.isRequestPinShortcutSupported(application)) return
-
-        val shortcutInfo = ShortcutInfoCompat.Builder(
-            application,
-            application.getString(R.string.progress_pin_shortcut_id)
-        ).setIcon(
-            IconCompat.createWithResource(application, R.drawable.progress_app_shortcut)
-        ).setShortLabel(
-            viewState.value?.progressTitleText ?: application.getString(R.string.application_name)
-        ).setIntent(
-            AppLaunchHelper.launchWithProgressDetail(application, progressId)
-        ).setAlwaysBadged()
-            .build()
-
-        ShortcutManagerCompat.requestPinShortcut(
-            application,
-            shortcutInfo,
-            null
-        )
+    internal fun requestPinShortcut() {
+        val title = viewState.value?.progressTitleText
+            ?: application.getString(R.string.application_name)
+        val launchIntent = AppLaunchHelper.launchWithProgressDetail(application, progressId)
+        appShortcutHelper.requestPinShortcut(title, launchIntent)
     }
 }

@@ -13,7 +13,7 @@ import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
-import com.kevalpatel2106.yip.utils.NotificationViewer
+import com.kevalpatel2106.yip.views.NotificationViewer
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.ProgressListRemoteService
 import dagger.Component

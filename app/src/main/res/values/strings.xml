@@ -107,7 +107,7 @@
     <string name="detail_progress_complete_title"><![CDATA[Times Up! ⏳]]></string>
     <string name="detail_progress_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
     <string name="detail_progress_complete_share_btn_title">Share #GoalAchived</string>
-    <string name="meu_title_pin_shortcut">Pin shortcut</string>
+    <string name="meu_title_pin_shortcut">Add to home screen</string>
     <string name="meu_title_delete">Delete</string>
 
     <!--Payment screen-->

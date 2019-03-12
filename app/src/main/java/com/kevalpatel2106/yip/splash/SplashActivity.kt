@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.di.getAppComponent
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import javax.inject.Inject
 
 internal class SplashActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.splash
+package com.kevalpatel2106.yip.utils
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import androidx.core.app.TaskStackBuilder
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.edit.EditProgressActivity
+import com.kevalpatel2106.yip.splash.SplashActivity
 
 internal object AppLaunchHelper {
     private const val ACTION_CREATE_PROGRESS = "com.kevalpatel2106.yip.create_new"
@@ -33,16 +34,16 @@ internal object AppLaunchHelper {
 
     internal fun launchFlow(splashActivity: SplashActivity, intent: Intent) {
         when {
-            intent.action == AppLaunchHelper.ACTION_CREATE_PROGRESS -> {
+            intent.action == ACTION_CREATE_PROGRESS -> {
                 TaskStackBuilder.create(splashActivity)
                     .addNextIntent(DashboardActivity.launchIntent(splashActivity))
                     .addNextIntent(EditProgressActivity.createNewDeadlineIntent(splashActivity))
                     .startActivities()
             }
-            intent.action == AppLaunchHelper.ACTION_LAUNCH_WITH_PROGRESS -> {
+            intent.action == ACTION_LAUNCH_WITH_PROGRESS -> {
                 DashboardActivity.launch(
                     splashActivity,
-                    intent.getLongExtra(AppLaunchHelper.ARG_PROGRESS_ID, -1)
+                    intent.getLongExtra(ARG_PROGRESS_ID, -1)
                 )
             }
             else -> DashboardActivity.launch(splashActivity)
