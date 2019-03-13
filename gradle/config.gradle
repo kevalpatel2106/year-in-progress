@@ -17,10 +17,10 @@ ext {
     ]
 
     playStoreVersion = [
-            "version_code": 16,
+            "version_code": 17,
             "major"       : 0,
             "minor"       : 8,
-            "patch"       : 2
+            "patch"       : 3
     ]
 
     versions = [
