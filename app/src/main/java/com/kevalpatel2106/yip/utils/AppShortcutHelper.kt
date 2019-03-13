@@ -34,23 +34,32 @@ class AppShortcutHelper @Inject internal constructor(
 
     internal fun updateDynamicShortcuts(progresses: List<Progress>): Boolean {
         ShortcutManagerCompat.removeAllDynamicShortcuts(application)
-        if (progresses.isEmpty()) return true
+        if (progresses.isEmpty() || isDeviceSupportAppShortcuts(application)) return true
 
         val icon = IconCompat.createWithResource(application, R.drawable.progress_app_shortcut)
-        val shortcuts = progresses.subList(
-            0,
-            ShortcutManagerCompat.getMaxShortcutCountPerActivity(application) - NUMBER_OF_STATIC_APP_SHORTCUT
-        ).map { progress ->
-            ShortcutInfoCompat.Builder(
-                application,
-                application.getString(R.string.progress_app_shortcut_id, progress.id)
-            ).setIcon(icon)
-                .setShortLabel(progress.title)
-                .setIntent(AppLaunchHelper.launchWithProgressDetail(application, progress.id))
-                .build()
-        }
+        val shortcuts = getProgressesFoAppShortcuts(progresses)
+            .map { progress ->
+                ShortcutInfoCompat.Builder(
+                    application,
+                    application.getString(R.string.progress_app_shortcut_id, progress.id)
+                ).setIcon(icon)
+                    .setShortLabel(progress.title)
+                    .setIntent(AppLaunchHelper.launchWithProgressDetail(application, progress.id))
+                    .build()
+            }
         return ShortcutManagerCompat.addDynamicShortcuts(application, shortcuts)
     }
+
+    private fun getProgressesFoAppShortcuts(
+        progresses: List<Progress>,
+        maxShortcutCount: Int = ShortcutManagerCompat.getMaxShortcutCountPerActivity(application)
+    ): List<Progress> {
+        val lastIndex = Math.min(progresses.size, maxShortcutCount - NUMBER_OF_STATIC_APP_SHORTCUT)
+        return progresses.subList(0, lastIndex)
+    }
+
+    private fun isDeviceSupportAppShortcuts(application: Application) =
+        ShortcutManagerCompat.getMaxShortcutCountPerActivity(application) == 0
 
     companion object {
         private const val NUMBER_OF_STATIC_APP_SHORTCUT = 1
