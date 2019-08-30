@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.row_list_error.error_list_item_text
 
 
 internal class ErrorViewHolder(containerView: View) : YipViewHolder(containerView) {
-    override fun isDragSupported(): Boolean = false
 
     fun bind(errorRepresentable: ErrorRepresentable) {
         error_list_item_text.text = errorRepresentable.message

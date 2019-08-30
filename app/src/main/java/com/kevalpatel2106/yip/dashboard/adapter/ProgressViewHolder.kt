@@ -15,8 +15,6 @@ internal class ProgressViewHolder(
     private val binding: RowProgressBinding
 ) : YipViewHolder(binding.root) {
 
-    override fun isDragSupported(): Boolean = true
-
     fun bind(progress: Progress, onClick: ((progress: Progress) -> Unit)?) {
         binding.apply {
             this.progress = progress
@@ -42,8 +40,6 @@ internal class ProgressViewHolder(
 
 internal class AdsViewHolder(itemView: View) : YipViewHolder(itemView) {
 
-    override fun isDragSupported(): Boolean = false
-
     companion object {
         fun create(parent: ViewGroup): AdsViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -55,8 +51,6 @@ internal class AdsViewHolder(itemView: View) : YipViewHolder(itemView) {
 }
 
 internal class PaddingViewHolder(itemView: View) : YipViewHolder(itemView) {
-
-    override fun isDragSupported(): Boolean = false
 
     companion object {
         fun create(parent: ViewGroup): PaddingViewHolder {

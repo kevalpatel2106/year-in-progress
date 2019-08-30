@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.row_list_empty_list.empty_list_item_text
 
 
 internal class EmptyViewHolder(containerView: View) : YipViewHolder(containerView) {
-    override fun isDragSupported(): Boolean = false
 
     fun bind(emptyRepresentable: EmptyRepresentable) {
         empty_list_item_text.text = emptyRepresentable.message

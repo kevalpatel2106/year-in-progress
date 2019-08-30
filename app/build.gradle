@@ -27,6 +27,7 @@ dependencies {
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Debug libs
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
 }
 apply plugin: 'com.google.gms.google-services'
