@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.detail
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -140,5 +141,14 @@ internal object DetailUseCase {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
+    }
+
+    internal fun conformDelete(context: Context, title: String, onDelete: () -> Unit) {
+        AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+            .setMessage(context.getString(R.string.progress_delete_confirmation_message, title))
+            .setPositiveButton(context.getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> onDelete() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setCancelable(true)
+            .show()
     }
 }

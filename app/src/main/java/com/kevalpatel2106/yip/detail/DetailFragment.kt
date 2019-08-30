@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.detail
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,11 +25,16 @@ internal class DetailFragment : Fragment() {
     private val popupMenu: PopupMenu by lazy {
         DetailUseCase.preparePopupMenu(option_menu).apply {
             setOnMenuItemClickListener { menuItem ->
-                when {
-                    menuItem.itemId == R.id.menu_delete_progress -> {
-                        model.viewState.value?.progressTitleText?.let { title -> conformDelete(title) }
+                when (menuItem.itemId) {
+                    R.id.menu_delete_progress -> {
+                        model.viewState.value?.progressTitleText?.let { title ->
+                            DetailUseCase.conformDelete(
+                                requireContext(),
+                                title
+                            ) { model.deleteProgress() }
+                        }
                     }
-                    menuItem.itemId == R.id.menu_pin_shortcut -> model.requestPinShortcut()
+                    R.id.menu_pin_shortcut -> model.requestPinShortcut()
                 }
                 true
             }
@@ -88,17 +92,6 @@ internal class DetailFragment : Fragment() {
         model.closeDetail.nullSafeObserve(this@DetailFragment) { closeDetail() }
     }
 
-    private fun conformDelete(title: String) {
-        AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
-            .setMessage(getString(R.string.progress_delete_confirmation_message, title))
-            .setPositiveButton(getString(R.string.progress_delete_confirmation_delete_title)) { _, _ ->
-                model.deleteProgress()
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .setCancelable(true)
-            .show()
-    }
-
     fun showDetailOptions() = popupMenu.show()
 
     fun showShareAchievements() {
@@ -116,6 +109,7 @@ internal class DetailFragment : Fragment() {
 
     companion object {
         private const val ARG_ID = "arg_id"
+
         internal fun newInstance(progressId: Long): DetailFragment {
             return DetailFragment().apply {
                 arguments = Bundle().apply { putLong(ARG_ID, progressId) }

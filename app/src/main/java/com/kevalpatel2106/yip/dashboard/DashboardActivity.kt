@@ -4,17 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cocosw.bottomsheet.BottomSheet
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
@@ -36,7 +31,6 @@ import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_contain
 import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
 import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
-import timber.log.Timber
 import javax.inject.Inject
 
 internal class DashboardActivity : AppCompatActivity() {
@@ -79,7 +73,9 @@ internal class DashboardActivity : AppCompatActivity() {
         model.userMessage.nullSafeObserve(this@DashboardActivity) { showSnack(it) }
 
         // Rating and ads section
-        model.askForRating.nullSafeObserve(this@DashboardActivity) { showRatingDialog() }
+        model.askForRating.nullSafeObserve(this@DashboardActivity) {
+            showRatingDialog { model.userWantsToRateNow() }
+        }
 
         onNewIntent(intent)
     }
@@ -91,20 +87,7 @@ internal class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setUpInterstitialAd() {
-        val interstitialAd = InterstitialAd(this).apply {
-            adUnitId = getString(R.string.detail_interstitial_ad_id)
-            adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    show()
-                }
-
-                override fun onAdFailedToLoad(p0: Int) {
-                    super.onAdFailedToLoad(p0)
-                    Timber.i("The interstitial ad loading failed.")
-                }
-            }
-        }
+        val interstitialAd = prepareInterstitialAd()
         model.showInterstitialAd.nullSafeObserve(this@DashboardActivity) {
             interstitialAd.loadAd(AdRequest.Builder().build())
         }
@@ -133,25 +116,25 @@ internal class DashboardActivity : AppCompatActivity() {
             }
 
             override fun onPageCollapsed() {
-                add_progress_fab.setImageResource(com.kevalpatel2106.yip.R.drawable.ic_add)
+                add_progress_fab.setImageResource(R.drawable.ic_add)
                 model.expandProgress.value = -1
             }
 
             override fun onPageExpanded() {
-                add_progress_fab.setImageResource(com.kevalpatel2106.yip.R.drawable.ic_edit)
+                add_progress_fab.setImageResource(R.drawable.ic_edit)
             }
         })
-        progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
-        progress_list_rv.tintPainter =
-            TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
-        progress_list_rv.expandablePage = expandable_page_container
 
-        val adapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
-        progress_list_rv.adapter = adapter
+        val progressListAdapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
+        progress_list_rv.apply {
+            tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
+            expandablePage = expandable_page_container
+            adapter = progressListAdapter
+        }
 
         // Start monitoring progress.
         model.progresses.nullSafeObserve(this@DashboardActivity) {
-            adapter.submitList(it.toMutableList())
+            progressListAdapter.submitList(it.toMutableList())
         }
 
         // Expand detail
@@ -167,16 +150,12 @@ internal class DashboardActivity : AppCompatActivity() {
 
     internal fun collapseDetail() {
         progress_list_rv.collapse()
-        model.expandProgress.value = -1
+        model.expandProgress.value = RESET_COLLAPSED_ID
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> if (!bottomNavigationSheet.isShowing) {
-                bottomNavigationSheet.show()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onNavigateUp(): Boolean {
+        if (!bottomNavigationSheet.isShowing) bottomNavigationSheet.show()
+        return super.onNavigateUp()
     }
 
     override fun onBackPressed() {
@@ -187,18 +166,9 @@ internal class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun showRatingDialog() {
-        AlertDialog.Builder(this@DashboardActivity, R.style.AppTheme_Dialog_Alert)
-            .setTitle(R.string.rate_us_dialog_title)
-            .setMessage(R.string.rate_us_dialog_message)
-            .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> model.userWantsToRateNow() }
-            .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
-            .setCancelable(false)
-            .show()
-    }
-
     companion object {
         private const val ARG_PROGRESS_DETAIL_ID = "progressId"
+        private const val RESET_COLLAPSED_ID = -1L
 
         internal fun launch(context: Context, progressId: Long = -1) =
             context.startActivity(launchIntent(context, progressId))

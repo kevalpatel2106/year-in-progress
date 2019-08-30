@@ -23,6 +23,7 @@ import androidx.test.runner.AndroidJUnitRunner
  *
  * @see [https://gist.github.com/daj/7b48f1b8a92abf960e7b](Daj gist)
  */
+@Suppress("unused")
 class CustomTestRunner : AndroidJUnitRunner() {
 
     override fun onStart() {
