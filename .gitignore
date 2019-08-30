@@ -17,6 +17,7 @@
 /build
 /misc/keystore.*
 /*/build
+/reports
 /captures
 .externalNativeBuild
 /projectFilesBackup/

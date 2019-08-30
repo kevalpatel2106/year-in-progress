@@ -31,8 +31,12 @@ fun marshall(bundle: Bundle): ByteArray =
 inline fun <reified R : Parcelable> unmarshallParcelable(bytes: ByteArray): R = unmarshall(bytes)
     .readBundle()
     .run {
-        classLoader = R::class.java.classLoader
-        getParcelable(R::class.java.name)
+        if (this != null) {
+            classLoader = R::class.java.classLoader
+            getParcelable(R::class.java.name)!!
+        } else {
+            throw IllegalStateException("Pacelable null.")
+        }
     }
 
 @SuppressLint("Recycle")

@@ -6,5 +6,5 @@ apply plugin: 'jacoco'
 
 dependencies {
     implementation project(':core')
-    api 'me.saket:inboxrecyclerview:1.0.0-rc1'
+    api('me.saket:inboxrecyclerview:2.0.0-beta1', excludeGrp)
 }

@@ -34,7 +34,7 @@ class ContextExtensionKtTest {
         val launchIntent = RuntimeEnvironment.application
             .prepareLaunchIntent(TestActivity::class.java, true)
 
-        assertEquals(TestActivity::class.java.name, launchIntent.component.className)
+        assertEquals(TestActivity::class.java.name, launchIntent.component!!.className)
         assertEquals(
             Intent.FLAG_ACTIVITY_CLEAR_TASK
                     or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -48,7 +48,7 @@ class ContextExtensionKtTest {
         val launchIntent = RuntimeEnvironment.application
             .prepareLaunchIntent(TestActivity::class.java, false)
 
-        assertEquals(TestActivity::class.java.name, launchIntent.component.className)
+        assertEquals(TestActivity::class.java.name, launchIntent.component!!.className)
         assertEquals(0, launchIntent.flags)
     }
 

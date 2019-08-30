@@ -40,15 +40,15 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { model.refreshPurchaseState(it) }
         // Set the sort order
-        findPreference<ListPreference>(getString(R.string.pref_key_order)).summaryProvider =
+        findPreference<ListPreference>(getString(R.string.pref_key_order))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
 
         // Set the date selector
-        findPreference<ListPreference>(getString(R.string.pref_key_date_format)).summaryProvider =
+        findPreference<ListPreference>(getString(R.string.pref_key_date_format))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
 
         // Set the time selector
-        findPreference<ListPreference>(getString(R.string.pref_key_time_format)).summaryProvider =
+        findPreference<ListPreference>(getString(R.string.pref_key_time_format))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
 
 
@@ -57,9 +57,9 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         val buyProPrefHeader =
             findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
         model.viewState.nullSafeObserve(this@SettingsFragment) {
-            versionPref.summary = it.versionPreferenceSummary
-            buyProPref.isEnabled = it.isBuyProClickable
-            buyProPrefHeader.isVisible = it.isBuyProVisible
+            versionPref?.summary = it.versionPreferenceSummary
+            buyProPref?.isEnabled = it.isBuyProClickable
+            buyProPrefHeader?.isVisible = it.isBuyProVisible
         }
     }
 

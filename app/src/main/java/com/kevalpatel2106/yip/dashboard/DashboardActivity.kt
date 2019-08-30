@@ -144,7 +144,7 @@ internal class DashboardActivity : AppCompatActivity() {
         progress_list_rv.layoutManager = LinearLayoutManager(this@DashboardActivity)
         progress_list_rv.tintPainter =
             TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
-        progress_list_rv.setExpandablePage(expandable_page_container)
+        progress_list_rv.expandablePage = expandable_page_container
 
         val adapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
         progress_list_rv.adapter = adapter
