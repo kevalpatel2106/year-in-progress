@@ -3,7 +3,6 @@ package com.kevalpatel2106.yip.webviews
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -37,11 +36,10 @@ internal class WebViewActivity : AppCompatActivity() {
         DataBindingUtil.setContentView<ActivityWebViewBinding>(
             this@WebViewActivity,
             R.layout.activity_web_view
-        )
-            .apply {
-                lifecycleOwner = this@WebViewActivity
-                viewModel = model
-            }
+        ).apply {
+            lifecycleOwner = this@WebViewActivity
+            viewModel = model
+        }
 
         setSupportActionBar(webview_toolbar)
         supportActionBar?.set()
@@ -71,13 +69,9 @@ internal class WebViewActivity : AppCompatActivity() {
         model.submitLink(intent.getStringExtra(ARG_LINK), intent.getIntExtra(ARG_TITLE, 0))
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            //Call on back press when home back button is clicked
-            onBackPressed()
-            return false
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     companion object {

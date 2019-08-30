@@ -14,9 +14,3 @@ internal data class WebViewViewState(
         }
     }
 }
-
-internal enum class WebviewFlipperPosition(val value: Int) {
-    POS_ERROR(2),
-    POS_LOADING(0),
-    POS_WEBVIEW(1)
-}

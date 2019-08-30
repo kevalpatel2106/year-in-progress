@@ -153,9 +153,11 @@ internal class DashboardActivity : AppCompatActivity() {
         model.expandProgress.value = RESET_COLLAPSED_ID
     }
 
-    override fun onNavigateUp(): Boolean {
-        if (!bottomNavigationSheet.isShowing) bottomNavigationSheet.show()
-        return super.onNavigateUp()
+    override fun onSupportNavigateUp(): Boolean {
+        if (!bottomNavigationSheet.isShowing) {
+            bottomNavigationSheet.show()
+        }
+        return true
     }
 
     override fun onBackPressed() {

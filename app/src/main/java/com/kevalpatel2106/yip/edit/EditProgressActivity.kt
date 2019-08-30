@@ -135,6 +135,11 @@ internal class EditProgressActivity : AppCompatActivity() {
         super.onNewIntent(intent)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun onBackPressed() {
         if (model.isLoadingProgress.value != true) {
             if (model.isSomethingChanged || model.isTitleChanged) {
@@ -156,7 +161,6 @@ internal class EditProgressActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
             R.id.menu_progress_save -> model.saveProgress(notification_times.notificationPercents)
         }
         return super.onOptionsItemSelected(item)

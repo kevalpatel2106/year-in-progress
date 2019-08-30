@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class WebviewExtKtTest {
+class WebviewUsecaseKtTest {
 
     private lateinit var webView: WebView
 

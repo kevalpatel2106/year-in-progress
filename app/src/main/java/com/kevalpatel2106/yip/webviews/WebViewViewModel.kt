@@ -29,8 +29,9 @@ internal class WebViewViewModel @Inject constructor(private val application: App
 
     @SuppressLint("ResourceType")
     fun submitLink(link: String?, @StringRes title: Int) {
-        if (link == null || title <= 0)
+        if (link == null || title <= 0) {
             throw IllegalArgumentException("Invalid link: $link or title: $title")
+        }
         this.link = link
         viewState.value = viewState.value?.copy(
             linkUrl = link,

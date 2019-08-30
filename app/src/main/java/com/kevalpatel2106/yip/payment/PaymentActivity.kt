@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.payment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -32,12 +31,11 @@ internal class PaymentActivity : AppCompatActivity() {
         DataBindingUtil.setContentView<ActivityPaymentBinding>(
             this@PaymentActivity,
             R.layout.activity_payment
-        )
-            .apply {
-                lifecycleOwner = this@PaymentActivity
-                viewModel = model
-                activity = this@PaymentActivity
-            }
+        ).apply {
+            lifecycleOwner = this@PaymentActivity
+            viewModel = model
+            activity = this@PaymentActivity
+        }
         setSupportActionBar(payment_toolbar)
         supportActionBar?.set()
 
@@ -45,18 +43,18 @@ internal class PaymentActivity : AppCompatActivity() {
         model.userMessage.nullSafeObserve(this@PaymentActivity) {
             Toast.makeText(this@PaymentActivity, it, Toast.LENGTH_SHORT).show()
         }
-        model.closeSignal.nullSafeObserve(this@PaymentActivity) { finish() }
+        model.closeSignal.nullSafeObserve(this@PaymentActivity) { onBackPressed() }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-        }
-        return super.onOptionsItemSelected(item)
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     companion object {
-        fun launch(context: Context) =
+        fun launch(context: Context) {
             context.startActivity(context.prepareLaunchIntent(PaymentActivity::class.java))
+        }
     }
 }

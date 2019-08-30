@@ -59,7 +59,7 @@ internal class NotificationViewer @JvmOverloads constructor(
 
     init {
         context.getAppComponent().inject(this@NotificationViewer)
-        orientation = LinearLayout.VERTICAL
+        orientation = VERTICAL
     }
 
     private fun addNotificationsRow(notificationPercent: Float) {
@@ -105,36 +105,36 @@ internal class NotificationViewer @JvmOverloads constructor(
                 R.layout.dialog_notification_time_picker,
                 this@NotificationViewer,
                 false
-            )
-                .apply {
-                    dialog_notification_percent_text.text = context.getString(
-                        R.string.set_notification_dialog_summary,
-                        currentProgress
-                    )
-                    dialog_notification_seekbar.setOnSeekBarChangeListener(object :
-                        SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(
-                            seekBar: SeekBar?,
-                            progress: Int,
-                            fromUser: Boolean
-                        ) {
-                            currentProgress = progress
-                            dialog_notification_percent_text.text = context.getString(
-                                R.string.set_notification_dialog_summary,
-                                currentProgress
-                            )
-                        }
+            ).apply {
+                dialog_notification_percent_text.text = context.getString(
+                    R.string.set_notification_dialog_summary,
+                    currentProgress
+                )
+                dialog_notification_seekbar.setOnSeekBarChangeListener(object :
+                    SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(
+                        seekBar: SeekBar?,
+                        progress: Int,
+                        fromUser: Boolean
+                    ) {
+                        currentProgress = progress
+                        dialog_notification_percent_text.text = context.getString(
+                            R.string.set_notification_dialog_summary,
+                            currentProgress
+                        )
+                    }
 
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                            // Do nothing
-                        }
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                        // Do nothing
+                    }
 
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                            // Do nothing
-                        }
-                    })
-                }
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                        // Do nothing
+                    }
+                })
+            }
             setView(dialogView)
+
             setCancelable(false)
             setTitle(R.string.set_notification_dialog_title)
             setNegativeButton(android.R.string.cancel, null)
