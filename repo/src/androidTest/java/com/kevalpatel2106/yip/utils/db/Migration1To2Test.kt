@@ -24,7 +24,7 @@ class Migration1To2Test {
         color = ProgressColor.COLOR_BLUE,
         end = Date(System.currentTimeMillis()),
         start = Date(System.currentTimeMillis()),
-        notifications = "34,345",
+        notifications = listOf(34F, 345F),
         progressType = ProgressType.DAY_PROGRESS,
         title = "test"
     )
