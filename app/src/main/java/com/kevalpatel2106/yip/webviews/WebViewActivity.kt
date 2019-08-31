@@ -7,7 +7,6 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -66,7 +65,9 @@ internal class WebViewActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        model.submitLink(intent.getStringExtra(ARG_LINK), intent.getIntExtra(ARG_TITLE, 0))
+        val args = intent.getParcelableExtra<WebviewActivityArgs>(ARGS)
+            ?: throw IllegalStateException("Null argument.")
+        model.submitLink(args.link, args.titleRes)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -75,37 +76,38 @@ internal class WebViewActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val ARG_TITLE = "arg_title"
-        private const val ARG_LINK = "arg_link"
+        private const val ARGS = "args"
 
-        private fun launch(context: Context, @StringRes title: Int, link: String) {
+        private fun launch(context: Context, args: WebviewActivityArgs) {
             context.startActivity(context.prepareLaunchIntent(WebViewActivity::class.java).apply {
-                putExtra(ARG_LINK, link)
-                putExtra(ARG_TITLE, title)
+                putExtra(ARGS, args)
             })
         }
 
         fun showPrivacyPolicy(context: Context) {
             launch(
-                context,
-                R.string.title_activity_privacy_policy,
-                context.getString(R.string.privacy_policy_url)
+                context, WebviewActivityArgs(
+                    R.string.title_activity_privacy_policy,
+                    context.getString(R.string.privacy_policy_url)
+                )
             )
         }
 
         fun showChangelog(context: Context) {
             launch(
-                context,
-                R.string.title_activity_changelog,
-                context.getString(R.string.changelog_url)
+                context, WebviewActivityArgs(
+                    R.string.title_activity_changelog,
+                    context.getString(R.string.changelog_url)
+                )
             )
         }
 
         fun showWidgetGuide(context: Context) {
             launch(
-                context,
-                R.string.title_activity_widget_guide,
-                context.getString(R.string.add_widget_guide_url)
+                context, WebviewActivityArgs(
+                    R.string.title_activity_widget_guide,
+                    context.getString(R.string.add_widget_guide_url)
+                )
             )
         }
     }

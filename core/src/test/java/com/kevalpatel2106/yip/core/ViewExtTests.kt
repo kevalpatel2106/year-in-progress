@@ -66,15 +66,15 @@ class ViewExtTests {
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayShowTitleEnabled(isTitleVisibleCaptor.capture())
-            org.junit.Assert.assertEquals(isTitleEnabled, isTitleVisibleCaptor.value)
+            Assert.assertEquals(isTitleEnabled, isTitleVisibleCaptor.value)
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayShowHomeEnabled(homeEnabledCaptor.capture())
-            org.junit.Assert.assertEquals(isHomeEnabled, homeEnabledCaptor.value)
+            Assert.assertEquals(isHomeEnabled, homeEnabledCaptor.value)
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayHomeAsUpEnabled(homeAsUpEnabledCaptor.capture())
-            org.junit.Assert.assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
+            Assert.assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
         }
     }
 

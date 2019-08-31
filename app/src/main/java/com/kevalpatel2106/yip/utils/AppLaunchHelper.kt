@@ -10,7 +10,6 @@ import com.kevalpatel2106.yip.splash.SplashActivity
 
 internal object AppLaunchHelper {
     private const val ACTION_CREATE_PROGRESS = "com.kevalpatel2106.yip.create_new"
-
     private const val ACTION_LAUNCH_WITH_PROGRESS = "com.kevalpatel2106.yip.open_progress"
     private const val ARG_PROGRESS_ID = "progress_id_to_launch"
 

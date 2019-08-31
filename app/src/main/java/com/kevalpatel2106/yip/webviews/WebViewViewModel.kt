@@ -13,26 +13,22 @@ internal class WebViewViewModel @Inject constructor(private val application: App
     val flipperPosition =
         MutableLiveData<WebviewFlipperPosition>(WebviewFlipperPosition.POS_LOADING)
 
-    private var link: String = ""
-
     fun onPageLoaded() {
         flipperPosition.value = WebviewFlipperPosition.POS_WEBVIEW
     }
 
     fun onPageLoadingFailed() {
-        flipperPosition.value = WebviewFlipperPosition.POS_LOADING
+        flipperPosition.value = WebviewFlipperPosition.POS_ERROR
     }
 
     fun reload() {
-        flipperPosition.value = WebviewFlipperPosition.POS_ERROR
+        flipperPosition.value = WebviewFlipperPosition.POS_LOADING
     }
 
     @SuppressLint("ResourceType")
     fun submitLink(link: String?, @StringRes title: Int) {
-        if (link == null || title <= 0) {
-            throw IllegalArgumentException("Invalid link: $link or title: $title")
-        }
-        this.link = link
+        require(!(link == null || title <= 0)) { "Invalid link: $link or title: $title" }
+
         viewState.value = viewState.value?.copy(
             linkUrl = link,
             title = application.getString(title)
