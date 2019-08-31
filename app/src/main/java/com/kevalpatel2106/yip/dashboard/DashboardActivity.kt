@@ -74,7 +74,7 @@ internal class DashboardActivity : AppCompatActivity() {
 
         // Rating and ads section
         model.askForRating.nullSafeObserve(this@DashboardActivity) {
-            showRatingDialog { model.userWantsToRateNow() }
+            showRatingDialog({ model.userWantsToRateNow() }, { model.userWantsToNeverRate() })
         }
 
         onNewIntent(intent)

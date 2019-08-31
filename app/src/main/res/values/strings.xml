@@ -128,7 +128,7 @@
     <string name="rate_us_dialog_title">Rate us on Play store.</string>
     <string name="rate_us_dialog_message">Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.</string>
     <string name="rate_us_dialog_positive_btn">Rate now</string>
-    <string name="rate_us_dialog_negative_btn">Later</string>
+    <string name="rate_us_dialog_negative_btn">Do it later</string>
     <string name="edit_progress_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
     <string name="edit_progress_discard_btn_title">Discard</string>
     <string name="edit_progress_dismiss_btn_title">Dismiss</string>

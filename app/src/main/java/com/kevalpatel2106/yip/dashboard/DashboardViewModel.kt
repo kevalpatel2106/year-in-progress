@@ -103,7 +103,11 @@ internal class DashboardViewModel @Inject constructor(
 
     internal fun userWantsToRateNow() {
         application.openPlayStorePage()
-        sharedPrefsProvider.savePreferences(PREF_KEY_RATED, true)
+        sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
+    }
+
+    internal fun userWantsToNeverRate() {
+        sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
     }
 
     internal fun userWantsToOpenDetail(progressId: Long) {
@@ -115,7 +119,7 @@ internal class DashboardViewModel @Inject constructor(
                     Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
                         // Should show rating dialog?
                         if (!sharedPrefsProvider.getBoolFromPreference(
-                                PREF_KEY_RATED,
+                                PREF_KEY_NEVER_ASK_RATE,
                                 false
                             ) && randomNum == 1
                         ) {
@@ -141,7 +145,7 @@ internal class DashboardViewModel @Inject constructor(
 
     companion object {
         private const val MAX_POSITION_OF_AD = 4
-        private const val MAX_RANDOM_NUMBER = 9
-        private const val PREF_KEY_RATED = "pref_key_rated"
+        private const val MAX_RANDOM_NUMBER = 14
+        private const val PREF_KEY_NEVER_ASK_RATE = "pref_key_rated"
     }
 }

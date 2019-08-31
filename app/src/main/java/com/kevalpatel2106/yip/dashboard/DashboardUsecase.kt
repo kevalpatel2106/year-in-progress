@@ -7,12 +7,12 @@ import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
 import timber.log.Timber
 
-internal fun Context.showRatingDialog(rateNow: () -> Unit) {
+internal fun Context.showRatingDialog(rateNow: () -> Unit, neverAsk: () -> Unit) {
     AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)
         .setTitle(R.string.rate_us_dialog_title)
         .setMessage(R.string.rate_us_dialog_message)
         .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> rateNow() }
-        .setNegativeButton(R.string.rate_us_dialog_negative_btn, null)
+        .setNegativeButton(R.string.rate_us_dialog_negative_btn) { _, _ -> neverAsk() }
         .setCancelable(false)
         .show()
 }

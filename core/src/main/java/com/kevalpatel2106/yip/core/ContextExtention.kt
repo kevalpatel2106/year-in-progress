@@ -108,7 +108,7 @@ fun Context.sendMailToDev() {
                 getString(R.string.contact_us_chooser_text)
             )
         )
-    } catch (ex: android.content.ActivityNotFoundException) {
+    } catch (ex: ActivityNotFoundException) {
         Toast.makeText(this, R.string.error_contact_us_no_email_client, Toast.LENGTH_SHORT).show()
     }
 }
