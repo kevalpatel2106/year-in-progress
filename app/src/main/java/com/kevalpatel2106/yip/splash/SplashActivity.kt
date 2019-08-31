@@ -21,7 +21,6 @@ internal class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
         model.refreshPurchaseState(this@SplashActivity)
-        model.signInAsAnonymousUser()
         AppLaunchHelper.launchFlow(this@SplashActivity, intent)
     }
 }

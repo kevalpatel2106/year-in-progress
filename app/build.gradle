@@ -13,7 +13,7 @@ dependencies {
     testImplementation project(':testUtils')
     androidTestImplementation project(':androidTestUtils')
 
-    implementation 'com.github.betterme-dev:BottomSheet:android-x-SNAPSHOT'
+    implementation 'com.cocosw:bottomsheet:1.5.0'
     implementation 'androidx.preference:preference:1.1.0-rc01'
     implementation 'com.google.android:flexbox:1.1.0'
 
@@ -22,7 +22,6 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-ads:18.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-auth:19.0.0'
     releaseImplementation 'com.google.firebase:firebase-perf:19.0.0'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
