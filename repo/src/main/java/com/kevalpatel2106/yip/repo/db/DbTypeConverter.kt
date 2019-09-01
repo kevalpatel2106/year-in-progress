@@ -57,9 +57,10 @@ internal object DbTypeConverter {
         return when (value) {
             ProgressColor.COLOR_BLUE.value -> ProgressColor.COLOR_BLUE
             ProgressColor.COLOR_GREEN.value -> ProgressColor.COLOR_GREEN
-            ProgressColor.COLOR_GREY.value -> ProgressColor.COLOR_GREY
+            ProgressColor.COLOR_TILL.value -> ProgressColor.COLOR_TILL
             ProgressColor.COLOR_ORANGE.value -> ProgressColor.COLOR_ORANGE
             ProgressColor.COLOR_YELLOW.value -> ProgressColor.COLOR_YELLOW
+            ProgressColor.COLOR_PINK.value -> ProgressColor.COLOR_PINK
             else -> ProgressColor.COLOR_BLUE
         }
     }

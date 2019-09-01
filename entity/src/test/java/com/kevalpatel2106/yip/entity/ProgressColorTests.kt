@@ -24,9 +24,10 @@ class ProgressColorTests {
                 return arrayListOf(
                     arrayOf(ProgressColor.COLOR_BLUE.value, ProgressColor.COLOR_BLUE),
                     arrayOf(ProgressColor.COLOR_GREEN.value, ProgressColor.COLOR_GREEN),
-                    arrayOf(ProgressColor.COLOR_GREY.value, ProgressColor.COLOR_GREY),
+                    arrayOf(ProgressColor.COLOR_TILL.value, ProgressColor.COLOR_TILL),
                     arrayOf(ProgressColor.COLOR_ORANGE.value, ProgressColor.COLOR_ORANGE),
                     arrayOf(ProgressColor.COLOR_YELLOW.value, ProgressColor.COLOR_YELLOW),
+                    arrayOf(ProgressColor.COLOR_PINK.value, ProgressColor.COLOR_PINK),
                     arrayOf(-342, ProgressColor.COLOR_BLUE)
                 )
             }
@@ -54,9 +55,10 @@ class ProgressColorTests {
                     arrayOf(0, true),
                     arrayOf(ProgressColor.COLOR_BLUE.value, true),
                     arrayOf(ProgressColor.COLOR_GREEN.value, true),
-                    arrayOf(ProgressColor.COLOR_GREY.value, true),
+                    arrayOf(ProgressColor.COLOR_TILL.value, true),
                     arrayOf(ProgressColor.COLOR_ORANGE.value, true),
-                    arrayOf(ProgressColor.COLOR_YELLOW.value, true)
+                    arrayOf(ProgressColor.COLOR_YELLOW.value, true),
+                    arrayOf(ProgressColor.COLOR_PINK.value, true)
                 )
             }
         }
