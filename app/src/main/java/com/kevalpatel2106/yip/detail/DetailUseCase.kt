@@ -57,7 +57,7 @@ internal object DetailUseCase {
     }
 
     @Suppress("MagicNumber")
-    fun prepareTimeLeft(
+    internal fun prepareTimeLeft(
         application: Application,
         endTime: Date,
         progressColor: ProgressColor

@@ -17,14 +17,14 @@
         android:id="@+id/detail_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/spacing_anti"
+        android:layout_marginBottom="@dimen/bottom_fab_margin"
         android:layout_marginEnd="@dimen/spacing_micro"
         android:layout_marginStart="@dimen/spacing_micro"
         android:layout_marginTop="@dimen/spacing_nano"
-        app:backgroundColor="@{viewModel.viewState.backgroundColor}"
-        app:cardBackgroundColor="@color/colorPrimaryLight"
+        app:cardBackgroundColor="@{viewModel.viewState.backgroundColor}"
         app:cardCornerRadius="@dimen/spacing_micro"
-        app:cardElevation="@dimen/spacing_micro">
+        app:cardElevation="@dimen/spacing_micro"
+        tools:cardBackgroundColor="@color/colorPrimaryLight">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,7 +50,6 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/detail_close_iv"
                 android:fillViewport="true"
-                android:paddingBottom="@dimen/spacing_anti"
                 android:paddingEnd="@dimen/spacing_micro"
                 android:paddingStart="@dimen/spacing_micro"
                 android:scrollbars="none">

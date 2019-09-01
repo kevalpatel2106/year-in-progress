@@ -12,6 +12,15 @@
         <item name="bs_listStyle">@style/BottomSheet.List</item>
     </style>
 
+    <style name="DashboardListCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_nano</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_micro</item>
+        <item name="android:layout_marginStart">@dimen/spacing_micro</item>
+        <item name="android:layout_marginTop">@dimen/spacing_nano</item>
+    </style>
+
     <!--Edit progress screen-->
     <style name="EditScreenTitleStyle" parent="EditScreenTitleTivStyle">
         <item name="android:layout_width">0dp</item>

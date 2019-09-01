@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
+import android.graphics.drawable.GradientDrawable
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -37,7 +38,7 @@ class ProgressListItemTest {
 
     @Before
     fun before() {
-        progressListItem = ProgressListItem(progress)
+        progressListItem = ProgressListItem(progress, "", GradientDrawable())
     }
 
     @Test

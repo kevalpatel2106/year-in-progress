@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.dashboard
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,9 +12,7 @@ import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.nullSafeObserve
-import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
-import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
@@ -24,29 +21,34 @@ import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
-import com.kevalpatel2106.yip.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_dashboard.add_progress_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
 import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
-import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import javax.inject.Inject
 
 internal class DashboardActivity : AppCompatActivity() {
 
-    private val bottomNavigationSheet: BottomSheet by lazy {
-        BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
-            .title(R.string.application_name)
-            .sheet(R.menu.menu_botom_sheet)
-            .listener { _, which ->
-                when (which) {
-                    R.id.menu_settings -> SettingsActivity.launch(this@DashboardActivity)
-                    R.id.menu_send_feedback -> sendMailToDev()
-                    R.id.menu_rate_us -> openPlayStorePage()
-                }
-            }
-            .build()
+    private val bottomNavigationSheet: BottomSheet by lazy { prepareBottomSheetMenu() }
+
+    private val pageStateChangeCallbacks = object : PageStateChangeCallbacks {
+        override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
+            bottom_app_bar.slideUp(collapseAnimDuration)
+        }
+
+        override fun onPageAboutToExpand(expandAnimDuration: Long) {
+            bottom_app_bar.slideDown(expandAnimDuration)
+        }
+
+        override fun onPageCollapsed() {
+            add_progress_fab.setImageResource(R.drawable.ic_add)
+            model.resetExpandedProgress()
+        }
+
+        override fun onPageExpanded() {
+            add_progress_fab.setImageResource(R.drawable.ic_edit)
+        }
     }
 
     @Inject
@@ -70,10 +72,10 @@ internal class DashboardActivity : AppCompatActivity() {
         setUpList()
         setUpInterstitialAd()
 
-        model.userMessage.nullSafeObserve(this@DashboardActivity) { showSnack(it) }
+        model.userMessages.nullSafeObserve(this@DashboardActivity) { showSnack(it) }
 
         // Rating and ads section
-        model.askForRating.nullSafeObserve(this@DashboardActivity) {
+        model.askForRatingSignal.nullSafeObserve(this@DashboardActivity) {
             showRatingDialog({ model.userWantsToRateNow() }, { model.userWantsToNeverRate() })
         }
 
@@ -88,7 +90,7 @@ internal class DashboardActivity : AppCompatActivity() {
 
     private fun setUpInterstitialAd() {
         val interstitialAd = prepareInterstitialAd()
-        model.showInterstitialAd.nullSafeObserve(this@DashboardActivity) {
+        model.showInterstitialAdSignal.nullSafeObserve(this@DashboardActivity) {
             interstitialAd.loadAd(AdRequest.Builder().build())
         }
     }
@@ -96,9 +98,10 @@ internal class DashboardActivity : AppCompatActivity() {
     private fun setUpFab() {
         add_progress_fab.setOnClickListener {
             if (model.isDetailExpanded()) {
-                model.expandProgress.value?.let { progressId ->
-                    EditProgressActivity.edit(this@DashboardActivity, progressId)
-                }
+                EditProgressActivity.edit(
+                    context = this@DashboardActivity,
+                    progressId = requireNotNull(model.expandProgress.value)
+                )
             } else {
                 EditProgressActivity.createNew(this@DashboardActivity)
             }
@@ -106,29 +109,15 @@ internal class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setUpList() {
-        expandable_page_container.addStateChangeCallbacks(object : PageStateChangeCallbacks {
-            override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
-                bottom_app_bar.slideUp(collapseAnimDuration)
-            }
+        // Set up the expandable layout
+        expandable_page_container.addStateChangeCallbacks(pageStateChangeCallbacks)
 
-            override fun onPageAboutToExpand(expandAnimDuration: Long) {
-                bottom_app_bar.slideDown(expandAnimDuration)
-            }
-
-            override fun onPageCollapsed() {
-                add_progress_fab.setImageResource(R.drawable.ic_add)
-                model.expandProgress.value = -1
-            }
-
-            override fun onPageExpanded() {
-                add_progress_fab.setImageResource(R.drawable.ic_edit)
-            }
-        })
-
+        // Set up the adapter
         val progressListAdapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
+
+        // Prepare the list
         progress_list_rv.apply {
-            tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
-            expandablePage = expandable_page_container
+            setUp(expandable_page_container)
             adapter = progressListAdapter
         }
 
@@ -148,10 +137,7 @@ internal class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    internal fun collapseDetail() {
-        progress_list_rv.collapse()
-        model.expandProgress.value = RESET_COLLAPSED_ID
-    }
+    internal fun collapseDetail() = progress_list_rv.collapse()
 
     override fun onSupportNavigateUp(): Boolean {
         if (!bottomNavigationSheet.isShowing) {
@@ -170,13 +156,12 @@ internal class DashboardActivity : AppCompatActivity() {
 
     companion object {
         private const val ARG_PROGRESS_DETAIL_ID = "progressId"
-        private const val RESET_COLLAPSED_ID = -1L
 
-        internal fun launch(context: Context, progressId: Long = -1) =
-            context.startActivity(launchIntent(context, progressId))
+        internal fun launch(context: Context, expandedProgressId: Long = -1) =
+            context.startActivity(launchIntent(context, expandedProgressId))
 
-        internal fun launchIntent(context: Context, progressId: Long = -1): Intent =
+        internal fun launchIntent(context: Context, expandedProgressId: Long = -1): Intent =
             context.prepareLaunchIntent(DashboardActivity::class.java)
-                .apply { putExtra(ARG_PROGRESS_DETAIL_ID, progressId) }
+                .apply { putExtra(ARG_PROGRESS_DETAIL_ID, expandedProgressId) }
     }
 }

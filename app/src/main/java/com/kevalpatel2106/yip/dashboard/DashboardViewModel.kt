@@ -1,9 +1,11 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.openPlayStorePage
@@ -35,16 +37,22 @@ internal class DashboardViewModel @Inject constructor(
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
-    internal val progresses = MutableLiveData<ArrayList<YipItemRepresentable>>()
-    internal val askForRating = MutableLiveData<Unit>()
-    internal val showInterstitialAd = MutableLiveData<Unit>()
-    internal val userMessage = SingleLiveEvent<String>()
+    private val _progresses = MutableLiveData<ArrayList<YipItemRepresentable>>(arrayListOf())
+    internal val progresses: LiveData<ArrayList<YipItemRepresentable>> = _progresses
 
-    internal var expandProgress = MutableLiveData<Long>()
+    private val _askForRatingSignal = SignalLiveEvent()
+    internal val askForRatingSignal: LiveData<Unit> = _askForRatingSignal
+
+    private val _showInterstitialAdSignal = SignalLiveEvent()
+    internal val showInterstitialAdSignal: LiveData<Unit> = _showInterstitialAdSignal
+
+    private val _userMessages = SingleLiveEvent<String>()
+    internal val userMessages: LiveData<String> = _userMessages
+
+    private var _expandProgress = MutableLiveData<Long>(RESET_COLLAPSED_ID)
+    internal var expandProgress: LiveData<Long> = _expandProgress
 
     init {
-        expandProgress.value = -1
-        progresses.value = arrayListOf()
         monitorProgresses()
     }
 
@@ -55,9 +63,9 @@ internal class DashboardViewModel @Inject constructor(
             BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
             // Show the loader.
-            progresses.value?.clear()
-            progresses.value?.add(LoadingRepresentable)
-            progresses.recall()
+            _progresses.value?.clear()
+            _progresses.value?.add(LoadingRepresentable)
+            _progresses.recall()
         }.doOnNext { (progresses, _) ->
             appShortcutHelper.updateDynamicShortcuts(progresses)
         }.map { (progresses, isPro) ->
@@ -65,7 +73,14 @@ internal class DashboardViewModel @Inject constructor(
             // Add Ads if the user is not pro.
             @Suppress("UNCHECKED_CAST")
             val list = progresses.map {
-                ProgressListItem(it)
+                ProgressListItem(
+                    progress = it,
+                    progressString = application.getString(
+                        R.string.progress_percentage,
+                        it.percent
+                    ),
+                    backgroundGradient = application.getBackgroundGradient(it.color.value)
+                )
             }.toMutableList() as ArrayList<YipItemRepresentable>
 
             return@map list.apply {
@@ -81,21 +96,21 @@ internal class DashboardViewModel @Inject constructor(
             // Update all widgets with new progress info
             application.updateWidgets()
         }.subscribe({ listItems ->
-            progresses.value?.clear()
+            _progresses.value?.clear()
             if (listItems.isEmpty()) {
                 // Show the empty list view.
-                progresses.value?.add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
+                _progresses.value?.add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
             } else {
                 // Show all the progress.
                 listItems.add(PaddingItem)
-                progresses.value?.addAll(listItems)
+                _progresses.value?.addAll(listItems)
             }
-            progresses.recall()
+            _progresses.recall()
         }, { throwable ->
             Timber.e(throwable)
 
             // Display error.
-            progresses.value?.add(ErrorRepresentable(application.getString(R.string.dashboard_error_loading_progress)) {
+            _progresses.value?.add(ErrorRepresentable(application.getString(R.string.dashboard_error_loading_progress)) {
                 monitorProgresses()
             })
         }).addTo(compositeDisposable)
@@ -114,38 +129,48 @@ internal class DashboardViewModel @Inject constructor(
         yipRepo.isProgressExist(progressId)
             .subscribe({ exist ->
                 if (exist) {
-                    expandProgress.value = progressId
-
-                    Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
-                        // Should show rating dialog?
-                        if (!sharedPrefsProvider.getBoolFromPreference(
-                                PREF_KEY_NEVER_ASK_RATE,
-                                false
-                            ) && randomNum == 1
-                        ) {
-                            askForRating.value = Unit
-                        }
-
-                        // Should show ads?
-                        if (randomNum == 0 && !billingRepo.isPurchased()) {
-                            showInterstitialAd.value = Unit
-                        }
-                    }
+                    _expandProgress.value = progressId
+                    handleRandomEvents()
                 } else {
-                    userMessage.value = application.getString(R.string.error_progress_not_exist)
+                    _userMessages.value = application.getString(R.string.error_progress_not_exist)
                 }
             }, { throwable ->
                 Timber.e(throwable)
-                userMessage.value = application.getString(R.string.error_progress_not_exist)
+                _userMessages.value = application.getString(R.string.error_progress_not_exist)
             })
             .addTo(compositeDisposable)
     }
 
-    internal fun isDetailExpanded(): Boolean = expandProgress.value ?: -1 > 0L
+    private fun handleRandomEvents() {
+        Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
+            // Should show rating dialog?
+            if (!sharedPrefsProvider.getBoolFromPreference(
+                    PREF_KEY_NEVER_ASK_RATE,
+                    false
+                ) && randomNum == RANDOM_NUMBER_FOR_RATING
+            ) {
+                _askForRatingSignal.sendSignal()
+            }
+
+            // Should show ads?
+            if (randomNum == RANDOM_NUMBER_FOR_AD && !billingRepo.isPurchased()) {
+                _showInterstitialAdSignal.sendSignal()
+            }
+        }
+    }
+
+    internal fun isDetailExpanded(): Boolean = expandProgress.value != RESET_COLLAPSED_ID
+
+    internal fun resetExpandedProgress() {
+        _expandProgress.value = RESET_COLLAPSED_ID
+    }
 
     companion object {
+        private const val RESET_COLLAPSED_ID = -1L
         private const val MAX_POSITION_OF_AD = 4
         private const val MAX_RANDOM_NUMBER = 14
+        private const val RANDOM_NUMBER_FOR_RATING = 1
+        private const val RANDOM_NUMBER_FOR_AD = 0
         private const val PREF_KEY_NEVER_ASK_RATE = "pref_key_rated"
     }
 }

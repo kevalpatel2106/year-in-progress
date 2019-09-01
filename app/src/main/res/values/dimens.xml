@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--General dimentions-->
+    <!--General dimensions-->
     <item name="match_parent" type="dimen">-1</item>
     <item name="wrap_content" type="dimen">-2</item>
+
+    <!-- Dashboard dimensions-->
+    <dimen name="bottom_fab_margin">@dimen/spacing_anti</dimen>
+    <dimen name="ads_row_height">@dimen/spacing_anti</dimen>
+    <dimen name="dashboard_list_row_card_elevation">@dimen/spacing_pico</dimen>
+    <dimen name="dashboard_list_row_card_radius">@dimen/spacing_micro</dimen>
 
     <!--Progress list widget dimension-->
     <dimen name="widget_min_width">190dp</dimen>
