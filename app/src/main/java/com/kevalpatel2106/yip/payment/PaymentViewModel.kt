@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.SignalLiveData
+import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
@@ -19,7 +19,7 @@ internal class PaymentViewModel @Inject internal constructor(
     val viewState =
         MutableLiveData<PaymentActivityViewState>(PaymentActivityViewState.initialState())
     internal val userMessage = SingleLiveEvent<String>()
-    internal val closeSignal = SignalLiveData()
+    internal val closeSignal = SignalLiveEvent()
 
     fun purchase(activity: Activity) {
         billingRepo.purchase(activity)
@@ -35,7 +35,7 @@ internal class PaymentViewModel @Inject internal constructor(
             }
             .subscribe({
                 userMessage.value = application.getString(R.string.purchase_successful)
-                closeSignal.invoke()
+                closeSignal.sendSignal()
             }, {
                 userMessage.value = it.message
             })

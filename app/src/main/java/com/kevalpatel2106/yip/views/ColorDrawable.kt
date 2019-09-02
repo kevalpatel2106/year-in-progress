@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.darkenColor
 
 @Suppress("MagicNumber")
 internal class ColorDrawable @JvmOverloads constructor(
@@ -53,7 +52,7 @@ internal class ColorDrawable @JvmOverloads constructor(
 
     private fun createPaint() {
         strokePaint.apply {
-            color = darkenColor(circleColor, 0.7F)
+            color = Color.BLACK
             strokeWidth = circleStrokeWidth
             style = Paint.Style.STROKE
         }
@@ -67,8 +66,8 @@ internal class ColorDrawable @JvmOverloads constructor(
     private var centerY: Float = 0f
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val mViewHeight = View.MeasureSpec.getSize(heightMeasureSpec)
-        val mViewWidth = View.MeasureSpec.getSize(widthMeasureSpec)
+        val mViewHeight = MeasureSpec.getSize(heightMeasureSpec)
+        val mViewWidth = MeasureSpec.getSize(widthMeasureSpec)
 
         centerX = mViewHeight / 2F  // Center of the view
         centerY = mViewWidth / 2F   // Center of the view

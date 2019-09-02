@@ -1,15 +1,11 @@
 package com.kevalpatel2106.yip.dashboard
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import com.cocosw.bottomsheet.BottomSheet
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.settings.SettingsActivity
@@ -62,16 +58,4 @@ internal fun DashboardActivity.prepareBottomSheetMenu(): BottomSheet {
 internal fun InboxRecyclerView.setUp(expandablePageLayout: ExpandablePageLayout) {
     tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
     expandablePage = expandablePageLayout
-}
-
-internal fun Context.getBackgroundGradient(@ColorInt color: Int): GradientDrawable {
-    val dark70 = darkenColor(color, 0.7f)
-    val dark80 = darkenColor(color, 0.8f)
-    val dark90 = darkenColor(color, 0.9f)
-
-    val colors = intArrayOf(dark70, dark80, dark80, dark90, color)
-    return GradientDrawable(GradientDrawable.Orientation.BL_TR, colors)
-        .apply {
-            cornerRadius = resources.getDimension(R.dimen.dashboard_list_row_card_radius)
-        }
 }

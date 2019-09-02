@@ -25,10 +25,3 @@ fun <T> LiveData<T>.nullSafeObserve(owner: LifecycleOwner, observer: (t: T) -> U
 fun <T> MutableLiveData<T>.recall() {
     this.value = value
 }
-
-class SignalLiveData : MutableLiveData<Unit>() {
-    fun invoke() {
-        value = Unit
-    }
-}
-

@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.recall
 import com.kevalpatel2106.yip.core.updateWidgets

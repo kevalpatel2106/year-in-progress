@@ -83,7 +83,7 @@
     <string name="menu_title_save_progress">Save</string>
 
     <!--Progress detail-->
-    <string name="time_left_title">Time left:\n%d %s %d %s %d %s</string>
+    <string name="time_left_title">Time left:\n\n%d %s %d %s %d %s</string>
     <string name="progress_delete_successful">Deleted successfully.</string>
     <string name="progress_delete_confirmation_delete_title">Delete</string>
     <string name="progress_delete_confirmation_message">Do you want to delete %s?</string>
@@ -124,11 +124,13 @@
     <string name="app_shortcut_title_create_deadline_long">Add Deadline</string>
     <string name="app_shortcut_disable" translatable="false">Not available.</string><!--Max to chars-->
 
-
+    <!--Rate us dialog-->
     <string name="rate_us_dialog_title">Rate us on Play store.</string>
     <string name="rate_us_dialog_message">Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.</string>
     <string name="rate_us_dialog_positive_btn">Rate now</string>
     <string name="rate_us_dialog_negative_btn">Do it later</string>
+
+    <!--Edit screen-->
     <string name="edit_progress_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
     <string name="edit_progress_discard_btn_title">Discard</string>
     <string name="edit_progress_dismiss_btn_title">Dismiss</string>
@@ -139,8 +141,11 @@
     <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
     <string name="error_webview">Cannot load the page. Check your internet connection.</string>
     <string name="progress_notification_title">%s reached to %.2f%%</string>
+
+    <!--Share dialog-->
     <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
     <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <string name="error_progress_not_exist">Deadline doesn\'t exist.</string>
+
     <!--TODO: Categorize the strings-->
 </resources>

@@ -13,7 +13,7 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class SignalLiveDataTest {
+class SignalLiveEventTest {
 
     @Rule
     @JvmField
@@ -22,7 +22,7 @@ class SignalLiveDataTest {
     @Mock
     private lateinit var eventObserver: Observer<Unit>
 
-    private val signalLiveEvent = SignalLiveData()
+    private val signalLiveEvent = SignalLiveEvent()
 
     @Before
     @Throws(Exception::class)
@@ -39,8 +39,8 @@ class SignalLiveDataTest {
     }
 
     @Test
-    fun testInvoke() {
-        signalLiveEvent.invoke()
+    fun testSendSignal() {
+        signalLiveEvent.sendSignal()
         Mockito.verify(eventObserver, Mockito.times(1)).onChanged(Unit)
     }
 }

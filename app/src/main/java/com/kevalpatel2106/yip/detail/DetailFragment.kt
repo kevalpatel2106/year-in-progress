@@ -88,7 +88,7 @@ internal class DetailFragment : Fragment() {
         }
 
         // Handle errors.
-        model.errorMessage.nullSafeObserve(this@DetailFragment) { activity?.showSnack(it) }
+        model.userMessage.nullSafeObserve(this@DetailFragment) { activity?.showSnack(it) }
         model.closeDetail.nullSafeObserve(this@DetailFragment) { closeDetail() }
     }
 

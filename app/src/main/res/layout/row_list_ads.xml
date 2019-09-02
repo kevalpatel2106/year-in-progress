@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/DashboardListCard"
     app:cardBackgroundColor="@color/window_background_color_bright"
-    app:cardCornerRadius="@dimen/dashboard_list_row_card_radius"
+    app:cardCornerRadius="@dimen/card_radius"
     app:cardElevation="@dimen/dashboard_list_row_card_elevation"
     app:contentPadding="@dimen/spacing_nano">
 

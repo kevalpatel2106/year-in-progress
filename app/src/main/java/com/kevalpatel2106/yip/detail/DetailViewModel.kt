@@ -2,13 +2,14 @@ package com.kevalpatel2106.yip.detail
 
 import android.app.Application
 import android.text.SpannableString
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.SignalLiveData
+import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.darkenColor
+import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
@@ -29,31 +30,39 @@ internal class DetailViewModel @Inject internal constructor(
             monitorProgress(value)
         }
 
-    val viewState = MutableLiveData<DetailViewState>()
-    val isDeleting = MutableLiveData<Boolean>()
-    internal val errorMessage = SingleLiveEvent<String>()
-    internal val closeDetail = SignalLiveData()
+    private val _viewState = MutableLiveData<DetailViewState>()
+    val viewState: LiveData<DetailViewState> = _viewState
+
+    private val _isDeleting = MutableLiveData<Boolean>(false)
+    val isDeleting: LiveData<Boolean> = _isDeleting
+
+    private val _userMessage = SingleLiveEvent<String>()
+    internal val userMessage: LiveData<String> = _userMessage
+
+    private val _closeDetail = SignalLiveEvent()
+    internal val closeDetail: LiveData<Unit> = SignalLiveEvent()
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
             .subscribe({ item ->
                 val isProgressComplete = item.percent >= 100f
 
-                viewState.value = DetailViewState(
-                    backgroundColor = darkenColor(item.color.value),
+                _viewState.value = DetailViewState(
+                    backgroundDrawable = application.getBackgroundGradient(item.color.value),
 
                     progressTitleText = item.title,
-
-                    progressPercentTextColor = item.color.value,
                     progressPercentText = application.getString(
                         R.string.progress_percentage,
                         item.percent
                     ),
-
                     progressTimeLeftText = if (isProgressComplete) {
                         SpannableString("")
                     } else {
-                        DetailUseCase.prepareTimeLeft(application, item.end, item.color)
+                        DetailUseCase.prepareTimeLeft(
+                            application = application,
+                            endTime = item.end,
+                            secondaryColor = item.color.value
+                        )
                     },
                     progressEndTimeText = sdf.format(item.end),
                     progressStartTimeText = sdf.format(item.start),
@@ -64,28 +73,27 @@ internal class DetailViewModel @Inject internal constructor(
                         ProgressFlipper.POS_TIME_LEFT
                     },
 
-                    progressPercent = item.percent.toInt(),
-                    progressBarColor = item.color.value,
-
-                    progressAchievementTextColor = item.color.value
+                    progressPercent = item.percent.toInt()
                 )
             }, { throwable ->
                 Timber.e(throwable)
-                errorMessage.value = throwable.message
-                closeDetail.invoke()
+                _userMessage.value = throwable.message
+                _closeDetail.sendSignal()
             })
             .addTo(compositeDisposable)
     }
 
     internal fun deleteProgress() {
         yipRepo.deleteProgress(progressId)
+            .doOnSubscribe { _isDeleting.value = true }
+            .doOnComplete { _isDeleting.value = false }
             .subscribe({
-                errorMessage.value = application.getString(R.string.progress_delete_successful)
-                closeDetail.invoke()
+                _userMessage.value = application.getString(R.string.progress_delete_successful)
+                _closeDetail.sendSignal()
             }, { throwable ->
                 Timber.e(throwable)
-                errorMessage.value = throwable.message
-                closeDetail.invoke()
+                _userMessage.value = throwable.message
+                _closeDetail.sendSignal()
             })
             .addTo(compositeDisposable)
     }

@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/root_card"
         style="@style/DashboardListCard"
-        app:cardCornerRadius="@dimen/dashboard_list_row_card_radius"
+        app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="@dimen/dashboard_list_row_card_elevation"
         app:contentPaddingBottom="@dimen/spacing_small"
         app:contentPaddingLeft="@dimen/spacing_micro"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.MenuItem
 import android.view.View
@@ -11,8 +12,10 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.ActionBar
 import androidx.core.graphics.drawable.DrawableCompat
+import com.kevalpatel2106.feature.core.R
 
 private const val SLIDE_ANIMATION_DEFAULT_DURATION = 300L
 
@@ -45,13 +48,27 @@ fun View.showOrHide(isShow: Boolean) {
     }
 }
 
+@VisibleForTesting
 @ColorInt
-fun darkenColor(@ColorInt color: Int, factor: Float = 0.3f): Int {
+internal fun darkenColor(@ColorInt color: Int, factor: Float = 0.5f): Int {
     return Color.HSVToColor(FloatArray(3).apply {
         Color.colorToHSV(color, this)
         this[2] *= factor
     })
 }
+
+fun Context.getBackgroundGradient(@ColorInt color: Int): GradientDrawable {
+    val dark70 = darkenColor(color, 0.7f)
+    val dark80 = darkenColor(color, 0.8f)
+    val dark90 = darkenColor(color, 0.9f)
+
+    val colors = intArrayOf(dark70, dark80, dark80, dark90, color)
+    return GradientDrawable(GradientDrawable.Orientation.BL_TR, colors)
+        .apply {
+            cornerRadius = resources.getDimension(R.dimen.card_radius)
+        }
+}
+
 
 fun MenuItem.showOrHideLoader(context: Context, isShow: Boolean) {
     if (isShow) {
