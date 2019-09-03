@@ -1,7 +1,6 @@
 package com.kevalpatel2106.yip.detail
 
 import android.app.Application
-import android.text.SpannableString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -9,6 +8,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
@@ -24,17 +24,12 @@ internal class DetailViewModel @Inject internal constructor(
     private val sdf: DateFormatter
 ) : BaseViewModel() {
 
-    internal var progressId: Long = 0
-        set(value) {
-            field = value
-            monitorProgress(value)
-        }
+    private var progressId: Long = -1
 
-    private val _viewState = MutableLiveData<DetailViewState>()
+    private val _viewState = MutableLiveData<DetailViewState>(
+        DetailViewState.initialState(application)
+    )
     val viewState: LiveData<DetailViewState> = _viewState
-
-    private val _isDeleting = MutableLiveData<Boolean>(false)
-    val isDeleting: LiveData<Boolean> = _isDeleting
 
     private val _userMessage = SingleLiveEvent<String>()
     internal val userMessage: LiveData<String> = _userMessage
@@ -47,8 +42,8 @@ internal class DetailViewModel @Inject internal constructor(
             .subscribe({ item ->
                 val isProgressComplete = item.percent >= 100f
 
-                _viewState.value = DetailViewState(
-                    backgroundDrawable = application.getBackgroundGradient(item.color.value),
+                _viewState.value = _viewState.value?.copy(
+                    cardBackground = application.getBackgroundGradient(item.color.value),
 
                     progressTitleText = item.title,
                     progressPercentText = application.getString(
@@ -56,7 +51,7 @@ internal class DetailViewModel @Inject internal constructor(
                         item.percent
                     ),
                     progressTimeLeftText = if (isProgressComplete) {
-                        SpannableString("")
+                        emptySpannableString()
                     } else {
                         DetailUseCase.prepareTimeLeft(
                             application = application,
@@ -67,7 +62,7 @@ internal class DetailViewModel @Inject internal constructor(
                     progressEndTimeText = sdf.format(item.end),
                     progressStartTimeText = sdf.format(item.start),
 
-                    isProgressComplete = if (isProgressComplete) {
+                    detailFlipperPosition = if (isProgressComplete) {
                         ProgressFlipper.POS_SHARE_PROGRESS
                     } else {
                         ProgressFlipper.POS_TIME_LEFT
@@ -85,15 +80,14 @@ internal class DetailViewModel @Inject internal constructor(
 
     internal fun deleteProgress() {
         yipRepo.deleteProgress(progressId)
-            .doOnSubscribe { _isDeleting.value = true }
-            .doOnComplete { _isDeleting.value = false }
+            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isDeletingProgress = true) }
+            .doOnTerminate { _viewState.value = _viewState.value?.copy(isDeletingProgress = false) }
             .subscribe({
                 _userMessage.value = application.getString(R.string.progress_delete_successful)
                 _closeDetail.sendSignal()
             }, { throwable ->
                 Timber.e(throwable)
                 _userMessage.value = throwable.message
-                _closeDetail.sendSignal()
             })
             .addTo(compositeDisposable)
     }
@@ -103,5 +97,12 @@ internal class DetailViewModel @Inject internal constructor(
             ?: application.getString(R.string.application_name)
         val launchIntent = AppLaunchHelper.launchWithProgressDetail(application, progressId)
         appShortcutHelper.requestPinShortcut(title, launchIntent)
+    }
+
+    internal fun setProgressIdToMonitor(progressId: Long) {
+        if (this.progressId != progressId) {
+            this.progressId = progressId
+            monitorProgress(progressId)
+        }
     }
 }

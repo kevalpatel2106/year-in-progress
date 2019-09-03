@@ -12,200 +12,195 @@
             type="com.kevalpatel2106.yip.detail.DetailFragment" />
     </data>
 
-    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_fab_margin"
-        android:fillViewport="true"
         android:paddingEnd="@dimen/spacing_micro"
         android:paddingStart="@dimen/spacing_micro"
-        android:scrollbars="none">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/detail_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginEnd="@dimen/spacing_nano"
+            android:layout_marginStart="@dimen/spacing_nano"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@{viewModel.viewState.cardBackground}"
+            app:cardCornerRadius="@dimen/spacing_micro"
+            app:cardElevation="@dimen/spacing_micro"
+            app:contentPaddingBottom="@dimen/spacing_xlarge"
+            tools:cardBackgroundColor="@color/colorPrimaryLight">
 
-            <ViewFlipper
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xlarge"
-                app:displayChild="@{viewModel.viewState.isProgressComplete.value}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv">
+                android:layout_height="wrap_content">
 
-                <!--0. Time left-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/option_menu"
+                    style="@style/DetailToolbarButtonStyle"
+                    android:layout_alignParentEnd="true"
+                    android:clickable="@{!viewModel.viewState.isDeletingProgress}"
+                    android:onClick="@{() -> view.showDetailOptions()}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_overflow" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/spacing_huge"
-                        android:layout_height="@dimen/spacing_huge"
-                        android:src="@drawable/ic_achived" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/detail_close_iv"
+                    style="@style/DetailToolbarButtonStyle"
+                    android:layout_alignParentStart="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:onClick="@{() -> view.closeDetail()}"
+                    app:srcCompat="@drawable/ic_close" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/LargeText.Accent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_micro"
-                        android:gravity="center"
-                        android:paddingEnd="@dimen/spacing_small"
-                        android:paddingStart="@dimen/spacing_small"
-                        android:text="@string/detail_progress_complete_title"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/MediumText.Primary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:gravity="center"
-                        android:paddingEnd="@dimen/spacing_small"
-                        android:paddingStart="@dimen/spacing_small"
-                        android:text="@string/detail_progress_complete_message" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:backgroundTint="@color/colorAccent"
-                        android:clickable="@{!viewModel.isDeleting}"
-                        android:onClick="@{() -> view.showShareAchievements()}"
-                        android:text="@string/detail_progress_complete_share_btn_title"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
-
-                <!--1. Share messages-->
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail_time_left_tv"
-                    style="@style/LargeText.Primary"
-                    android:layout_width="match_parent"
+                    android:id="@+id/detail_title_tv"
+                    style="@style/LargeText.White"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_micro"
+                    android:layout_marginStart="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:fontFamily="@font/lato"
                     android:gravity="center"
-                    android:text="@{viewModel.viewState.progressTimeLeftText}"
-                    android:textSize="@dimen/time_left_text_size"
-                    tools:text="23 days 1 hour 13 minutes" />
-            </ViewFlipper>
+                    android:maxLines="2"
+                    android:text="@{viewModel.viewState.progressTitleText}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_close_iv"
+                    tools:text="@tools:sample/lorem/random" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/detail_card"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_progress_percent_tv"
+                    style="@style/LargeText.White"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xxlarge"
+                    android:fontFamily="@font/lato"
+                    android:gravity="center_horizontal"
+                    android:text="@{viewModel.viewState.progressPercentText}"
+                    android:textSize="@dimen/progress_percent_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
+                    tools:text="46%" />
+
+                <ProgressBar
+                    android:id="@+id/detail_progressbar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_micro"
+                    android:layout_marginEnd="@dimen/spacing_micro"
+                    android:layout_marginStart="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:max="100"
+                    android:progress="@{viewModel.viewState.progressPercent}"
+                    android:progressTint="@android:color/white"
+                    android:scaleY="1.5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_progress_percent_tv"
+                    tools:progress="50" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_start_time_tv"
+                    style="@style/SmallText.White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_micro"
+                    android:layout_marginStart="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:fontFamily="@font/lato"
+                    android:text="@{viewModel.viewState.progressStartTimeText}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_end_time_tv"
+                    style="@style/SmallText.White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_micro"
+                    android:layout_marginStart="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:fontFamily="@font/lato"
+                    android:text="@{viewModel.viewState.progressEndTimeText}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
+                    tools:text="@tools:sample/date/ddmmyy" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            app:displayChild="@{viewModel.viewState.detailFlipperPosition.value}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv">
+
+            <!--0. Time left-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_time_left_tv"
+                style="@style/LargeText.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_nano"
-                android:layout_marginStart="@dimen/spacing_nano"
-                android:layout_marginTop="@dimen/spacing_micro"
-                android:background="@{viewModel.viewState.backgroundDrawable}"
-                app:cardCornerRadius="@dimen/spacing_micro"
-                app:cardElevation="@dimen/spacing_micro"
-                app:contentPaddingBottom="@dimen/spacing_xlarge"
-                tools:cardBackgroundColor="@color/colorPrimaryLight">
+                android:gravity="center"
+                android:text="@{viewModel.viewState.progressTimeLeftText}"
+                android:textSize="@dimen/time_left_text_size"
+                tools:text="23 days 1 hour 13 minutes" />
 
-                <RelativeLayout
+            <!--1. Share messages-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/spacing_huge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:src="@drawable/ic_achived" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/LargeText.Accent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/spacing_small"
+                    android:paddingStart="@dimen/spacing_small"
+                    android:text="@string/detail_progress_complete_title"
+                    android:textStyle="bold" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/option_menu"
-                        style="@style/DetailToolbarButtonStyle"
-                        android:layout_alignParentEnd="true"
-                        android:clickable="@{!viewModel.isDeleting}"
-                        android:onClick="@{() -> view.showDetailOptions()}"
-                        app:srcCompat="@drawable/ic_overflow" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumText.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/spacing_small"
+                    android:paddingStart="@dimen/spacing_small"
+                    android:text="@string/detail_progress_complete_message" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/detail_close_iv"
-                        style="@style/DetailToolbarButtonStyle"
-                        android:layout_alignParentStart="true"
-                        android:onClick="@{() -> view.closeDetail()}"
-                        app:srcCompat="@drawable/ic_close" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/detail_constraint_layout"
-                        android:layout_width="match_parent"
-                        android:layout_below="@id/detail_close_iv"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_micro"
-                        android:layout_marginStart="@dimen/spacing_micro">
-
-                        <ProgressBar
-                            android:id="@+id/detail_progressbar"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_micro"
-                            android:layout_marginEnd="@dimen/spacing_micro"
-                            android:layout_marginStart="@dimen/spacing_micro"
-                            android:layout_marginTop="@dimen/spacing_small"
-                            android:max="100"
-                            android:progress="@{viewModel.viewState.progressPercent}"
-                            android:progressTint="@android:color/white"
-                            android:scaleY="1.5"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detail_progress_percent_tv"
-                            tools:progress="50" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/detail_start_time_tv"
-                            style="@style/SmallText.White"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_micro"
-                            android:fontFamily="@font/lato"
-                            android:text="@{viewModel.viewState.progressStartTimeText}"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
-                            tools:text="@tools:sample/date/ddmmyy" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/detail_end_time_tv"
-                            style="@style/SmallText.White"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_micro"
-                            android:fontFamily="@font/lato"
-                            android:text="@{viewModel.viewState.progressEndTimeText}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
-                            tools:text="@tools:sample/date/ddmmyy" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/detail_progress_percent_tv"
-                            style="@style/LargeText.White"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xxlarge"
-                            android:fontFamily="@font/lato"
-                            android:text="@{viewModel.viewState.progressPercentText}"
-                            android:textSize="@dimen/progress_percent_text_size"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
-                            tools:text="46%" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/detail_title_tv"
-                            style="@style/LargeText.White"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_micro"
-                            android:fontFamily="@font/lato"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:text="@{viewModel.viewState.progressTitleText}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="@tools:sample/lorem/random" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </ScrollView>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:backgroundTint="@color/colorAccent"
+                    android:clickable="@{!viewModel.viewState.isDeletingProgress}"
+                    android:onClick="@{() -> view.showShareAchievements()}"
+                    android:text="@string/detail_progress_complete_share_btn_title"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </ViewFlipper>
+    </LinearLayout>
 </layout>

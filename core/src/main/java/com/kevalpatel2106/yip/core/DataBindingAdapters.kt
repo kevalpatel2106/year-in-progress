@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.core
 
 import android.view.View
 import android.webkit.WebView
-import android.widget.ProgressBar
 import android.widget.ViewFlipper
 import androidx.annotation.ColorInt
 import androidx.databinding.BindingAdapter
@@ -15,11 +14,6 @@ fun visibility(view: View, show: Boolean) {
 @BindingAdapter("app:backgroundColor")
 fun background(view: View, @ColorInt color: Int) {
     view.setBackgroundColor(color)
-}
-
-@BindingAdapter("app:setProgressTint")
-fun setProgressTint(view: View, @ColorInt color: Int) {
-    (view as? ProgressBar)?.setProgressTint(color)
 }
 
 @BindingAdapter("app:loadUrl")

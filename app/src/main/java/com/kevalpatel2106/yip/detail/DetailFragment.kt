@@ -28,10 +28,9 @@ internal class DetailFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.menu_delete_progress -> {
                         model.viewState.value?.progressTitleText?.let { title ->
-                            DetailUseCase.conformDelete(
-                                requireContext(),
-                                title
-                            ) { model.deleteProgress() }
+                            DetailUseCase.conformDelete(requireContext(), title) {
+                                model.deleteProgress()
+                            }
                         }
                     }
                     R.id.menu_pin_shortcut -> model.requestPinShortcut()
@@ -58,8 +57,7 @@ internal class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        model.progressId = arguments?.getLong(ARG_ID)
-            ?: throw IllegalArgumentException("Invalid progress id.")
+        model.setProgressIdToMonitor(requireNotNull(arguments?.getLong(ARG_ID)))
 
         return DataBindingUtil
             .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
@@ -76,8 +74,8 @@ internal class DetailFragment : Fragment() {
 
         // Handle the delete
         var deleteInProgressSnackbar: Snackbar? = null
-        model.isDeleting.nullSafeObserve(this@DetailFragment) { isDeleting ->
-            if (isDeleting) {
+        model.viewState.nullSafeObserve(this@DetailFragment) { viewState ->
+            if (viewState.isDeletingProgress) {
                 deleteInProgressSnackbar = activity?.showSnack(
                     getString(R.string.detail_deleting_progress_message),
                     Snackbar.LENGTH_INDEFINITE

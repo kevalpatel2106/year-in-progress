@@ -17,6 +17,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.pm.ShortcutManagerCompat
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.emptySpannableString
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +69,7 @@ internal object DetailUseCase {
 
         // Find difference in mills
         var diffMills = endTime.time - System.currentTimeMillis()
-        if (diffMills < 0) return SpannableString("")
+        if (diffMills < 0) return emptySpannableString()
 
         // Calculate the days, hours and minutes
         val days = TimeUnit.DAYS.convert(diffMills, TimeUnit.MILLISECONDS)
