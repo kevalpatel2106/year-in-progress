@@ -32,8 +32,8 @@ internal class WebViewViewModel @Inject constructor(
     fun submitLink(link: String?, @StringRes title: Int) {
         require(!(link == null || title <= 0)) { "Invalid link: $link or title: $title" }
         viewState.value = viewState.value?.copy(
-            title = link,
-            linkUrl = application.getString(title)
+            linkUrl = link,
+            title = application.getString(title)
         )
     }
 }

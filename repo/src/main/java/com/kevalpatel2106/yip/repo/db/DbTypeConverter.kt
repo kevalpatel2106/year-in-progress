@@ -10,15 +10,11 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun toDate(value: Long): Date? {
-        return Date(value)
-    }
+    fun toDate(value: Long): Date = Date(value)
 
     @JvmStatic
     @TypeConverter
-    fun toLong(value: Date): Long {
-        return value.time
-    }
+    fun toLong(value: Date): Long = value.time
 
     @JvmStatic
     @TypeConverter
@@ -28,9 +24,7 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun toCommaSeparatedList(value: List<Float>): String {
-        return value.joinToString(",")
-    }
+    fun toCommaSeparatedList(value: List<Float>): String = value.joinToString(",")
 
     @JvmStatic
     @TypeConverter
@@ -47,9 +41,7 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun fromType(value: ProgressType): Int {
-        return value.key
-    }
+    fun fromType(value: ProgressType): Int = value.key
 
     @JvmStatic
     @TypeConverter
@@ -69,7 +61,5 @@ internal object DbTypeConverter {
     @ColorInt
     @JvmStatic
     @TypeConverter
-    fun fromColor(value: ProgressColor): Int {
-        return value.value
-    }
+    fun fromColor(value: ProgressColor): Int = value.value
 }

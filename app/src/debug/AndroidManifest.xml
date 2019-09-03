@@ -3,15 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kevalpatel2106.yip">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application tools:ignore="GoogleAppIndexingWarning">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id" />
 
         <!--Disable firebase analytics-->
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
-    </application>
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
+
+        <activity
+            android:name=".DebugActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+    </application>
 </manifest>

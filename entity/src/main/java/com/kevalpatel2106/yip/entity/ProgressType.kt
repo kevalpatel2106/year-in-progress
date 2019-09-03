@@ -1,7 +1,6 @@
-@file:Suppress("MagicNumber")
-
 package com.kevalpatel2106.yip.entity
 
+@Suppress("MagicNumber")
 enum class ProgressType(val key: Int, val color: ProgressColor) {
     YEAR_PROGRESS(key = 8459, color = ProgressColor.COLOR_BLUE),
     DAY_PROGRESS(key = 346, color = ProgressColor.COLOR_PINK),

@@ -1,7 +1,7 @@
 ext {
 
     debugDetail = [
-            'name'       : "Year in Progr-=ess Debug",
+            'name'       : "Year in Progress Debug",
             'packageName': "com.kevalpatel2106.yip",
     ]
 
@@ -24,12 +24,18 @@ ext {
     ]
 
     versions = [
-            'kotlin'       : '1.3.50',
-            'daggerVersion': "2.21",
-            'stetho'       : '1.5.1',
-            'room'         : '2.2.0-beta01',
-            'espresso'     : "3.1.1",
-            'mockito'      : "3.0.0"
+            'kotlin'           : '1.3.50',
+            'daggerVersion'    : "2.21",
+            'stetho'           : '1.5.1',
+            'room'             : '2.2.0-beta01',
+            'espresso'         : "3.1.1",
+            'mockito'          : "3.0.0",
+            'preference'       : '1.1.0-rc01',
+            'rxPreferences'    : '2.0.0',
+            'billingclient'    : '1.2',
+            'inboxrecyclerview': '2.0.0-beta1',
+            'flexbox'          : '1.1.0',
+            'debugdrawer'      : '0.8.0'
     ]
 
     packageExcludes = {

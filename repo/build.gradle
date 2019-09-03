@@ -9,8 +9,9 @@ dependencies {
     testImplementation project(':testUtils')
     androidTestImplementation project(':androidTestUtils')
 
-    implementation('com.f2prateek.rx.preferences2:rx-preferences:2.0.0', excludeGrp)
-    api('com.android.billingclient:billing:1.2', excludeGrp)
+    implementation("androidx.preference:preference:${versions.preference}", excludeGrp)
+    implementation("com.f2prateek.rx.preferences2:rx-preferences:${versions.rxPreferences}", excludeGrp)
+    api("com.android.billingclient:billing:${versions.billingclient}", excludeGrp)
 
     // Room dependencies
     api("androidx.room:room-runtime:$versions.room", excludeGrp)

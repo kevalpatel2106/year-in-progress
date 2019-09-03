@@ -13,11 +13,10 @@ dependencies {
     testImplementation project(':testUtils')
     androidTestImplementation project(':androidTestUtils')
 
-    implementation 'com.cocosw:bottomsheet:1.5.0'
-    implementation 'androidx.preference:preference:1.1.0-rc01'
-    implementation 'com.google.android:flexbox:1.1.0'
-
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+    implementation('com.cocosw:bottomsheet:1.5.0', excludeGrp)
+    implementation("androidx.preference:preference:${versions.preference}", excludeGrp)
+    implementation("com.google.android:flexbox:${versions.flexbox}", excludeGrp)
+    implementation('com.google.android.gms:play-services-oss-licenses:17.0.0', excludeGrp)
 
     // Firebase
     implementation 'com.google.firebase:firebase-ads:18.2.0'
@@ -26,7 +25,13 @@ dependencies {
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Debug libs
+    debugImplementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation "io.palaima.debugdrawer:debugdrawer:${versions.debugdrawer}"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-base:${versions.debugdrawer}"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-view:${versions.debugdrawer}"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-commons:${versions.debugdrawer}"
+    debugImplementation "io.palaima.debugdrawer:debugdrawer-timber:${versions.debugdrawer}"
 }
 apply plugin: 'com.google.gms.google-services'

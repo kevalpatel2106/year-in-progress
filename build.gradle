@@ -41,7 +41,6 @@ allprojects {
         kotlinOptions kotlinOption
     }
 }
-
 def packageNameKey = "app_package_name"
 def applicationNameKey = "application_name"
 
