@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.payment
 
 import android.app.Activity
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
@@ -16,28 +17,30 @@ internal class PaymentViewModel @Inject internal constructor(
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
 
-    val viewState =
-        MutableLiveData<PaymentActivityViewState>(PaymentActivityViewState.initialState())
-    internal val userMessage = SingleLiveEvent<String>()
-    internal val closeSignal = SignalLiveEvent()
+    private val _viewState = MutableLiveData<PaymentActivityViewState>(
+        PaymentActivityViewState.initialState()
+    )
+    val viewState: LiveData<PaymentActivityViewState> = _viewState
 
-    fun purchase(activity: Activity) {
+    private val _userMessage = SingleLiveEvent<String>()
+    internal val userMessage: LiveData<String> = _userMessage
+
+    private val _closeSignal = SignalLiveEvent()
+    internal val closeSignal: LiveData<Unit> = _closeSignal
+
+    internal fun purchase(activity: Activity) {
         billingRepo.purchase(activity)
             .doOnSubscribe {
-                viewState.value = viewState.value?.copy(
-                    upgradeButtonClickable = false
-                )
+                _viewState.value = viewState.value?.copy(upgradeButtonClickable = false)
             }
             .doAfterTerminate {
-                viewState.value = viewState.value?.copy(
-                    upgradeButtonClickable = true
-                )
+                _viewState.value = viewState.value?.copy(upgradeButtonClickable = true)
             }
             .subscribe({
-                userMessage.value = application.getString(R.string.purchase_successful)
-                closeSignal.sendSignal()
+                _userMessage.value = application.getString(R.string.purchase_successful)
+                _closeSignal.sendSignal()
             }, {
-                userMessage.value = it.message
+                _userMessage.value = it.message
             })
             .addTo(compositeDisposable)
     }

@@ -39,6 +39,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { model.refreshPurchaseState(it) }
+
         // Set the sort order
         findPreference<ListPreference>(getString(R.string.pref_key_order))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
@@ -51,11 +52,15 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<ListPreference>(getString(R.string.pref_key_time_format))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
 
+        monitorState()
+    }
 
+    private fun monitorState() {
         val versionPref = findPreference<Preference>(getString(R.string.pref_key_version))
         val buyProPref = findPreference<Preference>(getString(R.string.pref_key_buy_pro))
         val buyProPrefHeader =
             findPreference<PreferenceCategory>(getString(R.string.pref_key_pro_version_header))
+
         model.viewState.nullSafeObserve(this@SettingsFragment) {
             versionPref?.summary = it.versionPreferenceSummary
             buyProPref?.isEnabled = it.isBuyProClickable
@@ -67,29 +72,21 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         when (preference.key) {
             getString(R.string.pref_key_buy_pro) -> context?.let { PaymentActivity.launch(it) }
             getString(R.string.pref_key_contact) -> context?.sendMailToDev()
-            getString(R.string.pref_key_add_widget) -> context?.let {
-                WebViewActivity.showWidgetGuide(
-                    it
-                )
+            getString(R.string.pref_key_add_widget) -> {
+                context?.let { WebViewActivity.showWidgetGuide(it) }
             }
-            getString(R.string.pref_key_privacy_policy) -> context?.let {
-                WebViewActivity.showPrivacyPolicy(
-                    it
-                )
+            getString(R.string.pref_key_privacy_policy) -> {
+                context?.let { WebViewActivity.showPrivacyPolicy(it) }
             }
-            getString(R.string.pref_key_changelog) -> context?.let {
-                WebViewActivity.showChangelog(
-                    it
-                )
+            getString(R.string.pref_key_changelog) -> {
+                context?.let { WebViewActivity.showChangelog(it) }
             }
-            getString(R.string.pref_key_open_source_licences) -> SettingsUseCase.showLibraryLicences(
-                context
-            )
-            getString(R.string.pref_key_share_friends) -> startActivity(
-                SettingsUseCase.prepareShareIntent(
-                    context
-                )
-            )
+            getString(R.string.pref_key_open_source_licences) -> {
+                SettingsUseCase.showLibraryLicences(requireContext())
+            }
+            getString(R.string.pref_key_share_friends) -> {
+                startActivity(SettingsUseCase.prepareShareIntent(requireContext()))
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

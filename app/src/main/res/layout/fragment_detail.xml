@@ -174,7 +174,7 @@
                     style="@style/LargeText.Accent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:gravity="center"
                     android:paddingEnd="@dimen/spacing_small"
                     android:paddingStart="@dimen/spacing_small"

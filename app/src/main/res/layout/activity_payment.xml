@@ -8,7 +8,7 @@
             type="com.kevalpatel2106.yip.payment.PaymentViewModel" />
 
         <variable
-            name="activity"
+            name="view"
             type="com.kevalpatel2106.yip.payment.PaymentActivity" />
     </data>
 
@@ -51,7 +51,7 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/colorAccent"
                 android:enabled="@{viewModel.viewState.upgradeButtonClickable}"
-                android:onClick="@{() -> viewModel.purchase(activity)}"
+                android:onClick="@{() -> view.purchase()}"
                 android:paddingBottom="@dimen/spacing_pico"
                 android:paddingEnd="@dimen/spacing_small"
                 android:paddingStart="@dimen/spacing_small"

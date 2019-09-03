@@ -7,11 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
 import javax.inject.Inject
 
-internal class WebViewViewModel @Inject constructor(private val application: Application) :
-    BaseViewModel() {
+internal class WebViewViewModel @Inject constructor(
+    private val application: Application
+) : BaseViewModel() {
+
     val viewState = MutableLiveData<WebViewViewState>(WebViewViewState.initialState())
-    val flipperPosition =
-        MutableLiveData<WebviewFlipperPosition>(WebviewFlipperPosition.POS_LOADING)
+    val flipperPosition = MutableLiveData<WebviewFlipperPosition>(
+        WebviewFlipperPosition.POS_LOADING
+    )
 
     fun onPageLoaded() {
         flipperPosition.value = WebviewFlipperPosition.POS_WEBVIEW
@@ -28,10 +31,9 @@ internal class WebViewViewModel @Inject constructor(private val application: App
     @SuppressLint("ResourceType")
     fun submitLink(link: String?, @StringRes title: Int) {
         require(!(link == null || title <= 0)) { "Invalid link: $link or title: $title" }
-
         viewState.value = viewState.value?.copy(
-            linkUrl = link,
-            title = application.getString(title)
+            title = link,
+            linkUrl = application.getString(title)
         )
     }
 }

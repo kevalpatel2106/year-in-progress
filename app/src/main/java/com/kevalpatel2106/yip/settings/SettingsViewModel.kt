@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.settings
 
 import android.app.Activity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
@@ -10,20 +11,21 @@ import javax.inject.Inject
 internal class SettingsViewModel @Inject internal constructor(
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
-    internal val viewState = MutableLiveData<SettingsFragmentViewState>(
+    private val _viewState = MutableLiveData<SettingsFragmentViewState>(
         SettingsFragmentViewState.initialState()
     )
+    internal val viewState: LiveData<SettingsFragmentViewState> = _viewState
 
     init {
+        monitorPurchaseStatus()
+    }
+
+    private fun monitorPurchaseStatus() {
         billingRepo.observeIsPurchased()
-            .doOnSubscribe {
-                viewState.value = viewState.value?.copy(isBuyProClickable = false)
-            }
-            .doOnNext {
-                viewState.value = viewState.value?.copy(isBuyProClickable = true)
-            }
+            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isBuyProClickable = false) }
+            .doOnNext { _viewState.value = _viewState.value?.copy(isBuyProClickable = true) }
             .subscribe { purchased ->
-                viewState.value = viewState.value?.copy(isBuyProVisible = !purchased)
+                _viewState.value = _viewState.value?.copy(isBuyProVisible = !purchased)
             }
             .addTo(compositeDisposable)
     }

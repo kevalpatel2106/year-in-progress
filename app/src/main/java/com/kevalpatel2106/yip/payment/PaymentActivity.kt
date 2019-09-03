@@ -34,7 +34,7 @@ internal class PaymentActivity : AppCompatActivity() {
         ).apply {
             lifecycleOwner = this@PaymentActivity
             viewModel = model
-            activity = this@PaymentActivity
+            view = this@PaymentActivity
         }
         setSupportActionBar(payment_toolbar)
         supportActionBar?.set()
@@ -46,6 +46,7 @@ internal class PaymentActivity : AppCompatActivity() {
         model.closeSignal.nullSafeObserve(this@PaymentActivity) { onBackPressed() }
     }
 
+    fun purchase() = model.purchase(this)
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

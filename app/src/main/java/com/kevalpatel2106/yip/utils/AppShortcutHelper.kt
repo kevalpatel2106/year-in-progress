@@ -25,11 +25,7 @@ class AppShortcutHelper @Inject internal constructor(
             .setAlwaysBadged()
             .build()
 
-        ShortcutManagerCompat.requestPinShortcut(
-            application,
-            shortcutInfo,
-            null
-        )
+        ShortcutManagerCompat.requestPinShortcut(application, shortcutInfo, null)
     }
 
     internal fun updateDynamicShortcuts(progresses: List<Progress>): Boolean {
