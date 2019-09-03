@@ -9,7 +9,8 @@ enum class ProgressColor(@ColorInt val value: Int) {
     COLOR_YELLOW(value = Color.parseColor("#F1BB41")),
     COLOR_GREEN(value = Color.parseColor("#56835D")),
     COLOR_TILL(value = Color.parseColor("#7EC4BB")),
-    COLOR_PINK(value = Color.parseColor("#ED7A6C"))
+    COLOR_PINK(value = Color.parseColor("#ED7A6C")),
+    COLOR_GRAY(value = Color.GRAY)
 }
 
 fun getProgressColor(@ColorInt value: Int): ProgressColor {

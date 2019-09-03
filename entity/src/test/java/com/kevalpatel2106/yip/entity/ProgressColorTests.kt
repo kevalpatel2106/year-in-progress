@@ -28,6 +28,7 @@ class ProgressColorTests {
                     arrayOf(ProgressColor.COLOR_ORANGE.value, ProgressColor.COLOR_ORANGE),
                     arrayOf(ProgressColor.COLOR_YELLOW.value, ProgressColor.COLOR_YELLOW),
                     arrayOf(ProgressColor.COLOR_PINK.value, ProgressColor.COLOR_PINK),
+                    arrayOf(ProgressColor.COLOR_GRAY.value, ProgressColor.COLOR_GRAY),
                     arrayOf(-342, ProgressColor.COLOR_BLUE)
                 )
             }
@@ -58,7 +59,8 @@ class ProgressColorTests {
                     arrayOf(ProgressColor.COLOR_TILL.value, true),
                     arrayOf(ProgressColor.COLOR_ORANGE.value, true),
                     arrayOf(ProgressColor.COLOR_YELLOW.value, true),
-                    arrayOf(ProgressColor.COLOR_PINK.value, true)
+                    arrayOf(ProgressColor.COLOR_PINK.value, true),
+                    arrayOf(ProgressColor.COLOR_GRAY.value, true)
                 )
             }
         }

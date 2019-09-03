@@ -61,7 +61,8 @@ internal object DbTypeConverter {
             ProgressColor.COLOR_ORANGE.value -> ProgressColor.COLOR_ORANGE
             ProgressColor.COLOR_YELLOW.value -> ProgressColor.COLOR_YELLOW
             ProgressColor.COLOR_PINK.value -> ProgressColor.COLOR_PINK
-            else -> ProgressColor.COLOR_BLUE
+            ProgressColor.COLOR_GRAY.value -> ProgressColor.COLOR_GRAY
+            else -> ProgressColor.COLOR_GRAY
         }
     }
 
