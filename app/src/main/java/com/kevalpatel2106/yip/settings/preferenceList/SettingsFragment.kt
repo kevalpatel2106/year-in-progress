@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.preferenceList
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.kevalpatel2106.yip.core.nullSafeObserve
 import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity
+import com.kevalpatel2106.yip.settings.SettingsUseCase
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import javax.inject.Inject
 
@@ -85,7 +86,11 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
                 SettingsUseCase.showLibraryLicences(requireContext())
             }
             getString(R.string.pref_key_share_friends) -> {
-                startActivity(SettingsUseCase.prepareShareIntent(requireContext()))
+                startActivity(
+                    SettingsUseCase.prepareShareIntent(
+                        requireContext()
+                    )
+                )
             }
         }
         return super.onPreferenceTreeClick(preference)
@@ -93,6 +98,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
 
 
     companion object {
-        internal fun getNewInstance() = SettingsFragment()
+        internal fun getNewInstance() =
+            SettingsFragment()
     }
 }

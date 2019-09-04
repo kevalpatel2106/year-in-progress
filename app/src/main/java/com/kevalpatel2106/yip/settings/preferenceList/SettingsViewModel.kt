@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.preferenceList
 
 import android.app.Activity
 import androidx.lifecycle.LiveData

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.preferenceList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kevalpatel2106.yip.BuildConfig
@@ -36,7 +36,8 @@ class SettingsViewModelTest {
 
     @Test
     fun checkInitWhenProUser() {
-        val viewModel = SettingsViewModel(billingRepo)
+        val viewModel =
+            SettingsViewModel(billingRepo)
         Mockito.verify(billingRepo, Mockito.atLeast(1)).observeIsPurchased()
 
         isPurchasedObservable.onNext(true)
@@ -50,7 +51,8 @@ class SettingsViewModelTest {
 
     @Test
     fun checkInitWhenNonProUser() {
-        val viewModel = SettingsViewModel(billingRepo)
+        val viewModel =
+            SettingsViewModel(billingRepo)
         Mockito.verify(billingRepo, Mockito.atLeast(1)).observeIsPurchased()
 
         isPurchasedObservable.onNext(false)

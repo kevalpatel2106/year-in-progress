@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.preferenceList
 
 import com.kevalpatel2106.yip.BuildConfig
 

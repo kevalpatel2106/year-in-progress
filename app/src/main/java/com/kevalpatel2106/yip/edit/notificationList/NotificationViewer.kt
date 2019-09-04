@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.views
+package com.kevalpatel2106.yip.edit.notificationList
 
 import android.annotation.SuppressLint
 import android.content.Context

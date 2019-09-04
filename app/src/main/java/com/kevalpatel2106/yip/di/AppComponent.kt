@@ -9,11 +9,11 @@ import com.kevalpatel2106.yip.core.di.SessionScope
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.edit.EditProgressActivity
+import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
-import com.kevalpatel2106.yip.settings.SettingsFragment
+import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
-import com.kevalpatel2106.yip.views.NotificationViewer
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.ProgressListRemoteService
 import dagger.Component

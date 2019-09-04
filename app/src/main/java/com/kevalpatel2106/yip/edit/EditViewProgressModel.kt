@@ -52,7 +52,6 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal val isPrebuiltProgress = MutableLiveData<Boolean>()
     internal val currentNotificationsList = MutableLiveData<List<Float>>()
 
-    internal val colors = MutableLiveData<IntArray>()
     internal var isSomethingChanged: Boolean = false
     internal var isTitleChanged: Boolean = false
     internal val closeSignal = SingleLiveEvent<Boolean>()
@@ -65,7 +64,6 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal val isLoadingProgress = MutableLiveData<Boolean>()
 
     init {
-        colors.value = ProgressColor.values().map { it.value }.toIntArray()
         isLoadingProgress.value = false
         isPrebuiltProgress.value = false
         lockColorPicker.value = false

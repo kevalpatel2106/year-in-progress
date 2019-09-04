@@ -16,6 +16,7 @@ import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHide
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_settings.settings_ads_view
 import kotlinx.android.synthetic.main.activity_settings.settings_toolbar

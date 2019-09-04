@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.view
 
 import android.content.Context
 import android.util.AttributeSet

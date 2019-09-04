@@ -19,5 +19,9 @@
     <dimen name="progress_percent_text_size">36sp</dimen>
     <dimen name="detail_title_button_padding">12dp</dimen>
     <dimen name="payment_header_image_width">150dp</dimen>
+
+    <!--Edit dimension-->
+    <dimen name="color_picker_height">64dp</dimen>
+
     <!--TODO: Categorize dimensions-->
 </resources>

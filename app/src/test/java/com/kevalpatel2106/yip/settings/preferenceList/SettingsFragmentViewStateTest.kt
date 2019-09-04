@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.settings
+package com.kevalpatel2106.yip.settings.preferenceList
 
 import com.kevalpatel2106.yip.BuildConfig
 import org.junit.Assert
@@ -22,7 +22,11 @@ class SettingsFragmentViewStateTest {
     fun checkEquals() {
         val state = SettingsFragmentViewState.initialState()
         val state1 = SettingsFragmentViewState.initialState()
-        val state2 = SettingsFragmentViewState(false, false, "0.1.4")
+        val state2 = SettingsFragmentViewState(
+            false,
+            false,
+            "0.1.4"
+        )
 
         Assert.assertEquals(state, state1)
         Assert.assertNotEquals(state, state2)

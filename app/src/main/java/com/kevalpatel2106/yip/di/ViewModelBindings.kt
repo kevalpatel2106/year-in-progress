@@ -8,7 +8,7 @@ import com.kevalpatel2106.yip.dashboard.DashboardViewModel
 import com.kevalpatel2106.yip.detail.DetailViewModel
 import com.kevalpatel2106.yip.edit.EditViewProgressModel
 import com.kevalpatel2106.yip.payment.PaymentViewModel
-import com.kevalpatel2106.yip.settings.SettingsViewModel
+import com.kevalpatel2106.yip.settings.preferenceList.SettingsViewModel
 import com.kevalpatel2106.yip.splash.SplashViewModel
 import com.kevalpatel2106.yip.webviews.WebViewViewModel
 import dagger.Binds

@@ -7,6 +7,20 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class WebViewViewStateTest {
+    private val testTitle = "xyz"
+    private val testLink = "www.example.com"
+
+    @Test
+    fun checkScreenTitle() {
+        val state = WebViewViewState(testTitle, testLink)
+        Assert.assertEquals(testTitle, state.title)
+    }
+
+    @Test
+    fun checkLink() {
+        val state = WebViewViewState(testTitle, testLink)
+        Assert.assertEquals(testLink, state.linkUrl)
+    }
 
     @Test
     fun checkInitState() {
@@ -19,10 +33,10 @@ class WebViewViewStateTest {
     fun checkEquals() {
         val state = WebViewViewState.initialState()
         val state1 = WebViewViewState.initialState()
-        val state2 = WebViewViewState("xyz", "abc")
+        val stateWithDifferentArgs = WebViewViewState(testTitle, testLink)
 
         Assert.assertEquals(state, state1)
-        Assert.assertNotEquals(state, state2)
-        Assert.assertNotEquals(state1, state2)
+        Assert.assertNotEquals(state, stateWithDifferentArgs)
+        Assert.assertNotEquals(state1, stateWithDifferentArgs)
     }
 }

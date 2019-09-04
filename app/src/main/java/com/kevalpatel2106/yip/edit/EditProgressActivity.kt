@@ -19,9 +19,9 @@ import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
+import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import com.kevalpatel2106.yip.views.ColorPicker
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_end_time
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title
@@ -82,7 +82,7 @@ internal class EditProgressActivity : AppCompatActivity() {
     }
 
     private fun setUpColorPicker() {
-        edit_color.colorSelectedListener = object : ColorPicker.ColorPickerListener {
+        val colorsAdapter = ColorsAdapter(this, object : ColorsAdapter.ColorPickerListener {
             override fun onLockedColorClicked() {
                 PaymentActivity.launch(this@EditProgressActivity)
             }
@@ -90,13 +90,13 @@ internal class EditProgressActivity : AppCompatActivity() {
             override fun onColorSelected(color: Int) {
                 model.onProgressColorSelected(color)
             }
-        }
-        model.colors.nullSafeObserve(this@EditProgressActivity) { edit_color.setColors(it) }
+        })
+        edit_color.adapter = colorsAdapter
         model.currentColor.nullSafeObserve(this@EditProgressActivity) {
-            edit_color.setSelectedColor(it.value)
+            colorsAdapter.setSelectedColor(it.value)
         }
         model.lockColorPicker.nullSafeObserve(this@EditProgressActivity) { lock ->
-            edit_color.lock(lock)
+            colorsAdapter.isLocked = lock
         }
     }
 
