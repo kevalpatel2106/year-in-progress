@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.detail
 
-import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -16,6 +15,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.pm.ShortcutManagerCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.emptySpannableString
 import java.util.Date
@@ -135,7 +135,7 @@ internal object DetailUseCase {
     }
 
     internal fun conformDelete(context: Context, title: String, onDelete: () -> Unit) {
-        AlertDialog.Builder(context, R.style.AppTheme_Dialog_Alert)
+        MaterialAlertDialogBuilder(context)
             .setMessage(context.getString(R.string.progress_delete_confirmation_message, title))
             .setPositiveButton(context.getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> onDelete() }
             .setNegativeButton(android.R.string.cancel, null)

@@ -9,7 +9,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!--Brand theme-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/window_background_color</item>
@@ -43,19 +43,12 @@
         </item> <!--This is essential for some devices, e.g. Samsung-->
 
         <!--Alert dialog-->
-        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.Dialog.Alert</item>
     </style>
 
     <!--Alert dialogs-->
-    <style name="AppTheme.Dialog.Alert" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/window_background_color</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/YipTheme.NegativeButton</item>
+    <style name="AppTheme.Dialog.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-        <item name="dialogCornerRadius">@dimen/spacing_nano</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/YipTheme.PositiveButton</item>
+        <item name="dialogCornerRadius">@dimen/spacing_micro</item>
     </style>
 </resources>

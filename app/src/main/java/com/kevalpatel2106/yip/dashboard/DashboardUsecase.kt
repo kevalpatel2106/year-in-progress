@@ -1,9 +1,9 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.graphics.Color
-import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kevalpatel2106.yip.R
 import me.saket.inboxrecyclerview.InboxRecyclerView
 import me.saket.inboxrecyclerview.dimming.TintPainter
@@ -11,7 +11,7 @@ import me.saket.inboxrecyclerview.page.ExpandablePageLayout
 import timber.log.Timber
 
 internal fun DashboardActivity.showRatingDialog(rateNow: () -> Unit, neverAsk: () -> Unit) {
-    AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert)
+    MaterialAlertDialogBuilder(this)
         .setTitle(R.string.rate_us_dialog_title)
         .setMessage(R.string.rate_us_dialog_message)
         .setPositiveButton(R.string.rate_us_dialog_positive_btn) { _, _ -> rateNow() }
