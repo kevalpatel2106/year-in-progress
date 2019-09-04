@@ -2,13 +2,9 @@ package com.kevalpatel2106.yip.dashboard
 
 import android.graphics.Color
 import androidx.appcompat.app.AlertDialog
-import com.cocosw.bottomsheet.BottomSheet
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.openPlayStorePage
-import com.kevalpatel2106.yip.core.sendMailToDev
-import com.kevalpatel2106.yip.settings.SettingsActivity
 import me.saket.inboxrecyclerview.InboxRecyclerView
 import me.saket.inboxrecyclerview.dimming.TintPainter
 import me.saket.inboxrecyclerview.page.ExpandablePageLayout
@@ -39,20 +35,6 @@ internal fun DashboardActivity.prepareInterstitialAd(): InterstitialAd {
             }
         }
     }
-}
-
-internal fun DashboardActivity.prepareBottomSheetMenu(): BottomSheet {
-    return BottomSheet.Builder(this, R.style.BottomSheet_StyleDialog)
-        .title(R.string.application_name)
-        .sheet(R.menu.menu_botom_sheet)
-        .listener { _, itemId ->
-            when (itemId) {
-                R.id.menu_settings -> SettingsActivity.launch(this)
-                R.id.menu_send_feedback -> sendMailToDev()
-                R.id.menu_rate_us -> openPlayStorePage()
-            }
-        }
-        .build()
 }
 
 internal fun InboxRecyclerView.setUp(expandablePageLayout: ExpandablePageLayout) {

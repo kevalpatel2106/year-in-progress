@@ -179,6 +179,7 @@
                     android:paddingEnd="@dimen/spacing_small"
                     android:paddingStart="@dimen/spacing_small"
                     android:text="@string/detail_progress_complete_title"
+                    android:textColor="@{viewModel.viewState.progressColor}"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -195,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:backgroundTint="@color/colorAccent"
+                    android:backgroundTint="@{viewModel.viewState.progressColor}"
                     android:clickable="@{!viewModel.viewState.isDeletingProgress}"
                     android:onClick="@{() -> view.showShareAchievements()}"
                     android:text="@string/detail_progress_complete_share_btn_title"

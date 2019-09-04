@@ -9,8 +9,8 @@
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="@dimen/dashboard_list_row_card_elevation"
         app:contentPaddingBottom="@dimen/spacing_small"
-        app:contentPaddingLeft="@dimen/spacing_micro"
-        app:contentPaddingRight="@dimen/spacing_micro"
+        app:contentPaddingLeft="@dimen/spacing_small"
+        app:contentPaddingRight="@dimen/spacing_small"
         app:contentPaddingTop="@dimen/spacing_small"
         tools:cardBackgroundColor="@android:color/red">
 

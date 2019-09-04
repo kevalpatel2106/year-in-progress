@@ -12,7 +12,6 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.ActionBar
 import androidx.core.graphics.drawable.DrawableCompat
 import com.kevalpatel2106.feature.core.R
@@ -48,9 +47,8 @@ fun View.showOrHide(isShow: Boolean) {
     }
 }
 
-@VisibleForTesting
 @ColorInt
-internal fun darkenColor(@ColorInt color: Int, factor: Float = 0.5f): Int {
+fun darkenColor(@ColorInt color: Int, factor: Float = 0.5f): Int {
     return Color.HSVToColor(FloatArray(3).apply {
         Color.colorToHSV(color, this)
         this[2] *= factor
@@ -60,10 +58,11 @@ internal fun darkenColor(@ColorInt color: Int, factor: Float = 0.5f): Int {
 fun Context.getBackgroundGradient(@ColorInt color: Int): GradientDrawable {
     val dark70 = darkenColor(color, 0.7f)
     val dark80 = darkenColor(color, 0.8f)
+    val dark85 = darkenColor(color, 0.85f)
     val dark90 = darkenColor(color, 0.9f)
 
-    val colors = intArrayOf(dark70, dark80, dark80, dark90, color)
-    return GradientDrawable(GradientDrawable.Orientation.BL_TR, colors)
+    val colors = intArrayOf(dark70, dark80, dark85, dark90, dark90, color)
+    return GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors)
         .apply {
             cornerRadius = resources.getDimension(R.dimen.card_radius)
         }

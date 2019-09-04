@@ -19,6 +19,7 @@ import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
+import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
@@ -82,7 +83,7 @@ internal class EditProgressActivity : AppCompatActivity() {
     }
 
     private fun setUpColorPicker() {
-        val colorsAdapter = ColorsAdapter(this, object : ColorsAdapter.ColorPickerListener {
+        val colorsAdapter = ColorsAdapter(this, object : ColorPickerListener {
             override fun onLockedColorClicked() {
                 PaymentActivity.launch(this@EditProgressActivity)
             }

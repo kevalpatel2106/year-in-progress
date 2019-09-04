@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import com.cocosw.bottomsheet.BottomSheet
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
@@ -30,7 +29,7 @@ import javax.inject.Inject
 
 internal class DashboardActivity : AppCompatActivity() {
 
-    private val bottomNavigationSheet: BottomSheet by lazy { prepareBottomSheetMenu() }
+    private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
 
     private val pageStateChangeCallbacks = object : PageStateChangeCallbacks {
         override fun onPageAboutToCollapse(collapseAnimDuration: Long) {
@@ -140,8 +139,11 @@ internal class DashboardActivity : AppCompatActivity() {
     internal fun collapseDetail() = progress_list_rv.collapse()
 
     override fun onSupportNavigateUp(): Boolean {
-        if (!bottomNavigationSheet.isShowing) {
-            bottomNavigationSheet.show()
+        if (!model.isDetailExpanded() && !bottomNavigationSheet.isVisible) {
+            bottomNavigationSheet.show(
+                supportFragmentManager,
+                BottomNavigationDialog::class.java.name
+            )
         }
         return true
     }
@@ -149,7 +151,6 @@ internal class DashboardActivity : AppCompatActivity() {
     override fun onBackPressed() {
         when {
             model.isDetailExpanded() -> collapseDetail()
-            bottomNavigationSheet.isShowing -> bottomNavigationSheet.hide()
             else -> super.onBackPressed()
         }
     }

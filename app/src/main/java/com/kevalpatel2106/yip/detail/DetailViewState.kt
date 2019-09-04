@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.text.SpannableString
+import androidx.annotation.ColorInt
 import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
@@ -19,6 +20,7 @@ internal data class DetailViewState(
 
     val isDeletingProgress: Boolean,
     val cardBackground: GradientDrawable?,
+    @ColorInt val progressColor: Int,
     val detailFlipperPosition: ProgressFlipper
 ) {
     companion object {
@@ -33,6 +35,7 @@ internal data class DetailViewState(
                 progressPercentText = emptyString(),
                 progressStartTimeText = emptyString(),
                 progressTimeLeftText = emptySpannableString(),
+                progressColor = Color.GRAY,
                 progressTitleText = emptyString()
             )
         }

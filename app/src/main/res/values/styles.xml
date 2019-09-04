@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--Dashboard-->
-    <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
-        <item name="android:backgroundDimAmount">0.3</item>
-        <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:textColorHint">@color/colorSecondaryText</item>
-        <item name="bs_dialogBackground">@color/colorPrimary</item>
-        <item name="bs_dividerColor">@color/divider_color</item>
-        <item name="bs_listStyle">@style/BottomSheet.List</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="RoundedBottomSheetStyle" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
+    </style>
+
+    <style name="RoundedBottomSheetDialogTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/RoundedBottomSheetStyle</item>
     </style>
 
     <style name="DashboardListCard">
@@ -64,6 +62,18 @@
         <item name="android:background">?selectableItemBackgroundBorderless</item>
         <item name="android:padding">@dimen/detail_title_button_padding</item>
         <item name="android:tint">@color/icon_color</item>
+    </style>
+
+    <style name="BottomDrawerOptions" parent="MediumText.White">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:drawablePadding">@dimen/spacing_small</item>
+        <item name="android:drawableTint" tools:ignore="NewApi">@android:color/white</item>
+        <item name="android:paddingBottom">@dimen/spacing_small</item>
+        <item name="android:paddingTop">@dimen/spacing_small</item>
+        <item name="android:paddingEnd">@dimen/spacing_small</item>
+        <item name="android:paddingStart">@dimen/spacing_small</item>
     </style>
 
     <!--TODO Categorize styles-->

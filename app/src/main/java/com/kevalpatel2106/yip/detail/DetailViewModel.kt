@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SignalLiveEvent
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.repo.YipRepo
@@ -24,7 +25,7 @@ internal class DetailViewModel @Inject internal constructor(
     private val sdf: DateFormatter
 ) : BaseViewModel() {
 
-    private var progressId: Long = -1
+    private var progressId = -1L
 
     private val _viewState = MutableLiveData<DetailViewState>(
         DetailViewState.initialState(application)
@@ -41,6 +42,7 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.observeProgress(id)
             .subscribe({ item ->
                 val isProgressComplete = item.percent >= 100f
+                val progressThemeColor = darkenColor(item.color.value, 0.9f)
 
                 _viewState.value = _viewState.value?.copy(
                     cardBackground = application.getBackgroundGradient(item.color.value),
@@ -56,11 +58,12 @@ internal class DetailViewModel @Inject internal constructor(
                         DetailUseCase.prepareTimeLeft(
                             application = application,
                             endTime = item.end,
-                            secondaryColor = item.color.value
+                            secondaryColor = progressThemeColor
                         )
                     },
                     progressEndTimeText = sdf.format(item.end),
                     progressStartTimeText = sdf.format(item.start),
+                    progressColor = progressThemeColor,
 
                     detailFlipperPosition = if (isProgressComplete) {
                         ProgressFlipper.POS_SHARE_PROGRESS

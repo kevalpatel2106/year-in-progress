@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@drawable/bg_bottom_sheet_dialog">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/MediumText.White"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_micro"
+        android:paddingEnd="@dimen/spacing_small"
+        android:paddingStart="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_micro"
+        android:text="@string/application_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/navigation_drawer_option_settings"
+        style="@style/BottomDrawerOptions"
+        android:drawableStart="@drawable/ic_settings"
+        android:text="@string/navigation_title_settings" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/navigation_drawer_option_feedback"
+        style="@style/BottomDrawerOptions"
+        android:drawableStart="@drawable/ic_feedback"
+        android:text="@string/navigation_title_feedback" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/navigation_drawer_option_rate"
+        style="@style/BottomDrawerOptions"
+        android:drawableStart="@drawable/ic_star"
+        android:text="@string/navigation_title_rate_us" />
+</LinearLayout>
