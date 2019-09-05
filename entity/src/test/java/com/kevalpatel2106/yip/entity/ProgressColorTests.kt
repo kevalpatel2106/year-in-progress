@@ -42,7 +42,7 @@ class ProgressColorTests {
 
     @RunWith(Parameterized::class)
     class ValidProgressColorTest(
-        @ColorInt private val value: Int,
+        @ColorInt private val value: Int?,
         private val isValidProgress: Boolean
     ) {
 
@@ -51,6 +51,7 @@ class ProgressColorTests {
             @Parameterized.Parameters
             fun data(): ArrayList<Array<out Any?>> {
                 return arrayListOf(
+                    arrayOf(null, false),
                     arrayOf(1, false),
                     arrayOf(-1, false),
                     arrayOf(0, true),

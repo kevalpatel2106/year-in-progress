@@ -17,6 +17,7 @@ class ProgressTest {
     private val testStartDate =
         Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS))
     private val testProgressType = ProgressType.YEAR_PROGRESS
+    private val testProgress = 2f
     private val testNotificationPercents = arrayListOf<Float>()
 
     private val progress = Progress(
@@ -27,7 +28,7 @@ class ProgressTest {
         start = testStartDate,
         progressType = testProgressType,
         notificationPercent = testNotificationPercents,
-        percent = 2f
+        percent = testProgress
     )
 
     @Test
@@ -39,6 +40,7 @@ class ProgressTest {
         assertEquals(testStartDate, progress.start)
         assertEquals(testProgressType, progress.progressType)
         assertEquals(testNotificationPercents.size, progress.notificationPercent.size)
+        assertEquals(testProgress, progress.percent)
     }
 
     @Test
@@ -55,7 +57,7 @@ class ProgressTest {
 
     @Test
     fun testEquals_OtherType() {
-        assertNotEquals(progress, "")
+        assertNotEquals(123423L, progress)
     }
 
     @Test
@@ -65,13 +67,13 @@ class ProgressTest {
 
     @Test
     fun testHasCode() {
-        val progress1 = progress.copy(32442)
-        val progress2 = progress1.copy(color = ProgressColor.COLOR_YELLOW)
-        val progress3 = progress.copy(percent = 1f)
+        val progressWithOtherId = progress.copy(32442)
+        val progressWithOtherColor = progressWithOtherId.copy(color = ProgressColor.COLOR_YELLOW)
+        val progressWithOtherPercent = progress.copy(percent = 1f)
 
-        assertEquals(progress1.hashCode(), progress2.hashCode())
-        assertNotEquals(progress.hashCode(), progress3.hashCode())
-        assertNotEquals(progress.hashCode(), progress1.hashCode())
-        assertNotEquals(progress.hashCode(), progress2.hashCode())
+        assertEquals(progressWithOtherId.hashCode(), progressWithOtherColor.hashCode())
+        assertNotEquals(progress.hashCode(), progressWithOtherPercent.hashCode())
+        assertNotEquals(progress.hashCode(), progressWithOtherId.hashCode())
+        assertNotEquals(progress.hashCode(), progressWithOtherColor.hashCode())
     }
 }

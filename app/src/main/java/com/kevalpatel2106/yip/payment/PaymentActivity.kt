@@ -36,6 +36,8 @@ internal class PaymentActivity : AppCompatActivity() {
             viewModel = model
             view = this@PaymentActivity
         }
+
+        // Set toolbar
         setSupportActionBar(payment_toolbar)
         supportActionBar?.set()
 

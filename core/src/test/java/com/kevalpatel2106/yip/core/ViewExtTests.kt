@@ -1,12 +1,16 @@
 package com.kevalpatel2106.yip.core
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.ActionBar
 import androidx.core.view.isVisible
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
@@ -123,7 +127,31 @@ class ViewExtTests {
             val darkerColorArray = FloatArray(3)
             Color.colorToHSV(darkenColor(Color.DKGRAY, factor), darkerColorArray)
 
-            Assert.assertEquals(darkerColorArray[2], originalColorArray[2] * factor)
+            assertEquals(darkerColorArray[2], originalColorArray[2] * factor)
+        }
+
+        @Test
+        @Throws(Exception::class)
+        fun testGetBackgroundGradient() {
+            val testColor = Color.BLACK
+            val gradientDrawable = RuntimeEnvironment.application.getBackgroundGradient(testColor)
+
+            // Check orientation
+            assertEquals(GradientDrawable.Orientation.LEFT_RIGHT, gradientDrawable.orientation)
+
+            // Check radius
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                assertNotEquals(0F, gradientDrawable.cornerRadius)
+
+                // Check colors
+                assertEquals(6, gradientDrawable.colors?.size)
+                assertEquals(darkenColor(testColor, 0.7f), gradientDrawable.colors!![0])
+                assertEquals(darkenColor(testColor, 0.8f), gradientDrawable.colors!![1])
+                assertEquals(darkenColor(testColor, 0.85f), gradientDrawable.colors!![2])
+                assertEquals(darkenColor(testColor, 0.9f), gradientDrawable.colors!![3])
+                assertEquals(darkenColor(testColor, 0.9f), gradientDrawable.colors!![4])
+                assertEquals(testColor, gradientDrawable.colors!![5])
+            }
         }
 
         @Test

@@ -63,9 +63,7 @@ fun Context.getBackgroundGradient(@ColorInt color: Int): GradientDrawable {
 
     val colors = intArrayOf(dark70, dark80, dark85, dark90, dark90, color)
     return GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors)
-        .apply {
-            cornerRadius = resources.getDimension(R.dimen.card_radius)
-        }
+        .apply { cornerRadius = resources.getDimension(R.dimen.card_radius) }
 }
 
 

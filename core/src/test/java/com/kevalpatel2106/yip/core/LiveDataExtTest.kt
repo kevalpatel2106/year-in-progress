@@ -1,9 +1,12 @@
 package com.kevalpatel2106.yip.core
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,29 +29,44 @@ class LiveDataExtTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    private lateinit var testLiveData: MutableLiveData<String>
-
     @Mock
     private lateinit var eventObserver: Observer<String>
+
+    private val testLiveData = MutableLiveData<String>()
+
+    private var lifecycleOwner: LifecycleOwner = LifecycleOwner {
+        object : Lifecycle() {
+            override fun addObserver(observer: LifecycleObserver) = Unit
+            override fun removeObserver(observer: LifecycleObserver) = Unit
+            override fun getCurrentState(): State = State.CREATED
+        }
+    }
 
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this@LiveDataExtTest)
-
-        testLiveData = MutableLiveData()
-        testLiveData.value = testString
-        testLiveData.observeForever(eventObserver)
     }
 
-    @After
-    fun after() {
-        testLiveData.removeObserver(eventObserver)
+    @Test
+    fun checkNullSafeObserver() {
+        testLiveData.nullSafeObserve(lifecycleOwner) {
+            Assert.assertNotNull(it)
+            Assert.assertEquals(testString, it)
+        }
+
+        testLiveData.value = testString
+        testLiveData.value = null
     }
 
     @Test
     fun checkRecall() {
+        testLiveData.value = testString
+        testLiveData.observeForever(eventObserver)
+
         testLiveData.recall()
         Mockito.verify(eventObserver, Mockito.times(2)).onChanged(testString)
+
+        testLiveData.removeObserver(eventObserver)
     }
 }

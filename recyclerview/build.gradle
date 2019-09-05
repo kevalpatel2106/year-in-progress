@@ -5,6 +5,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
 dependencies {
+    testImplementation project(':testUtils')
+    androidTestImplementation project(':androidTestUtils')
+
     implementation project(':core')
     api("me.saket:inboxrecyclerview:${versions.inboxrecyclerview}", excludeGrp)
 }
