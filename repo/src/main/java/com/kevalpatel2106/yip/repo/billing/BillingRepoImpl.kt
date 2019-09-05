@@ -37,7 +37,7 @@ internal class BillingRepoImpl(
                     // IAP service connection failed.
                     isPurchased.onNext(
                         sharedPrefsProvider.getBoolFromPreference(
-                            BillingRepo.IS_PRO_KEY,
+                            IS_PRO_KEY,
                             false
                         )
                     )
@@ -55,12 +55,12 @@ internal class BillingRepoImpl(
         ) {
 
             val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
-            sharedPrefsProvider.savePreferences(BillingRepo.IS_PRO_KEY, isPro)
+            sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
             isPurchased.onNext(isPro)
         } else {
             isPurchased.onNext(
                 sharedPrefsProvider.getBoolFromPreference(
-                    BillingRepo.IS_PRO_KEY,
+                    IS_PRO_KEY,
                     false
                 )
             )
@@ -72,7 +72,7 @@ internal class BillingRepoImpl(
 
                 // Update base on online status.
                 val isPro = purchasesList?.find { it.sku == sku } != null
-                sharedPrefsProvider.savePreferences(BillingRepo.IS_PRO_KEY, isPro)
+                sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
                 isPurchased.onNext(isPro)
             } else {
                 // If the check fails, it's okay. We'll do next time.
@@ -209,6 +209,7 @@ internal class BillingRepoImpl(
     override fun observeIsPurchased(): BehaviorSubject<Boolean> = isPurchased
 
     companion object {
+        private const val IS_PRO_KEY = "is_pro"
         private val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
     }
 }

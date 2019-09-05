@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_process_title_title"
                 app:srcCompat="@drawable/ic_title" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_process_title_title"
                 style="@style/EditScreenTitleStyle"
                 android:layout_marginTop="@dimen/spacing_pico"
@@ -60,32 +60,34 @@
                 android:id="@+id/edit_progress_title_til"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/window_background_color"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/max_process_title"
                 app:counterOverflowTextAppearance="@style/NanoText.Red"
                 app:counterTextAppearance="@style/NanoText.Secondary"
                 app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_cancel_rounded"
+                app:errorIconTint="@android:color/holo_red_dark"
                 app:errorTextAppearance="@style/NanoText.Red"
-                app:helperText="(e.g. This financial year)"
+                app:helperText="@string/edit_progress_title_hint"
                 app:helperTextEnabled="true"
                 app:helperTextTextAppearance="@style/NanoText.Secondary"
-                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@id/edit_process_title_title">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_progress_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/MediumText.Primary"
-                    android:textColor="@color/colorSecondaryText">
+                    android:textAppearance="@style/MediumText.Primary">
 
                     <requestFocus />
-                </androidx.appcompat.widget.AppCompatEditText>
+                </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_start_time_title"
                 style="@style/EditScreenTitleStyle"
                 android:text="@string/edit_start_time_title"
@@ -93,7 +95,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_progress_title_til" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_start_time"
                 style="@style/EditScreenValueStyle"
                 android:background="?selectableItemBackground"
@@ -105,7 +107,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_start_time_title"
                 tools:text="@tools:sample/date/ddmmyy" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_end_time_title"
                 style="@style/EditScreenTitleStyle"
                 android:text="@string/edit_end_time_title"
@@ -113,7 +115,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_start_time" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_end_time"
                 style="@style/EditScreenValueStyle"
                 android:background="?selectableItemBackground"
@@ -133,7 +135,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_start_time_title"
                 app:srcCompat="@drawable/ic_clock" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_color_title"
                 style="@style/EditScreenTitleStyle"
                 android:text="@string/edit_color_title"
@@ -150,7 +152,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_color_title"
-                app:spanCount="5"
+                app:spanCount="@integer/colors_span_count"
                 tools:itemCount="8" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -161,7 +163,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_color_title"
                 app:srcCompat="@drawable/ic_paint_board" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_notification_title"
                 style="@style/EditScreenTitleStyle"
                 android:paddingBottom="@dimen/spacing_micro"

@@ -146,6 +146,7 @@
     <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
     <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <string name="error_progress_not_exist">Deadline doesn\'t exist.</string>
+    <string name="edit_progress_title_hint">(e.g. This financial year)</string>
 
     <!--TODO: Categorize the strings-->
 </resources>

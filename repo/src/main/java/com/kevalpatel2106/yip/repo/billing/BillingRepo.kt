@@ -12,6 +12,5 @@ interface BillingRepo {
 
     companion object {
         const val SKU_ID = "pro_101"
-        internal const val IS_PRO_KEY = "is_pro"
     }
 }

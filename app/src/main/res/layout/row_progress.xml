@@ -34,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="@+id/progress_percent"
                 tools:progress="10" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/progress_percent"
                 style="@style/LargeText.White"
                 android:layout_width="@dimen/spacing_anti"
@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/progress_name_title"
                 tools:text="43.00%" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/progress_name_title"
                 style="@style/MediumText.White"
                 android:layout_width="0dp"

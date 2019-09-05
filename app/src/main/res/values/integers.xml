@@ -2,4 +2,5 @@
 <resources>
     <integer name="max_process_title">20</integer>
     <integer name="widget_refresh_time">900000</integer>
+    <integer name="colors_span_count">5</integer>
 </resources>

@@ -26,6 +26,9 @@ class DebugActivity : AppCompatActivity() {
         }
 
         debug_view.modules(
+            BillingModule { isPro ->
+                // TODO
+            },
             BuildModule(),
             DeviceModule(),
             SettingsModule(),

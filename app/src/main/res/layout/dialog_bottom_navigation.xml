@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:background="@drawable/bg_bottom_sheet_dialog">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         style="@style/MediumText.White"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,19 +16,19 @@
         android:paddingBottom="@dimen/spacing_micro"
         android:text="@string/application_name" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/navigation_drawer_option_settings"
         style="@style/BottomDrawerOptions"
         android:drawableStart="@drawable/ic_settings"
         android:text="@string/navigation_title_settings" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/navigation_drawer_option_feedback"
         style="@style/BottomDrawerOptions"
         android:drawableStart="@drawable/ic_feedback"
         android:text="@string/navigation_title_feedback" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/navigation_drawer_option_rate"
         style="@style/BottomDrawerOptions"
         android:drawableStart="@drawable/ic_star"

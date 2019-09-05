@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kevalpatel2106.yip.edit.colorPicker.ColorDrawable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color_picker_drawable"
+    android:layout_width="@dimen/spacing_huge"
+    android:layout_height="@dimen/spacing_huge" />

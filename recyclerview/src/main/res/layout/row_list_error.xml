@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="@dimen/spacing_small">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/error_list_item_text"
         style="@style/SmallText.Secondary"
         android:layout_width="match_parent"

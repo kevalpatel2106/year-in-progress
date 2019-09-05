@@ -22,7 +22,7 @@ internal class ColorsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
-        return ColorViewHolder.create(context)
+        return ColorViewHolder.create(context, parent)
     }
 
     override fun getItemCount(): Int = colors.size

@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_empty" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/empty_list_item_text"
         style="@style/SmallText.Secondary"
         android:layout_width="match_parent"
