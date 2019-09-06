@@ -12,6 +12,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.1'
         classpath 'io.fabric.tools:gradle:1.28.1'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.9.5'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
         classpath('com.google.firebase:perf-plugin:1.3.1') {
             exclude group: 'com.google.guava', module: 'guava-jdk5'
         }
@@ -24,7 +25,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
     }
 
     afterEvaluate {
@@ -36,8 +36,6 @@ allprojects {
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-        sourceCompatibility = JavaVersion.VERSION_1_6
-        targetCompatibility = JavaVersion.VERSION_1_6
         kotlinOptions kotlinOption
     }
 }
@@ -62,25 +60,27 @@ subprojects {
                     buildTypes {
                         debug {
                             versionNameSuffix ".debug"
+
                             testCoverageEnabled true
                             debuggable true
                             zipAlignEnabled true
                             signingConfig signingConfigs.debug
 
+                            // Fabric config
                             ext.enableCrashlytics = false
                             ext.alwaysUpdateBuildId = false
                         }
                         release {
                             minifyEnabled true
                             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), './proguard-rules.pro'
+
                             debuggable false
                             jniDebuggable false
                             shrinkResources true
                             renderscriptDebuggable false
                             zipAlignEnabled true
-                            if (rootProject.file('./misc/keystore.properties').exists()) {
-                                signingConfig signingConfigs.playStore
-                            }
+
+                            signingConfig signingConfigs.playStore
                         }
                     }
                 } else if (project.pluginManager.hasPlugin("com.android.library")) {
@@ -100,13 +100,12 @@ subprojects {
                         release {
                             minifyEnabled true
                             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), './proguard-rules.pro'
+
                             debuggable false
                             jniDebuggable false
                             renderscriptDebuggable false
                             zipAlignEnabled true
-                            if (rootProject.file('./misc/keystore.properties').exists()) {
-                                signingConfig signingConfigs.playStore
-                            }
+                            signingConfig signingConfigs.playStore
 
                             buildConfigField "String", applicationNameKey.toUpperCase(), "\"${releaseDetail.name}\""
                             buildConfigField "String", packageNameKey.toUpperCase(), "\"${releaseDetail.packageName}\""
@@ -121,9 +120,9 @@ subprojects {
                 lintOptions lintOption
                 aaptOptions aaptOption
                 testOptions testOption
-                adbOptions adbOption
                 androidExtensions { experimental = true }
                 dataBinding { enabled = true }
+                dexcount dexcountOptions
             }
         }
 

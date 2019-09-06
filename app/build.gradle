@@ -6,6 +6,7 @@ apply plugin: 'jacoco'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 dependencies {
     implementation project(':core')

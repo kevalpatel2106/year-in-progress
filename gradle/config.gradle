@@ -200,8 +200,18 @@ ext {
         cruncherProcesses 2
     }
 
-    adbOption = {
-        timeOutInMs 10_000
+    dexcountOptions = {
+        format = "list"
+        includeClasses = false
+        includeClassCount = false
+        includeFieldCount = true
+        includeTotalMethodCount = false
+        orderByMethodCount = false
+        verbose = false
+        maxTreeDepth = Integer.MAX_VALUE
+        runOnEachPackage = true
+        maxMethodCount = 64000
+        enabled = System.getenv('CI') == "true"
     }
 
     dexOption = {
