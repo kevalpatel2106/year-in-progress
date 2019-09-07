@@ -18,7 +18,7 @@ internal class ColorsAdapter(
         }
 
     private val colors by lazy {
-        ProgressColor.values().map { ColorStates(it.value, false) }
+        ProgressColor.values().map { ColorStates(it.colorInt, false) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {

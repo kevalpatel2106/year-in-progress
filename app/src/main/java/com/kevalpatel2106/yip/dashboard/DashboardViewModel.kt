@@ -80,7 +80,7 @@ internal class DashboardViewModel @Inject constructor(
                         R.string.progress_percentage,
                         it.percent
                     ),
-                    backgroundGradient = application.getBackgroundGradient(it.color.value)
+                    backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
                 )
             }.toMutableList() as ArrayList<YipItemRepresentable>
 

@@ -23,7 +23,16 @@
     <style name="EditScreenTitleStyle" parent="EditScreenTitleTivStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/spacing_nano</item>
         <item name="android:layout_marginTop">@dimen/spacing_small</item>
+    </style>
+
+    <style name="EditScreenSubTitleStyle" parent="EditScreenTitleTivStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/spacing_micro</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAppearance">@style/SmallText.Secondary</item>
     </style>
 
     <style name="EditScreenTitleTivStyle">

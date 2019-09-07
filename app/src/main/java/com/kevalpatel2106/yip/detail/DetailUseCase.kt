@@ -143,5 +143,5 @@ internal object DetailUseCase {
             .show()
     }
 
-    private const val TIME_LEFT_RELATIVE_SIZE_FACTOR = 1.3F
+    private const val TIME_LEFT_RELATIVE_SIZE_FACTOR = 1.1F
 }

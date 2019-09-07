@@ -77,12 +77,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_progress_list" />
         </receiver>
-
-        <service
-            android:name=".widget.ProgressListRemoteService"
-            android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-
         <receiver android:name=".utils.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -94,6 +88,10 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".notifications.ProgressNotificationReceiver" />
-    </application>
 
+        <service
+            android:name=".widget.ProgressListRemoteService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+    </application>
 </manifest>

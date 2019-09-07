@@ -22,14 +22,14 @@ class ProgressColorTests {
             @ParameterizedRobolectricTestRunner.Parameters
             fun data(): ArrayList<Array<out Any?>> {
                 return arrayListOf(
-                    arrayOf(ProgressColor.COLOR_BLUE.value, ProgressColor.COLOR_BLUE),
-                    arrayOf(ProgressColor.COLOR_GREEN.value, ProgressColor.COLOR_GREEN),
-                    arrayOf(ProgressColor.COLOR_TILL.value, ProgressColor.COLOR_TILL),
-                    arrayOf(ProgressColor.COLOR_ORANGE.value, ProgressColor.COLOR_ORANGE),
-                    arrayOf(ProgressColor.COLOR_YELLOW.value, ProgressColor.COLOR_YELLOW),
-                    arrayOf(ProgressColor.COLOR_PINK.value, ProgressColor.COLOR_PINK),
-                    arrayOf(ProgressColor.COLOR_GRAY.value, ProgressColor.COLOR_GRAY),
-                    arrayOf(-342, ProgressColor.COLOR_BLUE)
+                    arrayOf(ProgressColor.COLOR_BLUE.colorInt, ProgressColor.COLOR_BLUE),
+                    arrayOf(ProgressColor.COLOR_GREEN.colorInt, ProgressColor.COLOR_GREEN),
+                    arrayOf(ProgressColor.COLOR_TILL.colorInt, ProgressColor.COLOR_TILL),
+                    arrayOf(ProgressColor.COLOR_ORANGE.colorInt, ProgressColor.COLOR_ORANGE),
+                    arrayOf(ProgressColor.COLOR_YELLOW.colorInt, ProgressColor.COLOR_YELLOW),
+                    arrayOf(ProgressColor.COLOR_PINK.colorInt, ProgressColor.COLOR_PINK),
+                    arrayOf(ProgressColor.COLOR_GRAY.colorInt, ProgressColor.COLOR_GRAY),
+                    arrayOf(-342, ProgressColor.COLOR_GRAY)
                 )
             }
         }
@@ -55,13 +55,13 @@ class ProgressColorTests {
                     arrayOf(1, false),
                     arrayOf(-1, false),
                     arrayOf(0, true),
-                    arrayOf(ProgressColor.COLOR_BLUE.value, true),
-                    arrayOf(ProgressColor.COLOR_GREEN.value, true),
-                    arrayOf(ProgressColor.COLOR_TILL.value, true),
-                    arrayOf(ProgressColor.COLOR_ORANGE.value, true),
-                    arrayOf(ProgressColor.COLOR_YELLOW.value, true),
-                    arrayOf(ProgressColor.COLOR_PINK.value, true),
-                    arrayOf(ProgressColor.COLOR_GRAY.value, true)
+                    arrayOf(ProgressColor.COLOR_BLUE.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_GREEN.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_TILL.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_ORANGE.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_YELLOW.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_PINK.colorInt, true),
+                    arrayOf(ProgressColor.COLOR_GRAY.colorInt, true)
                 )
             }
         }

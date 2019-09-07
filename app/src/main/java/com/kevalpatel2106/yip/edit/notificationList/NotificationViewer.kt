@@ -63,11 +63,7 @@ internal class NotificationViewer @JvmOverloads constructor(
     }
 
     private fun addNotificationsRow(notificationPercent: Float) {
-        val view = inflater.inflate(
-            R.layout.row_notification_time,
-            this@NotificationViewer,
-            false
-        )
+        val view = inflater.inflate(R.layout.row_notification_time, this@NotificationViewer, false)
 
         val percentString = context.getString(R.string.progress_percentage, notificationPercent)
         val rawText = context.getString(R.string.row_notification_time_text, percentString)
@@ -83,7 +79,7 @@ internal class NotificationViewer @JvmOverloads constructor(
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                RelativeSizeSpan(1.1f),
+                RelativeSizeSpan(RELATIVE_SPAN_FACTOR),
                 dateStartIndex,
                 dateEndIndex,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -124,13 +120,8 @@ internal class NotificationViewer @JvmOverloads constructor(
                         )
                     }
 
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                        // Do nothing
-                    }
-
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        // Do nothing
-                    }
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
                 })
             }
             setView(dialogView)
@@ -145,5 +136,9 @@ internal class NotificationViewer @JvmOverloads constructor(
                 notificationPercents = newList
             }
         }.show()
+    }
+
+    companion object {
+        private const val RELATIVE_SPAN_FACTOR = 1.1F
     }
 }

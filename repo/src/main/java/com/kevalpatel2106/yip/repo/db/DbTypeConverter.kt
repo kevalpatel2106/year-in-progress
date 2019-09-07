@@ -18,7 +18,7 @@ internal object DbTypeConverter {
 
     @JvmStatic
     @TypeConverter
-    fun toLongList(value: String?): List<Float> {
+    fun toFloatsList(value: String?): List<Float> {
         return value?.split(",")?.filter { it.isNotBlank() }?.map { it.toFloat() } ?: listOf()
     }
 
@@ -47,13 +47,13 @@ internal object DbTypeConverter {
     @TypeConverter
     fun toProgressColor(@ColorInt value: Int): ProgressColor {
         return when (value) {
-            ProgressColor.COLOR_BLUE.value -> ProgressColor.COLOR_BLUE
-            ProgressColor.COLOR_GREEN.value -> ProgressColor.COLOR_GREEN
-            ProgressColor.COLOR_TILL.value -> ProgressColor.COLOR_TILL
-            ProgressColor.COLOR_ORANGE.value -> ProgressColor.COLOR_ORANGE
-            ProgressColor.COLOR_YELLOW.value -> ProgressColor.COLOR_YELLOW
-            ProgressColor.COLOR_PINK.value -> ProgressColor.COLOR_PINK
-            ProgressColor.COLOR_GRAY.value -> ProgressColor.COLOR_GRAY
+            ProgressColor.COLOR_BLUE.colorInt -> ProgressColor.COLOR_BLUE
+            ProgressColor.COLOR_GREEN.colorInt -> ProgressColor.COLOR_GREEN
+            ProgressColor.COLOR_TILL.colorInt -> ProgressColor.COLOR_TILL
+            ProgressColor.COLOR_ORANGE.colorInt -> ProgressColor.COLOR_ORANGE
+            ProgressColor.COLOR_YELLOW.colorInt -> ProgressColor.COLOR_YELLOW
+            ProgressColor.COLOR_PINK.colorInt -> ProgressColor.COLOR_PINK
+            ProgressColor.COLOR_GRAY.colorInt -> ProgressColor.COLOR_GRAY
             else -> ProgressColor.COLOR_GRAY
         }
     }
@@ -61,5 +61,5 @@ internal object DbTypeConverter {
     @ColorInt
     @JvmStatic
     @TypeConverter
-    fun fromColor(value: ProgressColor): Int = value.value
+    fun fromColor(value: ProgressColor): Int = value.colorInt
 }

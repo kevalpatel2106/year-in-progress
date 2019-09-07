@@ -32,7 +32,7 @@ internal class ProgressListRemoteFactory @Inject constructor(
 
             rowView.setTextColor(
                 R.id.widget_battery_list_level_tv,
-                this.color.value
+                this.color.colorInt
             )
 
             rowView.setOnClickFillInIntent(

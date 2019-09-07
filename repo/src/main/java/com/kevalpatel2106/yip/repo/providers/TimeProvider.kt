@@ -8,13 +8,13 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-internal class NtpProvider @Inject internal constructor(
+internal class TimeProvider @Inject internal constructor(
     @Suppress("unused") private val application: Application
 ) {
 
-    internal fun nowAsyncInterval(): Flowable<Date> = Flowable
+    internal fun minuteObserver(): Flowable<Date> = Flowable
         .interval(0, ASYNC_INTERVAL, TimeUnit.MINUTES, RxSchedulers.compute)
-        .flatMap { Flowable.just(Date(System.currentTimeMillis())) }
+        .map { Date(System.currentTimeMillis()) }
 
     internal fun nowAsync(): Single<Date> = Single.just(Date(System.currentTimeMillis()))
 

@@ -143,6 +143,14 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_end_time" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/edit_color_subtitle"
+                style="@style/EditScreenSubTitleStyle"
+                android:text="@string/color_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_color_title" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/edit_color"
                 android:layout_width="0dp"
@@ -151,7 +159,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/edit_color_title"
+                app:layout_constraintTop_toBottomOf="@+id/edit_color_subtitle"
                 app:spanCount="@integer/colors_span_count"
                 tools:itemCount="8" />
 
@@ -166,11 +174,18 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/edit_notification_title"
                 style="@style/EditScreenTitleStyle"
-                android:paddingBottom="@dimen/spacing_micro"
                 android:text="@string/edit_notifications_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/edit_color" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/edit_notification_subtitle"
+                style="@style/EditScreenSubTitleStyle"
+                android:text="@string/notification_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/edit_notification_title" />
 
             <com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
                 android:id="@+id/notification_times"
@@ -181,7 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/edit_notification_title" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_notification_subtitle" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/edit_notification_image"

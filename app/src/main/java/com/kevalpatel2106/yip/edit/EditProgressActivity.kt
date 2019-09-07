@@ -94,7 +94,7 @@ internal class EditProgressActivity : AppCompatActivity() {
         })
         edit_color.adapter = colorsAdapter
         model.currentColor.nullSafeObserve(this@EditProgressActivity) {
-            colorsAdapter.setSelectedColor(it.value)
+            colorsAdapter.setSelectedColor(it.colorInt)
         }
         model.lockColorPicker.nullSafeObserve(this@EditProgressActivity) { lock ->
             colorsAdapter.isLocked = lock

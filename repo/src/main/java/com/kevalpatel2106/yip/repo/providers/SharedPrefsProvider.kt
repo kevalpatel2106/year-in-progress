@@ -33,44 +33,44 @@ class SharedPrefsProvider internal constructor(private val sharedPreference: Sha
     }
 
     /**
-     * Save value to shared preference
+     * Save colorInt to shared preference
      *
      * @param key key of preference field
      *
-     * @param value value to store
+     * @param value colorInt to store
      */
     fun savePreferences(key: String, value: String?) {
         sharedPreference.edit { putString(key, value) }
     }
 
     /**
-     * Save value to shared preference
+     * Save colorInt to shared preference
      *
      * @param key key of preference field
      *
-     * @param value value to store
+     * @param value colorInt to store
      */
     fun savePreferences(key: String, value: Boolean) {
         sharedPreference.edit { putBoolean(key, value) }
     }
 
     /**
-     * Save value to shared preference
+     * Save colorInt to shared preference
      *
      * @param key key of preference field
      *
-     * @param value value to store in int
+     * @param value colorInt to store in int
      */
     fun savePreferences(key: String, value: Int) {
         sharedPreference.edit { putInt(key, value) }
     }
 
     /**
-     * Save value to shared preference
+     * Save colorInt to shared preference
      *
      * @param key key of preference field
      *
-     * @param value value to store in long
+     * @param value colorInt to store in long
      */
     fun savePreferences(key: String, value: Long) {
         sharedPreference.edit { putLong(key, value) }

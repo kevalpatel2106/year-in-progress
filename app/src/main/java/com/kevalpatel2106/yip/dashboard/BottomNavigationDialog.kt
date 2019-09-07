@@ -23,9 +23,7 @@ internal class BottomNavigationDialog : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.dialog_bottom_navigation, container, false)
     }
 
-    override fun getTheme(): Int {
-        return R.style.RoundedBottomSheetDialogTheme
-    }
+    override fun getTheme(): Int = R.style.RoundedBottomSheetDialogTheme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -10,8 +10,8 @@ import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltProgress
 import com.kevalpatel2106.yip.repo.dto.toEntity
-import com.kevalpatel2106.yip.repo.providers.NtpProvider
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.providers.TimeProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
@@ -25,14 +25,14 @@ import javax.inject.Inject
 class YipRepo @Inject internal constructor(
     private val application: Application,
     private val db: YipDatabase,
-    private val ntpProvider: NtpProvider,
+    private val timeProvider: TimeProvider,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) {
 
     fun observeAllProgress(): Flowable<List<Progress>> {
         return Flowable.combineLatest(
             db.getDeviceDao().observeAll().map { it },
-            ntpProvider.nowAsyncInterval(),
+            timeProvider.minuteObserver(),
             sharedPrefsProvider.observeStringFromPreference(
                 application.getString(R.string.pref_key_order),
                 application.getString(R.string.order_title_a_to_z)
@@ -62,7 +62,7 @@ class YipRepo @Inject internal constructor(
     fun observeProgress(progressId: Long): Flowable<Progress> {
         return Flowable.combineLatest(
             db.getDeviceDao().observe(progressId),
-            ntpProvider.nowAsyncInterval(),
+            timeProvider.minuteObserver(),
             BiFunction<ProgressDto, Date, Pair<ProgressDto, Date>> { progressDto, now ->
                 progressDto to now
             }
@@ -111,7 +111,7 @@ class YipRepo @Inject internal constructor(
             dto.id = db.getDeviceDao().insert(dto)
             emitter.onSuccess(dto)
         }.zipWith(
-            ntpProvider.nowAsync(),
+            timeProvider.nowAsync(),
             BiFunction { dto: ProgressDto, now: Date -> dto to now }
         ).map { (dto, now) ->
             dto.toEntity(now)

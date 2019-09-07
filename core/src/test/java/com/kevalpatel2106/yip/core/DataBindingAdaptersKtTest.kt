@@ -1,7 +1,5 @@
 package com.kevalpatel2106.yip.core
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.webkit.WebView
 import android.widget.ViewFlipper
@@ -9,6 +7,7 @@ import androidx.core.view.isVisible
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers
@@ -21,83 +20,101 @@ import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(Enclosed::class)
 class DataBindingAdaptersKtTest {
 
-    private lateinit var view: View
+    @RunWith(RobolectricTestRunner::class)
+    class ViewDataBindingTest {
 
-    @Mock
-    lateinit var webView: WebView
+        private lateinit var view: View
 
-    @Mock
-    lateinit var viewFlipper: ViewFlipper
+        @Before
+        fun before() {
+            MockitoAnnotations.initMocks(this)
+            view = View(RuntimeEnvironment.application)
+        }
 
-    @Captor
-    lateinit var linkCaptor: ArgumentCaptor<String>
+        @Test
+        fun checkVisibility_Show() {
+            visibility(view, true)
+            Assert.assertTrue(view.isVisible)
+        }
 
-    @Captor
-    lateinit var displayChildCaptor: ArgumentCaptor<Int>
+        @Test
+        fun checkVisibility_Gone() {
+            visibility(view, false)
+            Assert.assertFalse(view.isVisible)
+        }
 
-    @Before
-    fun before() {
-        MockitoAnnotations.initMocks(this)
-        view = View(RuntimeEnvironment.application)
     }
 
-    @Test
-    fun checkVisibility_Show() {
-        visibility(view, true)
-        Assert.assertTrue(view.isVisible)
+    @RunWith(RobolectricTestRunner::class)
+    class WebViewDataBindingTest {
+
+        @Mock
+        lateinit var webView: WebView
+
+        @Captor
+        lateinit var linkCaptor: ArgumentCaptor<String>
+
+        @Before
+        fun before() {
+            MockitoAnnotations.initMocks(this)
+        }
+
+        @Test
+        fun checkLoadEmptyUrl_withWebView() {
+            val url = ""
+            loadUrl(webView, url)
+            Mockito.verify(webView, never()).loadUrl(ArgumentMatchers.anyString())
+        }
+
+        @Test
+        fun checkLoadUrl_withWebView() {
+            val url = "http://google.com"
+            loadUrl(webView, url)
+
+            Mockito.verify(webView, times(1)).loadUrl(linkCaptor.capture())
+            Assert.assertEquals(url, linkCaptor.value)
+        }
+
+        @Test
+        fun checkLoadUrl_withView() {
+            val url = "http://google.com"
+            loadUrl(View(RuntimeEnvironment.application), url)
+            Mockito.verify(webView, never()).loadUrl(url)
+        }
+
     }
 
-    @Test
-    fun checkVisibility_Gone() {
-        visibility(view, false)
-        Assert.assertFalse(view.isVisible)
-    }
+    @RunWith(RobolectricTestRunner::class)
+    class ViewFlipperDataBindingTest {
 
-    @Test
-    fun checkBackground() {
-        background(view, Color.WHITE)
-        Assert.assertEquals(Color.WHITE, (view.background as? ColorDrawable)?.color)
-    }
+        @Mock
+        lateinit var viewFlipper: ViewFlipper
 
-    @Test
-    fun checkLoadEmptyUrl_withWebView() {
-        val url = ""
-        loadUrl(webView, url)
-        Mockito.verify(webView, never()).loadUrl(ArgumentMatchers.anyString())
-    }
+        @Captor
+        lateinit var displayChildCaptor: ArgumentCaptor<Int>
 
-    @Test
-    fun checkLoadUrl_withWebView() {
-        val url = "http://google.com"
-        loadUrl(webView, url)
+        @Before
+        fun before() {
+            MockitoAnnotations.initMocks(this)
+        }
 
-        Mockito.verify(webView, times(1)).loadUrl(linkCaptor.capture())
-        Assert.assertEquals(url, linkCaptor.value)
-    }
+        @Test
+        fun checkDisplayChild_witViewFlipper() {
+            val pos = 1
+            displayChild(viewFlipper, pos)
 
-    @Test
-    fun checkLoadUrl_withView() {
-        val url = "http://google.com"
-        loadUrl(view, url)
-        Mockito.verify(webView, never()).loadUrl(url)
-    }
+            Mockito.verify(viewFlipper, times(1)).displayedChild = displayChildCaptor.capture()
+            Assert.assertEquals(pos, displayChildCaptor.value)
+        }
 
-    @Test
-    fun checkDisplayChild_witViewFlipper() {
-        val pos = 1
-        displayChild(viewFlipper, pos)
-
-        Mockito.verify(viewFlipper, times(1)).displayedChild = displayChildCaptor.capture()
-        Assert.assertEquals(pos, displayChildCaptor.value)
-    }
-
-    @Test
-    fun checkDisplayChild_witView() {
-        val pos = 1
-        displayChild(view, pos)
-        Mockito.verify(viewFlipper, never()).displayedChild = pos
+        @Test
+        fun checkDisplayChild_witView() {
+            val pos = 1
+            displayChild(View(RuntimeEnvironment.application), pos)
+            Mockito.verify(viewFlipper, never()).displayedChild = pos
+        }
     }
 }

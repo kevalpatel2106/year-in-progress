@@ -8,9 +8,12 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.ActionBar
 import androidx.core.view.isVisible
-import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
@@ -70,15 +73,15 @@ class ViewExtTests {
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayShowTitleEnabled(isTitleVisibleCaptor.capture())
-            Assert.assertEquals(isTitleEnabled, isTitleVisibleCaptor.value)
+            assertEquals(isTitleEnabled, isTitleVisibleCaptor.value)
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayShowHomeEnabled(homeEnabledCaptor.capture())
-            Assert.assertEquals(isHomeEnabled, homeEnabledCaptor.value)
+            assertEquals(isHomeEnabled, homeEnabledCaptor.value)
 
             Mockito.verify(mockActionBar, Mockito.times(1))
                 .setDisplayHomeAsUpEnabled(homeAsUpEnabledCaptor.capture())
-            Assert.assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
+            assertEquals(isHomeEnabled, homeAsUpEnabledCaptor.value)
         }
     }
 
@@ -104,7 +107,7 @@ class ViewExtTests {
         fun testViewShow() {
             val view = View(RuntimeEnvironment.application)
             view.showOrHide(true)
-            Assert.assertTrue(view.isVisible)
+            assertTrue(view.isVisible)
         }
 
 
@@ -113,7 +116,7 @@ class ViewExtTests {
         fun testViewHide() {
             val view = View(RuntimeEnvironment.application)
             view.showOrHide(false)
-            Assert.assertTrue(!view.isVisible)
+            assertTrue(!view.isVisible)
         }
 
         @Test
@@ -160,11 +163,11 @@ class ViewExtTests {
             mockMenuItem.showOrHideLoader(RuntimeEnvironment.application, true)
 
             Mockito.verify(mockMenuItem, Mockito.times(1)).isEnabled = isEnabledCaptor.capture()
-            Assert.assertFalse(isEnabledCaptor.value)
+            assertFalse(isEnabledCaptor.value)
 
             Mockito.verify(mockMenuItem, Mockito.times(1)).actionView = actionViewCaptor.capture()
-            Assert.assertNotNull(actionViewCaptor.value)
-            Assert.assertTrue(actionViewCaptor.value is ProgressBar)
+            assertNotNull(actionViewCaptor.value)
+            assertTrue(actionViewCaptor.value is ProgressBar)
         }
 
         @Test
@@ -173,10 +176,10 @@ class ViewExtTests {
             mockMenuItem.showOrHideLoader(RuntimeEnvironment.application, false)
 
             Mockito.verify(mockMenuItem, Mockito.times(1)).isEnabled = isEnabledCaptor.capture()
-            Assert.assertTrue(isEnabledCaptor.value)
+            assertTrue(isEnabledCaptor.value)
 
             Mockito.verify(mockMenuItem, Mockito.times(1)).actionView = actionViewCaptor.capture()
-            Assert.assertNull(actionViewCaptor.value)
+            assertNull(actionViewCaptor.value)
         }
     }
 }

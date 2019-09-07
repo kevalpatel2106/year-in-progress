@@ -42,10 +42,10 @@ internal class DetailViewModel @Inject internal constructor(
         yipRepo.observeProgress(id)
             .subscribe({ item ->
                 val isProgressComplete = item.percent >= 100f
-                val progressThemeColor = darkenColor(item.color.value, 0.9f)
+                val progressThemeColor = darkenColor(item.color.colorInt, 0.9f)
 
                 _viewState.value = _viewState.value?.copy(
-                    cardBackground = application.getBackgroundGradient(item.color.value),
+                    cardBackground = application.getBackgroundGradient(item.color.colorInt),
 
                     progressTitleText = item.title,
                     progressPercentText = application.getString(

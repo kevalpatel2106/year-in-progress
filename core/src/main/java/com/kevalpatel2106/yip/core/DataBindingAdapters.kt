@@ -3,17 +3,11 @@ package com.kevalpatel2106.yip.core
 import android.view.View
 import android.webkit.WebView
 import android.widget.ViewFlipper
-import androidx.annotation.ColorInt
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("android:visibility")
 fun visibility(view: View, show: Boolean) {
     view.showOrHide(show)
-}
-
-@BindingAdapter("app:backgroundColor")
-fun background(view: View, @ColorInt color: Int) {
-    view.setBackgroundColor(color)
 }
 
 @BindingAdapter("app:loadUrl")

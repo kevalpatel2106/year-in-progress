@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SNACK_BAR_DURATION
 import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.recall
 import com.kevalpatel2106.yip.core.setToDayMax
 import com.kevalpatel2106.yip.core.setToDayMin
@@ -44,13 +45,15 @@ internal class EditViewProgressModel @Inject internal constructor(
     // Progress fields
     private var currentTitle: String? = null
 
-    internal val initialTitle = MutableLiveData<String>()
-    internal val currentStartDate = MutableLiveData<Date>()
+    internal val initialTitle = MutableLiveData<String>(emptyString())
+    internal val currentStartDate = MutableLiveData<Date>(
+        Date(System.currentTimeMillis()).apply { setToDayMin() }
+    )
     internal val currentEndDate = MutableLiveData<Date>()
-    internal val currentColor = MutableLiveData<ProgressColor>()
-    internal val lockColorPicker = MutableLiveData<Boolean>()
-    internal val isPrebuiltProgress = MutableLiveData<Boolean>()
-    internal val currentNotificationsList = MutableLiveData<List<Float>>()
+    internal val currentColor = MutableLiveData<ProgressColor>(ProgressColor.COLOR_BLUE)
+    internal val lockColorPicker = MutableLiveData<Boolean>(false)
+    internal val isPrebuiltProgress = MutableLiveData<Boolean>(false)
+    internal val currentNotificationsList = MutableLiveData<List<Float>>(listOf())
 
     internal var isSomethingChanged: Boolean = false
     internal var isTitleChanged: Boolean = false
@@ -61,20 +64,12 @@ internal class EditViewProgressModel @Inject internal constructor(
     internal val userMessage = SingleLiveEvent<String>()
 
     // Loaders
-    internal val isLoadingProgress = MutableLiveData<Boolean>()
+    internal val isLoadingProgress = MutableLiveData<Boolean>(false)
 
     init {
-        isLoadingProgress.value = false
-        isPrebuiltProgress.value = false
-        lockColorPicker.value = false
-
         // Initial progress values.
         val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
-        initialTitle.value = ""
-        currentStartDate.value = Date(System.currentTimeMillis()).apply { setToDayMin() }
         currentEndDate.value = Date(tomorrow.timeInMillis).apply { setToDayMax() }
-        currentColor.value = ProgressColor.COLOR_BLUE
-        currentNotificationsList.value = listOf()
 
         // Monitor the pro status
         billingRepo.observeIsPurchased()
@@ -126,7 +121,7 @@ internal class EditViewProgressModel @Inject internal constructor(
             userMessage.value = application.getString(R.string.error_invalid_progress)
             currentColor.recall()
         }
-        if (currentColor.value?.value != color) currentColor.value = getProgressColor(color)
+        if (currentColor.value?.colorInt != color) currentColor.value = getProgressColor(color)
     }
 
     internal fun onProgressTitleChanged(title: String) {
@@ -151,7 +146,7 @@ internal class EditViewProgressModel @Inject internal constructor(
             userMessage.value = application.getString(R.string.error_start_date_after_end_date)
             return
         }
-        if (!isValidProgressColor(currentColor.value?.value)) {
+        if (!isValidProgressColor(currentColor.value?.colorInt)) {
             userMessage.value = application.getString(R.string.error_invalid_progress)
             return
         }

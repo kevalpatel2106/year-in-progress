@@ -83,7 +83,7 @@
     <string name="menu_title_save_progress">Save</string>
 
     <!--Progress detail-->
-    <string name="time_left_title">Time left:\n\n%d %s %d %s %d %s</string>
+    <string name="time_left_title">Time left:\n\n%d %s  %d %s  %d %s</string>
     <string name="progress_delete_successful">Deleted successfully.</string>
     <string name="progress_delete_confirmation_delete_title">Delete</string>
     <string name="progress_delete_confirmation_message">Do you want to delete %s?</string>
@@ -147,6 +147,8 @@
     <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <string name="error_progress_not_exist">Deadline doesn\'t exist.</string>
     <string name="edit_progress_title_hint">(e.g. This financial year)</string>
+    <string name="notification_subtitle">Tell application when to notify you.</string>
+    <string name="color_subtitle">Choose the color to set the theme for your progress. Spice it up!</string>
 
     <!--TODO: Categorize the strings-->
 </resources>

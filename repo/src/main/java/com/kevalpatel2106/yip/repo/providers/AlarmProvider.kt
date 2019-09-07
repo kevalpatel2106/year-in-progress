@@ -19,7 +19,7 @@ import kotlin.math.roundToLong
 class AlarmProvider @Inject internal constructor(
     private val alarmManager: AlarmManager,
     private val application: Application,
-    private val ntpProvider: NtpProvider,
+    private val timeProvider: TimeProvider,
     private val yipDatabase: YipDatabase
 ) {
 
@@ -29,7 +29,7 @@ class AlarmProvider @Inject internal constructor(
             .observeAll()
             .firstOrError()
             .zipWith(
-                ntpProvider.nowAsync(),
+                timeProvider.nowAsync(),
                 BiFunction { dtos: List<ProgressDto>, date: Date -> dtos to date }
             )
             .subscribe({ (dtos, now) ->
