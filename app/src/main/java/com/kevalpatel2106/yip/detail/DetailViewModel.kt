@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.SignalLiveEvent
-import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
+import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
+import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
@@ -36,7 +36,8 @@ internal class DetailViewModel @Inject internal constructor(
     internal val userMessage: LiveData<String> = _userMessage
 
     private val _closeDetail = SignalLiveEvent()
-    internal val closeDetail: LiveData<Unit> = SignalLiveEvent()
+    internal val closeDetail: LiveData<Unit> =
+        SignalLiveEvent()
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)

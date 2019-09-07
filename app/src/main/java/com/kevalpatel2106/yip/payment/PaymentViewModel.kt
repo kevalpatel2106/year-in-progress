@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.SignalLiveEvent
-import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
+import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import javax.inject.Inject
 

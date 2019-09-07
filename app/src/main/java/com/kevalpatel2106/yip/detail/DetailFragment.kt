@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
-import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.databinding.FragmentDetailBinding

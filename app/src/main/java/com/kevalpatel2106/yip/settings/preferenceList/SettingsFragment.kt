@@ -10,7 +10,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
-import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.payment.PaymentActivity

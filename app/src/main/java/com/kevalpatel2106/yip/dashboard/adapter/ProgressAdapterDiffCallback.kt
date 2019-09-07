@@ -2,7 +2,8 @@ package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 
 internal object ProgressAdapterDiffCallback : DiffUtil.ItemCallback<YipItemRepresentable>() {
 

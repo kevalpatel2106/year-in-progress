@@ -1,10 +1,14 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.view.ViewGroup
+import com.kevalpatel2106.yip.core.recyclerview.YipAdapter
+import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.viewholders.YipViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressViewHolder
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.recyclerview.YipAdapter
-import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
-import com.kevalpatel2106.yip.recyclerview.viewholders.YipViewHolder
 
 internal class ProgressAdapter(
     private var clickListener: ((progress: Progress) -> Unit)

@@ -5,21 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
-import com.kevalpatel2106.yip.core.SignalLiveEvent
-import com.kevalpatel2106.yip.core.SingleLiveEvent
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.getBackgroundGradient
+import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
+import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
+import com.kevalpatel2106.yip.core.livedata.recall
 import com.kevalpatel2106.yip.core.openPlayStorePage
-import com.kevalpatel2106.yip.core.recall
+import com.kevalpatel2106.yip.core.recyclerview.representable.EmptyRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.representable.ErrorRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.representable.LoadingRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.core.updateWidgets
-import com.kevalpatel2106.yip.dashboard.adapter.AdsItem
-import com.kevalpatel2106.yip.dashboard.adapter.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
+import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.recyclerview.representable.EmptyRepresentable
-import com.kevalpatel2106.yip.recyclerview.representable.ErrorRepresentable
-import com.kevalpatel2106.yip.recyclerview.representable.LoadingRepresentable
-import com.kevalpatel2106.yip.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
@@ -100,7 +100,11 @@ internal class DashboardViewModel @Inject constructor(
             _progresses.value?.clear()
             if (listItems.isEmpty()) {
                 // Show the empty list view.
-                _progresses.value?.add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
+                _progresses.value?.add(
+                    EmptyRepresentable(
+                        application.getString(R.string.dashboard_no_progress_message)
+                    )
+                )
             } else {
                 // Show all the progress.
                 listItems.add(PaddingItem)
@@ -111,9 +115,12 @@ internal class DashboardViewModel @Inject constructor(
             Timber.e(throwable)
 
             // Display error.
-            _progresses.value?.add(ErrorRepresentable(application.getString(R.string.dashboard_error_loading_progress)) {
-                monitorProgresses()
-            })
+            _progresses.value?.add(
+                ErrorRepresentable(
+                    application.getString(R.string.dashboard_error_loading_progress)
+                ) {
+                    monitorProgresses()
+                })
         }).addTo(compositeDisposable)
     }
 

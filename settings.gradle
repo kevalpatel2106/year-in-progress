@@ -1,1 +1,1 @@
-include ':app', ':repo', ':entity', ':core', ':testUtils', ':recyclerview', ':androidTestUtils'
+include ':app', ':repo', ':entity', ':core', ':testUtils', ':androidTestUtils'

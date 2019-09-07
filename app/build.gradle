@@ -10,10 +10,10 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 dependencies {
     implementation project(':core')
-    implementation project(':recyclerview')
     testImplementation project(':testUtils')
     androidTestImplementation project(':androidTestUtils')
 
+    implementation("me.saket:inboxrecyclerview:${versions.inboxrecyclerview}", excludeGrp)
     implementation("androidx.preference:preference:${versions.preference}", excludeGrp)
     implementation('com.google.android.gms:play-services-oss-licenses:17.0.0', excludeGrp)
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
-import com.kevalpatel2106.yip.core.nullSafeObserve
+import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
