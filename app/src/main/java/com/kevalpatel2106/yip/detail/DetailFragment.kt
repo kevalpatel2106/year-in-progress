@@ -90,7 +90,11 @@ internal class DetailFragment : Fragment() {
         model.closeDetail.nullSafeObserve(this@DetailFragment) { closeDetail() }
     }
 
-    fun showDetailOptions() = popupMenu.show()
+    fun showDetailOptions() {
+        if (model.viewState.value?.isDeletingProgress == false) {
+            popupMenu.show()
+        }
+    }
 
     fun showShareAchievements() {
         context?.let { ctx ->

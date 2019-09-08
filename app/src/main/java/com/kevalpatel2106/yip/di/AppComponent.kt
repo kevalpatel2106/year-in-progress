@@ -9,7 +9,6 @@ import com.kevalpatel2106.yip.core.di.SessionScope
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.edit.EditProgressActivity
-import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
@@ -40,8 +39,6 @@ internal interface AppComponent {
     fun inject(detailFragment: DetailFragment)
     fun inject(settingsFragment: SettingsFragment)
     fun inject(settingsActivity: SettingsActivity)
-
-    fun inject(notificationViewer: NotificationViewer)
 
     fun inject(progressListRemoteService: ProgressListRemoteService)
 }

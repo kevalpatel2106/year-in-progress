@@ -2,28 +2,25 @@ package com.kevalpatel2106.yip.edit
 
 import android.app.Application
 import androidx.annotation.ColorInt
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.SNACK_BAR_DURATION
 import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.recall
 import com.kevalpatel2106.yip.core.setToDayMax
 import com.kevalpatel2106.yip.core.setToDayMin
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
 import com.kevalpatel2106.yip.entity.getProgressColor
 import com.kevalpatel2106.yip.entity.isPreBuild
-import com.kevalpatel2106.yip.entity.isValidProgressColor
 import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
+import com.kevalpatel2106.yip.repo.Validator
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.providers.AlarmProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import timber.log.Timber
-import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -32,150 +29,210 @@ internal class EditViewProgressModel @Inject internal constructor(
     private val application: Application,
     private val yipRepo: YipRepo,
     private val alarmProvider: AlarmProvider,
-    billingRepo: BillingRepo
+    private val validator: Validator,
+    private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
-    private var progressTypeType: ProgressType = ProgressType.CUSTOM
-    internal var progressId: Long = 0L
-        set(value) {
-            if (value > 0L) monitorProgress(value)
-            field = value
-        }
+    private var progressId: Long = 0L
 
-    // Progress fields
-    private var currentTitle: String? = null
+    private val _viewState = MutableLiveData<EditViewState>(EditViewState.initialState())
+    internal val viewState: LiveData<EditViewState> = _viewState
 
-    internal val initialTitle = MutableLiveData<String>(emptyString())
-    internal val currentStartDate = MutableLiveData<Date>(
-        Date(System.currentTimeMillis()).apply { setToDayMin() }
-    )
-    internal val currentEndDate = MutableLiveData<Date>()
-    internal val currentColor = MutableLiveData<ProgressColor>(ProgressColor.COLOR_BLUE)
-    internal val lockColorPicker = MutableLiveData<Boolean>(false)
-    internal val isPrebuiltProgress = MutableLiveData<Boolean>(false)
-    internal val currentNotificationsList = MutableLiveData<List<Float>>(listOf())
+    private val _closeSignal = SingleLiveEvent<Boolean>()
+    internal val closeSignal: LiveData<Boolean> = _closeSignal
 
-    internal var isSomethingChanged: Boolean = false
-    internal var isTitleChanged: Boolean = false
-    internal val closeSignal = SingleLiveEvent<Boolean>()
-
-    // Errors
-    internal val errorInvalidTitle = SingleLiveEvent<String>()
-    internal val userMessage = SingleLiveEvent<String>()
-
-    // Loaders
-    internal val isLoadingProgress = MutableLiveData<Boolean>(false)
+    private val _userMessage = SingleLiveEvent<String>()
+    internal val userMessage: LiveData<String> = _userMessage
 
     init {
-        // Initial progress values.
-        val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
-        currentEndDate.value = Date(tomorrow.timeInMillis).apply { setToDayMax() }
+        monitorProStatus()
+    }
 
-        // Monitor the pro status
+    private fun monitorProStatus() {
         billingRepo.observeIsPurchased()
-            .subscribe { lockColorPicker.value = !it }
+            .subscribe {
+                _viewState.value = _viewState.value?.copy(
+                    lockColorPicker = !it,
+                    lockNotification = !it
+                )
+            }
             .addTo(compositeDisposable)
+    }
+
+    internal fun setProgressId(progressId: Long) {
+        if (this.progressId != progressId) {
+            monitorProgress(progressId)
+            this.progressId = progressId
+        }
     }
 
     private fun monitorProgress(id: Long) {
         yipRepo.observeProgress(id)
             .firstOrError()
-            .doOnSubscribe {
-                isLoadingProgress.value = true
-            }.doAfterTerminate {
-                isLoadingProgress.value = false
-            }.subscribe({ progress ->
-                progressTypeType = progress.progressType
-                isPrebuiltProgress.value = progress.progressType.isPreBuild()
+            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isLoadingProgress = true) }
+            .subscribe({ progress ->
 
-                currentTitle = progress.title
-                initialTitle.value = progress.title
-                currentColor.value = progress.color
-                currentEndDate.value = progress.end
-                currentStartDate.value = progress.start
-                currentNotificationsList.value = progress.notificationPercent
+                _viewState.value = _viewState.value?.copy(
+                    isLoadingProgress = false,
+                    isSomethingChanged = false,
+
+                    progressType = progress.progressType,
+
+                    initialTitle = progress.title,
+                    currentTitle = progress.title,
+                    titleErrorMsg = null,
+                    isTitleChanged = false,
+
+                    allowEditDate = !progress.progressType.isPreBuild(),
+                    progressStartTime = progress.start,
+                    progressEndTime = progress.end,
+
+                    progressColor = progress.color,
+
+                    notificationList = progress.notificationPercent
+                )
             }, {
                 Timber.e(it)
-                userMessage.value = it.message
-                closeSignal.value = true
+                _viewState.value = _viewState.value?.copy(isLoadingProgress = false)
+                _userMessage.value = it.message
+                _closeSignal.value = true
             })
             .addTo(compositeDisposable)
     }
 
     internal fun onProgressStartDateSelected(startDate: Date) {
-        isSomethingChanged = true
-        currentStartDate.value = startDate
-        if (currentEndDate.value?.before(startDate) != false) {
-            currentEndDate.value = Date(startDate.time + TimeUnit.DAYS.toMillis(1))
-        }
+        val endDate =
+            if (!validator.isValidStartDate(startDate, _viewState.value?.progressEndTime)) {
+                Date(startDate.time + TimeUnit.DAYS.toMillis(1))
+            } else {
+                _viewState.value!!.progressEndTime
+            }
+
+        _viewState.value = _viewState.value?.copy(
+            isSomethingChanged = true,
+            progressStartTime = startDate,
+            progressEndTime = endDate
+        )
     }
 
     internal fun onProgressEndDateSelected(endDate: Date) {
-        isSomethingChanged = true
-        currentEndDate.value = endDate
+        if (validator.isValidEndDate(_viewState.value?.progressStartTime, endDate)) {
+            _viewState.value = _viewState.value?.copy(
+                isSomethingChanged = true,
+                progressEndTime = endDate
+            )
+        } else {
+            _userMessage.value = application.getString(R.string.error_start_date_after_end_date)
+            _viewState.recall()
+        }
     }
 
     internal fun onProgressColorSelected(@ColorInt color: Int) {
-        isSomethingChanged = true
-        if (!isValidProgressColor(color)) {
-            userMessage.value = application.getString(R.string.error_invalid_progress)
-            currentColor.recall()
+        if (validator.isValidProgressColor(color)) {
+            _viewState.value = _viewState.value?.copy(
+                isSomethingChanged = true,
+                progressColor = getProgressColor(color)
+            )
+        } else {
+            _userMessage.value = application.getString(R.string.error_invalid_progress)
+            _viewState.recall()
         }
-        if (currentColor.value?.colorInt != color) currentColor.value = getProgressColor(color)
     }
 
     internal fun onProgressTitleChanged(title: String) {
-        currentTitle = title
-        isTitleChanged = title != initialTitle.value
-        if (title.length !in 0..titleLength) {
-            errorInvalidTitle.value =
-                application.getString(R.string.error_progress_title_long, titleLength)
-        } else if (errorInvalidTitle.value != "") {
-            errorInvalidTitle.value = ""
+        val isTitleChanged = title.trim() != _viewState.value?.initialTitle?.trim()
+
+        if (!isTitleChanged) {
+            return
+        } else if (validator.isValidTitle(title)) {
+            _viewState.value = _viewState.value?.copy(
+                isSomethingChanged = true,
+
+                isTitleChanged = isTitleChanged,
+                currentTitle = title,
+                titleErrorMsg = null
+            )
+        } else {
+            _viewState.value = _viewState.value?.copy(
+                titleErrorMsg = application.getString(
+                    R.string.error_progress_title_long,
+                    titleLength
+                )
+            )
         }
     }
 
-    internal fun saveProgress(notificationsList: List<Float>) {
-        if (isLoadingProgress.value == true) return
-        if (currentTitle == null || currentTitle?.length !in 1..titleLength) {
-            errorInvalidTitle.value =
-                application.getString(R.string.error_progress_title_long, titleLength)
-            return
-        }
-        if (currentStartDate.value?.after(currentEndDate.value) == true) {
-            userMessage.value = application.getString(R.string.error_start_date_after_end_date)
-            return
-        }
-        if (!isValidProgressColor(currentColor.value?.colorInt)) {
-            userMessage.value = application.getString(R.string.error_invalid_progress)
-            return
-        }
+    internal fun onNotificationAdded(notificationPercent: Float) {
+        val list = _viewState.value?.notificationList?.toMutableList() ?: mutableListOf()
+        list.add(notificationPercent)
+        _viewState.value = _viewState.value?.copy(notificationList = list)
+    }
 
-        yipRepo.addUpdateProgress(
-            processId = progressId,
-            title = currentTitle?.capitalize()
-                ?: throw IllegalStateException("Progress title cannot be null."),
-            startTime = currentStartDate.value?.apply { setToDayMin() }
-                ?: throw IllegalStateException("Start date cannot be null."),
-            endTime = currentEndDate.value?.apply { setToDayMax() }
-                ?: throw IllegalStateException("End date cannot be null."),
-            color = currentColor.value
-                ?: throw IllegalStateException("Color cannot be null."),
-            progressTypeType = progressTypeType,
-            notifications = notificationsList
-        ).doOnSubscribe {
-            isLoadingProgress.value = true
-        }.doOnSuccess {
-            userMessage.value = application.getString(R.string.progress_saved_success)
-        }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
-            .doAfterTerminate { isLoadingProgress.value = false }
-            .subscribe({
-                alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
-                closeSignal.value = true
-            }, {
-                Timber.e(it)
-                userMessage.value = it.message
-            })
-            .addTo(compositeDisposable)
+    internal fun onNotificationRemoved(notificationPercent: Float) {
+        val list = _viewState.value?.notificationList?.toMutableList() ?: mutableListOf()
+        list.remove(notificationPercent)
+        _viewState.value = _viewState.value?.copy(notificationList = list)
+    }
+
+    internal fun saveProgress() {
+        _viewState.value?.run {
+            if (isLoadingProgress) {
+                return
+            }
+
+            if (!validator.isValidTitle(currentTitle)) {
+                _viewState.value?.copy(
+                    titleErrorMsg = application.getString(
+                        R.string.error_progress_title_long,
+                        titleLength
+                    )
+                )
+                return
+            }
+
+            if (!validator.isValidStartDate(progressStartTime, progressEndTime)) {
+                _userMessage.value = application.getString(R.string.error_start_date_after_end_date)
+                return
+            }
+
+            if (!validator.isValidEndDate(progressStartTime, progressEndTime)) {
+                _userMessage.value = application.getString(R.string.error_start_date_after_end_date)
+                return
+            }
+
+            if (!validator.isValidProgressColor(progressColor.colorInt)) {
+                _userMessage.value = application.getString(R.string.error_invalid_progress)
+                return
+            }
+
+            if (!validator.isValidNotification(notificationList)) {
+                _userMessage.value = application.getString(R.string.invalid_notification_percent)
+                return
+            }
+
+            yipRepo.addUpdateProgress(
+                processId = progressId,
+                title = currentTitle.capitalize(),
+                startTime = progressStartTime.apply { setToDayMin() },
+                endTime = progressEndTime.apply { setToDayMax() },
+                color = progressColor,
+                progressTypeType = progressType,
+                notifications = notificationList
+            ).doOnSubscribe {
+                _viewState.value = _viewState.value?.copy(isLoadingProgress = true)
+            }.doOnSuccess {
+                _userMessage.value = application.getString(R.string.progress_saved_success)
+            }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
+                .doAfterTerminate {
+                    _viewState.value = _viewState.value?.copy(isLoadingProgress = false)
+                }.subscribe({
+                    alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
+                    _closeSignal.value = true
+                }, {
+                    Timber.e(it)
+                    _userMessage.value = it.message
+                })
+                .addTo(compositeDisposable)
+        }
     }
 }

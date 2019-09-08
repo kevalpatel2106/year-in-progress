@@ -68,7 +68,12 @@ internal class DashboardViewModel @Inject constructor(
             _progresses.value?.add(LoadingRepresentable)
             _progresses.recall()
         }.doOnNext { (progresses, _) ->
+            if (!progresses.any { it.id == _expandProgress.value }) {
+                // Close any deleted progress detail
+                resetExpandedProgress()
+            }
             appShortcutHelper.updateDynamicShortcuts(progresses)
+            application.updateWidgets()
         }.map { (progresses, isPro) ->
 
             // Add Ads if the user is not pro.
@@ -87,28 +92,20 @@ internal class DashboardViewModel @Inject constructor(
             return@map list.apply {
                 // Add the ads if the user is not pro.
                 if (isNotEmpty() && !isPro) {
-                    add(
-                        if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size,
-                        AdsItem
-                    )
+                    add(if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size, AdsItem)
                 }
             }
-        }.doOnNext {
-            // Update all widgets with new progress info
-            application.updateWidgets()
         }.subscribe({ listItems ->
-            _progresses.value?.clear()
-            if (listItems.isEmpty()) {
-                // Show the empty list view.
-                _progresses.value?.add(
-                    EmptyRepresentable(
-                        application.getString(R.string.dashboard_no_progress_message)
-                    )
-                )
-            } else {
-                // Show all the progress.
-                listItems.add(PaddingItem)
-                _progresses.value?.addAll(listItems)
+            _progresses.value?.run {
+                clear()
+                if (listItems.isEmpty()) {
+                    // Show the empty list view.
+                    add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
+                } else {
+                    // Show all the progress.
+                    listItems.add(PaddingItem)
+                    addAll(listItems)
+                }
             }
             _progresses.recall()
         }, { throwable ->
@@ -120,7 +117,8 @@ internal class DashboardViewModel @Inject constructor(
                     application.getString(R.string.dashboard_error_loading_progress)
                 ) {
                     monitorProgresses()
-                })
+                }
+            )
         }).addTo(compositeDisposable)
     }
 
@@ -174,7 +172,7 @@ internal class DashboardViewModel @Inject constructor(
     }
 
     companion object {
-        private const val RESET_COLLAPSED_ID = -1L
+        internal const val RESET_COLLAPSED_ID = -1L
         private const val MAX_POSITION_OF_AD = 4
         private const val MAX_RANDOM_NUMBER = 14
         private const val RANDOM_NUMBER_FOR_RATING = 1

@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.di.provideViewModel
@@ -21,6 +20,7 @@ import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
 import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
+import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_edit_progress.notification_times
 import javax.inject.Inject
 
 internal class EditProgressActivity : AppCompatActivity() {
+
     @Inject
     lateinit var sdf: DateFormatter
 
@@ -52,37 +53,7 @@ internal class EditProgressActivity : AppCompatActivity() {
         setSupportActionBar(edit_toolbar)
         supportActionBar?.set(showTitle = false)
 
-        setUpTitle()
-        setUpDates()
-        setUpColorPicker()
-        monitorUserMessages()
-
-        // Monitor loader
-        model.isLoadingProgress.nullSafeObserve(this@EditProgressActivity) { isLoading ->
-            invalidateOptionsMenu()
-            edit_color.isEnabled = !isLoading
-        }
-        model.isPrebuiltProgress.nullSafeObserve(this@EditProgressActivity) { isPrebuilt ->
-            edit_start_time.isEnabled = !isPrebuilt
-            edit_end_time.isEnabled = !isPrebuilt
-        }
-
-        model.currentNotificationsList.nullSafeObserve(this@EditProgressActivity) {
-            notification_times.notificationPercents = it.toMutableList()
-        }
-
-        onNewIntent(intent)
-    }
-
-    private fun monitorUserMessages() {
-        model.closeSignal.nullSafeObserve(this@EditProgressActivity) { finish() }
-        model.userMessage.nullSafeObserve(this@EditProgressActivity) { showSnack(it) }
-        model.errorInvalidTitle.observe(this@EditProgressActivity, Observer { error ->
-            edit_progress_title_til.error = error
-        })
-    }
-
-    private fun setUpColorPicker() {
+        // Set up color picker
         val colorsAdapter = ColorsAdapter(this, object : ColorPickerListener {
             override fun onLockedColorClicked() {
                 PaymentActivity.launch(this@EditProgressActivity)
@@ -93,46 +64,91 @@ internal class EditProgressActivity : AppCompatActivity() {
             }
         })
         edit_color.adapter = colorsAdapter
-        model.currentColor.nullSafeObserve(this@EditProgressActivity) {
-            colorsAdapter.setSelectedColor(it.colorInt)
-        }
-        model.lockColorPicker.nullSafeObserve(this@EditProgressActivity) { lock ->
-            colorsAdapter.isLocked = lock
+
+        setUpDatePickers()
+        setUpNotificationList()
+
+        // Set title
+        edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
+
+        // Monitor view model
+        monitorViewState(colorsAdapter)
+        model.closeSignal.nullSafeObserve(this@EditProgressActivity) { finish() }
+        model.userMessage.nullSafeObserve(this@EditProgressActivity) { showSnack(it) }
+
+        onNewIntent(intent)
+    }
+
+    private fun setUpNotificationList() {
+        notification_times.callback = object : NotificationViewer.NotificationViewerInterface {
+            override fun onLockClicked() {
+                PaymentActivity.launch(this@EditProgressActivity)
+            }
+
+            override fun addNotificationClicked() {
+                showNotificationPickerDialog { progress -> model.onNotificationAdded(progress) }
+            }
+
+            override fun onNotificationRemoved(percent: Float) {
+                model.onNotificationRemoved(percent)
+            }
         }
     }
 
-    private fun setUpDates() {
+    private fun monitorViewState(colorsAdapter: ColorsAdapter) {
+        model.viewState.nullSafeObserve(this@EditProgressActivity) { viewState ->
+
+            with(viewState) {
+                invalidateOptionsMenu()
+
+                edit_start_time.apply {
+                    isEnabled = allowEditDate && !isLoadingProgress
+                    text = sdf.formatDateOnly(progressStartTime)
+                }
+                edit_end_time.apply {
+                    isEnabled = allowEditDate && !isLoadingProgress
+                    text = sdf.formatDateOnly(progressEndTime)
+                }
+
+                edit_color.isEnabled = !isLoadingProgress
+                colorsAdapter.setSelectedColor(progressColor.colorInt)
+                colorsAdapter.isLocked = lockColorPicker
+
+                if (!viewState.isTitleChanged) {
+                    edit_progress_title.setText(initialTitle)
+                    edit_progress_title.setSelection(initialTitle.length)
+                }
+                edit_progress_title_til.error = titleErrorMsg
+
+                notification_times.apply {
+                    isEnabled = !isLoadingProgress
+                    isLocked = lockNotification
+                    updateList(notificationList)
+                }
+            }
+        }
+    }
+
+    private fun setUpDatePickers() {
         // Start time set up
         edit_start_time.setOnClickListener {
             getDatePicker(listener = { date -> model.onProgressStartDateSelected(date) }).show()
         }
-        model.currentStartDate.nullSafeObserve(this@EditProgressActivity) {
-            edit_start_time.text = sdf.formatDateOnly(it)
-        }
 
         // End time set up
         edit_end_time.setOnClickListener {
-            getDatePicker(listener = { date ->
-                model.onProgressEndDateSelected(date)
-            }).apply {
-                model.currentStartDate.value?.let { start -> datePicker.minDate = start.time }
-            }.show()
-        }
-        model.currentEndDate.nullSafeObserve(this@EditProgressActivity) {
-            edit_end_time.text = sdf.formatDateOnly(it)
-        }
-    }
-
-    private fun setUpTitle() {
-        edit_progress_title.doAfterTextChanged { model.onProgressTitleChanged(it.toString()) }
-        model.initialTitle.nullSafeObserve(this@EditProgressActivity) { title ->
-            edit_progress_title.setText(title)
-            edit_progress_title.setSelection(title.length)
+            getDatePicker(listener = { date -> model.onProgressEndDateSelected(date) })
+                .apply {
+                    model.viewState.value?.progressStartTime?.let { start ->
+                        datePicker.minDate = start.time
+                    }
+                }
+                .show()
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
-        model.progressId = intent?.getLongExtra(ARG_EDIT_PROGRESS_ID, 0) ?: 0
+        model.setProgressId(intent?.getLongExtra(ARG_EDIT_PROGRESS_ID, 0) ?: 0)
         super.onNewIntent(intent)
     }
 
@@ -142,8 +158,8 @@ internal class EditProgressActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (model.isLoadingProgress.value != true) {
-            if (model.isSomethingChanged || model.isTitleChanged) {
+        if (model.viewState.value?.isLoadingProgress != true) {
+            if (model.viewState.value?.isSomethingChanged == true) {
                 conformBeforeExit()
             } else {
                 finish()
@@ -155,14 +171,14 @@ internal class EditProgressActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_progress_save, menu)
         menu?.findItem(R.id.menu_progress_save)?.showOrHideLoader(
             context = this@EditProgressActivity,
-            isShow = model.isLoadingProgress.value == true
+            isShow = model.viewState.value?.isLoadingProgress == true
         )
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_progress_save -> model.saveProgress(notification_times.notificationPercents)
+            R.id.menu_progress_save -> model.saveProgress()
         }
         return super.onOptionsItemSelected(item)
     }

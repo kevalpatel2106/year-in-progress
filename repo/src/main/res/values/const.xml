@@ -22,4 +22,6 @@
     <!--Values for hour format-->
     <string name="hh_mm_a" translatable="false">hh:mm a</string>
     <string name="hh_mm" translatable="false">HH:mm</string>
+
+    <integer name="max_process_title">20</integer>
 </resources>

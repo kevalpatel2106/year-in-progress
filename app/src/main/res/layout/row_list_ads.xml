@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/DashboardListCard"
+    android:minHeight="@dimen/spacing_xxlarge"
     app:cardBackgroundColor="@color/window_background_color_bright"
     app:cardCornerRadius="@dimen/card_radius"
     app:cardElevation="@dimen/dashboard_list_row_card_elevation"

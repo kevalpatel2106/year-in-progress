@@ -16,7 +16,3 @@ enum class ProgressColor(@ColorInt val colorInt: Int) {
 fun getProgressColor(@ColorInt value: Int): ProgressColor {
     return ProgressColor.values().firstOrNull { it.colorInt == value } ?: ProgressColor.COLOR_GRAY
 }
-
-fun isValidProgressColor(@ColorInt value: Int?): Boolean {
-    return ProgressColor.values().firstOrNull { it.colorInt == value } != null
-}

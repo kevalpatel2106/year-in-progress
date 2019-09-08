@@ -69,6 +69,7 @@
     <!--Bottom navigation titles-->
     <string name="navigation_title_feedback">Feedback</string>
     <string name="navigation_title_rate_us">Rate Us</string>
+    <string name="navigation_title_debug_info" translatable="false">Debug Info</string>
     <string name="navigation_title_settings">Settings</string>
 
     <!--Edit progress-->
@@ -79,6 +80,8 @@
     <string name="progress_saved_success">Progress saved successfully.</string>
     <string name="error_invalid_progress">Invalid progress color.</string>
     <string name="error_start_date_after_end_date">Start date cannot be after the end date.</string>
+    <string name="error_end_date_before_start_date">End date cannot be before the start date.</string>
+    <string name="invalid_notification_percent">Invalid notification.</string>
     <string name="error_progress_title_long">Title cannot be more than %d characters long.</string>
     <string name="menu_title_save_progress">Save</string>
 

@@ -41,4 +41,12 @@
         style="@style/BottomDrawerOptions"
         android:drawableStart="@drawable/ic_star"
         android:text="@string/navigation_title_rate_us" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/navigation_drawer_option_debug"
+        style="@style/BottomDrawerOptions"
+        android:drawableStart="@drawable/ic_info"
+        android:text="@string/navigation_title_debug_info"
+        android:visibility="gone"
+        tools:visibility="visible" />
 </LinearLayout>

@@ -16,6 +16,7 @@ import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
+import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
@@ -42,7 +43,6 @@ internal class DashboardActivity : AppCompatActivity() {
 
         override fun onPageCollapsed() {
             add_progress_fab.setImageResource(R.drawable.ic_add)
-            model.resetExpandedProgress()
         }
 
         override fun onPageExpanded() {
@@ -83,7 +83,9 @@ internal class DashboardActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val detailId = intent?.getLongExtra(ARG_PROGRESS_DETAIL_ID, -1) ?: -1
+        val detailId =
+            intent?.getLongExtra(ARG_PROGRESS_DETAIL_ID, DashboardViewModel.RESET_COLLAPSED_ID)
+                ?: DashboardViewModel.RESET_COLLAPSED_ID
         if (detailId > 0) model.userWantsToOpenDetail(detailId)
     }
 
@@ -127,16 +129,18 @@ internal class DashboardActivity : AppCompatActivity() {
 
         // Expand detail
         model.expandProgress.nullSafeObserve(this@DashboardActivity) {
-            if (it < 0L) return@nullSafeObserve
-
-            supportFragmentManager.commit {
-                replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
+            if (it == DashboardViewModel.RESET_COLLAPSED_ID) {
+                progress_list_rv.collapse()
+            } else {
+                supportFragmentManager.commit {
+                    replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
+                }
+                progress_list_rv.expandItem(it)
             }
-            progress_list_rv.expandItem(it)
         }
     }
 
-    internal fun collapseDetail() = progress_list_rv.collapse()
+    internal fun collapseDetail() = model.resetExpandedProgress()
 
     override fun onSupportNavigateUp(): Boolean {
         if (!model.isDetailExpanded() && !bottomNavigationSheet.isVisible) {
@@ -158,11 +162,19 @@ internal class DashboardActivity : AppCompatActivity() {
     companion object {
         private const val ARG_PROGRESS_DETAIL_ID = "progressId"
 
-        internal fun launch(context: Context, expandedProgressId: Long = -1) =
+        internal fun launch(
+            context: Context,
+            expandedProgressId: Long = DashboardViewModel.RESET_COLLAPSED_ID
+        ) {
             context.startActivity(launchIntent(context, expandedProgressId))
+        }
 
-        internal fun launchIntent(context: Context, expandedProgressId: Long = -1): Intent =
-            context.prepareLaunchIntent(DashboardActivity::class.java)
+        internal fun launchIntent(
+            context: Context,
+            expandedProgressId: Long = DashboardViewModel.RESET_COLLAPSED_ID
+        ): Intent {
+            return context.prepareLaunchIntent(DashboardActivity::class.java)
                 .apply { putExtra(ARG_PROGRESS_DETAIL_ID, expandedProgressId) }
+        }
     }
 }

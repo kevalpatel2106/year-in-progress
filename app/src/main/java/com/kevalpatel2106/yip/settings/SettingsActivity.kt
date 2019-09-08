@@ -2,13 +2,9 @@ package com.kevalpatel2106.yip.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.google.android.gms.ads.AdRequest
-import com.kevalpatel2106.yip.BuildConfig
-import com.kevalpatel2106.yip.DebugActivity
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
@@ -65,16 +61,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (BuildConfig.DEBUG) menuInflater.inflate(R.menu.menu_settings_debug, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_debug_drawer) DebugActivity.launch(this)
-        return super.onOptionsItemSelected(item)
     }
 
     companion object {
