@@ -77,14 +77,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_progress_list" />
         </receiver>
-        <receiver android:name=".utils.BootCompleteReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".utils.LocaleChangedReceiver">
+        <receiver android:name=".utils.SysEventsReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver android:name=".notifications.ProgressNotificationReceiver" />
