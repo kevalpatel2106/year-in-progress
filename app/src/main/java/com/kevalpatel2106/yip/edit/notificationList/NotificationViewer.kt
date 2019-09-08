@@ -36,11 +36,19 @@ internal class NotificationViewer @JvmOverloads constructor(
 
     private fun addNotificationsRow(notificationPercent: Float) {
         val view = inflater.inflate(R.layout.row_notification_time, this@NotificationViewer, false)
+        view.notification_time_tv.text = prepareString(notificationPercent)
+        view.notification_delete_icon_iv.setOnClickListener {
+            removeView(view)
+            callback?.onNotificationRemoved(notificationPercent)
+        }
+        addView(view)
+    }
 
+    private fun prepareString(notificationPercent: Float): SpannableString {
         val percentString = context.getString(R.string.progress_percentage, notificationPercent)
         val rawText = context.getString(R.string.row_notification_time_text, percentString)
 
-        view.notification_time_tv.text = SpannableString(rawText).apply {
+        return SpannableString(rawText).apply {
             // Set spans for hours left
             val dateStartIndex = rawText.indexOf(percentString)
             val dateEndIndex = dateStartIndex + percentString.length
@@ -57,11 +65,6 @@ internal class NotificationViewer @JvmOverloads constructor(
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
-        view.notification_delete_icon_iv.setOnClickListener {
-            removeView(view)
-            callback?.onNotificationRemoved(notificationPercent)
-        }
-        addView(view)
     }
 
     private fun addNewNotificationRow() {

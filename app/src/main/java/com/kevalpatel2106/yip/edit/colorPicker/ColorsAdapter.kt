@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.edit.colorPicker
 import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
 import com.kevalpatel2106.yip.entity.ProgressColor
 
@@ -17,7 +18,8 @@ internal class ColorsAdapter(
             notifyDataSetChanged()
         }
 
-    private val colors by lazy {
+    @VisibleForTesting
+    internal val colors by lazy {
         ProgressColor.values().map { ColorStates(it.colorInt, false) }
     }
 

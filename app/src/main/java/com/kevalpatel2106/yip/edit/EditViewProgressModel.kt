@@ -15,11 +15,11 @@ import com.kevalpatel2106.yip.core.setToDayMin
 import com.kevalpatel2106.yip.entity.getProgressColor
 import com.kevalpatel2106.yip.entity.isPreBuild
 import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
-import com.kevalpatel2106.yip.repo.Validator
 import com.kevalpatel2106.yip.repo.YipRepo
 import com.kevalpatel2106.yip.repo.billing.BillingRepo
 import com.kevalpatel2106.yip.repo.providers.AlarmProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
+import com.kevalpatel2106.yip.repo.utils.Validator
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -81,7 +81,6 @@ internal class EditViewProgressModel @Inject internal constructor(
                     initialTitle = progress.title,
                     currentTitle = progress.title,
                     titleErrorMsg = null,
-                    isTitleChanged = false,
 
                     allowEditDate = !progress.progressType.isPreBuild(),
                     progressStartTime = progress.start,
@@ -140,25 +139,25 @@ internal class EditViewProgressModel @Inject internal constructor(
     }
 
     internal fun onProgressTitleChanged(title: String) {
-        val isTitleChanged = title.trim() != _viewState.value?.initialTitle?.trim()
-
-        if (!isTitleChanged) {
-            return
-        } else if (validator.isValidTitle(title)) {
-            _viewState.value = _viewState.value?.copy(
-                isSomethingChanged = true,
-
-                isTitleChanged = isTitleChanged,
-                currentTitle = title,
-                titleErrorMsg = null
-            )
-        } else {
-            _viewState.value = _viewState.value?.copy(
-                titleErrorMsg = application.getString(
-                    R.string.error_progress_title_long,
-                    titleLength
+        when {
+            title.trim() == _viewState.value?.initialTitle?.trim() -> {
+                return
+            }
+            validator.isValidTitle(title) -> {
+                _viewState.value = _viewState.value?.copy(
+                    isSomethingChanged = true,
+                    currentTitle = title,
+                    titleErrorMsg = null
                 )
-            )
+            }
+            else -> {
+                _viewState.value = _viewState.value?.copy(
+                    titleErrorMsg = application.getString(
+                        R.string.error_progress_title_long,
+                        titleLength
+                    )
+                )
+            }
         }
     }
 

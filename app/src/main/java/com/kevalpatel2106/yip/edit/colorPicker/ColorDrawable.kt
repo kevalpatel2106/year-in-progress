@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import com.kevalpatel2106.yip.R
 
@@ -102,7 +103,10 @@ internal class ColorDrawable @JvmOverloads constructor(
     }
 
     companion object {
-        private const val DEFAULT_CORNER_RADIUS = 20F
-        private const val DEFAULT_STROKE_WIDTH = 4F
+        @VisibleForTesting
+        internal const val DEFAULT_CORNER_RADIUS = 20F
+
+        @VisibleForTesting
+        internal const val DEFAULT_STROKE_WIDTH = 4F
     }
 }

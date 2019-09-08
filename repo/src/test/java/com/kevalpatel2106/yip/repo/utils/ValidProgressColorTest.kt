@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo
+package com.kevalpatel2106.yip.repo.utils
 
 import android.app.Application
 import androidx.annotation.ColorInt

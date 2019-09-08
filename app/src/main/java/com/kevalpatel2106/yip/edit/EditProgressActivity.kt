@@ -114,7 +114,7 @@ internal class EditProgressActivity : AppCompatActivity() {
                 colorsAdapter.setSelectedColor(progressColor.colorInt)
                 colorsAdapter.isLocked = lockColorPicker
 
-                if (!viewState.isTitleChanged) {
+                if (!viewState.isTitleChanged()) {
                     edit_progress_title.setText(initialTitle)
                     edit_progress_title.setSelection(initialTitle.length)
                 }

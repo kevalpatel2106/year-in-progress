@@ -17,7 +17,6 @@ internal data class EditViewState(
     val initialTitle: String,
     val currentTitle: String,
     val titleErrorMsg: String?,
-    val isTitleChanged: Boolean,
 
     val allowEditDate: Boolean,
     val progressStartTime: Date,
@@ -29,6 +28,8 @@ internal data class EditViewState(
     val lockNotification: Boolean,
     val notificationList: List<Float>
 ) {
+
+    fun isTitleChanged(): Boolean = initialTitle.trim() != currentTitle.trim()
 
     companion object {
 
@@ -44,7 +45,6 @@ internal data class EditViewState(
                 initialTitle = emptyString(),
                 currentTitle = emptyString(),
                 titleErrorMsg = null,
-                isTitleChanged = false,
 
                 allowEditDate = true,
                 progressStartTime = Date(System.currentTimeMillis()).apply { setToDayMin() },
