@@ -43,6 +43,7 @@ internal class DashboardActivity : AppCompatActivity() {
 
         override fun onPageCollapsed() {
             add_progress_fab.setImageResource(R.drawable.ic_add)
+            collapseDetail()
         }
 
         override fun onPageExpanded() {
