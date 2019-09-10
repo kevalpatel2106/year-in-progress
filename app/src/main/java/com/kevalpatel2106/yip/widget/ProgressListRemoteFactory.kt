@@ -5,14 +5,14 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class ProgressListRemoteFactory @Inject constructor(
     private val application: Application,
-    private val yipRepo: YipRepo
+    private val progressRepo: ProgressRepo
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private val progresses: ArrayList<Progress> = arrayListOf()
@@ -40,7 +40,7 @@ internal class ProgressListRemoteFactory @Inject constructor(
     }
 
     override fun onDataSetChanged() {
-        val devices = yipRepo.observeAllProgress()
+        val devices = progressRepo.observeAllProgress()
             .doOnError { Timber.e(it) }
             .firstElement()
             .blockingGet()

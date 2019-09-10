@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.junit.runners.Parameterized
 import java.text.DecimalFormat
 import java.util.ArrayList
@@ -48,14 +49,20 @@ class CalenderExtKtTest {
             val decimalFormat = DecimalFormat("#.##")
             assertEquals(
                 percent,
-                decimalFormat.format(
-                    calculatePercent(
-                        Date(now),
-                        Date(startMills),
-                        Date(endMills)
-                    )
-                ).toFloat()
+                decimalFormat
+                    .format(calculatePercent(Date(now), Date(startMills), Date(endMills)))
+                    .toFloat()
             )
+        }
+    }
+
+    @RunWith(JUnit4::class)
+    class CalenderConversationTest {
+
+        @Test
+        fun checkDateToCal() {
+            val nowMills = System.currentTimeMillis()
+            assertEquals(nowMills, Date(nowMills).toCal().timeInMillis)
         }
     }
 }

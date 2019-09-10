@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.billing
+package com.kevalpatel2106.yip.repo.billingRepo
 
 import android.content.Context
 import com.android.billingclient.api.BillingClient

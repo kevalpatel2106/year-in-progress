@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
@@ -133,7 +133,7 @@ internal class DashboardActivity : AppCompatActivity() {
             if (it == DashboardViewModel.RESET_COLLAPSED_ID) {
                 progress_list_rv.collapse()
             } else {
-                supportFragmentManager.commit {
+                supportFragmentManager.commitNow {
                     replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
                 }
                 progress_list_rv.expandItem(it)

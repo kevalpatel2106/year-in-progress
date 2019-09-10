@@ -6,6 +6,7 @@ import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -80,5 +81,27 @@ class EditViewStateTest {
 
         val state1 = state.copy(initialTitle = "$currentTitle  ", currentTitle = currentTitle)
         assertFalse(state1.isTitleChanged())
+    }
+
+    @Test
+    fun checkEquals() {
+        val withAnotherTitle = state.copy(initialTitle = "xyz new")
+        val withLoadingStatus = state.copy(isLoadingProgress = false)
+        val sameObject = state.copy()
+
+        assertEquals(sameObject, state)
+        assertNotEquals(withAnotherTitle, state)
+        assertNotEquals(withLoadingStatus, state)
+    }
+
+    @Test
+    fun checkHashcode() {
+        val withAnotherTitle = state.copy(initialTitle = "xyz new")
+        val withLoadingStatus = state.copy(isLoadingProgress = false)
+        val sameObject = state.copy()
+
+        assertEquals(sameObject.hashCode(), state.hashCode())
+        assertNotEquals(withAnotherTitle.hashCode(), state.hashCode())
+        assertNotEquals(withLoadingStatus.hashCode(), state.hashCode())
     }
 }

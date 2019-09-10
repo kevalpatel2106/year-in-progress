@@ -6,9 +6,11 @@ import android.app.AlarmManager
 import android.app.Application
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.di.RepositoryModule
+import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import dagger.Component
 import javax.inject.Singleton
@@ -35,6 +37,8 @@ interface CoreComponent {
     fun getSharedPrefs(): SharedPrefsProvider
 
     fun getBillingRepo(): BillingRepo
+    fun getProgressRepo(): ProgressRepo
+    fun getAlarmRepo(): AlarmRepo
 
     companion object {
         fun build(application: Application): CoreComponent {

@@ -44,7 +44,7 @@ class Migration1To2Test {
 
         //Inject data in version 1.
         db.execSQL(
-            "INSERT OR REPLACE INTO `progresses`(`id`,`type`,`title`,`start_mills`,`end_mills`,`color`,`order`,`is_enabled`)" +
+            "INSERT OR REPLACE INTO `progresses`(`id`,`type`,`title`,`start_mills`,`end_mills`,`color`,`sortOrder`,`is_enabled`)" +
                     " VALUES (${testProgress.id}, ${testProgress.color}, ${testProgress.end}, ${testProgress.start}, ${testProgress.progressType}, ${testProgress.title}, 0, false);"
         )
 

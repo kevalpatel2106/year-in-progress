@@ -9,7 +9,7 @@ import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import javax.inject.Inject
 
 internal class PaymentViewModel @Inject internal constructor(

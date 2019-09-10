@@ -7,6 +7,7 @@ import com.github.anrwatchdog.ANRWatchDog
 import com.google.android.gms.ads.MobileAds
 import com.kevalpatel2106.yip.core.di.CoreComponent
 import com.kevalpatel2106.yip.di.getAppComponent
+import dagger.Lazy
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasBroadcastReceiverInjector
@@ -17,7 +18,7 @@ import javax.inject.Inject
 internal class YIPApplication : Application(), HasBroadcastReceiverInjector {
 
     @Inject
-    lateinit var broadcastReceiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
+    lateinit var broadcastReceiverInjector: Lazy<DispatchingAndroidInjector<BroadcastReceiver>>
 
     internal val coreComponent by lazy { CoreComponent.build(this@YIPApplication) }
 
@@ -38,6 +39,6 @@ internal class YIPApplication : Application(), HasBroadcastReceiverInjector {
     }
 
     override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> {
-        return broadcastReceiverInjector
+        return broadcastReceiverInjector.get()
     }
 }

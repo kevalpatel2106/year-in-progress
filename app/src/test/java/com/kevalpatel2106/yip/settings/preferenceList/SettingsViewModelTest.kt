@@ -2,7 +2,7 @@ package com.kevalpatel2106.yip.settings.preferenceList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kevalpatel2106.yip.BuildConfig
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert
 import org.junit.Before

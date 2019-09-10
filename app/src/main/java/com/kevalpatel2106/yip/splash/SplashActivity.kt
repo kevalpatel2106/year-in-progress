@@ -9,7 +9,6 @@ import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import javax.inject.Inject
 
 internal class SplashActivity : AppCompatActivity() {
-
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
@@ -20,7 +19,7 @@ internal class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
-        model.refreshPurchaseState(this@SplashActivity)
+        model.refreshPurchase(this@SplashActivity)
         AppLaunchHelper.launchFlow(this@SplashActivity, intent)
     }
 }

@@ -20,8 +20,8 @@ import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
 import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.repo.YipRepo
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
+import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import io.reactivex.BackpressureStrategy
@@ -33,7 +33,7 @@ import kotlin.random.Random
 
 internal class DashboardViewModel @Inject constructor(
     private val application: Application,
-    private val yipRepo: YipRepo,
+    private val progressRepo: ProgressRepo,
     private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
@@ -59,7 +59,7 @@ internal class DashboardViewModel @Inject constructor(
 
     private fun monitorProgresses() {
         Flowable.combineLatest(
-            yipRepo.observeAllProgress(),
+            progressRepo.observeAllProgress(),
             billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
             BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
@@ -132,7 +132,7 @@ internal class DashboardViewModel @Inject constructor(
     }
 
     internal fun userWantsToOpenDetail(progressId: Long) {
-        yipRepo.isProgressExist(progressId)
+        progressRepo.isProgressExist(progressId)
             .subscribe({ exist ->
                 if (exist) {
                     _expandProgress.value = progressId

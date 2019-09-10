@@ -37,25 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="twitter.com"
-                    android:path="/progressbar201x"
-                    android:scheme="https" />
-                <data
-                    android:host="twitter.com"
-                    android:path="/year_progress"
-                    android:scheme="https" />
-                <data
-                    android:host="progressbarserver.appspot.com"
-                    android:scheme="https" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/app_shortcuts" />

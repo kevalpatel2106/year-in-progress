@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import android.app.Application
 import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -15,9 +16,9 @@ import com.kevalpatel2106.yip.core.setToDayMin
 import com.kevalpatel2106.yip.entity.getProgressColor
 import com.kevalpatel2106.yip.entity.isPreBuild
 import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
-import com.kevalpatel2106.yip.repo.YipRepo
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
-import com.kevalpatel2106.yip.repo.providers.AlarmProvider
+import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
+import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import com.kevalpatel2106.yip.repo.utils.Validator
 import timber.log.Timber
@@ -27,15 +28,16 @@ import javax.inject.Inject
 
 internal class EditViewProgressModel @Inject internal constructor(
     private val application: Application,
-    private val yipRepo: YipRepo,
-    private val alarmProvider: AlarmProvider,
+    private val progressRepo: ProgressRepo,
+    private val alarmRepo: AlarmRepo,
     private val validator: Validator,
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private var progressId: Long = 0L
 
-    private val _viewState = MutableLiveData<EditViewState>(EditViewState.initialState())
+    @VisibleForTesting
+    internal val _viewState = MutableLiveData<EditViewState>(EditViewState.initialState())
     internal val viewState: LiveData<EditViewState> = _viewState
 
     private val _closeSignal = SingleLiveEvent<Boolean>()
@@ -67,7 +69,7 @@ internal class EditViewProgressModel @Inject internal constructor(
     }
 
     private fun monitorProgress(id: Long) {
-        yipRepo.observeProgress(id)
+        progressRepo.observeProgress(id)
             .firstOrError()
             .doOnSubscribe { _viewState.value = _viewState.value?.copy(isLoadingProgress = true) }
             .subscribe({ progress ->
@@ -163,14 +165,18 @@ internal class EditViewProgressModel @Inject internal constructor(
 
     internal fun onNotificationAdded(notificationPercent: Float) {
         val list = _viewState.value?.notificationList?.toMutableList() ?: mutableListOf()
-        list.add(notificationPercent)
-        _viewState.value = _viewState.value?.copy(notificationList = list)
+        if (!list.any { it == notificationPercent }) {
+            list.add(notificationPercent)
+        }
+        _viewState.value =
+            _viewState.value?.copy(notificationList = list, isSomethingChanged = true)
     }
 
     internal fun onNotificationRemoved(notificationPercent: Float) {
         val list = _viewState.value?.notificationList?.toMutableList() ?: mutableListOf()
         list.remove(notificationPercent)
-        _viewState.value = _viewState.value?.copy(notificationList = list)
+        _viewState.value =
+            _viewState.value?.copy(notificationList = list, isSomethingChanged = true)
     }
 
     internal fun saveProgress() {
@@ -209,7 +215,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                 return
             }
 
-            yipRepo.addUpdateProgress(
+            progressRepo.addUpdateProgress(
                 processId = progressId,
                 title = currentTitle.capitalize(),
                 startTime = progressStartTime.apply { setToDayMin() },
@@ -225,7 +231,7 @@ internal class EditViewProgressModel @Inject internal constructor(
                 .doAfterTerminate {
                     _viewState.value = _viewState.value?.copy(isLoadingProgress = false)
                 }.subscribe({
-                    alarmProvider.updateAlarms(ProgressNotificationReceiver::class.java)
+                    alarmRepo.updateAlarms(ProgressNotificationReceiver::class.java)
                     _closeSignal.value = true
                 }, {
                     Timber.e(it)

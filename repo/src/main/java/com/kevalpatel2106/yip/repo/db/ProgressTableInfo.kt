@@ -1,6 +1,6 @@
 package com.kevalpatel2106.yip.repo.db
 
-object ProgressTableInfo {
+internal object ProgressTableInfo {
     const val TABLE_NAME = "progresses"
     const val ID = "id"
     const val TYPE = "type"

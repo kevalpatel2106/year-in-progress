@@ -18,7 +18,7 @@ import com.kevalpatel2106.yip.repo.utils.startOfTheDay
 import com.kevalpatel2106.yip.repo.utils.startOfTheMonth
 import com.kevalpatel2106.yip.repo.utils.startOfTheWeek
 import com.kevalpatel2106.yip.repo.utils.startOfTheYear
-import java.util.Calendar
+import com.kevalpatel2106.yip.repo.utils.toCal
 import java.util.Date
 
 @Entity(tableName = ProgressTableInfo.TABLE_NAME)
@@ -57,30 +57,28 @@ internal fun ProgressDto.toEntity(now: Date) = Progress(
     percent = calculatePercent(now, start, end)
 )
 
-internal fun ProgressDto.modifyPrebuiltProgress(nowMills: Long): ProgressDto {
-    val now = Calendar.getInstance()
-    now.timeInMillis = nowMills
-
+internal fun ProgressDto.modifyPrebuiltProgress(now: Date): ProgressDto {
+    val nowCal = now.toCal()
     when (progressType) {
         ProgressType.YEAR_PROGRESS -> {
-            start = now.startOfTheYear()
-            end = now.endOfTheYear()
+            start = nowCal.startOfTheYear()
+            end = nowCal.endOfTheYear()
         }
         ProgressType.MONTH_PROGRESS -> {
-            start = now.startOfTheMonth()
-            end = now.endOfTheMonth()
+            start = nowCal.startOfTheMonth()
+            end = nowCal.endOfTheMonth()
         }
         ProgressType.WEEK_PROGRESS -> {
-            start = now.startOfTheWeek()
-            end = now.endOfTheWeek()
+            start = nowCal.startOfTheWeek()
+            end = nowCal.endOfTheWeek()
         }
         ProgressType.DAY_PROGRESS -> {
-            start = now.startOfTheDay()
-            end = now.endOfTheDay()
+            start = nowCal.startOfTheDay()
+            end = nowCal.endOfTheDay()
         }
         ProgressType.QUARTER_PROGRESS -> {
-            start = now.getFirstDayOfQuarter()
-            end = now.getLastDayOfQuarter()
+            start = nowCal.getFirstDayOfQuarter()
+            end = nowCal.getLastDayOfQuarter()
         }
         ProgressType.CUSTOM -> {
             /* Do nothing. Go with the DB dates. */

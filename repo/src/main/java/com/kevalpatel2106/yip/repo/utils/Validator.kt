@@ -7,7 +7,7 @@ import com.kevalpatel2106.yip.repo.R
 import java.util.Date
 import javax.inject.Inject
 
-class Validator @Inject internal constructor(private val application: Application) {
+class Validator @Inject constructor(private val application: Application) {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
 
     fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {

@@ -1,6 +1,6 @@
 package com.kevalpatel2106.yip.detail
 
-import android.app.Application
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.text.SpannableString
@@ -25,10 +25,10 @@ internal data class DetailViewState(
 ) {
     companion object {
 
-        fun initialState(application: Application): DetailViewState {
+        fun initialState(context: Context): DetailViewState {
             return DetailViewState(
                 progressEndTimeText = emptyString(),
-                cardBackground = application.getBackgroundGradient(Color.GRAY),
+                cardBackground = context.getBackgroundGradient(Color.GRAY),
                 detailFlipperPosition = ProgressFlipper.POS_TIME_LEFT,
                 isDeletingProgress = false,
                 progressPercent = 0,

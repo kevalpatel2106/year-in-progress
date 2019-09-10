@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.providers
+package com.kevalpatel2106.yip.repo.alarmRepo
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -10,21 +10,21 @@ import android.os.Build
 import androidx.core.os.bundleOf
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
+import com.kevalpatel2106.yip.repo.providers.TimeProvider
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.Date
-import javax.inject.Inject
 import kotlin.math.roundToLong
 
-class AlarmProvider @Inject internal constructor(
+internal class AlarmRepoImpl(
     private val alarmManager: AlarmManager,
     private val application: Application,
     private val timeProvider: TimeProvider,
     private val yipDatabase: YipDatabase
-) {
+) : AlarmRepo {
 
     @SuppressLint("CheckResult")
-    fun <T : BroadcastReceiver> updateAlarms(triggerReceiver: Class<T>) {
+    override fun <T : BroadcastReceiver> updateAlarms(triggerReceiver: Class<T>) {
         yipDatabase.getDeviceDao()
             .observeAll()
             .firstOrError()
@@ -46,7 +46,13 @@ class AlarmProvider @Inject internal constructor(
         nowMills: Long
     ) {
         progress.notifications
-            .map { getTriggerMills(progress.start.time, progress.end.time, it) }
+            .map {
+                getTriggerMills(
+                    progress.start.time,
+                    progress.end.time,
+                    it
+                )
+            }
             .filter { triggerMills -> triggerMills > nowMills }
             .forEach { triggerMills ->
                 alarmManager.setExactCompat(
@@ -72,7 +78,7 @@ class AlarmProvider @Inject internal constructor(
             application,
             alarmTime.toInt(),
             Intent(application, triggerClass).apply {
-                putExtras(bundleOf(ARG_PROGRESS_ID to progressId))
+                putExtras(bundleOf(AlarmRepo.ARG_PROGRESS_ID to progressId))
             },
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -94,7 +100,5 @@ class AlarmProvider @Inject internal constructor(
                 setExact(type, triggerAtMillis, operation)
             }
         }
-
-        const val ARG_PROGRESS_ID = "arg_progress_id"
     }
 }

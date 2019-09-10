@@ -11,7 +11,7 @@ import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
-import com.kevalpatel2106.yip.repo.YipRepo
+import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 internal class DetailViewModel @Inject internal constructor(
     private val application: Application,
-    private val yipRepo: YipRepo,
+    private val progressRepo: ProgressRepo,
     private val appShortcutHelper: AppShortcutHelper,
     private val sdf: DateFormatter
 ) : BaseViewModel() {
@@ -40,7 +40,7 @@ internal class DetailViewModel @Inject internal constructor(
         SignalLiveEvent()
 
     private fun monitorProgress(id: Long) {
-        yipRepo.observeProgress(id)
+        progressRepo.observeProgress(id)
             .subscribe({ item ->
                 val isProgressComplete = item.percent >= 100f
                 val progressThemeColor = darkenColor(item.color.colorInt, 0.9f)
@@ -83,7 +83,7 @@ internal class DetailViewModel @Inject internal constructor(
     }
 
     internal fun deleteProgress() {
-        yipRepo.deleteProgress(progressId)
+        progressRepo.deleteProgress(progressId)
             .doOnSubscribe { _viewState.value = _viewState.value?.copy(isDeletingProgress = true) }
             .doOnTerminate { _viewState.value = _viewState.value?.copy(isDeletingProgress = false) }
             .subscribe({

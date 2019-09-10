@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.repo.billing.BillingRepo
+import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import javax.inject.Inject
 
 internal class SettingsViewModel @Inject internal constructor(

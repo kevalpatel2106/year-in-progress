@@ -85,3 +85,7 @@ internal fun calculatePercent(now: Date, start: Date, end: Date): Float {
         else -> percent
     }
 }
+
+internal fun Date.toCal(): Calendar {
+    return Calendar.getInstance().also { it.timeInMillis = this.time }
+}

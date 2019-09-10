@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.billing
+package com.kevalpatel2106.yip.repo.billingRepo
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -22,8 +22,8 @@ internal fun isBillingCodeSuccess(@BillingClient.BillingResponse responseCode: I
 }
 
 @SuppressLint("SwitchIntDef")
-internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse responseCode: Int) =
-    when (responseCode) {
+internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse responseCode: Int): String {
+    return when (responseCode) {
         BillingClient.BillingResponse.OK -> context.getString(R.string.billing_code_ok)
         BillingClient.BillingResponse.ITEM_ALREADY_OWNED -> context.getString(R.string.billing_code_already_purchased)
         BillingClient.BillingResponse.DEVELOPER_ERROR -> context.getString(R.string.billing_code_dev_error)
@@ -35,3 +35,4 @@ internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse 
         BillingClient.BillingResponse.USER_CANCELED -> context.getString(R.string.billing_code_user_cancel)
         else -> context.getString(R.string.billing_code_generic_error)
     }
+}

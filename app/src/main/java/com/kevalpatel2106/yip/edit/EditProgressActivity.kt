@@ -23,6 +23,7 @@ import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import dagger.Lazy
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_end_time
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title
@@ -35,7 +36,7 @@ import javax.inject.Inject
 internal class EditProgressActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var sdf: DateFormatter
+    lateinit var sdf: Lazy<DateFormatter>
 
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
@@ -55,13 +56,8 @@ internal class EditProgressActivity : AppCompatActivity() {
 
         // Set up color picker
         val colorsAdapter = ColorsAdapter(this, object : ColorPickerListener {
-            override fun onLockedColorClicked() {
-                PaymentActivity.launch(this@EditProgressActivity)
-            }
-
-            override fun onColorSelected(color: Int) {
-                model.onProgressColorSelected(color)
-            }
+            override fun onLockedColorClicked() = PaymentActivity.launch(this@EditProgressActivity)
+            override fun onColorSelected(color: Int) = model.onProgressColorSelected(color)
         })
         edit_color.adapter = colorsAdapter
 
@@ -103,11 +99,11 @@ internal class EditProgressActivity : AppCompatActivity() {
 
                 edit_start_time.apply {
                     isEnabled = allowEditDate && !isLoadingProgress
-                    text = sdf.formatDateOnly(progressStartTime)
+                    text = sdf.get().formatDateOnly(progressStartTime)
                 }
                 edit_end_time.apply {
                     isEnabled = allowEditDate && !isLoadingProgress
-                    text = sdf.formatDateOnly(progressEndTime)
+                    text = sdf.get().formatDateOnly(progressEndTime)
                 }
 
                 edit_color.isEnabled = !isLoadingProgress
