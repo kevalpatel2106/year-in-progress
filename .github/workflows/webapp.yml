@@ -1,0 +1,26 @@
+name: Webapp Deploy
+
+on: 
+  push:
+    branches:
+      - master
+    paths:
+      - 'webapp/*'
+      - 'webapp/*/*'
+      - 'webapp/*/*/*'
+
+jobs:
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest 
+
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - run: npm install -g firebase-tools
+      - run: cd webapp && firebase deploy -m "${GITHUB_SHA}" --token=${{ secrets.FIREBASE_DEPLOY_TOKEN }} --only hosting
