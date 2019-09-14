@@ -9,9 +9,9 @@ import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltProgress
 import com.kevalpatel2106.yip.repo.dto.toEntity
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.providers.TimeProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.TimeProvider
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable

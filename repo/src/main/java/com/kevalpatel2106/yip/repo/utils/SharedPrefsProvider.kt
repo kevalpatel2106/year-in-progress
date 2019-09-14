@@ -6,12 +6,11 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.kevalpatel2106.yip.repo.providers
+package com.kevalpatel2106.yip.repo.utils
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import io.reactivex.Observable
 
 /**

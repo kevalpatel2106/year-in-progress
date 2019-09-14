@@ -6,11 +6,12 @@ import android.app.Application
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Intent
-import android.os.Build
+import androidx.annotation.VisibleForTesting
+import androidx.core.app.AlarmManagerCompat
 import androidx.core.os.bundleOf
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
-import com.kevalpatel2106.yip.repo.providers.TimeProvider
+import com.kevalpatel2106.yip.repo.utils.TimeProvider
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.Date
@@ -39,23 +40,17 @@ internal class AlarmRepoImpl(
             })
     }
 
-
     private fun <T : BroadcastReceiver> updateAlarmsForProgress(
         progress: ProgressDto,
         triggerReceiver: Class<T>,
         nowMills: Long
     ) {
         progress.notifications
-            .map {
-                getTriggerMills(
-                    progress.start.time,
-                    progress.end.time,
-                    it
-                )
-            }
+            .map { triggerMills(progress.start.time, progress.end.time, it) }
             .filter { triggerMills -> triggerMills > nowMills }
             .forEach { triggerMills ->
-                alarmManager.setExactCompat(
+                AlarmManagerCompat.setExactAndAllowWhileIdle(
+                    alarmManager,
                     AlarmManager.RTC_WAKEUP,
                     triggerMills,
                     getPendingIntent(
@@ -68,36 +63,32 @@ internal class AlarmRepoImpl(
             }
     }
 
-    private fun <T : BroadcastReceiver> getPendingIntent(
-        application: Application,
-        alarmTime: Long,
-        progressId: Long,
-        triggerClass: Class<T>
-    ): PendingIntent {
-        return PendingIntent.getBroadcast(
-            application,
-            alarmTime.toInt(),
-            Intent(application, triggerClass).apply {
-                putExtras(bundleOf(AlarmRepo.ARG_PROGRESS_ID to progressId))
-            },
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
-
     companion object {
-        private fun getTriggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
-            return startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
+
+        private fun <T : BroadcastReceiver> getPendingIntent(
+            application: Application,
+            alarmTime: Long,
+            progressId: Long,
+            triggerClass: Class<T>
+        ): PendingIntent {
+            val intent = Intent(application, triggerClass)
+                .apply { putExtras(bundleOf(AlarmRepo.ARG_PROGRESS_ID to progressId)) }
+            return PendingIntent.getBroadcast(
+                application,
+                alarmTime.toInt(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
 
-        private fun AlarmManager.setExactCompat(
-            type: Int,
-            triggerAtMillis: Long,
-            operation: PendingIntent
-        ) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                setExactAndAllowWhileIdle(type, triggerAtMillis, operation)
+        @VisibleForTesting
+        internal fun triggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
+            return if (startMills < 0 || endMills < 0) {
+                throw IllegalArgumentException("Start mills or end mills is negative.")
+            } else if (startMills > endMills) {
+                throw IllegalArgumentException("Start mills greater than end mills.")
             } else {
-                setExact(type, triggerAtMillis, operation)
+                startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
             }
         }
     }

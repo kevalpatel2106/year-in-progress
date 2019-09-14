@@ -106,7 +106,8 @@ internal class EditViewProgressModel @Inject internal constructor(
             if (!validator.isValidStartDate(startDate, _viewState.value?.progressEndTime)) {
                 Date(startDate.time + TimeUnit.DAYS.toMillis(1))
             } else {
-                _viewState.value!!.progressEndTime
+                _viewState.value?.progressEndTime
+                    ?: throw IllegalStateException("End date is null.")
             }
 
         _viewState.value = _viewState.value?.copy(
@@ -179,6 +180,7 @@ internal class EditViewProgressModel @Inject internal constructor(
             _viewState.value?.copy(notificationList = list, isSomethingChanged = true)
     }
 
+    @SuppressWarnings("ReturnCount", "ComplexMethod")
     internal fun saveProgress() {
         _viewState.value?.run {
             if (isLoadingProgress) {

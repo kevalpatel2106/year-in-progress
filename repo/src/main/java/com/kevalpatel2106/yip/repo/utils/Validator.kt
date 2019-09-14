@@ -2,12 +2,12 @@ package com.kevalpatel2106.yip.repo.utils
 
 import android.app.Application
 import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.R
 import java.util.Date
-import javax.inject.Inject
 
-class Validator @Inject constructor(private val application: Application) {
+class Validator @VisibleForTesting constructor(private val application: Application) {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
 
     fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {

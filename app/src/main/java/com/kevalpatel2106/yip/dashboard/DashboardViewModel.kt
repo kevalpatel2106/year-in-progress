@@ -22,7 +22,7 @@ import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

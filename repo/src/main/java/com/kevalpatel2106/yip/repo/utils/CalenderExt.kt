@@ -77,15 +77,6 @@ private fun Calendar.setToDayMax() {
     set(Calendar.MILLISECOND, 999)
 }
 
-internal fun calculatePercent(now: Date, start: Date, end: Date): Float {
-    val percent = (now.time - start.time) * 100 / (end.time - start.time).toFloat()
-    return when {
-        percent > 100f -> 100f
-        percent < 0f -> 0f
-        else -> percent
-    }
-}
-
 internal fun Date.toCal(): Calendar {
     return Calendar.getInstance().also { it.timeInMillis = this.time }
 }

@@ -3,14 +3,12 @@ package com.kevalpatel2106.yip.repo.utils
 import android.annotation.SuppressLint
 import android.app.Application
 import com.kevalpatel2106.yip.repo.R
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class DateFormatter @Inject constructor(
+class DateFormatter internal constructor(
     application: Application,
     sharedPrefsProvider: SharedPrefsProvider
 ) {

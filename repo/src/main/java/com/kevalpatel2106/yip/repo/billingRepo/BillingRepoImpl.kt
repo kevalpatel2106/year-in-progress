@@ -7,8 +7,8 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.subjects.BehaviorSubject
@@ -80,11 +80,11 @@ internal class BillingRepoImpl(
         }
     }
 
-    override fun purchase(activity: Activity, sku: String): Single<String> {
+    override fun purchase(activity: Activity?, sku: String): Single<String> {
         return Single.create<Purchase> { emitter ->
 
             val billingClient: BillingClient = prepareBillingClient(
-                activity = activity,
+                activity = activity!!,
                 purchasesUpdatedListener = PurchasesUpdatedListener { responseCode, purchases ->
 
                     if (isBillingCodeSuccess(responseCode)) {

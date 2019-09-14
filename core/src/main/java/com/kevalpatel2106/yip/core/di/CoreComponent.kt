@@ -11,7 +11,9 @@ import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.di.RepositoryModule
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.providers.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.Validator
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,22 +25,20 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [CoreModule::class, RepositoryModule::class])
 interface CoreComponent {
-
+    // From core module
     fun getContext(): Context
-
     fun getApplication(): Application
-
     fun getAlarmManager(): AlarmManager
-
     fun getAppWidgetService(): AppWidgetManager
 
+    // From repository module
     fun getDatabase(): YipDatabase
-
     fun getSharedPrefs(): SharedPrefsProvider
-
     fun getBillingRepo(): BillingRepo
     fun getProgressRepo(): ProgressRepo
     fun getAlarmRepo(): AlarmRepo
+    fun getDateFormatter(): DateFormatter
+    fun getValidator(): Validator
 
     companion object {
         fun build(application: Application): CoreComponent {
