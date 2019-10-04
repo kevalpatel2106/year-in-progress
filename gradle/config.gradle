@@ -34,7 +34,8 @@ ext {
             'rxPreferences'    : '2.0.0',
             'billingclient'    : '1.2',
             'inboxrecyclerview': '2.0.0-beta1',
-            'debugdrawer'      : '0.8.0'
+            'debugdrawer'      : '0.8.0',
+            'navVersion'       : "2.1.0"
     ]
 
     packageExcludes = {
