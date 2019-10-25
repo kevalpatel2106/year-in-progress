@@ -118,20 +118,4 @@
         <item name="android:textColorHint">@android:color/holo_red_dark</item>
         <item name="android:fontFamily">@font/lato</item>
     </style>
-
-    <!--Dialogs-->
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
-    </style>
-
-    <!--Seekbar-->
-
-    <!-- Slider Styles -->
-    <style name="YipTheme.Seekbar" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressBackgroundTint">@color/colorAccentLight</item>
-        <item name="android:thumbTint">@color/colorAccent</item>
-        <item name="android:thumbTintMode">src_in</item>
-        <item name="android:progressTint">@color/colorAccent</item>
-    </style>
 </resources>

@@ -3,7 +3,6 @@
 
     <style name="AppTheme.Main">
         <item name="android:statusBarColor">@color/window_background_color</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 

@@ -8,11 +8,13 @@
 
 <resources>
 
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.Light" />
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="BaseAppTheme">
         <!--Brand theme-->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/window_background_color</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <!--Texts-->
@@ -43,12 +45,35 @@
         </item> <!--This is essential for some devices, e.g. Samsung-->
 
         <!--Alert dialog-->
-        <item name="materialAlertDialogTheme">@style/AppTheme.Dialog.Alert</item>
+        <item name="materialAlertDialogTheme">@style/YipTheme.AlertDialog</item>
+    </style>
+
+    <!--Seekbar-->
+    <style name="YipTheme.Seekbar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">@color/colorAccentLight</item>
+        <item name="android:thumbTint">@color/colorAccent</item>
+        <item name="android:thumbTintMode">src_in</item>
+        <item name="android:progressTint">@color/colorAccent</item>
     </style>
 
     <!--Alert dialogs-->
-    <style name="AppTheme.Dialog.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="YipTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_micro</item>
+        <item name="buttonBarNegativeButtonStyle">@style/ButtonBarNegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/ButtonBarPositiveButtonStyle</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+
+    <style name="ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 </resources>

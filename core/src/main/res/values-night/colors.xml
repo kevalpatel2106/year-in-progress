@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--text colors-->
+    <color name="colorPrimaryText">#FFF</color>
+    <color name="colorSecondaryText">#AAAAAA</color>
+
+    <!--Background colors-->
+    <color name="window_background_color_bright">#000</color>
+    <color name="window_background_color">#111</color>
+</resources>
