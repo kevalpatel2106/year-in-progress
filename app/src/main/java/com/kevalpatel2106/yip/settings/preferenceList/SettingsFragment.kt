@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.settings.preferenceList
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -70,6 +71,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             versionPref?.summary = it.versionPreferenceSummary
             buyProPref?.isEnabled = it.isBuyProClickable
             buyProPrefHeader?.isVisible = it.isBuyProVisible
+            AppCompatDelegate.setDefaultNightMode(it.darkModeSettings)
         }
     }
 

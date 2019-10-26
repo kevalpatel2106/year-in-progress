@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.settings.preferenceList
 
 import android.app.Activity
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -45,9 +44,16 @@ internal class SettingsViewModel @Inject internal constructor(
     private fun monitorDarkModeSettings() {
         sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
             .subscribe { darkModeSettings ->
-                AppCompatDelegate.setDefaultNightMode(
-                    SettingsUseCase.getNightModeSettings(application, darkModeSettings)
+                val darkModeSettingsInt = SettingsUseCase.getNightModeSettings(
+                    context = application,
+                    darkModeSettings = darkModeSettings
                 )
+
+                if (_viewState.value?.darkModeSettings != darkModeSettingsInt) {
+                    _viewState.value = _viewState.value?.copy(
+                        darkModeSettings = darkModeSettingsInt
+                    )
+                }
             }
             .addTo(compositeDisposable)
     }

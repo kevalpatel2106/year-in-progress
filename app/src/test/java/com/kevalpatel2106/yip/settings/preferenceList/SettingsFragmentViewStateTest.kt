@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
+import androidx.appcompat.app.AppCompatDelegate
 import com.kevalpatel2106.yip.BuildConfig
 import org.junit.Assert
 import org.junit.Test
@@ -16,6 +17,7 @@ class SettingsFragmentViewStateTest {
         Assert.assertFalse(initialState.isBuyProClickable)
         Assert.assertFalse(initialState.isBuyProVisible)
         Assert.assertEquals(BuildConfig.VERSION_NAME, initialState.versionPreferenceSummary)
+        Assert.assertEquals(AppCompatDelegate.MODE_NIGHT_NO, initialState.darkModeSettings)
     }
 
     @Test
@@ -23,9 +25,10 @@ class SettingsFragmentViewStateTest {
         val state = SettingsFragmentViewState.initialState()
         val state1 = SettingsFragmentViewState.initialState()
         val state2 = SettingsFragmentViewState(
-            false,
-            false,
-            "0.1.4"
+            isBuyProClickable = false,
+            isBuyProVisible = false,
+            versionPreferenceSummary = "0.1.4",
+            darkModeSettings = AppCompatDelegate.MODE_NIGHT_NO
         )
 
         Assert.assertEquals(state, state1)
