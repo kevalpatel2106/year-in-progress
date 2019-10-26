@@ -45,6 +45,10 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<ListPreference>(getString(R.string.pref_key_order))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
 
+        // Set the dark mode
+        findPreference<ListPreference>(getString(R.string.pref_key_dark_mode))?.summaryProvider =
+            ListPreference.SimpleSummaryProvider.getInstance()
+
         // Set the date selector
         findPreference<ListPreference>(getString(R.string.pref_key_date_format))?.summaryProvider =
             ListPreference.SimpleSummaryProvider.getInstance()
@@ -86,11 +90,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
                 SettingsUseCase.showLibraryLicences(requireContext())
             }
             getString(R.string.pref_key_share_friends) -> {
-                startActivity(
-                    SettingsUseCase.prepareShareIntent(
-                        requireContext()
-                    )
-                )
+                startActivity(SettingsUseCase.prepareShareIntent(requireContext()))
             }
         }
         return super.onPreferenceTreeClick(preference)
@@ -98,7 +98,6 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
 
 
     companion object {
-        internal fun getNewInstance() =
-            SettingsFragment()
+        internal fun getNewInstance() = SettingsFragment()
     }
 }

@@ -7,4 +7,6 @@
     <!--Background colors-->
     <color name="window_background_color_bright">#000</color>
     <color name="window_background_color">#111</color>
+
+    <color name="colorControlNormal">#FFF</color>
 </resources>

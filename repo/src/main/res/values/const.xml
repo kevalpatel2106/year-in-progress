@@ -3,6 +3,7 @@
     <!--Pref keys-->
     <string name="pref_key_date_format" translatable="false">pref_key_date_format</string>
     <string name="pref_key_time_format" translatable="false">pref_key_time_format</string>
+    <string name="pref_key_dark_mode" translatable="false">pref_key_dark_mode</string>
     <string name="pref_key_order" translatable="false">pref_key_order</string>
 
     <!--Values for sort order-->
@@ -22,6 +23,11 @@
     <!--Values for hour format-->
     <string name="hh_mm_a" translatable="false">hh:mm a</string>
     <string name="hh_mm" translatable="false">HH:mm</string>
+
+    <!--Values for night mode-->
+    <string name="dark_mode_on" translatable="false">dark_mode_on</string>
+    <string name="dark_mode_off" translatable="false">dark_mode_off</string>
+    <string name="dark_mode_system_default" translatable="false">dark_mode_system_default</string>
 
     <integer name="max_process_title">20</integer>
 </resources>

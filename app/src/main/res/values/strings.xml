@@ -25,6 +25,9 @@
     <string name="pref_title_privacy_policy">Privacy Policy</string>
     <string name="pref_title_changelog">Changelog</string>
     <string name="pref_title_sort_by">Sorting by</string>
+    <string name="pref_title_dark_mode">Dark Mode</string>
+    <string name="pref_title_time_format">Time format</string>
+    <string name="pref_title_date_format">Date format</string>
     <string name="pref_title_open_source_licences">Open-source licences</string>
     <string name="pref_title_add_widget">Add home screen widget</string>
     <string name="pref_title_share_friend">Share with friends</string>
@@ -64,6 +67,16 @@
         <item>@string/order_title_z_to_a</item>
         <item>@string/order_end_time_ascending</item>
         <item>@string/order_end_time_descending</item>
+    </string-array>
+    <string-array name="night_theme_mode_values">
+        <item>@string/dark_mode_on</item>
+        <item>@string/dark_mode_off</item>
+        <item>@string/dark_mode_system_default</item>
+    </string-array>
+    <string-array name="night_theme_mode_titles">
+        <item>On</item>
+        <item>Off</item>
+        <item>System default</item>
     </string-array>
 
     <!--Bottom navigation titles-->

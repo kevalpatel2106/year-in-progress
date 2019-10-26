@@ -1,14 +1,21 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
 import android.app.Activity
+import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.settings.SettingsUseCase
 import javax.inject.Inject
 
 internal class SettingsViewModel @Inject internal constructor(
+    private val application: Application,
+    private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val _viewState = MutableLiveData<SettingsFragmentViewState>(
@@ -18,6 +25,7 @@ internal class SettingsViewModel @Inject internal constructor(
 
     init {
         monitorPurchaseStatus()
+        monitorDarkModeSettings()
     }
 
     private fun monitorPurchaseStatus() {
@@ -32,5 +40,15 @@ internal class SettingsViewModel @Inject internal constructor(
 
     internal fun refreshPurchaseState(activity: Activity) {
         billingRepo.refreshPurchaseState(activity)
+    }
+
+    private fun monitorDarkModeSettings() {
+        sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
+            .subscribe { darkModeSettings ->
+                AppCompatDelegate.setDefaultNightMode(
+                    SettingsUseCase.getNightModeSettings(application, darkModeSettings)
+                )
+            }
+            .addTo(compositeDisposable)
     }
 }

@@ -37,7 +37,7 @@
         <!--Divider-->
         <item name="android:dividerHeight">@dimen/divider_height</item>
         <item name="android:listDivider">@drawable/list_divider</item>
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
 
         <!--Seekbar-->
         <item name="android:seekBarStyle">@style/YipTheme.Seekbar</item>

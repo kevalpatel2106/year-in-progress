@@ -8,6 +8,8 @@
     <color name="colorAccent">#EF6191</color>
     <color name="colorAccentLight">#FA5788</color>
 
+    <color name="colorControlNormal">#111</color>
+
     <!--text colors-->
     <color name="colorPrimaryText">#111</color>
     <color name="colorSecondaryText">#888888</color>

@@ -18,7 +18,7 @@
             android:entryValues="@array/date_format_values"
             android:icon="@drawable/ic_date_range"
             android:key="@string/pref_key_date_format"
-            android:title="Date format" />
+            android:title="@string/pref_title_date_format" />
 
         <androidx.preference.ListPreference
             android:defaultValue="hh:mm a"
@@ -26,7 +26,15 @@
             android:entryValues="@array/time_format_values"
             android:icon="@drawable/ic_clock"
             android:key="@string/pref_key_time_format"
-            android:title="Time format" />
+            android:title="@string/pref_title_time_format" />
+
+        <androidx.preference.ListPreference
+            android:defaultValue="@string/dark_mode_system_default"
+            android:entries="@array/night_theme_mode_titles"
+            android:entryValues="@array/night_theme_mode_values"
+            android:icon="@drawable/ic_dark_mode"
+            android:key="@string/pref_key_dark_mode"
+            android:title="@string/pref_title_dark_mode" />
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory android:title="@string/widget_header">
