@@ -24,7 +24,8 @@ class GetNightModeSettingsTests(private val darkModeInt: Int, private val darkMo
                 arrayOf(AppCompatDelegate.MODE_NIGHT_YES, "dark_mode_on"),
                 arrayOf(AppCompatDelegate.MODE_NIGHT_NO, "dark_mode_off"),
                 arrayOf(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, "dark_mode_auto"),
-                arrayOf(AppCompatDelegate.MODE_NIGHT_NO, null)
+                arrayOf(AppCompatDelegate.MODE_NIGHT_NO, null),
+                arrayOf(AppCompatDelegate.MODE_NIGHT_NO, "random_string")
             )
         }
     }

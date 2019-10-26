@@ -12,6 +12,7 @@ import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepoImpl
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.SharedPrefsProviderImpl
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
 import com.kevalpatel2106.yip.repo.utils.Validator
 import dagger.Module
@@ -68,7 +69,7 @@ class RepositoryModule(private val application: Application) {
     @Singleton
     @Provides
     fun provideSharedPrefs(): SharedPrefsProvider {
-        return SharedPrefsProvider(PreferenceManager.getDefaultSharedPreferences(application))
+        return SharedPrefsProviderImpl(PreferenceManager.getDefaultSharedPreferences(application))
     }
 
     @Singleton

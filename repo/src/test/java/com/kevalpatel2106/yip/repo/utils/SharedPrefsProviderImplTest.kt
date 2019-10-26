@@ -17,7 +17,7 @@ import org.robolectric.RuntimeEnvironment
  * Test class for [SharedPrefsProvider].
  */
 @RunWith(RobolectricTestRunner::class)
-class SharedPrefsProviderTest {
+class SharedPrefsProviderImplTest {
     private val testKey = "test_key"
     private lateinit var mockSharedPreference: SharedPreferences
     private lateinit var sharedPrefsProvider: SharedPrefsProvider
@@ -28,7 +28,7 @@ class SharedPrefsProviderTest {
         mockSharedPreference = PreferenceManager.getDefaultSharedPreferences(
             RuntimeEnvironment.application
         )
-        sharedPrefsProvider = SharedPrefsProvider(mockSharedPreference)
+        sharedPrefsProvider = SharedPrefsProviderImpl(mockSharedPreference)
     }
 
     @Test
