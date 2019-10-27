@@ -63,7 +63,8 @@ class ProgressAdapterDiffCallbackTest {
                     arrayOf(progressItem1, progressItem2, false),
                     arrayOf(PaddingItem, progressItem1, false),
                     arrayOf(LoadingRepresentable, progressItem1, false),
-                    arrayOf(AdsItem, progressItem1, false)
+                    arrayOf(AdsItem, progressItem1, false),
+                    arrayOf(AdsItem, LoadingRepresentable, false)
                 )
             }
         }
@@ -137,7 +138,8 @@ class ProgressAdapterDiffCallbackTest {
                     arrayOf(progressItem, progressItemDiffColor, false),
                     arrayOf(PaddingItem, progressItem, false),
                     arrayOf(LoadingRepresentable, progressItem, false),
-                    arrayOf(AdsItem, progressItem, false)
+                    arrayOf(AdsItem, progressItem, false),
+                    arrayOf(AdsItem, LoadingRepresentable, false)
                 )
             }
         }
