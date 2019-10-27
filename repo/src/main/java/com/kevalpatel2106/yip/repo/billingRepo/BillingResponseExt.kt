@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.kevalpatel2106.yip.repo.R
 
@@ -14,41 +15,42 @@ internal fun prepareBillingClient(
     return BillingClient
         .newBuilder(activity)
         .setListener(purchasesUpdatedListener)
+        .enablePendingPurchases()
         .build()
 }
 
-internal fun isBillingCodeSuccess(@BillingClient.BillingResponse responseCode: Int): Boolean {
-    return responseCode == BillingClient.BillingResponse.OK
+internal fun isBillingCodeSuccess(billingResult: BillingResult): Boolean {
+    return billingResult.responseCode == BillingClient.BillingResponseCode.OK
 }
 
 @SuppressLint("SwitchIntDef,ComplexMethod")
-internal fun getPaymentMessage(context: Context, @BillingClient.BillingResponse responseCode: Int): String {
-    return when (responseCode) {
-        BillingClient.BillingResponse.OK -> {
+internal fun getPaymentMessage(context: Context, billingResult: BillingResult): String {
+    return when (billingResult.responseCode) {
+        BillingClient.BillingResponseCode.OK -> {
             context.getString(R.string.billing_code_ok)
         }
-        BillingClient.BillingResponse.ITEM_ALREADY_OWNED -> {
+        BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
             context.getString(R.string.billing_code_already_purchased)
         }
-        BillingClient.BillingResponse.DEVELOPER_ERROR -> {
+        BillingClient.BillingResponseCode.DEVELOPER_ERROR -> {
             context.getString(R.string.billing_code_dev_error)
         }
-        BillingClient.BillingResponse.ITEM_UNAVAILABLE -> {
+        BillingClient.BillingResponseCode.ITEM_UNAVAILABLE -> {
             context.getString(R.string.billing_code_item_unavailable)
         }
-        BillingClient.BillingResponse.FEATURE_NOT_SUPPORTED -> {
+        BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> {
             context.getString(R.string.billing_code_not_supported)
         }
-        BillingClient.BillingResponse.BILLING_UNAVAILABLE -> {
+        BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
             context.getString(R.string.billing_code_unavailable)
         }
-        BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> {
+        BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
             context.getString(R.string.billing_code_service_unavailable)
         }
-        BillingClient.BillingResponse.SERVICE_DISCONNECTED -> {
+        BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> {
             context.getString(R.string.billing_code_service_disconnected)
         }
-        BillingClient.BillingResponse.USER_CANCELED -> {
+        BillingClient.BillingResponseCode.USER_CANCELED -> {
             context.getString(R.string.billing_code_user_cancel)
         }
         else -> context.getString(R.string.billing_code_generic_error)

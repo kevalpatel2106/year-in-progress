@@ -22,6 +22,9 @@ internal class SettingsViewModel @Inject internal constructor(
     )
     internal val viewState: LiveData<SettingsFragmentViewState> = _viewState
 
+    private val _darkModeSettings = MutableLiveData<Int>()
+    internal val darkModeSettings: LiveData<Int> = _darkModeSettings
+
     init {
         monitorPurchaseStatus()
         monitorDarkModeSettings()
@@ -43,17 +46,13 @@ internal class SettingsViewModel @Inject internal constructor(
 
     private fun monitorDarkModeSettings() {
         sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
+            .distinctUntilChanged()
             .subscribe { darkModeSettings ->
                 val darkModeSettingsInt = SettingsUseCase.getNightModeSettings(
                     context = application,
                     darkModeSettings = darkModeSettings
                 )
-
-                if (_viewState.value?.darkModeSettings != darkModeSettingsInt) {
-                    _viewState.value = _viewState.value?.copy(
-                        darkModeSettings = darkModeSettingsInt
-                    )
-                }
+                _darkModeSettings.value = darkModeSettingsInt
             }
             .addTo(compositeDisposable)
     }

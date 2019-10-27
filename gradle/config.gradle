@@ -32,7 +32,7 @@ ext {
             'mockito'          : "3.0.0",
             'preference'       : '1.1.0',
             'rxPreferences'    : '2.0.0',
-            'billingclient'    : '1.2',
+            'billingclient'    : '2.0.3',
             'inboxrecyclerview': '2.0.0-beta3',
             'debugdrawer'      : '0.8.0',
             'navVersion'       : "2.1.0"

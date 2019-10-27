@@ -71,7 +71,9 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             versionPref?.summary = it.versionPreferenceSummary
             buyProPref?.isEnabled = it.isBuyProClickable
             buyProPrefHeader?.isVisible = it.isBuyProVisible
-            AppCompatDelegate.setDefaultNightMode(it.darkModeSettings)
+        }
+        model.darkModeSettings.nullSafeObserve(this) { darkModeSettings ->
+            AppCompatDelegate.setDefaultNightMode(darkModeSettings)
         }
     }
 

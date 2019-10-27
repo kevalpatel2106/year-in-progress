@@ -5,8 +5,10 @@ import android.app.Application
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.SkuDetailsParams
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import io.reactivex.Single
@@ -19,55 +21,32 @@ internal class BillingRepoImpl(
 ) : BillingRepo {
 
     override fun refreshPurchaseState(activity: Activity, sku: String) {
-        prepareBillingClient(
+        val billingClient = prepareBillingClient(
             activity,
-            PurchasesUpdatedListener { _, _ -> /* Do nothing */ }).apply {
-
-            startConnection(object : BillingClientStateListener {
-
-                override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
-                    if (isBillingCodeSuccess(billingResponseCode)) {
-                        checkIsPurchased(this@apply, sku)
-                    } else {
-                        isPurchased.onNext(false)
-                    }
+            PurchasesUpdatedListener { _, _ -> /* Do nothing */ }
+        )
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (isBillingCodeSuccess(billingResult)) {
+                    billingClient.checkIsPurchased(sku)
+                } else {
+                    isPurchased.onNext(false)
                 }
+            }
 
-                override fun onBillingServiceDisconnected() {
-                    // IAP service connection failed.
-                    isPurchased.onNext(
-                        sharedPrefsProvider.getBoolFromPreference(
-                            IS_PRO_KEY,
-                            false
-                        )
-                    )
-                }
-            })
-        }
+            override fun onBillingServiceDisconnected() {
+                isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
+            }
+        })
     }
 
-    private fun checkIsPurchased(billingClient: BillingClient, sku: String) {
-        // Go to offline caching
-        // It's fast and synchronous
-        val purchaseResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (isBillingCodeSuccess(purchaseResult.responseCode) &&
-            purchaseResult.purchasesList?.isNotEmpty() == true
-        ) {
+    private fun BillingClient.checkIsPurchased(sku: String) {
+        checkIsPurchasedOffline(sku)
+        checkIsPurchasedOnline(sku)
+    }
 
-            val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
-            sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
-            isPurchased.onNext(isPro)
-        } else {
-            isPurchased.onNext(
-                sharedPrefsProvider.getBoolFromPreference(
-                    IS_PRO_KEY,
-                    false
-                )
-            )
-        }
-
-        // Go check and update online status
-        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
+    private fun BillingClient.checkIsPurchasedOnline(sku: String) {
+        queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
             if (isBillingCodeSuccess(responseCode)) {
 
                 // Update base on online status.
@@ -80,14 +59,27 @@ internal class BillingRepoImpl(
         }
     }
 
+    private fun BillingClient.checkIsPurchasedOffline(sku: String) {
+        val purchaseResult = queryPurchases(BillingClient.SkuType.INAPP)
+        if (isBillingCodeSuccess(purchaseResult.billingResult) &&
+            purchaseResult.purchasesList?.isNotEmpty() == true
+        ) {
+            val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
+            sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
+            isPurchased.onNext(isPro)
+        } else {
+            isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
+        }
+    }
+
     override fun purchase(activity: Activity?, sku: String): Single<String> {
         return Single.create<Purchase> { emitter ->
 
-            val billingClient: BillingClient = prepareBillingClient(
+            val billingClient = prepareBillingClient(
                 activity = activity!!,
-                purchasesUpdatedListener = PurchasesUpdatedListener { responseCode, purchases ->
+                purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
 
-                    if (isBillingCodeSuccess(responseCode)) {
+                    if (isBillingCodeSuccess(billingResult)) {
 
                         val purchasedSku = purchases?.find { it.sku == sku }
                         if (purchasedSku != null) {
@@ -96,111 +88,60 @@ internal class BillingRepoImpl(
                             emitter.tryOnError(Exception("Purchase failed. Please try again."))
                         }
                     } else {
-
-                        // If the item already owned...don't worry. We will consume it.
-                        if (responseCode != BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
-                            emitter.tryOnError(
-                                Exception(
-                                    getPaymentMessage(
-                                        application,
-                                        responseCode
-                                    )
-                                )
-                            )
-                        }
+                        emitter.tryOnError(Exception(getPaymentMessage(application, billingResult)))
                         return@PurchasesUpdatedListener
                     }
                 }
             )
 
             billingClient.startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(@BillingClient.BillingResponse responseCode: Int) {
-                    if (!isBillingCodeSuccess(responseCode)) {
-                        emitter.tryOnError(Exception(getPaymentMessage(application, responseCode)))
+
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (isBillingCodeSuccess(billingResult)) {
+                        billingClient.buyNewProduct(activity, sku, emitter)
                     } else {
-                        consumeOrPurchase(billingClient, emitter, sku, activity)
+                        emitter.tryOnError(Exception(getPaymentMessage(application, billingResult)))
                     }
                 }
 
                 override fun onBillingServiceDisconnected() {
                     //IAP service connection failed.
+                    val serviceDisconnectErrorCode = BillingResult.newBuilder()
+                        .setResponseCode(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED)
+                        .build()
                     emitter.tryOnError(
-                        Exception(
-                            getPaymentMessage(
-                                application,
-                                BillingClient.BillingResponse.SERVICE_DISCONNECTED
-                            )
-                        )
+                        Exception(getPaymentMessage(application, serviceDisconnectErrorCode))
                     )
                 }
             })
-        }.doAfterSuccess {
-            isPurchased.onNext(true)
-        }.map {
-            sku
-        }.subscribeOn(RxSchedulers.main)
+        }.doAfterSuccess { isPurchased.onNext(true) }
+            .map { sku }
+            .subscribeOn(RxSchedulers.main)
     }
 
-    private fun consumeOrPurchase(
-        billingClient: BillingClient,
-        emitter: SingleEmitter<Purchase>,
-        sku: String,
-        activity: Activity
-    ) {
-        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { queryCode, purchases ->
-            if (!isBillingCodeSuccess(queryCode)) {
-                emitter.tryOnError(Exception(getPaymentMessage(application, queryCode)))
-                return@queryPurchaseHistoryAsync
-            }
-
-            // Check if this SKU purchased previously?
-            val previousPurchasedProduct = purchases?.findLast { it.sku == sku }
-            if (previousPurchasedProduct != null) {
-
-                billingClient.consumeAsync(previousPurchasedProduct.purchaseToken) { consumeCode, _ ->
-                    when (consumeCode) {
-                        BillingClient.BillingResponse.ITEM_NOT_OWNED -> {
-                            // Item is not to consume
-                            buyNewProduct(billingClient, activity, sku, emitter)
-                        }
-                        BillingClient.BillingResponse.OK -> {
-                            emitter.onSuccess(previousPurchasedProduct)
-                        }
-                        else -> {
-                            emitter.tryOnError(
-                                Exception(
-                                    getPaymentMessage(
-                                        application,
-                                        consumeCode
-                                    )
-                                )
-                            )
-                        }
-                    }
-                }
-            } else {
-                // No product bought before.
-                buyNewProduct(billingClient, activity, sku, emitter)
-            }
-        }
-    }
-
-    private fun buyNewProduct(
-        billingClient: BillingClient,
+    private fun BillingClient.buyNewProduct(
         activity: Activity,
         sku: String,
         emitter: SingleEmitter<Purchase>
     ) {
-        // Initiate the purchase flow
-        @Suppress("DEPRECATION")
-        val purchaseParams = BillingFlowParams.newBuilder()
-            .setSku(sku)
+        val params = SkuDetailsParams.newBuilder()
+            .setSkusList(listOf(sku))
             .setType(BillingClient.SkuType.INAPP)
-            .build()
+        querySkuDetailsAsync(params.build()) { billingResult, skuDetailsList ->
 
-        val launchCode = billingClient.launchBillingFlow(activity, purchaseParams)
-        if (!isBillingCodeSuccess(launchCode)) {
-            emitter.tryOnError(Exception(getPaymentMessage(application, launchCode)))
+            if (!isBillingCodeSuccess(billingResult)) {
+                emitter.tryOnError(Exception(getPaymentMessage(application, billingResult)))
+                return@querySkuDetailsAsync
+            }
+
+            // Buy SKU
+            val purchaseParams = BillingFlowParams.newBuilder()
+                .setSkuDetails(skuDetailsList[0])
+                .build()
+            val buyResult = launchBillingFlow(activity, purchaseParams)
+            if (!isBillingCodeSuccess(buyResult)) {
+                emitter.tryOnError(Exception(getPaymentMessage(application, buyResult)))
+            }
         }
     }
 
