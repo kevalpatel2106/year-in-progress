@@ -6,7 +6,9 @@
 
 | Dashboard | Edit progress | Progress Detail | Settings |
 |:----:|:----: |:----:|:----:|
-| ![screen 1](https://github.com/kevalpatel2106/year-in-progress/blob/master/.github/image/SS_dashboard.png) | ![screen 2](https://github.com/kevalpatel2106/year-in-progress/blob/master/.github/image/SS_edit.png) | ![screen 3](https://github.com/kevalpatel2106/year-in-progress/blob/master/.github/image/SS_detail.png) | ![screen 4](https://github.com/kevalpatel2106/year-in-progress/blob/master/.github/image/SS_settings.png) |
+| ![screen 1](https://user-images.githubusercontent.com/20060162/67786228-6cc57980-fa66-11e9-86cc-1e67cde1c39d.png) | ![screen 2](https://user-images.githubusercontent.com/20060162/67786297-8cf53880-fa66-11e9-956a-196c6bfa809e.png) | ![screen 3](https://user-images.githubusercontent.com/20060162/67786263-7fd84980-fa66-11e9-95e3-542d7fad69cf.png) | ![screen 4](https://user-images.githubusercontent.com/20060162/67786347-a302f900-fa66-11e9-8d0b-3042d109b6bc.png) |
+| ![screen 1](https://user-images.githubusercontent.com/20060162/67786241-74851e00-fa66-11e9-9daa-714e2908c1c9.png) | ![screen 2](https://user-images.githubusercontent.com/20060162/67786321-98486400-fa66-11e9-8448-7d038efd1320.png) | ![screen 3](https://user-images.githubusercontent.com/20060162/67786270-836bd080-fa66-11e9-9a84-753bdc89d649.png) | ![screen 4](https://user-images.githubusercontent.com/20060162/67786358-a72f1680-fa66-11e9-8854-79a23d384e10.png) |
+
 
 ## What to try this out?
 - You can download from [Play Store](https://play.google.com/store/apps/details?id=com.kevalpatel2106.yip) and play with it.
