@@ -41,6 +41,7 @@ class DetailViewStateInitialStateTest {
         assertNotNull(initialState.cardBackground)
         assertEquals(ProgressFlipper.POS_TIME_LEFT, initialState.detailFlipperPosition)
         assertFalse(initialState.isDeletingProgress)
+        assertFalse(initialState.showRepeatable)
         assertEquals(0, initialState.progressPercent)
         assertEquals(emptyString(), initialState.progressPercentText)
         assertEquals(Color.GRAY, initialState.progressColor)

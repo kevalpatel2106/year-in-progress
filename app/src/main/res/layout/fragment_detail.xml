@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,26 +14,25 @@
             type="com.kevalpatel2106.yip.detail.DetailFragment" />
     </data>
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_fab_margin"
-        android:paddingEnd="@dimen/spacing_micro"
+        android:orientation="vertical"
         android:paddingStart="@dimen/spacing_micro"
-        android:orientation="vertical">
+        android:paddingEnd="@dimen/spacing_micro">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/detail_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_nano"
             android:layout_marginStart="@dimen/spacing_nano"
             android:layout_marginTop="@dimen/spacing_micro"
+            android:layout_marginEnd="@dimen/spacing_nano"
             android:background="@{viewModel.viewState.cardBackground}"
             app:cardCornerRadius="@dimen/spacing_micro"
             app:cardElevation="@dimen/spacing_micro"
-            app:contentPaddingBottom="@dimen/spacing_xlarge"
+            app:contentPaddingBottom="@dimen/spacing_small"
             tools:cardBackgroundColor="@color/colorPrimaryLight">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,17 +46,17 @@
                     android:layout_alignParentEnd="true"
                     android:clickable="@{!viewModel.viewState.isDeletingProgress}"
                     android:onClick="@{() -> view.showDetailOptions()}"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_overflow" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/detail_close_iv"
                     style="@style/DetailToolbarButtonStyle"
                     android:layout_alignParentStart="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:onClick="@{() -> view.closeDetail()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_close" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -63,9 +64,9 @@
                     style="@style/LargeText.White"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:layout_marginStart="@dimen/spacing_micro"
                     android:layout_marginTop="@dimen/spacing_micro"
+                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:fontFamily="@font/lato"
                     android:gravity="center"
                     android:maxLines="2"
@@ -74,6 +75,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_close_iv"
                     tools:text="@tools:sample/lorem/random" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:tint="@android:color/white"
+                    android:visibility="@{viewModel.viewState.showRepeatable}"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_title_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
+                    app:srcCompat="@drawable/ic_repeat" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/detail_progress_percent_tv"
@@ -96,9 +108,9 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_micro"
-                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:layout_marginStart="@dimen/spacing_micro"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:max="100"
                     android:progress="@{viewModel.viewState.progressPercent}"
                     android:progressTint="@android:color/white"
@@ -113,9 +125,9 @@
                     style="@style/SmallText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:layout_marginStart="@dimen/spacing_micro"
                     android:layout_marginTop="@dimen/spacing_micro"
+                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:fontFamily="@font/lato"
                     android:text="@{viewModel.viewState.progressStartTimeText}"
                     app:layout_constraintStart_toStartOf="parent"
@@ -127,9 +139,9 @@
                     style="@style/SmallText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:layout_marginStart="@dimen/spacing_micro"
                     android:layout_marginTop="@dimen/spacing_micro"
+                    android:layout_marginEnd="@dimen/spacing_micro"
                     android:fontFamily="@font/lato"
                     android:text="@{viewModel.viewState.progressEndTimeText}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -141,9 +153,9 @@
         <ViewFlipper
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_nano"
             android:layout_marginStart="@dimen/spacing_nano"
             android:layout_marginTop="@dimen/spacing_xlarge"
+            android:layout_marginEnd="@dimen/spacing_nano"
             app:displayChild="@{viewModel.viewState.detailFlipperPosition.value}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -178,8 +190,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:gravity="center"
-                    android:paddingEnd="@dimen/spacing_small"
                     android:paddingStart="@dimen/spacing_small"
+                    android:paddingEnd="@dimen/spacing_small"
                     android:text="@string/detail_progress_complete_title"
                     android:textColor="@{viewModel.viewState.progressColor}"
                     android:textStyle="bold" />
@@ -190,8 +202,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:gravity="center"
-                    android:paddingEnd="@dimen/spacing_small"
                     android:paddingStart="@dimen/spacing_small"
+                    android:paddingEnd="@dimen/spacing_small"
                     android:text="@string/detail_progress_complete_message" />
 
                 <com.google.android.material.button.MaterialButton

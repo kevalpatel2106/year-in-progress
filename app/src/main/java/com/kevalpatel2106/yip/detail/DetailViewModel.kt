@@ -11,6 +11,7 @@ import com.kevalpatel2106.yip.core.emptySpannableString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
+import com.kevalpatel2106.yip.entity.isRepeatable
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.utils.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
@@ -65,6 +66,7 @@ internal class DetailViewModel @Inject internal constructor(
                     progressEndTimeText = sdf.format(item.end),
                     progressStartTimeText = sdf.format(item.start),
                     progressColor = progressThemeColor,
+                    showRepeatable = item.progressType.isRepeatable(),
 
                     detailFlipperPosition = if (isProgressComplete) {
                         ProgressFlipper.POS_SHARE_PROGRESS
