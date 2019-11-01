@@ -1,17 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="BaseAppTheme" parent="Theme.MaterialComponents.Light" />
+    <style name="YipTheme.Base" parent="Theme.MaterialComponents.Light" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseAppTheme">
+    <style name="YipTheme" parent="YipTheme.Base">
         <!--Brand theme-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
@@ -40,16 +33,18 @@
         <item name="colorControlNormal">@color/colorControlNormal</item>
 
         <!--Seekbar-->
-        <item name="android:seekBarStyle">@style/YipTheme.Seekbar</item>
-        <item name="seekBarStyle">@style/YipTheme.Seekbar
+        <item name="android:seekBarStyle">@style/YipComponentTheme.Seekbar</item>
+        <item name="seekBarStyle">@style/YipComponentTheme.Seekbar
         </item> <!--This is essential for some devices, e.g. Samsung-->
 
         <!--Alert dialog-->
-        <item name="materialAlertDialogTheme">@style/YipTheme.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
+        <item name="bottomSheetDialogTheme">@style/YipComponentTheme.RoundedBottomSheetDialog</item>
+        <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
     </style>
 
     <!--Seekbar-->
-    <style name="YipTheme.Seekbar" parent="Widget.AppCompat.SeekBar">
+    <style name="YipComponentTheme.Seekbar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressBackgroundTint">@color/colorAccentLight</item>
         <item name="android:thumbTint">@color/colorAccent</item>
         <item name="android:thumbTintMode">src_in</item>
@@ -57,7 +52,7 @@
     </style>
 
     <!--Alert dialogs-->
-    <style name="YipTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="YipComponentTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_micro</item>
         <item name="buttonBarNegativeButtonStyle">@style/ButtonBarNegativeButtonStyle</item>
@@ -75,5 +70,17 @@
 
     <style name="ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--Bottom sheet dialog theme-->
+    <style name="YipComponentTheme.RoundedBottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
+    </style>
+
+    <style name="YipComponentTheme.RoundedBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimAmount">0.0</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
     </style>
 </resources>

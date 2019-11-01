@@ -98,7 +98,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/appCompatTextView2"
-                    style="@style/ProBenefitTextStyle"
+                    style="@style/PaymentScreenProBenefitTextStyle"
                     android:drawableStart="@drawable/ic_ads"
                     android:text="@string/pro_benefit_no_ads"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/appCompatTextView3"
-                    style="@style/ProBenefitTextStyle"
+                    style="@style/PaymentScreenProBenefitTextStyle"
                     android:drawableStart="@drawable/ic_priority"
                     android:text="@string/pro_benefit_change_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +116,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/appCompatTextView4"
-                    style="@style/ProBenefitTextStyle"
+                    style="@style/PaymentScreenProBenefitTextStyle"
                     android:drawableStart="@drawable/ic_notification_bell_colored"
                     android:text="@string/pro_benefit_notification"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +124,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/ProBenefitTextStyle"
+                    style="@style/PaymentScreenProBenefitTextStyle"
                     android:drawableStart="@drawable/ic_heart_red"
                     android:text="@string/pro_benefit_support_dev"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -27,27 +27,26 @@ internal class BottomNavigationDialog : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.dialog_bottom_navigation, container, false)
     }
 
-    override fun getTheme(): Int = R.style.RoundedBottomSheetDialogTheme
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navigation_drawer_option_settings.setOnClickListener {
-            SettingsActivity.launch(requireContext())
-            dismiss()
-        }
-        navigation_drawer_option_feedback.setOnClickListener {
-            context?.sendMailToDev()
-            dismiss()
-        }
-        navigation_drawer_option_rate.setOnClickListener {
-            context?.openPlayStorePage()
-            dismiss()
-        }
+        navigation_drawer_option_settings.setOnClickListener(::handleClick)
+        navigation_drawer_option_feedback.setOnClickListener(::handleClick)
+        navigation_drawer_option_rate.setOnClickListener(::handleClick)
         setDebugOptions()
+    }
+
+    private fun handleClick(viewClicked: View) {
+        when (viewClicked) {
+            navigation_drawer_option_settings -> SettingsActivity.launch(requireContext())
+            navigation_drawer_option_feedback -> context?.sendMailToDev()
+            navigation_drawer_option_rate -> context?.openPlayStorePage()
+            navigation_drawer_option_debug -> DebugActivity.launch(requireContext())
+        }
+        dismiss()
     }
 
     private fun setDebugOptions() {
         navigation_drawer_option_debug.showOrHide(BuildConfig.DEBUG)
-        navigation_drawer_option_debug.setOnClickListener { DebugActivity.launch(requireContext()) }
+        navigation_drawer_option_debug.setOnClickListener(::handleClick)
     }
 }

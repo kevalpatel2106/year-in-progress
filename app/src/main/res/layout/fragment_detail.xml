@@ -42,7 +42,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/option_menu"
-                    style="@style/DetailToolbarButtonStyle"
+                    style="@style/DetailScreenToolbarButtonStyle"
                     android:layout_alignParentEnd="true"
                     android:clickable="@{!viewModel.viewState.isDeletingProgress}"
                     android:onClick="@{() -> view.showDetailOptions()}"
@@ -52,7 +52,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/detail_close_iv"
-                    style="@style/DetailToolbarButtonStyle"
+                    style="@style/DetailScreenToolbarButtonStyle"
                     android:layout_alignParentStart="true"
                     android:onClick="@{() -> view.closeDetail()}"
                     app:layout_constraintStart_toStartOf="parent"

@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="RoundedBottomSheetStyle" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
-    </style>
-
-    <style name="RoundedBottomSheetDialogTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="bottomSheetStyle">@style/RoundedBottomSheetStyle</item>
-    </style>
-
+    <!--Dashboard screen-->
     <style name="DashboardListCard">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -55,7 +47,7 @@
     </style>
 
     <!--Payment screen-->
-    <style name="ProBenefitTextStyle" parent="MediumText.Primary">
+    <style name="PaymentScreenProBenefitTextStyle" parent="MediumText.Primary">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginTop">@dimen/spacing_small</item>
         <item name="android:layout_height">wrap_content</item>
@@ -64,7 +56,7 @@
     </style>
 
     <!--Detail screen-->
-    <style name="DetailToolbarButtonStyle">
+    <style name="DetailScreenToolbarButtonStyle">
         <item name="android:layout_width">@dimen/spacing_xxlarge</item>
         <item name="android:layout_height">@dimen/spacing_xxlarge</item>
         <item name="android:layout_alignParentTop">true</item>
@@ -73,6 +65,7 @@
         <item name="android:tint">@color/icon_color</item>
     </style>
 
+    <!--Bottom navigation themes-->
     <style name="BottomDrawerOptions" parent="MediumText.White">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
