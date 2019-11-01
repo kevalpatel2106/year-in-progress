@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.getkeepsafe.dexcount'
 
@@ -20,7 +19,6 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-ads:18.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
-    releaseImplementation 'com.google.firebase:firebase-perf:19.0.1'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Debug libs
