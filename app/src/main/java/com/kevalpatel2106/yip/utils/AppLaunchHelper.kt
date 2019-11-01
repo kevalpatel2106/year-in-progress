@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.utils
 
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.TaskStackBuilder
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
@@ -9,9 +10,14 @@ import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.splash.SplashActivity
 
 internal object AppLaunchHelper {
-    private const val ACTION_CREATE_PROGRESS = "com.kevalpatel2106.yip.create_new"
-    private const val ACTION_LAUNCH_WITH_PROGRESS = "com.kevalpatel2106.yip.open_progress"
-    private const val ARG_PROGRESS_ID = "progress_id_to_launch"
+    @VisibleForTesting
+    internal const val ACTION_CREATE_PROGRESS = "com.kevalpatel2106.yip.create_new"
+
+    @VisibleForTesting
+    internal  const val ACTION_LAUNCH_WITH_PROGRESS = "com.kevalpatel2106.yip.open_progress"
+
+    @VisibleForTesting
+    internal  const val ARG_PROGRESS_ID = "progress_id_to_launch"
 
     internal fun launchWithProgressDetail(
         context: Context,

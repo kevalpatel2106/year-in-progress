@@ -40,6 +40,13 @@
     public static *** w(...);
     public static *** e(...);
 }
+# Proguard configuration for removing timbers
+-assumenosideeffects class timber.log.Timber {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+}
 -assumenosideeffects class java.io.PrintStream {
      public void println(%);
      public void println(**);

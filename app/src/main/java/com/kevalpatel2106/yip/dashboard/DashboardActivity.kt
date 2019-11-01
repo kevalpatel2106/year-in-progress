@@ -84,9 +84,10 @@ internal class DashboardActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val detailId =
-            intent?.getLongExtra(ARG_PROGRESS_DETAIL_ID, DashboardViewModel.RESET_COLLAPSED_ID)
-                ?: DashboardViewModel.RESET_COLLAPSED_ID
+        val detailId = intent?.getLongExtra(
+            ARG_PROGRESS_DETAIL_ID,
+            DashboardViewModel.RESET_COLLAPSED_ID
+        ) ?: DashboardViewModel.RESET_COLLAPSED_ID
         if (detailId > 0) model.userWantsToOpenDetail(detailId)
     }
 

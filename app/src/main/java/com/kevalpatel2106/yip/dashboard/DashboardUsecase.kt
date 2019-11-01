@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.dashboard
 
+import android.content.Context
 import android.graphics.Color
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.InterstitialAd
@@ -20,7 +21,7 @@ internal fun DashboardActivity.showRatingDialog(rateNow: () -> Unit, neverAsk: (
         .show()
 }
 
-internal fun DashboardActivity.prepareInterstitialAd(): InterstitialAd {
+internal fun Context.prepareInterstitialAd(): InterstitialAd {
     return InterstitialAd(this).apply {
         adUnitId = getString(R.string.detail_interstitial_ad_id)
         adListener = object : AdListener() {

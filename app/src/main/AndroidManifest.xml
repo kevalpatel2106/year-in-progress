@@ -49,6 +49,7 @@
         <activity android:name=".settings.SettingsActivity" />
         <activity
             android:name=".dashboard.DashboardActivity"
+            android:launchMode="singleInstance"
             android:theme="@style/YipTheme.Dashboard" />
 
         <receiver android:name=".widget.ProgressListWidgetProvider">

@@ -13,6 +13,7 @@ import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
+import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.ProgressListRemoteService
 import dagger.Component
@@ -22,12 +23,15 @@ import dagger.android.AndroidInjectionModule
 @Component(
     dependencies = [CoreComponent::class],
     modules = [
+        AppModule::class,
         AndroidInjectionModule::class,
         ViewModelBindings::class,
         BroadcastReceiverBindings::class
     ]
 )
 internal interface AppComponent {
+    fun getAppShortcutHelper(): AppShortcutHelper
+
     fun inject(yipApplication: YIPApplication)
 
     fun inject(splashActivity: SplashActivity)
