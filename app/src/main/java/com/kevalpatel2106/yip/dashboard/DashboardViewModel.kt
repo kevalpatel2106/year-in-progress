@@ -112,6 +112,7 @@ internal class DashboardViewModel @Inject constructor(
             Timber.e(throwable)
 
             // Display error.
+            _progresses.value?.clear()
             _progresses.value?.add(
                 ErrorRepresentable(
                     application.getString(R.string.dashboard_error_loading_progress)
@@ -119,6 +120,7 @@ internal class DashboardViewModel @Inject constructor(
                     monitorProgresses()
                 }
             )
+            _progresses.recall()
         }).addTo(compositeDisposable)
     }
 

@@ -5,7 +5,13 @@ import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
+import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.recyclerview.representable.EmptyRepresentable
+import com.kevalpatel2106.yip.core.recyclerview.representable.ErrorRepresentable
 import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
+import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -14,9 +20,13 @@ import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,15 +36,20 @@ import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.anyFloat
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
+import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
 class DashboardViewModelTest {
+    private val progressMonitorErrorMessage = "test error"
+    private val progressNotFoundMessage = "test error 1"
+    private val noItemsMessage = "noItems"
     private val dayProgress = Progress(
         id = 38465L,
         title = "Test title",
@@ -73,7 +88,6 @@ class DashboardViewModelTest {
         ),
         progressType = ProgressType.CUSTOM
     )
-    private val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
 
     @JvmField
     @Rule
@@ -128,6 +142,12 @@ class DashboardViewModelTest {
         Mockito.`when`(resources.getDimension(anyInt())).thenReturn(2f)
         Mockito.`when`(application.resources).thenReturn(resources)
         Mockito.`when`(application.getString(anyInt(), anyFloat())).thenReturn("55%")
+        Mockito.`when`(application.getString(R.string.dashboard_no_progress_message))
+            .thenReturn(noItemsMessage)
+        Mockito.`when`(application.getString(R.string.dashboard_error_loading_progress))
+            .thenReturn(progressMonitorErrorMessage)
+        Mockito.`when`(application.getString(R.string.error_progress_not_exist))
+            .thenReturn(progressNotFoundMessage)
 
         model = DashboardViewModel(
             application,
@@ -153,9 +173,198 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun checkWithProgressListAndProUser() {
+    fun checkYipItemRepresentableList_WithProgressListAndProUser() {
+        // Set
+        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
         progressListSubject.onNext(testProgressList)
         isPurchasedSubject.onNext(true)
-        // TODO finish and add more tests
+
+        // Check
+        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(progressesCaptor.capture())
+        assertEquals(
+            dayProgress.id,
+            (progressesCaptor.value[0] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            monthProgress.id,
+            (progressesCaptor.value[1] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            yearProgress.id,
+            (progressesCaptor.value[2] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            customProgress.id,
+            (progressesCaptor.value[3] as ProgressListItem).progress.id
+        )
+        assertTrue(progressesCaptor.value[4] is PaddingItem)
+    }
+
+    @Test
+    fun checkYipItemRepresentableList_WithProgressListAndNonProUser() {
+        // Set
+        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
+        progressListSubject.onNext(testProgressList)
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(progressesCaptor.capture())
+        assertEquals(
+            dayProgress.id,
+            (progressesCaptor.value[0] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            monthProgress.id,
+            (progressesCaptor.value[1] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            yearProgress.id,
+            (progressesCaptor.value[2] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            customProgress.id,
+            (progressesCaptor.value[3] as ProgressListItem).progress.id
+        )
+        assertTrue(progressesCaptor.value[4] is AdsItem)
+        assertTrue(progressesCaptor.value[5] is PaddingItem)
+    }
+
+    @Test
+    fun checkYipItemRepresentableList_WithEmptyProgressListAndNonProUser() {
+        // Set
+        val testProgressList = listOf<Progress>()
+        progressListSubject.onNext(testProgressList)
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(progressesCaptor.capture())
+        assertTrue(progressesCaptor.value[0] is EmptyRepresentable)
+    }
+
+    @Test
+    fun checkDynamicShortcutsUpdated_WithProgressListAndNonProUser() {
+        // Set
+        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
+        progressListSubject.onNext(testProgressList)
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(appShortcutHelper, times(1))
+            .updateDynamicShortcuts(testProgressList)
+    }
+
+    @Test
+    fun checkYipItemRepresentableList_WithListWithTwoProgressAndNonProUser() {
+        // Set
+        val testProgressList = listOf(dayProgress, monthProgress)
+        progressListSubject.onNext(testProgressList)
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(progressesCaptor.capture())
+        assertEquals(
+            dayProgress.id,
+            (progressesCaptor.value[0] as ProgressListItem).progress.id
+        )
+        assertEquals(
+            monthProgress.id,
+            (progressesCaptor.value[1] as ProgressListItem).progress.id
+        )
+        assertTrue(progressesCaptor.value[2] is AdsItem)
+        assertTrue(progressesCaptor.value[3] is PaddingItem)
+    }
+
+    @Test
+    fun checkExpandedProcessIdAfterProgressDeleted_WithProgressListAndNonProUser() {
+        // Set
+        val testProgressList = listOf(dayProgress, monthProgress, yearProgress)
+        progressListSubject.onNext(testProgressList)
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandProgressCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+    }
+
+    @Test
+    fun checkYipItemRepresentableList_WhenMonitorProgressFails() {
+        // Set
+        progressListSubject.onError(Throwable(progressMonitorErrorMessage))
+        isPurchasedSubject.onNext(false)
+
+        // Check
+        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(progressesCaptor.capture())
+        assertTrue(progressesCaptor.value.firstOrNull() is ErrorRepresentable)
+    }
+
+    @Test
+    fun checkInitialExpandProgressId() {
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, model.expandProgress.value)
+    }
+
+    @Test
+    fun checkResetExpandedProgress() {
+        model.resetExpandedProgress()
+
+        // Check
+        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandProgressCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+    }
+
+    @Test
+    fun checkIsDetailExpanded_whenProgressExpanded() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        model.userWantsToOpenDetail(dayProgress.id)
+
+        // Check
+        assertTrue(model.isDetailExpanded())
+    }
+
+    @Test
+    fun checkIsDetailExpanded_whenNoProgressExpanded() {
+        // Set
+        model.resetExpandedProgress()
+
+        // Check
+        assertFalse(model.isDetailExpanded())
+    }
+
+    @Test
+    fun checkOpenProgressDetail_whenProgressExists() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        model.userWantsToOpenDetail(dayProgress.id)
+
+        // Check
+        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandProgressCaptor.capture())
+        assertEquals(dayProgress.id, expandProgressCaptor.value)
+    }
+
+    @Test
+    fun checkOpenProgressDetail_whenNotProgressExists() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayProgress.id)
+
+        // Check
+        Mockito.verify(expandProgressObserver, times(INITIAL_TIMES))
+            .onChanged(expandProgressCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+
+        Mockito.verify(userMessagesObserver, times(1)).onChanged(userMessagesCaptor.capture())
+        assertEquals(progressNotFoundMessage, userMessagesCaptor.value)
+    }
+
+    companion object {
+        private const val INITIAL_TIMES = 1
     }
 }
