@@ -11,3 +11,4 @@ enum class ProgressType(val key: Int, val color: ProgressColor) {
 }
 
 fun ProgressType.isPreBuild() = this != ProgressType.CUSTOM
+fun ProgressType.isRepeatable() = this != ProgressType.CUSTOM

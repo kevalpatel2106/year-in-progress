@@ -17,6 +17,7 @@ internal data class DetailViewState(
     val progressEndTimeText: String,
 
     val progressTimeLeftText: SpannableString,
+    val showRepeatable: Boolean,
 
     val isDeletingProgress: Boolean,
     val cardBackground: GradientDrawable?,
@@ -32,6 +33,7 @@ internal data class DetailViewState(
                 detailFlipperPosition = ProgressFlipper.POS_TIME_LEFT,
                 isDeletingProgress = false,
                 progressPercent = 0,
+                showRepeatable = false,
                 progressPercentText = emptyString(),
                 progressStartTimeText = emptyString(),
                 progressTimeLeftText = emptySpannableString(),

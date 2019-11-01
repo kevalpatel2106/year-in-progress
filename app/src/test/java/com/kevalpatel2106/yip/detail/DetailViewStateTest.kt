@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.text.SpannableString
 import com.kevalpatel2106.yip.core.emptyString
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
@@ -38,7 +39,8 @@ class DetailViewStateTest {
             isDeletingProgress = testIsDeletingProgress,
             cardBackground = testCardBackGround,
             progressColor = testProgressColor,
-            detailFlipperPosition = testProgressFlipperPos
+            detailFlipperPosition = testProgressFlipperPos,
+            showRepeatable = false
         )
     }
 
@@ -54,6 +56,7 @@ class DetailViewStateTest {
         assertEquals(testCardBackGround, state.cardBackground)
         assertEquals(testProgressColor, state.progressColor)
         assertEquals(testProgressFlipperPos, state.detailFlipperPosition)
+        assertFalse(state.showRepeatable)
     }
 
     @Test
