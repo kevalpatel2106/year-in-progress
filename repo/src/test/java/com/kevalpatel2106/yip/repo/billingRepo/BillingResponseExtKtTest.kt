@@ -29,6 +29,7 @@ class BillingResponseExtKtTest(private val billingResponseCode: Int, private val
                 arrayOf(BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED, "2"),
                 arrayOf(BillingClient.BillingResponseCode.ITEM_NOT_OWNED, "4"),
                 arrayOf(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED, "6"),
+                arrayOf(BillingClient.BillingResponseCode.ITEM_UNAVAILABLE, "10"),
                 arrayOf(BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE, "7"),
                 arrayOf(BillingClient.BillingResponseCode.USER_CANCELED, "9"),
                 arrayOf(546, "4")   // Generic code
@@ -52,6 +53,7 @@ class BillingResponseExtKtTest(private val billingResponseCode: Int, private val
         Mockito.`when`(context.getString(R.string.billing_code_service_unavailable)).thenReturn("7")
         Mockito.`when`(context.getString(R.string.billing_code_unavailable)).thenReturn("8")
         Mockito.`when`(context.getString(R.string.billing_code_user_cancel)).thenReturn("9")
+        Mockito.`when`(context.getString(R.string.billing_code_item_unavailable)).thenReturn("10")
     }
 
     @Test

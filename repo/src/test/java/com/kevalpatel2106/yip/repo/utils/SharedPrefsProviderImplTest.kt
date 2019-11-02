@@ -2,11 +2,13 @@ package com.kevalpatel2106.yip.repo.utils
 
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -18,6 +20,11 @@ import org.robolectric.RuntimeEnvironment
  */
 @RunWith(RobolectricTestRunner::class)
 class SharedPrefsProviderImplTest {
+
+    @JvmField
+    @Rule
+    val rule = RxSchedulersOverrideRule()
+
     private val testKey = "test_key"
     private lateinit var mockSharedPreference: SharedPreferences
     private lateinit var sharedPrefsProvider: SharedPrefsProvider
@@ -121,5 +128,48 @@ class SharedPrefsProviderImplTest {
         }
 
         assertTrue(sharedPrefsProvider.getIntFromPreference(testKey) == testVal)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun observeStringFromPreference_whenDefaultValueNull() {
+        // Given
+        val testVal = "test"
+        val testObserver = sharedPrefsProvider
+            .observeStringFromPreference(testKey, null)
+            .test()
+
+        // When
+        mockSharedPreference.edit().apply {
+            putString(testKey, testVal)
+            apply()
+        }
+
+        // Check
+        testObserver.assertNotTerminated()
+            .assertValueAt(0) { it.isEmpty() }
+            .assertValueAt(1) { it == testVal }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun observeStringFromPreference_whenDefaultValueNotNull() {
+        // Given
+        val testVal = "test"
+        val defValue = "defValue"
+        val testObserver = sharedPrefsProvider
+            .observeStringFromPreference(testKey, defValue)
+            .test()
+
+        // When
+        mockSharedPreference.edit().apply {
+            putString(testKey, testVal)
+            apply()
+        }
+
+        // Check
+        testObserver.assertNotTerminated()
+            .assertValueAt(0) { it == defValue }
+            .assertValueAt(1) { it == testVal }
     }
 }
