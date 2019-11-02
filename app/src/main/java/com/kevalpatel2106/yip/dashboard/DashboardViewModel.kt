@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.app.Application
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -133,12 +134,15 @@ internal class DashboardViewModel @Inject constructor(
         sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
     }
 
-    internal fun userWantsToOpenDetail(progressId: Long) {
+    internal fun userWantsToOpenDetail(
+        progressId: Long,
+        @VisibleForTesting randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
+    ) {
         progressRepo.isProgressExist(progressId)
             .subscribe({ exist ->
                 if (exist) {
                     _expandProgress.value = progressId
-                    handleRandomEvents()
+                    handleRandomEvents(randomNum)
                 } else {
                     _userMessages.value = application.getString(R.string.error_progress_not_exist)
                 }
@@ -149,21 +153,19 @@ internal class DashboardViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    private fun handleRandomEvents() {
-        Random.nextInt(MAX_RANDOM_NUMBER).let { randomNum ->
-            // Should show rating dialog?
-            if (!sharedPrefsProvider.getBoolFromPreference(
-                    PREF_KEY_NEVER_ASK_RATE,
-                    false
-                ) && randomNum == RANDOM_NUMBER_FOR_RATING
-            ) {
-                _askForRatingSignal.sendSignal()
-            }
+    private fun handleRandomEvents(randomNum: Int) {
+        // Should show rating dialog?
+        if (!sharedPrefsProvider.getBoolFromPreference(
+                PREF_KEY_NEVER_ASK_RATE,
+                false
+            ) && randomNum == RANDOM_NUMBER_FOR_RATING
+        ) {
+            _askForRatingSignal.sendSignal()
+        }
 
-            // Should show ads?
-            if (randomNum == RANDOM_NUMBER_FOR_AD && !billingRepo.isPurchased()) {
-                _showInterstitialAdSignal.sendSignal()
-            }
+        // Should show ads?
+        if (randomNum == RANDOM_NUMBER_FOR_AD && !billingRepo.isPurchased()) {
+            _showInterstitialAdSignal.sendSignal()
         }
     }
 
@@ -177,8 +179,14 @@ internal class DashboardViewModel @Inject constructor(
         internal const val RESET_COLLAPSED_ID = -1L
         private const val MAX_POSITION_OF_AD = 4
         private const val MAX_RANDOM_NUMBER = 14
-        private const val RANDOM_NUMBER_FOR_RATING = 1
-        private const val RANDOM_NUMBER_FOR_AD = 0
-        private const val PREF_KEY_NEVER_ASK_RATE = "pref_key_rated"
+
+        @VisibleForTesting
+        internal const val RANDOM_NUMBER_FOR_RATING = 1
+
+        @VisibleForTesting
+        internal const val RANDOM_NUMBER_FOR_AD = 0
+
+        @VisibleForTesting
+        internal const val PREF_KEY_NEVER_ASK_RATE = "pref_key_rated"
     }
 }

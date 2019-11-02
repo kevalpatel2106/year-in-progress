@@ -40,6 +40,7 @@ import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
 import java.util.Date
@@ -338,7 +339,7 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun checkOpenProgressDetail_whenProgressExists() {
+    fun checkUserMessageAndExpandedId_whenOpenProgressDetail_givenProgressExists() {
         // Set
         Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
         model.userWantsToOpenDetail(dayProgress.id)
@@ -350,7 +351,7 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun checkOpenProgressDetail_whenNotProgressExists() {
+    fun checkUserMessageAndExpandedId_whenOpenProgressDetail_givenProgressNotExist() {
         // Set
         Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
         model.userWantsToOpenDetail(dayProgress.id)
@@ -362,6 +363,123 @@ class DashboardViewModelTest {
 
         Mockito.verify(userMessagesObserver, times(1)).onChanged(userMessagesCaptor.capture())
         assertEquals(progressNotFoundMessage, userMessagesCaptor.value)
+    }
+
+    @Test
+    fun checkUserMessage_whenOpenProgressDetail_givenErrorToFindProgressExists() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong()))
+            .thenReturn(Single.error(Throwable(progressNotFoundMessage)))
+        model.userWantsToOpenDetail(dayProgress.id)
+
+        // Check
+        Mockito.verify(userMessagesObserver, times(1)).onChanged(userMessagesCaptor.capture())
+        assertEquals(progressNotFoundMessage, userMessagesCaptor.value)
+    }
+
+    @Test
+    fun checkPreferences_UserWantsToRateNow() {
+        model.userWantsToRateNow()
+
+        Mockito.verify(sharedPrefsProvider, times(1))
+            .savePreferences(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE, true)
+    }
+
+    @Test
+    fun checkPreferences_UserWantsToNeverRate() {
+        model.userWantsToNeverRate()
+
+        Mockito.verify(sharedPrefsProvider, times(1))
+            .savePreferences(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE, true)
+    }
+
+    @Test
+    fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenAlwaysAllowRatingAndProcessExist() {
+        // Given
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(
+            sharedPrefsProvider.getBoolFromPreference(
+                DashboardViewModel.PREF_KEY_NEVER_ASK_RATE,
+                false
+            )
+        ).thenReturn(false)
+
+        // When
+        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, times(1)).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, never()).onChanged(Unit)
+    }
+
+    @Test
+    fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenNeverAllowRatingAndProcessExist() {
+        // Given
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(
+            sharedPrefsProvider.getBoolFromPreference(
+                DashboardViewModel.PREF_KEY_NEVER_ASK_RATE,
+                false
+            )
+        ).thenReturn(true)
+
+        // When
+        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, never()).onChanged(Unit)
+    }
+
+    @Test
+    fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenProgressNotExist() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, never()).onChanged(Unit)
+    }
+
+    @Test
+    fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenUserIsProAndProcessExist() {
+        // Given
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(billingRepo.isPurchased()).thenReturn(true)
+
+
+        // When
+        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, never()).onChanged(Unit)
+    }
+
+    @Test
+    fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenUserIsNotProAndProcessExist() {
+        // Given
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(billingRepo.isPurchased()).thenReturn(false)
+
+        // When
+        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, times(1)).onChanged(Unit)
+    }
+
+    @Test
+    fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenProgressNotExist() {
+        // Set
+        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+
+        // Check
+        Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
+        Mockito.verify(showInterstitialAdSignalObserver, never()).onChanged(Unit)
     }
 
     companion object {
