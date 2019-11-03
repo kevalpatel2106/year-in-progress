@@ -28,16 +28,15 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @author <a href="https://github.com/kevalpatel2106">kevalpatel2106</a>
  */
-open class SingleLiveEvent<T> : MutableLiveData<T>() {
+class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
 
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        // Observe the internal MutableLiveData
-        super.observe(owner, Observer<T> { t ->
+        super.observe(owner, Observer { t ->
             if (mPending.compareAndSet(true, false)) {
-                t?.let { observer.onChanged(it) }
+                observer.onChanged(t)
             }
         })
     }

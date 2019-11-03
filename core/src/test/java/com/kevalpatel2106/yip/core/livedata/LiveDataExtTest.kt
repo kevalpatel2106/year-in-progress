@@ -6,20 +6,21 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 /**
  * Created by Keval on 02/06/18.
- *
- * @author [kevalpatel2106](https://github.com/kevalpatel2106)
  */
 @RunWith(JUnit4::class)
 class LiveDataExtTest {
@@ -31,6 +32,9 @@ class LiveDataExtTest {
 
     @Mock
     private lateinit var eventObserver: Observer<String>
+
+    @Captor
+    private lateinit var stringCaptor: ArgumentCaptor<String>
 
     private val testLiveData = MutableLiveData<String>()
 
@@ -51,8 +55,8 @@ class LiveDataExtTest {
     @Test
     fun checkNullSafeObserver() {
         testLiveData.nullSafeObserve(lifecycleOwner) {
-            Assert.assertNotNull(it)
-            Assert.assertEquals(testString, it)
+            assertNotNull(it)
+            assertEquals(testString, it)
         }
 
         testLiveData.value = testString
@@ -65,7 +69,9 @@ class LiveDataExtTest {
         testLiveData.observeForever(eventObserver)
 
         testLiveData.recall()
-        Mockito.verify(eventObserver, Mockito.times(2)).onChanged(testString)
+        Mockito.verify(eventObserver, Mockito.times(2))
+            .onChanged(stringCaptor.capture())
+        assertEquals(testString, stringCaptor.value)
 
         testLiveData.removeObserver(eventObserver)
     }

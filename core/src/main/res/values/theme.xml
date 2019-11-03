@@ -41,6 +41,10 @@
         <item name="materialAlertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
         <item name="bottomSheetDialogTheme">@style/YipComponentTheme.RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
+
+        <!--Snackbar-->
+        <item name="snackbarStyle">@style/YipComponentTheme.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/YipComponentTheme.SnackbarButtom</item>
     </style>
 
     <!--Seekbar-->
@@ -82,5 +86,15 @@
         <item name="android:backgroundDimAmount">0.0</item>
         <item name="android:statusBarColor">#00000000</item>
         <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
+    </style>
+
+    <!--Snackbar-->
+    <style name="YipComponentTheme.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
+    <style name="YipComponentTheme.SnackbarButtom" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 </resources>

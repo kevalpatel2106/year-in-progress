@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.graphics.drawable.GradientDrawable
+import android.widget.LinearLayout
 import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
@@ -9,10 +10,13 @@ import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -61,5 +65,15 @@ class ProgressAdapterTest {
     fun whenPaddingItem_checkGetItemId() {
         adapter.submitList(listOf(progressItem, progressItem, progressItem, PaddingItem))
         assertEquals(PaddingItem.type * 3L, adapter.getItemId(3))
+    }
+
+    @Test
+    fun checkGetViewHolder_whenInvalidViewType() {
+        try {
+            adapter.getViewHolder(LinearLayout(RuntimeEnvironment.application), 3490)
+            fail()
+        } catch (e: IllegalArgumentException) {
+            assertNotNull(e.message)
+        }
     }
 }

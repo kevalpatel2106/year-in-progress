@@ -17,10 +17,8 @@ class EmptyRepresentableTest {
 
     @Test
     fun checkEquals() {
-        val otherMessage =
-            EmptyRepresentable("test1")
-        val sameMessage =
-            EmptyRepresentable(testMessage)
+        val otherMessage = EmptyRepresentable("test1")
+        val sameMessage = EmptyRepresentable(testMessage)
 
         Assert.assertNotEquals(null, emptyRepresentable)
         Assert.assertNotEquals(234L, emptyRepresentable)
@@ -30,10 +28,8 @@ class EmptyRepresentableTest {
 
     @Test
     fun checkHashcode() {
-        val otherMessage =
-            EmptyRepresentable("test1")
-        val sameMessage =
-            EmptyRepresentable(testMessage)
+        val otherMessage = EmptyRepresentable("test1")
+        val sameMessage = EmptyRepresentable(testMessage)
 
         Assert.assertNotEquals(otherMessage.hashCode(), emptyRepresentable.hashCode())
         Assert.assertEquals(sameMessage.hashCode(), emptyRepresentable.hashCode())

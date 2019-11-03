@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 
@@ -73,7 +74,7 @@ object ProgressNotification {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun getMessage(context: Context, percent: Float): String {
-        var dots = ""
+        var dots = emptyString()
         repeat(percent.toInt() / 2) { dots += COMPLETE_DOT }
         repeat((100 - percent.toInt()) / 2) { dots += INCOMPLETE_DOT }
         return "$dots ${String.format(context.getString(R.string.progress_percentage), percent)}"

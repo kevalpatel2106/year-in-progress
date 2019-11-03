@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,8 @@ import com.kevalpatel2106.feature.core.R
 import timber.log.Timber
 
 const val SNACK_BAR_DURATION = 2000L
+private const val NEW_TASK_INTENT_FLAG =
+    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
 
 /**
  * Get the color from color res.
@@ -30,14 +31,9 @@ fun <T : AppCompatActivity> Context.prepareLaunchIntent(
     aClass: Class<T>,
     isNewTask: Boolean = false
 ): Intent {
-
     return Intent(this, aClass).apply {
         if (isNewTask) {
-            addFlags(
-                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        or Intent.FLAG_ACTIVITY_NEW_TASK
-            )
+            addFlags(NEW_TASK_INTENT_FLAG)
         }
     }
 }
@@ -58,13 +54,6 @@ fun Activity.showSnack(
     ).apply {
         actonTitle.takeIf { it > 0 }?.let { actionTitle ->
             setAction(actionTitle, actionListener)
-            setActionTextColor(getColorCompat(R.color.colorPrimary))
-        }
-
-        view.setBackgroundColor(getColorCompat(R.color.colorAccent))
-        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).apply {
-            setTextColor(getColorCompat(android.R.color.white))
-            maxLines = 3
         }
     }
     snackbar.show()
@@ -91,16 +80,14 @@ fun Context.sendMailToDev() {
         ------------------------------
         """.trimIndent()
 
-    val emailIntent = Intent(Intent.ACTION_SENDTO)
-    emailIntent.data = Uri.parse(getString(R.string.email_scheme))
-    emailIntent.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.support_email))
-    emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailTitle)
-    emailIntent.putExtra(Intent.EXTRA_TEXT, emailText)
-    emailIntent.addFlags(
-        Intent.FLAG_ACTIVITY_CLEAR_TASK
-                or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                or Intent.FLAG_ACTIVITY_NEW_TASK
-    )
+    val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse(getString(R.string.email_scheme))
+        putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.support_email))
+        putExtra(Intent.EXTRA_SUBJECT, emailTitle)
+        putExtra(Intent.EXTRA_TEXT, emailText)
+        addFlags(NEW_TASK_INTENT_FLAG)
+    }
+
     try {
         startActivity(
             Intent.createChooser(
@@ -117,21 +104,25 @@ fun Context.updateWidgets() = sendBroadcast(Intent(AppWidgetManager.ACTION_APPWI
 
 fun Context.openPlayStorePage() {
     try {
-        startActivity(Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.play_store_deep_link))
-        ).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        })
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_store_deep_link)))
+            .apply { addFlags(NEW_TASK_INTENT_FLAG) }
+        startActivity(intent)
     } catch (e: ActivityNotFoundException) {
         Timber.e(e)
 
         // Open in browser
-        startActivity(Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.play_store_url))
-        ).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        })
+        openBrowser(getString(R.string.play_store_url))
     }
+}
+
+fun Context.openBrowser(url: String) {
+    try {
+        startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply { addFlags(NEW_TASK_INTENT_FLAG) }
+        )
+    } catch (e: ActivityNotFoundException) {
+        Timber.e(e)
+        Toast.makeText(this, getString(R.string.error_browswer_not_found), Toast.LENGTH_LONG).show()
+    }
+
 }

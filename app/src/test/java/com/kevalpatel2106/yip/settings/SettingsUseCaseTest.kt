@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.settings
 
 import android.content.Context
 import android.content.Intent
+import com.kevalpatel2106.yip.core.emptyString
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -27,7 +28,7 @@ class SettingsUseCaseTest {
         MockitoAnnotations.initMocks(this@SettingsUseCaseTest)
         Mockito.`when`(context.getString(anyInt(), anyString(), anyString())).thenReturn(testString)
         Mockito.`when`(context.getString(anyInt(), anyString())).thenReturn(testString)
-        Mockito.`when`(context.getString(anyInt())).thenReturn("")
+        Mockito.`when`(context.getString(anyInt())).thenReturn(emptyString())
     }
 
     @Test

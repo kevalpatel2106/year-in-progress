@@ -53,6 +53,8 @@ class ProgressTest {
         assertNotEquals(progress, progress3)
         assertNotEquals(progress, progress1)
         assertNotEquals(progress, progress2)
+        assertNotEquals(progress, null)
+        assertNotEquals(progress, "string")
     }
 
     @Test

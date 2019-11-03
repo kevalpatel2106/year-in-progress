@@ -64,7 +64,7 @@ class DataBindingAdaptersKtTest {
 
         @Test
         fun checkLoadEmptyUrl_withWebView() {
-            val url = ""
+            val url = emptyString()
             loadUrl(webView, url)
             Mockito.verify(webView, never()).loadUrl(ArgumentMatchers.anyString())
         }
