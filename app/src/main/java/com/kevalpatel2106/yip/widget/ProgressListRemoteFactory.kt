@@ -50,9 +50,13 @@ internal class ProgressListRemoteFactory @Inject constructor(
 
     override fun onCreate() = Unit
     override fun getLoadingView(): RemoteViews? = null
-    override fun getItemId(position: Int): Long = progresses[position].id
+    override fun getItemId(position: Int): Long = progresses.getOrNull(position)?.id ?: INVALID_ID
     override fun hasStableIds(): Boolean = true
     override fun getCount(): Int = progresses.size
     override fun getViewTypeCount(): Int = 1
     override fun onDestroy() = Unit
+
+    companion object {
+        private const val INVALID_ID = -1L
+    }
 }
