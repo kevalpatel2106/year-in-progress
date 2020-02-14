@@ -150,6 +150,7 @@ internal class DashboardActivity : AppCompatActivity() {
                 supportFragmentManager,
                 BottomNavigationDialog::class.java.name
             )
+            return false
         }
         return true
     }
