@@ -134,7 +134,7 @@ internal class DashboardActivity : AppCompatActivity() {
             if (it == DashboardViewModel.RESET_COLLAPSED_ID) {
                 progress_list_rv.collapse()
             } else {
-                supportFragmentManager.commitNow {
+                supportFragmentManager.commitNow(allowStateLoss = true) {
                     replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
                 }
                 progress_list_rv.expandItem(it)
