@@ -24,18 +24,17 @@ ext {
     ]
 
     versions = [
-            'kotlin'           : '1.3.50',
+            'kotlin'           : '1.3.61',
             'daggerVersion'    : "2.21",
             'stetho'           : '1.5.1',
-            'room'             : '2.2.1',
+            'room'             : '2.2.3',
             'espresso'         : "3.1.1",
-            'mockito'          : "3.0.0",
+            'mockito'          : "3.2.4",
             'preference'       : '1.1.0',
             'rxPreferences'    : '2.0.0',
-            'billingclient'    : '2.0.3',
+            'billingclient'    : '2.1.0',
             'inboxrecyclerview': '2.0.0-beta3',
-            'debugdrawer'      : '0.8.0',
-            'navVersion'       : "2.1.0"
+            'debugdrawer'      : '0.8.0'
     ]
 
     packageExcludes = {

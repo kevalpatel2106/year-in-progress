@@ -6,12 +6,12 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0"
-        classpath 'com.google.gms:google-services:4.3.2'
-        classpath 'io.fabric.tools:gradle:1.30.0'
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.0'
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'io.fabric.tools:gradle:1.31.2'
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.1'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
     }
 }
@@ -126,7 +126,7 @@ subprojects {
         dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
             implementation('com.jakewharton.timber:timber:4.7.1', excludeGrp)
-            implementation "io.reactivex.rxjava2:rxjava:2.2.13"
+            implementation "io.reactivex.rxjava2:rxjava:2.2.16"
 
             //Dagger dependencies
             implementation "com.google.dagger:dagger-android:${versions.daggerVersion}"
@@ -144,7 +144,7 @@ subprojects {
                 //Support libs
                 implementation "androidx.annotation:annotation:1.1.0"
                 implementation "androidx.appcompat:appcompat:1.1.0"
-                implementation 'com.google.android.material:material:1.1.0-beta01'
+                implementation 'com.google.android.material:material:1.1.0-rc02'
                 implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
                 // ktx
@@ -152,8 +152,8 @@ subprojects {
                 implementation('androidx.fragment:fragment-ktx:1.1.0', excludeGrp)
 
                 //Arch
-                implementation("androidx.lifecycle:lifecycle-common-java8:2.1.0", excludeGrp)
-                implementation("androidx.lifecycle:lifecycle-extensions:2.1.0", excludeGrp)
+                implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0", excludeGrp)
+                implementation("androidx.lifecycle:lifecycle-extensions:2.2.0", excludeGrp)
             }
         }
     }
