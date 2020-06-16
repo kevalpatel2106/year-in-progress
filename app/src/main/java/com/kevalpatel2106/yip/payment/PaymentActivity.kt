@@ -3,11 +3,11 @@ package com.kevalpatel2106.yip.payment
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
@@ -21,9 +21,7 @@ internal class PaymentActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private val model: PaymentViewModel by lazy {
-        provideViewModel(viewModelProvider, PaymentViewModel::class.java)
-    }
+    private val model: PaymentViewModel by viewModels { viewModelProvider }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

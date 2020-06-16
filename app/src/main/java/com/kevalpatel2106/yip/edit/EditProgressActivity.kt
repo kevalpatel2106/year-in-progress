@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
@@ -41,9 +41,7 @@ internal class EditProgressActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private val model: EditViewProgressModel by lazy {
-        provideViewModel(viewModelProvider, EditViewProgressModel::class.java)
-    }
+    private val model: EditViewProgressModel by viewModels { viewModelProvider }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -189,9 +187,10 @@ internal class EditProgressActivity : AppCompatActivity() {
             context.prepareLaunchIntent(EditProgressActivity::class.java)
 
         internal fun edit(context: Context, progressId: Long) {
-            context.startActivity(context.prepareLaunchIntent(EditProgressActivity::class.java).apply {
-                putExtra(ARG_EDIT_PROGRESS_ID, progressId)
-            })
+            context.startActivity(
+                context.prepareLaunchIntent(EditProgressActivity::class.java).apply {
+                    putExtra(ARG_EDIT_PROGRESS_ID, progressId)
+                })
         }
     }
 }

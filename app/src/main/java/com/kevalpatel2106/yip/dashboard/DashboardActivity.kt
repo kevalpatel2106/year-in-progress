@@ -3,13 +3,13 @@ package com.kevalpatel2106.yip.dashboard
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showSnack
@@ -52,11 +52,9 @@ internal class DashboardActivity : AppCompatActivity() {
     }
 
     @Inject
-    internal lateinit var viewModelProvider: ViewModelProvider.Factory
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val model: DashboardViewModel by lazy {
-        provideViewModel(viewModelProvider, DashboardViewModel::class.java)
-    }
+    private val model: DashboardViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

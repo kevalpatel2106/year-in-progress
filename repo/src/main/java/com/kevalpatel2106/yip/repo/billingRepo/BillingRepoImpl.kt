@@ -136,7 +136,7 @@ internal class BillingRepoImpl(
 
             // Buy SKU
             val purchaseParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(skuDetailsList[0])
+                .setSkuDetails(skuDetailsList!![0])
                 .build()
             val buyResult = launchBillingFlow(activity, purchaseParams)
             if (!isBillingCodeSuccess(buyResult)) {

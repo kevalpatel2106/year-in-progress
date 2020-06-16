@@ -17,12 +17,13 @@ internal object PrebuiltProcessBuilder {
         return ProgressType.values()
             .filter { it != ProgressType.CUSTOM }
             .map {
+                val now = System.currentTimeMillis()
                 ProgressDto(
                     title = it.getName(application),
                     color = it.color,
                     progressType = it,
-                    start = Date(System.currentTimeMillis()),
-                    end = Date(System.currentTimeMillis() + DIFF_MILLS_START_AND_END_DATE)
+                    start = Date(now),
+                    end = Date(now + DIFF_MILLS_START_AND_END_DATE)
                 )
             }
     }

@@ -7,11 +7,11 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.di.provideViewModel
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
@@ -25,9 +25,7 @@ internal class WebViewActivity : AppCompatActivity() {
     @Inject
     internal lateinit var viewModelProvider: ViewModelProvider.Factory
 
-    private val model: WebViewViewModel by lazy {
-        provideViewModel(viewModelProvider, WebViewViewModel::class.java)
-    }
+    private val model: WebViewViewModel by viewModels { viewModelProvider }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,7 +1,6 @@
 package com.kevalpatel2106.yip
 
 import android.app.Application
-import android.content.BroadcastReceiver
 import androidx.appcompat.app.AppCompatDelegate
 import com.facebook.stetho.Stetho
 import com.github.anrwatchdog.ANRWatchDog
@@ -10,18 +9,17 @@ import com.kevalpatel2106.yip.core.di.CoreComponent
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsUseCase
-import dagger.Lazy
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasBroadcastReceiverInjector
+import dagger.android.HasAndroidInjector
 import io.palaima.debugdrawer.timber.data.LumberYard
 import timber.log.Timber
 import javax.inject.Inject
 
-internal class YIPApplication : Application(), HasBroadcastReceiverInjector {
+internal class YIPApplication : Application(), HasAndroidInjector {
 
     @Inject
-    lateinit var broadcastReceiverInjector: Lazy<DispatchingAndroidInjector<BroadcastReceiver>>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var sharedPrefsProvider: SharedPrefsProvider
@@ -51,7 +49,5 @@ internal class YIPApplication : Application(), HasBroadcastReceiverInjector {
         AppCompatDelegate.setDefaultNightMode(darkModeSetting)
     }
 
-    override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> {
-        return broadcastReceiverInjector.get()
-    }
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
