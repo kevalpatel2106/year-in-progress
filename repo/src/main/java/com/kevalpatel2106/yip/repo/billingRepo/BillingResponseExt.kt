@@ -1,7 +1,6 @@
 package com.kevalpatel2106.yip.repo.billingRepo
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult
@@ -9,7 +8,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.kevalpatel2106.yip.repo.R
 
 internal fun prepareBillingClient(
-    activity: Activity,
+    activity: Context,
     purchasesUpdatedListener: PurchasesUpdatedListener
 ): BillingClient {
     return BillingClient

@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.splash
 
-import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import org.junit.Before
@@ -23,9 +22,6 @@ class SplashViewModelTest {
     @Mock
     internal lateinit var billingRepo: BillingRepo
 
-    @Mock
-    internal lateinit var activity: Activity
-
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this@SplashViewModelTest)
@@ -34,12 +30,8 @@ class SplashViewModelTest {
     @Test
     fun checkRefreshPurchaseState() {
         val viewModel = SplashViewModel(billingRepo)
-        viewModel.refreshPurchase(activity)
+        viewModel.refreshPurchase()
 
-        Mockito.verify(billingRepo, Mockito.times(1))
-            .refreshPurchaseState(
-                activity,
-                BillingRepo.SKU_ID
-            )
+        Mockito.verify(billingRepo).refreshPurchaseState(BillingRepo.SKU_ID)
     }
 }

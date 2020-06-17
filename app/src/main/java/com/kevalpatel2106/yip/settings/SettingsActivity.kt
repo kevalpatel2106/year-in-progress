@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_settings.settings_ads_view
 import kotlinx.android.synthetic.main.activity_settings.settings_toolbar
 import javax.inject.Inject
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     private val compositeDisposable = CompositeDisposable()
 
     @Inject
@@ -26,10 +26,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         getAppComponent().inject(this@SettingsActivity)
-
-        setContentView(R.layout.activity_settings)
         setToolbar()
         setAds()
 

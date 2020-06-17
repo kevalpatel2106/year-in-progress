@@ -5,8 +5,8 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 
 interface BillingRepo {
-    fun refreshPurchaseState(activity: Activity, sku: String = SKU_ID)
-    fun purchase(activity: Activity?, sku: String = SKU_ID): Single<String>
+    fun refreshPurchaseState(sku: String = SKU_ID)
+    fun purchase(activity: Activity, sku: String = SKU_ID): Single<String>
     fun isPurchased(): Boolean
     fun observeIsPurchased(): BehaviorSubject<Boolean>
 

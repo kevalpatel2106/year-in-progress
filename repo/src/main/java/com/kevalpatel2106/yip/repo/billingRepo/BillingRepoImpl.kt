@@ -20,9 +20,9 @@ internal class BillingRepoImpl(
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : BillingRepo {
 
-    override fun refreshPurchaseState(activity: Activity, sku: String) {
+    override fun refreshPurchaseState(sku: String) {
         val billingClient = prepareBillingClient(
-            activity,
+            application,
             PurchasesUpdatedListener { _, _ -> /* Do nothing */ }
         )
         billingClient.startConnection(object : BillingClientStateListener {
@@ -53,8 +53,6 @@ internal class BillingRepoImpl(
                 val isPro = purchasesList?.find { it.sku == sku } != null
                 sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
                 isPurchased.onNext(isPro)
-            } else {
-                // If the check fails, it's okay. We'll do next time.
             }
         }
     }
@@ -72,11 +70,11 @@ internal class BillingRepoImpl(
         }
     }
 
-    override fun purchase(activity: Activity?, sku: String): Single<String> {
+    override fun purchase(activity: Activity, sku: String): Single<String> {
         return Single.create<Purchase> { emitter ->
 
             val billingClient = prepareBillingClient(
-                activity = activity!!,
+                activity = activity,
                 purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
 
                     if (isBillingCodeSuccess(billingResult)) {

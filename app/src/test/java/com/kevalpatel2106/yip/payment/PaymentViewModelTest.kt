@@ -19,8 +19,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -92,13 +90,12 @@ class PaymentViewModelTest {
     @Test
     fun checkViewStatesWhenPurchaseSuccess() {
         // Set up
-        Mockito.`when`(billingRepo.purchase(any(), anyString()))
-            .thenReturn(Single.just(emptyString()))
+        Mockito.`when`(billingRepo.purchase(activity)).thenReturn(Single.just(emptyString()))
 
         paymentViewModel.purchase(activity)
 
         // Verify
-        Mockito.verify(billingRepo, Mockito.times(1)).purchase(activity, BillingRepo.SKU_ID)
+        Mockito.verify(billingRepo, Mockito.times(1)).purchase(activity)
 
         Mockito.verify(viewStateObserver, Mockito.times(2 + INITIAL_STATE_ON_CHANGE))
             .onChanged(viewStateCaptor.capture())
@@ -114,7 +111,7 @@ class PaymentViewModelTest {
     fun checkViewStatesWhenPurchaseError() {
         // Set up
         val errorMessage = "Error!"
-        Mockito.`when`(billingRepo.purchase(any(), anyString()))
+        Mockito.`when`(billingRepo.purchase(activity))
             .thenReturn(Single.error(Throwable(errorMessage)))
 
         paymentViewModel.purchase(activity)

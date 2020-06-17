@@ -37,7 +37,7 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { model.refreshPurchaseState(it) }
+        activity?.let { model.refreshPurchaseState() }
 
         // Set the sort sortOrder
         findPreference<ListPreference>(getString(R.string.pref_key_order))?.summaryProvider =

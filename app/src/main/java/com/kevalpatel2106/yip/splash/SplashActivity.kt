@@ -17,7 +17,7 @@ internal class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this@SplashActivity)
-        model.refreshPurchase(this@SplashActivity)
+        model.refreshPurchase()
         AppLaunchHelper.launchFlow(this@SplashActivity, intent)
     }
 }

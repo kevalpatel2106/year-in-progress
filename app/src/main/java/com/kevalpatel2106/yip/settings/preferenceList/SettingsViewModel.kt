@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
-import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,9 +39,7 @@ internal class SettingsViewModel @Inject internal constructor(
             .addTo(compositeDisposable)
     }
 
-    internal fun refreshPurchaseState(activity: Activity) {
-        billingRepo.refreshPurchaseState(activity)
-    }
+    internal fun refreshPurchaseState() = billingRepo.refreshPurchaseState()
 
     private fun monitorDarkModeSettings() {
         sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
