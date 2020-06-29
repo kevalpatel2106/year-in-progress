@@ -44,20 +44,6 @@ class ProgressTest {
     }
 
     @Test
-    fun testEquals() {
-        val progress1 = progress.copy(32442)
-        val progress2 = progress1.copy(color = ProgressColor.COLOR_YELLOW)
-        val progress3 = progress.copy(percent = 1f)
-
-        assertEquals(progress1, progress2)
-        assertNotEquals(progress, progress3)
-        assertNotEquals(progress, progress1)
-        assertNotEquals(progress, progress2)
-        assertNotEquals(progress, null)
-        assertNotEquals(progress, "string")
-    }
-
-    @Test
     fun testEquals_OtherType() {
         assertNotEquals(123423L, progress)
     }
@@ -65,17 +51,5 @@ class ProgressTest {
     @Test
     fun testEquals_Null() {
         assertNotEquals(progress, null)
-    }
-
-    @Test
-    fun testHasCode() {
-        val progressWithOtherId = progress.copy(32442)
-        val progressWithOtherColor = progressWithOtherId.copy(color = ProgressColor.COLOR_YELLOW)
-        val progressWithOtherPercent = progress.copy(percent = 1f)
-
-        assertEquals(progressWithOtherId.hashCode(), progressWithOtherColor.hashCode())
-        assertNotEquals(progress.hashCode(), progressWithOtherPercent.hashCode())
-        assertNotEquals(progress.hashCode(), progressWithOtherId.hashCode())
-        assertNotEquals(progress.hashCode(), progressWithOtherColor.hashCode())
     }
 }

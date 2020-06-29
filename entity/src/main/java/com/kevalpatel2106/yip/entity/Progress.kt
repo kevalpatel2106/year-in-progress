@@ -9,22 +9,11 @@ import java.util.Date
 @TypeParceler<Date, DateParcelConverter>()
 data class Progress(
     val id: Long,
-
     val progressType: ProgressType,
     val title: String,
-
-    var start: Date,
-    var end: Date,
-
-    var color: ProgressColor = ProgressColor.COLOR_BLUE,
-
-    var notificationPercent: List<Float>,
-
-    var percent: Float = 0f
-) : Parcelable {
-
-    override fun equals(other: Any?): Boolean =
-        (other as? Progress)?.id == id && (other as? Progress)?.percent == percent
-
-    override fun hashCode(): Int = id.hashCode() + percent.toInt()
-}
+    val start: Date,
+    val end: Date,
+    val color: ProgressColor,
+    val notificationPercent: List<Float>,
+    val percent: Float = 0f
+) : Parcelable
