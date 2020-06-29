@@ -22,8 +22,9 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 class ProgressAdapterTest {
-    private val clickListener = { progress: Progress -> Unit }
-    private val adapter = ProgressAdapter(clickListener)
+    private val adapter = ProgressAdapter(object : ProgressAdapterEventListener {
+        override fun onProgressClicked(progress: Progress) = Unit
+    })
     private val progressItem = ProgressListItem(
         Progress(
             id = 8765L,

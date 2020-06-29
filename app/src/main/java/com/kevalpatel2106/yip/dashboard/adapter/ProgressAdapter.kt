@@ -8,10 +8,9 @@ import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsViewHolder
 import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingViewHolder
 import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
 import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressViewHolder
-import com.kevalpatel2106.yip.entity.Progress
 
 internal class ProgressAdapter(
-    private var clickListener: ((progress: Progress) -> Unit)
+    private var listener: ProgressAdapterEventListener
 ) : YipAdapter(ProgressAdapterDiffCallback) {
 
     init {
@@ -21,7 +20,7 @@ internal class ProgressAdapter(
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
         return when (viewType) {
-            PROGRESS_BAR_TYPE -> ProgressViewHolder.create(parent)
+            PROGRESS_BAR_TYPE -> ProgressViewHolder.create(parent, listener)
             ADS_TYPE -> AdsViewHolder.create(parent)
             PADDING_TYPE -> PaddingViewHolder.create(parent)
             else -> throw IllegalArgumentException("Invalid view type: $viewType")
@@ -31,7 +30,7 @@ internal class ProgressAdapter(
     override fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable) {
         when (holder) {
             is ProgressViewHolder -> {
-                (item as? ProgressListItem)?.let { holder.bind(it, clickListener) }
+                (item as? ProgressListItem)?.let { holder.bind(it) }
             }
         }
     }

@@ -16,11 +16,13 @@ import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
+import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapterEventListener
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
+import com.kevalpatel2106.yip.entity.Progress
 import kotlinx.android.synthetic.main.activity_dashboard.add_progress_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
@@ -28,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 import javax.inject.Inject
 
-internal class DashboardActivity : AppCompatActivity() {
+internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventListener {
 
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
 
@@ -114,7 +116,7 @@ internal class DashboardActivity : AppCompatActivity() {
         expandable_page_container.addStateChangeCallbacks(pageStateChangeCallbacks)
 
         // Set up the adapter
-        val progressListAdapter = ProgressAdapter { model.userWantsToOpenDetail(it.id) }
+        val progressListAdapter = ProgressAdapter(this@DashboardActivity)
 
         // Prepare the list
         progress_list_rv.apply {
@@ -141,6 +143,8 @@ internal class DashboardActivity : AppCompatActivity() {
     }
 
     internal fun collapseDetail() = model.resetExpandedProgress()
+
+    override fun onProgressClicked(progress: Progress) = model.userWantsToOpenDetail(progress.id)
 
     override fun onSupportNavigateUp(): Boolean {
         if (!model.isDetailExpanded() && !bottomNavigationSheet.isVisible) {
