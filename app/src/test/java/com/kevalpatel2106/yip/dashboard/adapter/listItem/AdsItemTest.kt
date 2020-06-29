@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.dashboard.adapter.paddingType
+package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
 import org.junit.Assert
@@ -7,12 +7,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class PaddingItemTest {
-    private val paddingItem = PaddingItem
+class AdsItemTest {
+    private val adsItem = AdsItem
 
     @Test
     fun checkViewHolderType() {
-        Assert.assertEquals(ProgressAdapter.PADDING_TYPE, paddingItem.type)
+        Assert.assertEquals(ProgressAdapter.TYPE_AD, adsItem.type)
     }
-
 }

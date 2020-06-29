@@ -12,14 +12,14 @@ import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.recall
 import com.kevalpatel2106.yip.core.openPlayStorePage
-import com.kevalpatel2106.yip.core.recyclerview.representable.EmptyRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.ErrorRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.LoadingRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
 import com.kevalpatel2106.yip.core.updateWidgets
-import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
-import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.LoadingRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
@@ -39,8 +39,8 @@ internal class DashboardViewModel @Inject constructor(
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
-    private val _progresses = MutableLiveData<ArrayList<YipItemRepresentable>>(arrayListOf())
-    internal val progresses: LiveData<ArrayList<YipItemRepresentable>> = _progresses
+    private val _progresses = MutableLiveData<ArrayList<ListItemRepresentable>>(arrayListOf())
+    internal val progresses: LiveData<ArrayList<ListItemRepresentable>> = _progresses
 
     private val _askForRatingSignal = SignalLiveEvent()
     internal val askForRatingSignal: LiveData<Unit> = _askForRatingSignal
@@ -88,12 +88,15 @@ internal class DashboardViewModel @Inject constructor(
                     ),
                     backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
                 )
-            }.toMutableList() as ArrayList<YipItemRepresentable>
+            }.toMutableList() as ArrayList<ListItemRepresentable>
 
             return@map list.apply {
                 // Add the ads if the user is not pro.
                 if (isNotEmpty() && !isPro) {
-                    add(if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size, AdsItem)
+                    add(
+                        if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size,
+                        AdsItem
+                    )
                 }
             }
         }.subscribe({ listItems ->

@@ -13,6 +13,7 @@
     <!--Dashboard-->
     <string name="dashboard_no_progress_message">There is nothing to display!</string>
     <string name="dashboard_error_loading_progress">Opps! Something went wong!</string>
+    <string name="retry">Retry</string>
 
     <!--Preference titles-->
     <string name="about_header">About</string>

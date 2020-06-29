@@ -6,12 +6,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.recyclerview.representable.EmptyRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.ErrorRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
-import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
-import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -108,12 +108,16 @@ class DashboardViewModelTest {
     lateinit var sharedPrefsProvider: SharedPrefsProvider
     @Mock
     lateinit var billingRepo: BillingRepo
+
     @Mock
     lateinit var appShortcutHelper: AppShortcutHelper
+
     @Mock
-    lateinit var progressesObserver: Observer<ArrayList<YipItemRepresentable>>
+    lateinit var progressesObserver: Observer<ArrayList<ListItemRepresentable>>
+
     @Captor
-    lateinit var progressesCaptor: ArgumentCaptor<ArrayList<YipItemRepresentable>>
+    lateinit var progressesCaptor: ArgumentCaptor<ArrayList<ListItemRepresentable>>
+
     @Mock
     lateinit var askForRatingSignalObserver: Observer<Unit>
     @Mock

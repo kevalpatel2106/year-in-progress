@@ -1,12 +1,11 @@
-package com.kevalpatel2106.yip.dashboard.adapter.paddingType
+package com.kevalpatel2106.yip.dashboard.adapter.viewholders
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.recyclerview.viewholders.YipViewHolder
 
-internal class PaddingViewHolder(itemView: View) : YipViewHolder(itemView) {
+internal class PaddingViewHolder(itemView: View) : ProgressListViewHolder(itemView) {
 
     companion object {
         fun create(parent: ViewGroup): PaddingViewHolder {

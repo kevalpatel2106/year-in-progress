@@ -1,19 +1,18 @@
-package com.kevalpatel2106.yip.dashboard.adapter.progressType
+package com.kevalpatel2106.yip.dashboard.adapter.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.recyclerview.viewholders.YipViewHolder
 import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapterEventListener
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 import com.kevalpatel2106.yip.databinding.RowProgressBinding
 import kotlinx.android.synthetic.main.row_progress.root_card
-
 
 internal class ProgressViewHolder(
     private val binding: RowProgressBinding,
     private var listener: ProgressAdapterEventListener
-) : YipViewHolder(binding.root) {
+) : ProgressListViewHolder(binding.root) {
 
     fun bind(listItem: ProgressListItem) {
         binding.apply {

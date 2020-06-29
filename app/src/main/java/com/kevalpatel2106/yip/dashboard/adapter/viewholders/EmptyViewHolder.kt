@@ -1,13 +1,13 @@
-package com.kevalpatel2106.yip.core.recyclerview.viewholders
+package com.kevalpatel2106.yip.dashboard.adapter.viewholders
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.kevalpatel2106.feature.core.R
-import com.kevalpatel2106.yip.core.recyclerview.representable.EmptyRepresentable
+import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
 import kotlinx.android.synthetic.main.row_list_empty_list.empty_list_item_text
 
-internal class EmptyViewHolder(containerView: View) : YipViewHolder(containerView) {
+internal class EmptyViewHolder(containerView: View) : ProgressListViewHolder(containerView) {
 
     fun bind(emptyRepresentable: EmptyRepresentable) {
         empty_list_item_text.text = emptyRepresentable.message

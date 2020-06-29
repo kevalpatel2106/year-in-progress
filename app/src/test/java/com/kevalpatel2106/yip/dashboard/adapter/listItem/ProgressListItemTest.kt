@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.dashboard.adapter.progressType
+package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
 import android.graphics.drawable.GradientDrawable
 import com.kevalpatel2106.yip.core.emptyString
@@ -46,11 +46,16 @@ class ProgressListItemTest {
 
     @Test
     fun checkListItemType() {
-        Assert.assertEquals(ProgressAdapter.PROGRESS_BAR_TYPE, progressListItem.type)
+        Assert.assertEquals(ProgressAdapter.TYPE_PROGRESS_BAR, progressListItem.type)
     }
 
     @Test
     fun checkProgressValue() {
         Assert.assertEquals(progress, progressListItem.progress)
+    }
+
+    @Test
+    fun checkViewHolderType() {
+        Assert.assertEquals(ProgressAdapter.TYPE_PROGRESS_BAR, progressListItem.type)
     }
 }

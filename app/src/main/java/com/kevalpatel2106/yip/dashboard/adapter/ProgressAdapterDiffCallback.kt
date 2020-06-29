@@ -2,15 +2,15 @@ package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 
-internal object ProgressAdapterDiffCallback : DiffUtil.ItemCallback<YipItemRepresentable>() {
+internal object ProgressAdapterDiffCallback : DiffUtil.ItemCallback<ListItemRepresentable>() {
 
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(
-        oldItem: YipItemRepresentable,
-        newItem: YipItemRepresentable
+        oldItem: ListItemRepresentable,
+        newItem: ListItemRepresentable
     ): Boolean {
         return if (oldItem is ProgressListItem && newItem is ProgressListItem) {
             oldItem.progress.title == newItem.progress.title &&
@@ -22,8 +22,8 @@ internal object ProgressAdapterDiffCallback : DiffUtil.ItemCallback<YipItemRepre
     }
 
     override fun areItemsTheSame(
-        oldItem: YipItemRepresentable,
-        newItem: YipItemRepresentable
+        oldItem: ListItemRepresentable,
+        newItem: ListItemRepresentable
     ): Boolean {
         return if (oldItem is ProgressListItem && newItem is ProgressListItem) {
             oldItem.progress.id == newItem.progress.id

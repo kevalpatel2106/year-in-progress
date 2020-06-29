@@ -2,11 +2,11 @@ package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.graphics.drawable.GradientDrawable
 import com.kevalpatel2106.yip.core.emptyString
-import com.kevalpatel2106.yip.core.recyclerview.representable.LoadingRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
-import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsItem
-import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.LoadingRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -23,8 +23,8 @@ class ProgressAdapterDiffCallbackTest {
 
     @RunWith(Parameterized::class)
     internal class AreItemsTheSameTest(
-        private val input1: YipItemRepresentable,
-        private val input2: YipItemRepresentable,
+        private val input1: ListItemRepresentable,
+        private val input2: ListItemRepresentable,
         private val areItemsSame: Boolean
     ) {
 
@@ -44,16 +44,18 @@ class ProgressAdapterDiffCallbackTest {
                 notificationPercent = arrayListOf(),
                 percent = 2f
             )
-            private val progressItem1 = ProgressListItem(
-                progress,
-                emptyString(),
-                GradientDrawable()
-            )
-            private val progressItem2 = ProgressListItem(
-                progress.copy(id = 324L),
-                emptyString(),
-                GradientDrawable()
-            )
+            private val progressItem1 =
+                ProgressListItem(
+                    progress,
+                    emptyString(),
+                    GradientDrawable()
+                )
+            private val progressItem2 =
+                ProgressListItem(
+                    progress.copy(id = 324L),
+                    emptyString(),
+                    GradientDrawable()
+                )
 
             @JvmStatic
             @Parameterized.Parameters
@@ -80,8 +82,8 @@ class ProgressAdapterDiffCallbackTest {
 
     @RunWith(Parameterized::class)
     internal class AreContentsTheSameTest(
-        private val input1: YipItemRepresentable,
-        private val input2: YipItemRepresentable,
+        private val input1: ListItemRepresentable,
+        private val input2: ListItemRepresentable,
         private val areContentsTheSame: Boolean
     ) {
 
@@ -101,31 +103,36 @@ class ProgressAdapterDiffCallbackTest {
                 notificationPercent = arrayListOf(),
                 percent = 2f
             )
-            private val progressItem = ProgressListItem(
-                progress,
-                emptyString(),
-                GradientDrawable()
-            )
-            private val progressItemDiffId = ProgressListItem(
-                progress.copy(id = 324L),
-                emptyString(),
-                GradientDrawable()
-            )
-            private val progressItemDiffTitle = ProgressListItem(
-                progress.copy(title = "Test title 1"),
-                emptyString(),
-                GradientDrawable()
-            )
-            private val progressItemDiffPercent = ProgressListItem(
-                progress.copy(percent = 55F),
-                emptyString(),
-                GradientDrawable()
-            )
-            private val progressItemDiffColor = ProgressListItem(
-                progress.copy(color = ProgressColor.COLOR_BLUE),
-                emptyString(),
-                GradientDrawable()
-            )
+            private val progressItem =
+                ProgressListItem(
+                    progress,
+                    emptyString(),
+                    GradientDrawable()
+                )
+            private val progressItemDiffId =
+                ProgressListItem(
+                    progress.copy(id = 324L),
+                    emptyString(),
+                    GradientDrawable()
+                )
+            private val progressItemDiffTitle =
+                ProgressListItem(
+                    progress.copy(title = "Test title 1"),
+                    emptyString(),
+                    GradientDrawable()
+                )
+            private val progressItemDiffPercent =
+                ProgressListItem(
+                    progress.copy(percent = 55F),
+                    emptyString(),
+                    GradientDrawable()
+                )
+            private val progressItemDiffColor =
+                ProgressListItem(
+                    progress.copy(color = ProgressColor.COLOR_BLUE),
+                    emptyString(),
+                    GradientDrawable()
+                )
 
             @JvmStatic
             @Parameterized.Parameters

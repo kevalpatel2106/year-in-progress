@@ -1,36 +1,53 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.view.ViewGroup
-import com.kevalpatel2106.yip.core.recyclerview.YipAdapter
-import com.kevalpatel2106.yip.core.recyclerview.representable.YipItemRepresentable
-import com.kevalpatel2106.yip.core.recyclerview.viewholders.YipViewHolder
-import com.kevalpatel2106.yip.dashboard.adapter.adsType.AdsViewHolder
-import com.kevalpatel2106.yip.dashboard.adapter.paddingType.PaddingViewHolder
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressListItem
-import com.kevalpatel2106.yip.dashboard.adapter.progressType.ProgressViewHolder
+import androidx.recyclerview.widget.ListAdapter
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.AdsViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.EmptyViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.ErrorViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.LoadingViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.PaddingViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.ProgressListViewHolder
+import com.kevalpatel2106.yip.dashboard.adapter.viewholders.ProgressViewHolder
 
 internal class ProgressAdapter(
     private var listener: ProgressAdapterEventListener
-) : YipAdapter(ProgressAdapterDiffCallback) {
+) : ListAdapter<ListItemRepresentable, ProgressListViewHolder>(ProgressAdapterDiffCallback) {
 
     init {
         // We need stable id for the recycler view.
         setHasStableIds(true)
     }
 
-    override fun getViewHolder(parent: ViewGroup, viewType: Int): YipViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgressListViewHolder {
         return when (viewType) {
-            PROGRESS_BAR_TYPE -> ProgressViewHolder.create(parent, listener)
-            ADS_TYPE -> AdsViewHolder.create(parent)
-            PADDING_TYPE -> PaddingViewHolder.create(parent)
-            else -> throw IllegalArgumentException("Invalid view type: $viewType")
+            TYPE_LOADING -> LoadingViewHolder.create(parent)
+            TYPE_ERROR -> ErrorViewHolder.create(parent)
+            TYPE_EMPTY -> EmptyViewHolder.create(parent)
+            TYPE_PROGRESS_BAR -> ProgressViewHolder.create(parent, listener)
+            TYPE_AD -> AdsViewHolder.create(parent)
+            TYPE_PADDING -> PaddingViewHolder.create(parent)
+            else -> error("Invalid view type $viewType")
         }
     }
 
-    override fun bindViewHolder(holder: YipViewHolder, item: YipItemRepresentable) {
-        when (holder) {
-            is ProgressViewHolder -> {
-                (item as? ProgressListItem)?.let { holder.bind(it) }
+    override fun getItemViewType(position: Int): Int = getItem(position).type
+
+    override fun onBindViewHolder(holder: ProgressListViewHolder, position: Int) {
+        val item = getItem(position)
+        when (item.type) {
+            TYPE_ERROR -> {
+                (holder as ErrorViewHolder).bind(item as ErrorRepresentable)
+            }
+            TYPE_EMPTY -> {
+                (holder as EmptyViewHolder).bind(item as EmptyRepresentable)
+            }
+            TYPE_PROGRESS_BAR -> {
+                (holder as ProgressViewHolder).bind(item as ProgressListItem)
             }
         }
     }
@@ -45,8 +62,11 @@ internal class ProgressAdapter(
     }
 
     companion object {
-        internal const val PROGRESS_BAR_TYPE = 34533
-        internal const val ADS_TYPE = 546
-        internal const val PADDING_TYPE = 2345
+        internal const val TYPE_LOADING = 3432
+        internal const val TYPE_ERROR = 324
+        internal const val TYPE_EMPTY = 4533
+        internal const val TYPE_PROGRESS_BAR = 34533
+        internal const val TYPE_AD = 546
+        internal const val TYPE_PADDING = 2345
     }
 }
