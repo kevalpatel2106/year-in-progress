@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.dashboard
 
 import android.content.Context
 import android.graphics.Color
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,4 +42,5 @@ internal fun Context.prepareInterstitialAd(): InterstitialAd {
 internal fun InboxRecyclerView.setUp(expandablePageLayout: ExpandablePageLayout) {
     tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
     expandablePage = expandablePageLayout
+    (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 }
