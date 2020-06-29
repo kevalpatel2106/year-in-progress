@@ -65,8 +65,10 @@ internal class DashboardViewModel @Inject constructor(
             BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
             // Show the loader.
-            _progresses.value?.clear()
-            _progresses.value?.add(LoadingRepresentable)
+            _progresses.value?.apply {
+                clear()
+                add(LoadingRepresentable)
+            }
             _progresses.recall()
         }.doOnNext { (progresses, _) ->
             if (!progresses.any { it.id == _expandProgress.value }) {
@@ -100,7 +102,7 @@ internal class DashboardViewModel @Inject constructor(
                 }
             }
         }.subscribe({ listItems ->
-            _progresses.value?.run {
+            _progresses.value?.apply {
                 clear()
                 if (listItems.isEmpty()) {
                     // Show the empty list view.
@@ -116,14 +118,14 @@ internal class DashboardViewModel @Inject constructor(
             Timber.e(throwable)
 
             // Display error.
-            _progresses.value?.clear()
-            _progresses.value?.add(
-                ErrorRepresentable(
-                    application.getString(R.string.dashboard_error_loading_progress)
-                ) {
-                    monitorProgresses()
-                }
-            )
+            _progresses.value?.apply {
+                clear()
+                add(
+                    ErrorRepresentable(
+                        application.getString(R.string.dashboard_error_loading_progress)
+                    ) { monitorProgresses() }
+                )
+            }
             _progresses.recall()
         }).addTo(compositeDisposable)
     }
