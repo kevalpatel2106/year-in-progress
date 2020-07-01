@@ -1,32 +1,32 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.validator
 
-import android.app.Application
+import android.content.Context
 import androidx.annotation.ColorInt
-import androidx.annotation.VisibleForTesting
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.R
 import java.util.Date
 
-class Validator @VisibleForTesting constructor(private val application: Application) {
+internal class ValidatorImpl constructor(private val application: Context) :
+    Validator {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
 
-    fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {
+    override fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {
         return endDate != null && startDate?.before(endDate) == true
     }
 
-    fun isValidEndDate(startDate: Date?, endDate: Date?): Boolean {
+    override fun isValidEndDate(startDate: Date?, endDate: Date?): Boolean {
         return startDate != null && endDate?.after(startDate) == true
     }
 
-    fun isValidProgressColor(@ColorInt value: Int?): Boolean {
+    override fun isValidProgressColor(@ColorInt value: Int?): Boolean {
         return ProgressColor.values().firstOrNull { it.colorInt == value } != null
     }
 
-    fun isValidTitle(title: String): Boolean {
+    override fun isValidTitle(title: String): Boolean {
         return title.length in 1..titleLength
     }
 
-    fun isValidNotification(notification: List<Float>): Boolean {
+    override fun isValidNotification(notification: List<Float>): Boolean {
         return !notification.any { it !in 0F..100F }
     }
 }

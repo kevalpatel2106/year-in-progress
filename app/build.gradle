@@ -6,6 +6,7 @@ apply plugin: 'jacoco'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'dagger.hilt.android.plugin'
 
 dependencies {
     implementation project(':core')
@@ -17,13 +18,13 @@ dependencies {
     implementation('com.google.android.gms:play-services-oss-licenses:17.0.0', excludeGrp)
 
     // Firebase
-    implementation 'com.google.firebase:firebase-ads:18.3.0'
-    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.firebase:firebase-ads:19.2.0'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Debug libs
     debugImplementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation "io.palaima.debugdrawer:debugdrawer:${versions.debugdrawer}"
     debugImplementation "io.palaima.debugdrawer:debugdrawer-base:${versions.debugdrawer}"

@@ -10,14 +10,16 @@ import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHide
-import com.kevalpatel2106.yip.di.getAppComponent
+
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_settings.settings_ads_view
 import kotlinx.android.synthetic.main.activity_settings.settings_toolbar
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     private val compositeDisposable = CompositeDisposable()
 
@@ -26,7 +28,6 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this@SettingsActivity)
         setToolbar()
         setAds()
 

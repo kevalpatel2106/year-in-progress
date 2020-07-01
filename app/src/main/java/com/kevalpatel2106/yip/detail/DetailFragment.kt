@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.detail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,16 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.databinding.FragmentDetailBinding
-import com.kevalpatel2106.yip.di.getAppComponent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.option_menu
-import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class DetailFragment : Fragment() {
 
     private val popupMenu: PopupMenu by lazy {
@@ -40,15 +38,7 @@ internal class DetailFragment : Fragment() {
         }
     }
 
-    @Inject
-    internal lateinit var viewModelProvider: ViewModelProvider.Factory
-
-    private val model: DetailViewModel by viewModels { viewModelProvider }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        context.getAppComponent().inject(this@DetailFragment)
-    }
+    private val model: DetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

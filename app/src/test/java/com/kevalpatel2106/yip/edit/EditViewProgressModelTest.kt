@@ -5,12 +5,11 @@ import android.content.res.Resources
 import android.graphics.Color
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.utils.Validator
+import com.kevalpatel2106.yip.repo.utils.validator.Validator
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.After
 import org.junit.Assert
@@ -58,13 +57,15 @@ class EditViewProgressModelTest {
     @Mock
     internal lateinit var userMessageObserver: Observer<String>
 
+    @Mock
+    internal lateinit var validator: Validator
+
     @Captor
     internal lateinit var viewStateCaptor: ArgumentCaptor<EditViewState>
 
     @Captor
     internal lateinit var userMessageCaptor: ArgumentCaptor<String>
 
-    private lateinit var validator: Validator
     private lateinit var viewModel: EditViewProgressModel
 
     @Before
@@ -76,7 +77,6 @@ class EditViewProgressModelTest {
         Mockito.`when`(context.getString(anyInt(), anyInt())).thenReturn(testString)
         Mockito.`when`(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
 
-        validator = Validator(context)
         viewModel = EditViewProgressModel(context, progressRepo, alarmRepo, validator, billingRepo)
 
         viewModel.userMessage.observeForever(userMessageObserver)
@@ -224,28 +224,9 @@ class EditViewProgressModelTest {
     }
 
     @Test
-    fun checkOnProgressTitleChanged_withEmptyTitle() {
+    fun checkOnProgressTitleChanged_withInvalidTitle() {
         // Prepare
-        viewModel._viewState.value = viewModel.viewState.value?.copy(initialTitle = "xyz")
-        viewModel.viewState.observeForever(viewStateObserver)
-
-        // Change title
-        viewModel.onProgressTitleChanged(emptyString())
-
-        // Verify
-        Mockito.verify(viewStateObserver, times(1 + INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        Assert.assertEquals(testString, viewStateCaptor.value.titleErrorMsg)
-        Assert.assertFalse(viewStateCaptor.value.isSomethingChanged)
-        Mockito.verify(userMessageObserver, never()).onChanged(userMessageCaptor.capture())
-
-        // Clean up
-        viewModel.viewState.removeObserver(viewStateObserver)
-    }
-
-    @Test
-    fun checkOnProgressTitleChanged_withLongTitle() {
-        // Prepare
+        Mockito.`when`(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(false)
         val longTitle = "123456789012345678901"
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -265,8 +246,9 @@ class EditViewProgressModelTest {
     }
 
     @Test
-    fun checkOnProgressTitleChanged_withTitle20CharLong() {
+    fun checkOnProgressTitleChanged_withValidTitle() {
         // Prepare
+        Mockito.`when`(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(true)
         val longTitle = "12345678901234567890"
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -288,6 +270,7 @@ class EditViewProgressModelTest {
     @Test
     fun checkOnProgressColorSelected_withInvalidColor() {
         // Prepare
+        Mockito.`when`(validator.isValidProgressColor(ArgumentMatchers.anyInt())).thenReturn(false)
         val initialColor = viewModel.viewState.value!!.progressColor.colorInt
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -311,6 +294,7 @@ class EditViewProgressModelTest {
     @Test
     fun checkOnProgressColorSelected_withValidColor() {
         // Prepare
+        Mockito.`when`(validator.isValidProgressColor(ArgumentMatchers.anyInt())).thenReturn(true)
         viewModel.viewState.observeForever(viewStateObserver)
 
         // Change color

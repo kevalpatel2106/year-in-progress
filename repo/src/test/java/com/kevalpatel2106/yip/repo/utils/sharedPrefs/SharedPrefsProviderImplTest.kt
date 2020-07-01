@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.sharedPrefs
 
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager

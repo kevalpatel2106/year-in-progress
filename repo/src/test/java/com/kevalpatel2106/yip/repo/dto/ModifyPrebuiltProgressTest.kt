@@ -102,8 +102,8 @@ internal class ModifyPrebuiltProgressTest(
         assertEquals(output.title, modified.title)
         assertEquals(output.color, modified.color)
         assertEquals(output.progressType, modified.progressType)
-        assertEquals(output.notifications.size, output.notifications.size)
-        assertEquals(output.notifications.first(), output.notifications.first())
+        assertEquals(output.notifications.size, modified.notifications.size)
+        assertEquals(output.notifications.first(), modified.notifications.first())
         assertEquals(output.start.time, modified.start.time)
         assertEquals(output.end.time, modified.end.time)
     }

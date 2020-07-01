@@ -1,8 +1,9 @@
 package com.kevalpatel2106.yip.edit
 
-import android.app.Application
+import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -20,14 +21,14 @@ import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import com.kevalpatel2106.yip.repo.utils.Validator
+import com.kevalpatel2106.yip.repo.utils.validator.Validator
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-internal class EditViewProgressModel @Inject internal constructor(
-    private val application: Application,
+internal class EditViewProgressModel @ViewModelInject internal constructor(
+    @ApplicationContext private val application: Context,
     private val progressRepo: ProgressRepo,
     private val alarmRepo: AlarmRepo,
     private val validator: Validator,

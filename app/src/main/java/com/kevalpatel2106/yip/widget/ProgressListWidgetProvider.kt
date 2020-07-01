@@ -8,11 +8,12 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProgressListWidgetProvider : AppWidgetProvider() {
 
     @Inject
@@ -22,7 +23,6 @@ class ProgressListWidgetProvider : AppWidgetProvider() {
     lateinit var appWidgetManager: AppWidgetManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        AndroidInjection.inject(this, context)
         super.onReceive(context, intent)
 
         // Update the list only

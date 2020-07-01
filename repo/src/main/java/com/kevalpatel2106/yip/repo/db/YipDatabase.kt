@@ -1,6 +1,6 @@
 package com.kevalpatel2106.yip.repo.db
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -19,7 +19,7 @@ abstract class YipDatabase : RoomDatabase() {
         private const val DB_NAME = "yip.db"
         private lateinit var instance: YipDatabase
 
-        internal fun create(application: Application, inMemory: Boolean = false): YipDatabase {
+        internal fun create(application: Context, inMemory: Boolean = false): YipDatabase {
             instance = if (inMemory) {
                 Room.inMemoryDatabaseBuilder(application, YipDatabase::class.java)
             } else {

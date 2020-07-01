@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.validator
 
 import android.app.Application
 import org.junit.Assert
@@ -25,7 +25,8 @@ class ValidateEndDateTest(
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        validator = Validator(application)
+        validator =
+            ValidatorImpl(application)
     }
 
     companion object {

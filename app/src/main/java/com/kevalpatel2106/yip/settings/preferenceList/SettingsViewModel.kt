@@ -1,18 +1,19 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
-import android.app.Application
+import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsUseCase
-import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-internal class SettingsViewModel @Inject internal constructor(
-    private val application: Application,
+internal class SettingsViewModel @ViewModelInject internal constructor(
+    @ApplicationContext private val application: Context,
     private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {

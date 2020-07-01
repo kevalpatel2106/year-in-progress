@@ -2,9 +2,9 @@ package com.kevalpatel2106.yip.repo.alarmRepo
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.Application
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.AlarmManagerCompat
@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.Date
@@ -19,7 +20,7 @@ import kotlin.math.roundToLong
 
 internal class AlarmRepoImpl(
     private val alarmManager: AlarmManager,
-    private val application: Application,
+    @ApplicationContext private val application: Context,
     private val timeProvider: TimeProvider,
     private val yipDatabase: YipDatabase
 ) : AlarmRepo {
@@ -66,7 +67,7 @@ internal class AlarmRepoImpl(
     companion object {
 
         private fun <T : BroadcastReceiver> getPendingIntent(
-            application: Application,
+            application: Context,
             alarmTime: Long,
             progressId: Long,
             triggerClass: Class<T>

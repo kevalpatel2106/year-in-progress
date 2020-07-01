@@ -1,17 +1,18 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.dateFormatter
 
 import android.annotation.SuppressLint
-import android.app.Application
+import android.content.Context
 import com.kevalpatel2106.yip.repo.R
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @SuppressLint("CheckResult")
-class DateFormatter internal constructor(
-    application: Application,
+class DateFormatterImpl internal constructor(
+    application: Context,
     sharedPrefsProvider: SharedPrefsProvider
-) {
+) : DateFormatter {
     private var dateFormat: String = application.getString(R.string.dd_MMM_yyyy)
     private var timeFormat: String = application.getString(R.string.hh_mm_a)
 
@@ -31,11 +32,11 @@ class DateFormatter internal constructor(
         }
     }
 
-    fun format(date: Date): String {
+    override fun format(date: Date): String {
         return SimpleDateFormat("$dateFormat $timeFormat", Locale.getDefault()).format(date)
     }
 
-    fun formatDateOnly(date: Date): String {
+    override fun formatDateOnly(date: Date): String {
         return SimpleDateFormat(dateFormat, Locale.getDefault()).format(date)
     }
 }

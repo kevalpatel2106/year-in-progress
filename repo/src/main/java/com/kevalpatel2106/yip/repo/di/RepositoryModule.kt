@@ -1,7 +1,7 @@
 package com.kevalpatel2106.yip.repo.di
 
 import android.app.AlarmManager
-import android.app.Application
+import android.content.Context
 import androidx.preference.PreferenceManager
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepoImpl
@@ -10,69 +10,72 @@ import com.kevalpatel2106.yip.repo.billingRepo.BillingRepoImpl
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepoImpl
-import com.kevalpatel2106.yip.repo.utils.DateFormatter
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProviderImpl
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
-import com.kevalpatel2106.yip.repo.utils.Validator
+import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
+import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatterImpl
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProviderImpl
+import com.kevalpatel2106.yip.repo.utils.validator.Validator
+import com.kevalpatel2106.yip.repo.utils.validator.ValidatorImpl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @Module
-class RepositoryModule(private val application: Application) {
+@InstallIn(ApplicationComponent::class)
+class RepositoryModule {
 
     @Singleton
     @Provides
     internal fun provideAlarmRepo(
+        @ApplicationContext application: Context,
         alarmManager: AlarmManager,
-        application: Application,
         yipDatabase: YipDatabase
-    ): AlarmRepo {
-        return AlarmRepoImpl(alarmManager, application, TimeProvider, yipDatabase)
-    }
+    ): AlarmRepo = AlarmRepoImpl(alarmManager, application, TimeProvider, yipDatabase)
 
     @Singleton
     @Provides
     fun provideBillingRepo(
-        application: Application,
+        @ApplicationContext application: Context,
         sharedPrefsProvider: SharedPrefsProvider
-    ): BillingRepo {
-        return BillingRepoImpl(application, sharedPrefsProvider)
-    }
+    ): BillingRepo = BillingRepoImpl(application, sharedPrefsProvider)
 
     @Singleton
     @Provides
     internal fun provideProgressRepo(
-        application: Application,
+        @ApplicationContext application: Context,
         db: YipDatabase,
         sharedPrefsProvider: SharedPrefsProvider
-    ): ProgressRepo {
-        return ProgressRepoImpl(application, db, TimeProvider, sharedPrefsProvider)
-    }
+    ): ProgressRepo = ProgressRepoImpl(application, db, TimeProvider, sharedPrefsProvider)
 
     @Singleton
     @Provides
-    fun provideValidator(application: Application): Validator {
-        return Validator(application)
-    }
+    fun provideValidator(@ApplicationContext application: Context): Validator =
+        ValidatorImpl(application)
 
     @Singleton
     @Provides
     fun provideDateFormatter(
-        application: Application,
+        @ApplicationContext application: Context,
         sharedPrefsProvider: SharedPrefsProvider
-    ): DateFormatter {
-        return DateFormatter(application, sharedPrefsProvider)
-    }
+    ): DateFormatter =
+        DateFormatterImpl(
+            application,
+            sharedPrefsProvider
+        )
 
     @Singleton
     @Provides
-    fun provideSharedPrefs(): SharedPrefsProvider {
-        return SharedPrefsProviderImpl(PreferenceManager.getDefaultSharedPreferences(application))
-    }
+    fun provideSharedPrefs(@ApplicationContext application: Context): SharedPrefsProvider =
+        SharedPrefsProviderImpl(
+            PreferenceManager.getDefaultSharedPreferences(application)
+        )
 
     @Singleton
     @Provides
-    fun provideDatabase(): YipDatabase = YipDatabase.create(application)
+    fun provideDatabase(@ApplicationContext application: Context): YipDatabase =
+        YipDatabase.create(application)
 }

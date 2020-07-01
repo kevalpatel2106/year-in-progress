@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commitNow
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
@@ -20,16 +19,16 @@ import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapterEventListener
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
-import com.kevalpatel2106.yip.di.getAppComponent
 import com.kevalpatel2106.yip.edit.EditProgressActivity
 import com.kevalpatel2106.yip.entity.Progress
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_dashboard.add_progress_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
 import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
-import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventListener {
 
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
@@ -53,14 +52,10 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
         }
     }
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val model: DashboardViewModel by viewModels { viewModelFactory }
+    private val model: DashboardViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this@DashboardActivity)
         DataBindingUtil.setContentView<ActivityDashboardBinding>(this, R.layout.activity_dashboard)
             .apply {
                 lifecycleOwner = this@DashboardActivity

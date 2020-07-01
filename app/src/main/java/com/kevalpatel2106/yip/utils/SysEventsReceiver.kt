@@ -6,9 +6,10 @@ import android.content.Context
 import android.content.Intent
 import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class SysEventsReceiver : BroadcastReceiver() {
 
     @Inject
@@ -17,7 +18,6 @@ internal class SysEventsReceiver : BroadcastReceiver() {
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.isValidIntent()) {
-            AndroidInjection.inject(this, context)
             alarmRepo.updateAlarms(ProgressNotificationReceiver::class.java)
         }
     }

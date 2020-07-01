@@ -13,6 +13,7 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.31.2'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
     }
 }
 apply plugin: 'com.vanniktech.android.junit.jacoco'
@@ -125,18 +126,17 @@ subprojects {
             implementation('com.jakewharton.timber:timber:4.7.1', excludeGrp)
             implementation "io.reactivex.rxjava2:rxjava:2.2.19"
 
-            //Dagger dependencies
-            implementation "com.google.dagger:dagger-android:${versions.daggerVersion}"
-            kapt "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
-            kaptAndroidTest "com.google.dagger:dagger-compiler:${versions.daggerVersion}"
-            compileOnly 'javax.annotation:jsr250-api:1.0'
-
-            kapt "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
-            kaptAndroidTest "com.google.dagger:dagger-android-processor:${versions.daggerVersion}"
+            //Hilt dependencies
+            implementation "com.google.dagger:hilt-android:2.28-alpha"
+            kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 
             //Android libs
             if (project.hasProperty("android")) {
                 implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+                // hilt view model
+                implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
+                kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha01'
 
                 //Support libs
                 implementation 'com.google.android.material:material:1.1.0'

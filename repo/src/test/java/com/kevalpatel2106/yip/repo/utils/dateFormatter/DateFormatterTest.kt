@@ -1,7 +1,8 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.dateFormatter
 
 import android.app.Application
 import com.kevalpatel2106.yip.repo.R
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import io.reactivex.Observable
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -39,20 +40,56 @@ class DateFormatterTest(
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
                 // Time: hh:mm a
-                arrayOf("dd-MMM-yyyy", "hh:mm a", date, "01-Dec-2019 01:10 PM", "01-Dec-2019"),
-                arrayOf("dd-MM-yyyy", "hh:mm a", date, "01-12-2019 01:10 PM", "01-12-2019"),
-                arrayOf("dd MMM yyyy", "hh:mm a", date, "01 Dec 2019 01:10 PM", "01 Dec 2019"),
-                arrayOf("MM-dd-yyyy", "hh:mm a", date, "12-01-2019 01:10 PM", "12-01-2019"),
-                arrayOf("MMM dd yyyy", "hh:mm a", date, "Dec 01 2019 01:10 PM", "Dec 01 2019"),
-                arrayOf("MMM dd,yyyy", "hh:mm a", date, "Dec 01,2019 01:10 PM", "Dec 01,2019"),
+                arrayOf(
+                    "dd-MMM-yyyy", "hh:mm a",
+                    date, "01-Dec-2019 01:10 PM", "01-Dec-2019"
+                ),
+                arrayOf(
+                    "dd-MM-yyyy", "hh:mm a",
+                    date, "01-12-2019 01:10 PM", "01-12-2019"
+                ),
+                arrayOf(
+                    "dd MMM yyyy", "hh:mm a",
+                    date, "01 Dec 2019 01:10 PM", "01 Dec 2019"
+                ),
+                arrayOf(
+                    "MM-dd-yyyy", "hh:mm a",
+                    date, "12-01-2019 01:10 PM", "12-01-2019"
+                ),
+                arrayOf(
+                    "MMM dd yyyy", "hh:mm a",
+                    date, "Dec 01 2019 01:10 PM", "Dec 01 2019"
+                ),
+                arrayOf(
+                    "MMM dd,yyyy", "hh:mm a",
+                    date, "Dec 01,2019 01:10 PM", "Dec 01,2019"
+                ),
 
                 // Time: HH:mm
-                arrayOf("dd-MMM-yyyy", "HH:mm", date, "01-Dec-2019 13:10", "01-Dec-2019"),
-                arrayOf("dd-MM-yyyy", "HH:mm", date, "01-12-2019 13:10", "01-12-2019"),
-                arrayOf("dd MMM yyyy", "HH:mm", date, "01 Dec 2019 13:10", "01 Dec 2019"),
-                arrayOf("MM-dd-yyyy", "HH:mm", date, "12-01-2019 13:10", "12-01-2019"),
-                arrayOf("MMM dd yyyy", "HH:mm", date, "Dec 01 2019 13:10", "Dec 01 2019"),
-                arrayOf("MMM dd,yyyy", "HH:mm", date, "Dec 01,2019 13:10", "Dec 01,2019")
+                arrayOf(
+                    "dd-MMM-yyyy", "HH:mm",
+                    date, "01-Dec-2019 13:10", "01-Dec-2019"
+                ),
+                arrayOf(
+                    "dd-MM-yyyy", "HH:mm",
+                    date, "01-12-2019 13:10", "01-12-2019"
+                ),
+                arrayOf(
+                    "dd MMM yyyy", "HH:mm",
+                    date, "01 Dec 2019 13:10", "01 Dec 2019"
+                ),
+                arrayOf(
+                    "MM-dd-yyyy", "HH:mm",
+                    date, "12-01-2019 13:10", "12-01-2019"
+                ),
+                arrayOf(
+                    "MMM dd yyyy", "HH:mm",
+                    date, "Dec 01 2019 13:10", "Dec 01 2019"
+                ),
+                arrayOf(
+                    "MMM dd,yyyy", "HH:mm",
+                    date, "Dec 01,2019 13:10", "Dec 01,2019"
+                )
             )
         }
     }
@@ -84,7 +121,7 @@ class DateFormatterTest(
         Mockito.`when`(sharedPrefsProvider.observeStringFromPreference(keyTimeFormat, timeFormat))
             .thenReturn(Observable.just(timeFormat))
 
-        dateFormatter = DateFormatter(application, sharedPrefsProvider)
+        dateFormatter = DateFormatterImpl(application, sharedPrefsProvider)
     }
 
     @Test

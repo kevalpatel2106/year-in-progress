@@ -1,7 +1,8 @@
 package com.kevalpatel2106.yip.dashboard
 
-import android.app.Application
+import android.content.Context
 import androidx.annotation.VisibleForTesting
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -23,17 +24,17 @@ import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
-import javax.inject.Inject
 import kotlin.random.Random
 
-internal class DashboardViewModel @Inject constructor(
-    private val application: Application,
+internal class DashboardViewModel @ViewModelInject constructor(
+    @ApplicationContext private val application: Context,
     private val progressRepo: ProgressRepo,
     private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo,

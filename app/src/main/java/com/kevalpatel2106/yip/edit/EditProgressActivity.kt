@@ -8,22 +8,22 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHideLoader
 import com.kevalpatel2106.yip.core.showSnack
-import com.kevalpatel2106.yip.di.getAppComponent
+
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.conformBeforeExit
 import com.kevalpatel2106.yip.edit.EditProgressUseCases.getDatePicker
 import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
-import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import dagger.Lazy
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_color
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_end_time
 import kotlinx.android.synthetic.main.activity_edit_progress.edit_progress_title
@@ -33,19 +33,16 @@ import kotlinx.android.synthetic.main.activity_edit_progress.edit_toolbar
 import kotlinx.android.synthetic.main.activity_edit_progress.notification_times
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class EditProgressActivity : AppCompatActivity() {
 
     @Inject
     lateinit var sdf: Lazy<DateFormatter>
 
-    @Inject
-    internal lateinit var viewModelProvider: ViewModelProvider.Factory
-
-    private val model: EditViewProgressModel by viewModels { viewModelProvider }
+    private val model: EditViewProgressModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this@EditProgressActivity)
         setContentView(R.layout.activity_edit_progress)
 
         // Actionbar set up

@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.detail
 
-import android.app.Application
+import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -13,14 +14,14 @@ import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.entity.isRepeatable
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.utils.DateFormatter
+import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
-import javax.inject.Inject
 
-internal class DetailViewModel @Inject internal constructor(
-    private val application: Application,
+internal class DetailViewModel @ViewModelInject internal constructor(
+    @ApplicationContext private val application: Context,
     private val progressRepo: ProgressRepo,
     private val appShortcutHelper: AppShortcutHelper,
     private val sdf: DateFormatter

@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.detail
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -62,7 +61,7 @@ internal object DetailUseCase {
 
     @Suppress("MagicNumber")
     internal fun prepareTimeLeft(
-        application: Application,
+        application: Context,
         endTime: Date,
         @ColorInt secondaryColor: Int
     ): SpannableString {

@@ -1,6 +1,6 @@
 package com.kevalpatel2106.yip.repo.progressesRepo
 
-import android.app.Application
+import android.content.Context
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.entity.ProgressColor
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -10,8 +10,9 @@ import com.kevalpatel2106.yip.repo.dto.ProgressDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltProgress
 import com.kevalpatel2106.yip.repo.dto.toEntity
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -21,7 +22,7 @@ import io.reactivex.functions.Function3
 import java.util.Date
 
 internal class ProgressRepoImpl(
-    private val application: Application,
+    @ApplicationContext private val application: Context,
     private val db: YipDatabase,
     private val timeProvider: TimeProvider,
     private val sharedPrefsProvider: SharedPrefsProvider

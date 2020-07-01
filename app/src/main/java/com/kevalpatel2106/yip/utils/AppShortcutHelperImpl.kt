@@ -1,16 +1,19 @@
 package com.kevalpatel2106.yip.utils
 
-import android.app.Application
+import android.content.Context
 import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlin.math.min
 
-
-internal class AppShortcutHelperImpl(private val application: Application) : AppShortcutHelper {
+internal class AppShortcutHelperImpl @Inject constructor(
+    @ApplicationContext private val application: Context
+) : AppShortcutHelper {
 
     override fun requestPinShortcut(title: String, launchIntent: Intent) {
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(application)) return
@@ -53,7 +56,7 @@ internal class AppShortcutHelperImpl(private val application: Application) : App
         return progresses.subList(0, lastIndex)
     }
 
-    private fun isDeviceSupportAppShortcuts(application: Application) =
+    private fun isDeviceSupportAppShortcuts(application: Context) =
         ShortcutManagerCompat.getMaxShortcutCountPerActivity(application) == 0
 
     companion object {

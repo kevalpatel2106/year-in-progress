@@ -1,17 +1,18 @@
 package com.kevalpatel2106.yip.widget
 
-import android.app.Application
+import android.content.Context
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Progress
 import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class ProgressListRemoteFactory @Inject constructor(
-    private val application: Application,
+    @ApplicationContext private val application: Context,
     private val progressRepo: ProgressRepo
 ) : RemoteViewsService.RemoteViewsFactory {
 

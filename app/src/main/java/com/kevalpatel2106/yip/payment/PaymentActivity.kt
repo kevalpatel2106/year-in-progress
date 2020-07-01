@@ -6,26 +6,21 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
-import com.kevalpatel2106.yip.di.getAppComponent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment.payment_toolbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class PaymentActivity : AppCompatActivity() {
 
-    @Inject
-    internal lateinit var viewModelProvider: ViewModelProvider.Factory
-
-    private val model: PaymentViewModel by viewModels { viewModelProvider }
+    private val model: PaymentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this@PaymentActivity)
         DataBindingUtil.setContentView<ActivityPaymentBinding>(
             this@PaymentActivity,
             R.layout.activity_payment

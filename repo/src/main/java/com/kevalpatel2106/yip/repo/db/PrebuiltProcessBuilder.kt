@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.repo.db
 
-import android.app.Application
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.kevalpatel2106.yip.entity.ProgressType
@@ -13,7 +12,7 @@ internal object PrebuiltProcessBuilder {
     @VisibleForTesting
     internal const val DIFF_MILLS_START_AND_END_DATE = 1000L
 
-    internal fun getPrebuiltProgresses(application: Application): List<ProgressDto> {
+    internal fun getPrebuiltProgresses(application: Context): List<ProgressDto> {
         return ProgressType.values()
             .filter { it != ProgressType.CUSTOM }
             .map {

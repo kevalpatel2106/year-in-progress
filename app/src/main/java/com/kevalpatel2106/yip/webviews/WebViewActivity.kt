@@ -10,26 +10,21 @@ import android.webkit.WebViewClient
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
-import com.kevalpatel2106.yip.di.getAppComponent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_web_view.webview
 import kotlinx.android.synthetic.main.activity_web_view.webview_toolbar
-import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class WebViewActivity : AppCompatActivity() {
 
-    @Inject
-    internal lateinit var viewModelProvider: ViewModelProvider.Factory
-
-    private val model: WebViewViewModel by viewModels { viewModelProvider }
+    private val model: WebViewViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this@WebViewActivity)
         DataBindingUtil.setContentView<ActivityWebViewBinding>(
             this@WebViewActivity,
             R.layout.activity_web_view

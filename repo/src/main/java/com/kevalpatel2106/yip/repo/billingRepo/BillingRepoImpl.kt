@@ -1,7 +1,7 @@
 package com.kevalpatel2106.yip.repo.billingRepo
 
 import android.app.Activity
-import android.app.Application
+import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -10,13 +10,14 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetailsParams
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import com.kevalpatel2106.yip.repo.utils.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.subjects.BehaviorSubject
 
 internal class BillingRepoImpl(
-    private val application: Application,
+    @ApplicationContext private val application: Context,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : BillingRepo {
 

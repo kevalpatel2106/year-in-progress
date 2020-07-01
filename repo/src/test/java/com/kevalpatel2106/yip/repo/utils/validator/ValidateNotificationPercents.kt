@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.utils.validator
 
 import android.app.Application
 import android.content.res.Resources
@@ -14,8 +14,8 @@ import org.mockito.MockitoAnnotations
 
 
 @RunWith(Parameterized::class)
-class ValidateTitleTest(
-    private val title: String,
+class ValidateNotificationPercents(
+    private val notification: List<Float>,
     private val isValid: Boolean
 ) {
     private lateinit var validator: Validator
@@ -32,7 +32,8 @@ class ValidateTitleTest(
         Mockito.`when`(application.resources).thenReturn(resources)
         Mockito.`when`(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
 
-        validator = Validator(application)
+        validator =
+            ValidatorImpl(application)
     }
 
     companion object {
@@ -40,16 +41,17 @@ class ValidateTitleTest(
         @Parameterized.Parameters
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
-                arrayOf("", false),
-                arrayOf("1", true),
-                arrayOf("12345678901", true),
-                arrayOf("123456789011234567890", false)
+                arrayOf(arrayListOf(0F, 2F), true),
+                arrayOf(arrayListOf(100F, 1F), true),
+                arrayOf(arrayListOf(1F, 100F), true),
+                arrayOf(arrayListOf(-1F, 4F), false),
+                arrayOf(arrayListOf(1F, 101F), false)
             )
         }
     }
 
     @Test
     fun validateTitle() {
-        Assert.assertEquals(isValid, validator.isValidTitle(title))
+        Assert.assertEquals(isValid, validator.isValidNotification(notification))
     }
 }

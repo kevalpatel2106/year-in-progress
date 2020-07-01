@@ -1,14 +1,15 @@
 package com.kevalpatel2106.yip.webviews
 
 import android.annotation.SuppressLint
-import android.app.Application
+import android.content.Context
 import androidx.annotation.StringRes
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
-import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-internal class WebViewViewModel @Inject constructor(
-    private val application: Application
+internal class WebViewViewModel @ViewModelInject constructor(
+    @ApplicationContext private val application: Context
 ) : BaseViewModel() {
 
     val viewState = MutableLiveData<WebViewViewState>(WebViewViewState.initialState())

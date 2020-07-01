@@ -1,7 +1,8 @@
 package com.kevalpatel2106.yip.payment
 
 import android.app.Activity
-import android.app.Application
+import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
@@ -10,10 +11,10 @@ import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-internal class PaymentViewModel @Inject internal constructor(
-    private val application: Application,
+internal class PaymentViewModel @ViewModelInject internal constructor(
+    @ApplicationContext private val application: Context,
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
 
