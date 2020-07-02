@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.kevalpatel2106.yip.notifications.ProgressNotificationReceiver
+import com.kevalpatel2106.yip.notifications.DeadlineNotificationReceiver
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -18,7 +18,7 @@ internal class SysEventsReceiver : BroadcastReceiver() {
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.isValidIntent()) {
-            alarmRepo.updateAlarms(ProgressNotificationReceiver::class.java)
+            alarmRepo.updateAlarms(DeadlineNotificationReceiver::class.java)
         }
     }
 

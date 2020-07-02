@@ -8,7 +8,7 @@ import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
 import kotlinx.android.synthetic.main.row_list_error.error_list_item_btn
 import kotlinx.android.synthetic.main.row_list_error.error_list_item_text
 
-internal class ErrorViewHolder(containerView: View) : ProgressListViewHolder(containerView) {
+internal class ErrorViewHolder(containerView: View) : DeadlineListViewHolder(containerView) {
 
     fun bind(errorRepresentable: ErrorRepresentable) {
         error_list_item_text.text = errorRepresentable.message

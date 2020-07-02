@@ -1,7 +1,7 @@
 package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
 import com.kevalpatel2106.yip.core.emptyString
-import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
+import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -48,6 +48,6 @@ class ErrorRepresentableTest {
 
     @Test
     fun checkViewHolderType() {
-        assertEquals(ProgressAdapter.TYPE_ERROR, errorRepresentable.type)
+        assertEquals(DeadlineAdapter.TYPE_ERROR, errorRepresentable.type)
     }
 }

@@ -11,6 +11,6 @@
     android:paddingBottom="@dimen/spacing_micro"
     android:paddingEnd="@dimen/spacing_small"
     android:paddingTop="@dimen/spacing_micro"
-    android:text="@string/edit_progress_add_notification"
+    android:text="@string/edit_deadline_add_notification"
     app:drawableTint="@color/colorAccent"
     tools:ignore="RtlSymmetry" />

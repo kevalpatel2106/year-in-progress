@@ -7,16 +7,16 @@ import androidx.lifecycle.Observer
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
-import com.kevalpatel2106.yip.entity.Progress
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import io.reactivex.BackpressureStrategy
@@ -48,26 +48,26 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
 class DashboardViewModelTest {
-    private val progressMonitorErrorMessage = "test error"
-    private val progressNotFoundMessage = "test error 1"
+    private val deadlineMonitorErrorMessage = "test error"
+    private val deadlineNotFoundMessage = "test error 1"
     private val noItemsMessage = "noItems"
-    private val dayProgress = Progress(
+    private val dayDeadline = Deadline(
         id = 38465L,
         title = "Test title",
-        color = ProgressColor.COLOR_YELLOW,
+        color = DeadlineColor.COLOR_YELLOW,
         end = Date(System.currentTimeMillis()),
         start = Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)),
-        progressType = ProgressType.DAY_PROGRESS,
+        deadlineType = DeadlineType.DAY_DEADLINE,
         notificationPercent = arrayListOf(),
         percent = 2f
     )
-    private val monthProgress = dayProgress.copy(
+    private val monthDeadline = dayDeadline.copy(
         id = 1234L,
         end = Date(System.currentTimeMillis()),
         start = Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS)),
-        progressType = ProgressType.MONTH_PROGRESS
+        deadlineType = DeadlineType.MONTH_DEADLINE
     )
-    private val yearProgress = dayProgress.copy(
+    private val yearDeadline = dayDeadline.copy(
         id = 12356L,
         end = Date(System.currentTimeMillis()),
         start = Date(
@@ -76,9 +76,9 @@ class DashboardViewModelTest {
                 TimeUnit.DAYS
             )
         ),
-        progressType = ProgressType.YEAR_PROGRESS
+        deadlineType = DeadlineType.YEAR_DEADLINE
     )
-    private val customProgress = dayProgress.copy(
+    private val customDeadline = dayDeadline.copy(
         id = 3455L,
         end = Date(System.currentTimeMillis()),
         start = Date(
@@ -87,7 +87,7 @@ class DashboardViewModelTest {
                 TimeUnit.MINUTES
             )
         ),
-        progressType = ProgressType.CUSTOM
+        deadlineType = DeadlineType.CUSTOM
     )
 
     @JvmField
@@ -100,12 +100,16 @@ class DashboardViewModelTest {
 
     @Mock
     lateinit var application: Application
+
     @Mock
     lateinit var resources: Resources
+
     @Mock
-    lateinit var progressRepo: ProgressRepo
+    lateinit var deadlineRepo: DeadlineRepo
+
     @Mock
     lateinit var sharedPrefsProvider: SharedPrefsProvider
+
     @Mock
     lateinit var billingRepo: BillingRepo
 
@@ -113,25 +117,30 @@ class DashboardViewModelTest {
     lateinit var appShortcutHelper: AppShortcutHelper
 
     @Mock
-    lateinit var progressesObserver: Observer<ArrayList<ListItemRepresentable>>
+    lateinit var deadlinesObserver: Observer<ArrayList<ListItemRepresentable>>
 
     @Captor
-    lateinit var progressesCaptor: ArgumentCaptor<ArrayList<ListItemRepresentable>>
+    lateinit var deadlinesCaptor: ArgumentCaptor<ArrayList<ListItemRepresentable>>
 
     @Mock
     lateinit var askForRatingSignalObserver: Observer<Unit>
+
     @Mock
     lateinit var showInterstitialAdSignalObserver: Observer<Unit>
+
     @Mock
     lateinit var userMessagesObserver: Observer<String>
+
     @Captor
     lateinit var userMessagesCaptor: ArgumentCaptor<String>
-    @Mock
-    lateinit var expandProgressObserver: Observer<Long>
-    @Captor
-    lateinit var expandProgressCaptor: ArgumentCaptor<Long>
 
-    private val progressListSubject = PublishSubject.create<List<Progress>>()
+    @Mock
+    lateinit var expandDeadlineObserver: Observer<Long>
+
+    @Captor
+    lateinit var expandDeadlineCaptor: ArgumentCaptor<Long>
+
+    private val deadlineListSubject = PublishSubject.create<List<Deadline>>()
     private val isPurchasedSubject = BehaviorSubject.create<Boolean>()
 
     private lateinit var model: DashboardViewModel
@@ -139,246 +148,246 @@ class DashboardViewModelTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(progressRepo.observeAllProgress())
-            .thenReturn(progressListSubject.hide().toFlowable(BackpressureStrategy.DROP))
+        Mockito.`when`(deadlineRepo.observeAllDeadlines())
+            .thenReturn(deadlineListSubject.hide().toFlowable(BackpressureStrategy.DROP))
         Mockito.`when`(billingRepo.observeIsPurchased()).thenReturn(isPurchasedSubject)
         Mockito.`when`(appShortcutHelper.updateDynamicShortcuts(anyList())).thenReturn(true)
 
         Mockito.`when`(resources.getDimension(anyInt())).thenReturn(2f)
         Mockito.`when`(application.resources).thenReturn(resources)
         Mockito.`when`(application.getString(anyInt(), anyFloat())).thenReturn("55%")
-        Mockito.`when`(application.getString(R.string.dashboard_no_progress_message))
+        Mockito.`when`(application.getString(R.string.dashboard_no_deadline_message))
             .thenReturn(noItemsMessage)
-        Mockito.`when`(application.getString(R.string.dashboard_error_loading_progress))
-            .thenReturn(progressMonitorErrorMessage)
-        Mockito.`when`(application.getString(R.string.error_progress_not_exist))
-            .thenReturn(progressNotFoundMessage)
+        Mockito.`when`(application.getString(R.string.dashboard_error_loading_deadline))
+            .thenReturn(deadlineMonitorErrorMessage)
+        Mockito.`when`(application.getString(R.string.error_deadline_not_exist))
+            .thenReturn(deadlineNotFoundMessage)
 
         model = DashboardViewModel(
             application,
-            progressRepo,
+            deadlineRepo,
             sharedPrefsProvider,
             billingRepo,
             appShortcutHelper
         )
-        model.progresses.observeForever(progressesObserver)
+        model.deadlines.observeForever(deadlinesObserver)
         model.askForRatingSignal.observeForever(askForRatingSignalObserver)
         model.showInterstitialAdSignal.observeForever(showInterstitialAdSignalObserver)
         model.userMessages.observeForever(userMessagesObserver)
-        model.expandProgress.observeForever(expandProgressObserver)
+        model.expandDeadline.observeForever(expandDeadlineObserver)
     }
 
     @After
     fun clear() {
-        model.progresses.removeObserver(progressesObserver)
+        model.deadlines.removeObserver(deadlinesObserver)
         model.askForRatingSignal.removeObserver(askForRatingSignalObserver)
         model.showInterstitialAdSignal.removeObserver(showInterstitialAdSignalObserver)
         model.userMessages.removeObserver(userMessagesObserver)
-        model.expandProgress.removeObserver(expandProgressObserver)
+        model.expandDeadline.removeObserver(expandDeadlineObserver)
     }
 
     @Test
-    fun checkYipItemRepresentableList_WithProgressListAndProUser() {
+    fun checkYipItemRepresentableList_WithDeadlinesListAndProUser() {
         // Set
-        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf(dayDeadline, monthDeadline, yearDeadline, customDeadline)
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(true)
 
         // Check
-        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
-            .onChanged(progressesCaptor.capture())
+        Mockito.verify(deadlinesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(deadlinesCaptor.capture())
         assertEquals(
-            dayProgress.id,
-            (progressesCaptor.value[0] as ProgressListItem).progress.id
+            dayDeadline.id,
+            (deadlinesCaptor.value[0] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            monthProgress.id,
-            (progressesCaptor.value[1] as ProgressListItem).progress.id
+            monthDeadline.id,
+            (deadlinesCaptor.value[1] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            yearProgress.id,
-            (progressesCaptor.value[2] as ProgressListItem).progress.id
+            yearDeadline.id,
+            (deadlinesCaptor.value[2] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            customProgress.id,
-            (progressesCaptor.value[3] as ProgressListItem).progress.id
+            customDeadline.id,
+            (deadlinesCaptor.value[3] as DeadlineListItem).deadline.id
         )
-        assertTrue(progressesCaptor.value[4] is PaddingItem)
+        assertTrue(deadlinesCaptor.value[4] is PaddingItem)
     }
 
     @Test
-    fun checkYipItemRepresentableList_WithProgressListAndNonProUser() {
+    fun checkYipItemRepresentableList_WithDeadlineListAndNonProUser() {
         // Set
-        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf(dayDeadline, monthDeadline, yearDeadline, customDeadline)
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(false)
 
         // Check
-        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
-            .onChanged(progressesCaptor.capture())
+        Mockito.verify(deadlinesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(deadlinesCaptor.capture())
         assertEquals(
-            dayProgress.id,
-            (progressesCaptor.value[0] as ProgressListItem).progress.id
+            dayDeadline.id,
+            (deadlinesCaptor.value[0] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            monthProgress.id,
-            (progressesCaptor.value[1] as ProgressListItem).progress.id
+            monthDeadline.id,
+            (deadlinesCaptor.value[1] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            yearProgress.id,
-            (progressesCaptor.value[2] as ProgressListItem).progress.id
+            yearDeadline.id,
+            (deadlinesCaptor.value[2] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            customProgress.id,
-            (progressesCaptor.value[3] as ProgressListItem).progress.id
+            customDeadline.id,
+            (deadlinesCaptor.value[3] as DeadlineListItem).deadline.id
         )
-        assertTrue(progressesCaptor.value[4] is AdsItem)
-        assertTrue(progressesCaptor.value[5] is PaddingItem)
+        assertTrue(deadlinesCaptor.value[4] is AdsItem)
+        assertTrue(deadlinesCaptor.value[5] is PaddingItem)
     }
 
     @Test
-    fun checkYipItemRepresentableList_WithEmptyProgressListAndNonProUser() {
+    fun checkYipItemRepresentableList_WithEmptyDeadlineListAndNonProUser() {
         // Set
-        val testProgressList = listOf<Progress>()
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf<Deadline>()
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(false)
 
         // Check
-        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
-            .onChanged(progressesCaptor.capture())
-        assertTrue(progressesCaptor.value[0] is EmptyRepresentable)
+        Mockito.verify(deadlinesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(deadlinesCaptor.capture())
+        assertTrue(deadlinesCaptor.value[0] is EmptyRepresentable)
     }
 
     @Test
-    fun checkDynamicShortcutsUpdated_WithProgressListAndNonProUser() {
+    fun checkDynamicShortcutsUpdated_WithDeadlineListAndNonProUser() {
         // Set
-        val testProgressList = listOf(dayProgress, monthProgress, yearProgress, customProgress)
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf(dayDeadline, monthDeadline, yearDeadline, customDeadline)
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(false)
 
         // Check
         Mockito.verify(appShortcutHelper, times(1))
-            .updateDynamicShortcuts(testProgressList)
+            .updateDynamicShortcuts(testDeadlines)
     }
 
     @Test
-    fun checkYipItemRepresentableList_WithListWithTwoProgressAndNonProUser() {
+    fun checkYipItemRepresentableList_WithListWithTwoDeadlineAndNonProUser() {
         // Set
-        val testProgressList = listOf(dayProgress, monthProgress)
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf(dayDeadline, monthDeadline)
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(false)
 
         // Check
-        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
-            .onChanged(progressesCaptor.capture())
+        Mockito.verify(deadlinesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(deadlinesCaptor.capture())
         assertEquals(
-            dayProgress.id,
-            (progressesCaptor.value[0] as ProgressListItem).progress.id
+            dayDeadline.id,
+            (deadlinesCaptor.value[0] as DeadlineListItem).deadline.id
         )
         assertEquals(
-            monthProgress.id,
-            (progressesCaptor.value[1] as ProgressListItem).progress.id
+            monthDeadline.id,
+            (deadlinesCaptor.value[1] as DeadlineListItem).deadline.id
         )
-        assertTrue(progressesCaptor.value[2] is AdsItem)
-        assertTrue(progressesCaptor.value[3] is PaddingItem)
+        assertTrue(deadlinesCaptor.value[2] is AdsItem)
+        assertTrue(deadlinesCaptor.value[3] is PaddingItem)
     }
 
     @Test
-    fun checkExpandedProcessIdAfterProgressDeleted_WithProgressListAndNonProUser() {
+    fun checkExpandedProcessIdAfterDeadlineDeleted_WithDeadlineListAndNonProUser() {
         // Set
-        val testProgressList = listOf(dayProgress, monthProgress, yearProgress)
-        progressListSubject.onNext(testProgressList)
+        val testDeadlines = listOf(dayDeadline, monthDeadline, yearDeadline)
+        deadlineListSubject.onNext(testDeadlines)
         isPurchasedSubject.onNext(false)
 
         // Check
-        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
-            .onChanged(expandProgressCaptor.capture())
-        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+        Mockito.verify(expandDeadlineObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandDeadlineCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandDeadlineCaptor.value)
     }
 
     @Test
-    fun checkYipItemRepresentableList_WhenMonitorProgressFails() {
+    fun checkYipItemRepresentableList_WhenMonitorDeadlineFails() {
         // Set
-        progressListSubject.onError(Throwable(progressMonitorErrorMessage))
+        deadlineListSubject.onError(Throwable(deadlineMonitorErrorMessage))
         isPurchasedSubject.onNext(false)
 
         // Check
-        Mockito.verify(progressesObserver, times(1 + INITIAL_TIMES))
-            .onChanged(progressesCaptor.capture())
-        assertTrue(progressesCaptor.value.firstOrNull() is ErrorRepresentable)
+        Mockito.verify(deadlinesObserver, times(1 + INITIAL_TIMES))
+            .onChanged(deadlinesCaptor.capture())
+        assertTrue(deadlinesCaptor.value.firstOrNull() is ErrorRepresentable)
     }
 
     @Test
-    fun checkInitialExpandProgressId() {
-        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, model.expandProgress.value)
+    fun checkInitialExpandDeadlineId() {
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, model.expandDeadline.value)
     }
 
     @Test
-    fun checkResetExpandedProgress() {
-        model.resetExpandedProgress()
+    fun checkResetExpandedDeadline() {
+        model.resetExpandedDeadline()
 
         // Check
-        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
-            .onChanged(expandProgressCaptor.capture())
-        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+        Mockito.verify(expandDeadlineObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandDeadlineCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandDeadlineCaptor.value)
     }
 
     @Test
-    fun checkIsDetailExpanded_whenProgressExpanded() {
+    fun checkIsDetailExpanded_whenDeadlineExpanded() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
-        model.userWantsToOpenDetail(dayProgress.id)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
+        model.userWantsToOpenDetail(dayDeadline.id)
 
         // Check
         assertTrue(model.isDetailExpanded())
     }
 
     @Test
-    fun checkIsDetailExpanded_whenNoProgressExpanded() {
+    fun checkIsDetailExpanded_whenNoDeadlineExpanded() {
         // Set
-        model.resetExpandedProgress()
+        model.resetExpandedDeadline()
 
         // Check
         assertFalse(model.isDetailExpanded())
     }
 
     @Test
-    fun checkUserMessageAndExpandedId_whenOpenProgressDetail_givenProgressExists() {
+    fun checkUserMessageAndExpandedId_whenOpenDeadlineDetail_givenDeadlineExists() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
-        model.userWantsToOpenDetail(dayProgress.id)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
+        model.userWantsToOpenDetail(dayDeadline.id)
 
         // Check
-        Mockito.verify(expandProgressObserver, times(1 + INITIAL_TIMES))
-            .onChanged(expandProgressCaptor.capture())
-        assertEquals(dayProgress.id, expandProgressCaptor.value)
+        Mockito.verify(expandDeadlineObserver, times(1 + INITIAL_TIMES))
+            .onChanged(expandDeadlineCaptor.capture())
+        assertEquals(dayDeadline.id, expandDeadlineCaptor.value)
     }
 
     @Test
-    fun checkUserMessageAndExpandedId_whenOpenProgressDetail_givenProgressNotExist() {
+    fun checkUserMessageAndExpandedId_whenOpenDeadlineDetail_givenDeadlineNotExist() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
-        model.userWantsToOpenDetail(dayProgress.id)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayDeadline.id)
 
         // Check
-        Mockito.verify(expandProgressObserver, times(INITIAL_TIMES))
-            .onChanged(expandProgressCaptor.capture())
-        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandProgressCaptor.value)
+        Mockito.verify(expandDeadlineObserver, times(INITIAL_TIMES))
+            .onChanged(expandDeadlineCaptor.capture())
+        assertEquals(DashboardViewModel.RESET_COLLAPSED_ID, expandDeadlineCaptor.value)
 
         Mockito.verify(userMessagesObserver, times(1)).onChanged(userMessagesCaptor.capture())
-        assertEquals(progressNotFoundMessage, userMessagesCaptor.value)
+        assertEquals(deadlineNotFoundMessage, userMessagesCaptor.value)
     }
 
     @Test
-    fun checkUserMessage_whenOpenProgressDetail_givenErrorToFindProgressExists() {
+    fun checkUserMessage_whenOpenDeadlineDetail_givenErrorToFindDeadlineExists() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong()))
-            .thenReturn(Single.error(Throwable(progressNotFoundMessage)))
-        model.userWantsToOpenDetail(dayProgress.id)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong()))
+            .thenReturn(Single.error(Throwable(deadlineNotFoundMessage)))
+        model.userWantsToOpenDetail(dayDeadline.id)
 
         // Check
         Mockito.verify(userMessagesObserver, times(1)).onChanged(userMessagesCaptor.capture())
-        assertEquals(progressNotFoundMessage, userMessagesCaptor.value)
+        assertEquals(deadlineNotFoundMessage, userMessagesCaptor.value)
     }
 
     @Test
@@ -400,7 +409,7 @@ class DashboardViewModelTest {
     @Test
     fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenAlwaysAllowRatingAndProcessExist() {
         // Given
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
         Mockito.`when`(
             sharedPrefsProvider.getBoolFromPreference(
                 DashboardViewModel.PREF_KEY_NEVER_ASK_RATE,
@@ -409,7 +418,7 @@ class DashboardViewModelTest {
         ).thenReturn(false)
 
         // When
-        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+        model.userWantsToOpenDetail(customDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, times(1)).onChanged(Unit)
@@ -419,7 +428,7 @@ class DashboardViewModelTest {
     @Test
     fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenNeverAllowRatingAndProcessExist() {
         // Given
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
         Mockito.`when`(
             sharedPrefsProvider.getBoolFromPreference(
                 DashboardViewModel.PREF_KEY_NEVER_ASK_RATE,
@@ -428,7 +437,7 @@ class DashboardViewModelTest {
         ).thenReturn(true)
 
         // When
-        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+        model.userWantsToOpenDetail(customDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
@@ -436,10 +445,10 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenProgressNotExist() {
+    fun checkAskForRatingSignal_whenUserOpensDetailsWithRandomInt_givenDeadlineNotExist() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
-        model.userWantsToOpenDetail(dayProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
@@ -449,12 +458,12 @@ class DashboardViewModelTest {
     @Test
     fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenUserIsProAndProcessExist() {
         // Given
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
         Mockito.`when`(billingRepo.isPurchased()).thenReturn(true)
 
 
         // When
-        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+        model.userWantsToOpenDetail(customDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
@@ -464,11 +473,11 @@ class DashboardViewModelTest {
     @Test
     fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenUserIsNotProAndProcessExist() {
         // Given
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(true))
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(true))
         Mockito.`when`(billingRepo.isPurchased()).thenReturn(false)
 
         // When
-        model.userWantsToOpenDetail(customProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+        model.userWantsToOpenDetail(customDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)
@@ -476,10 +485,10 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenProgressNotExist() {
+    fun checkShowAdSignal_whenUserOpensDetailsWithRandomInt_givenDeadlineNotExist() {
         // Set
-        Mockito.`when`(progressRepo.isProgressExist(anyLong())).thenReturn(Single.just(false))
-        model.userWantsToOpenDetail(dayProgress.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
+        Mockito.`when`(deadlineRepo.isDeadlineExist(anyLong())).thenReturn(Single.just(false))
+        model.userWantsToOpenDetail(dayDeadline.id, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
 
         // Check
         Mockito.verify(askForRatingSignalObserver, never()).onChanged(Unit)

@@ -44,7 +44,7 @@
                     android:id="@+id/option_menu"
                     style="@style/DetailScreenToolbarButtonStyle"
                     android:layout_alignParentEnd="true"
-                    android:clickable="@{!viewModel.viewState.isDeletingProgress}"
+                    android:clickable="@{!viewModel.viewState.deleting}"
                     android:onClick="@{() -> view.showDetailOptions()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +70,7 @@
                     android:fontFamily="@font/lato"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:text="@{viewModel.viewState.progressTitleText}"
+                    android:text="@{viewModel.viewState.titleText}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_close_iv"
@@ -88,15 +88,15 @@
                     app:srcCompat="@drawable/ic_repeat" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/detail_progress_percent_tv"
+                    android:id="@+id/detail_deadline_percent_tv"
                     style="@style/LargeText.White"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_xxlarge"
                     android:fontFamily="@font/lato"
                     android:gravity="center_horizontal"
-                    android:text="@{viewModel.viewState.progressPercentText}"
-                    android:textSize="@dimen/progress_percent_text_size"
+                    android:text="@{viewModel.viewState.deadlinePercentText}"
+                    android:textSize="@dimen/deadline_percent_text_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -112,12 +112,12 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginEnd="@dimen/spacing_micro"
                     android:max="100"
-                    android:progress="@{viewModel.viewState.progressPercent}"
+                    android:progress="@{viewModel.viewState.percent}"
                     android:progressTint="@android:color/white"
                     android:scaleY="1.5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_progress_percent_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_deadline_percent_tv"
                     tools:progress="50" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -129,7 +129,7 @@
                     android:layout_marginTop="@dimen/spacing_micro"
                     android:layout_marginEnd="@dimen/spacing_micro"
                     android:fontFamily="@font/lato"
-                    android:text="@{viewModel.viewState.progressStartTimeText}"
+                    android:text="@{viewModel.viewState.startTimeText}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
                     tools:text="@tools:sample/date/ddmmyy" />
@@ -143,7 +143,7 @@
                     android:layout_marginTop="@dimen/spacing_micro"
                     android:layout_marginEnd="@dimen/spacing_micro"
                     android:fontFamily="@font/lato"
-                    android:text="@{viewModel.viewState.progressEndTimeText}"
+                    android:text="@{viewModel.viewState.endTimeText}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_progressbar"
                     tools:text="@tools:sample/date/ddmmyy" />
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{viewModel.viewState.progressTimeLeftText}"
+                android:text="@{viewModel.viewState.timeLeftText}"
                 android:textSize="@dimen/time_left_text_size"
                 tools:text="23 days 1 hour 13 minutes" />
 
@@ -192,8 +192,8 @@
                     android:gravity="center"
                     android:paddingStart="@dimen/spacing_small"
                     android:paddingEnd="@dimen/spacing_small"
-                    android:text="@string/detail_progress_complete_title"
-                    android:textColor="@{viewModel.viewState.progressColor}"
+                    android:text="@string/detail_deadline_complete_title"
+                    android:textColor="@{viewModel.viewState.deadlineColor}"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -204,16 +204,16 @@
                     android:gravity="center"
                     android:paddingStart="@dimen/spacing_small"
                     android:paddingEnd="@dimen/spacing_small"
-                    android:text="@string/detail_progress_complete_message" />
+                    android:text="@string/detail_deadline_complete_message" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:backgroundTint="@{viewModel.viewState.progressColor}"
-                    android:clickable="@{!viewModel.viewState.isDeletingProgress}"
+                    android:backgroundTint="@{viewModel.viewState.deadlineColor}"
+                    android:clickable="@{!viewModel.viewState.deleting}"
                     android:onClick="@{() -> view.showShareAchievements()}"
-                    android:text="@string/detail_progress_complete_share_btn_title"
+                    android:text="@string/detail_deadline_complete_share_btn_title"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </ViewFlipper>

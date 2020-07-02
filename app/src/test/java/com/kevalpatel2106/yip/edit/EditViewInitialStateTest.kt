@@ -1,8 +1,8 @@
 package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.yip.core.emptyString
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -26,7 +26,7 @@ class EditViewInitialStateTest {
 
     @Test
     fun checkColorPickerState() {
-        assertEquals(ProgressColor.COLOR_GRAY, initialState.progressColor)
+        assertEquals(DeadlineColor.COLOR_GRAY, initialState.selectedColor)
         assertTrue(initialState.lockColorPicker)
     }
 
@@ -40,7 +40,7 @@ class EditViewInitialStateTest {
     fun checkStartDate() {
         val nowCal = Calendar.getInstance()
 
-        val startCal = Calendar.getInstance().apply { time = initialState.progressStartTime }
+        val startCal = Calendar.getInstance().apply { time = initialState.startTime }
         assertEquals(nowCal.get(Calendar.DAY_OF_MONTH), startCal.get(Calendar.DAY_OF_MONTH))
         assertEquals(nowCal.get(Calendar.MONTH), startCal.get(Calendar.MONTH))
         assertEquals(nowCal.get(Calendar.YEAR), startCal.get(Calendar.YEAR))
@@ -54,7 +54,7 @@ class EditViewInitialStateTest {
     fun checkEndDate() {
         val nowCal = Calendar.getInstance()
 
-        val endCal = Calendar.getInstance().apply { time = initialState.progressEndTime }
+        val endCal = Calendar.getInstance().apply { time = initialState.endTime }
         assertEquals(nowCal.get(Calendar.DAY_OF_MONTH) + 1, endCal.get(Calendar.DAY_OF_MONTH))
         assertEquals(nowCal.get(Calendar.MONTH), endCal.get(Calendar.MONTH))
         assertEquals(nowCal.get(Calendar.YEAR), endCal.get(Calendar.YEAR))
@@ -65,13 +65,13 @@ class EditViewInitialStateTest {
     }
 
     @Test
-    fun checkProgressTypeState() {
-        assertEquals(ProgressType.CUSTOM, initialState.progressType)
+    fun checkDeadlineTypeState() {
+        assertEquals(DeadlineType.CUSTOM, initialState.type)
     }
 
     @Test
     fun checkOtherInitialState() {
-        assertFalse(initialState.isLoadingProgress)
+        assertFalse(initialState.isLoading)
         assertFalse(initialState.isSomethingChanged)
         assertTrue(initialState.allowEditDate)
     }

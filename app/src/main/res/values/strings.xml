@@ -1,6 +1,6 @@
 <resources>
     <!--General purpose strings-->
-    <string name="progress_percentage">%.2f%%</string>
+    <string name="deadline_percentage">%.2f%%</string>
 
     <!--Screen titles-->
     <string name="title_activity_settings">Settings</string>
@@ -11,8 +11,8 @@
     <string name="title_activity_licences">Open source libraries</string>
 
     <!--Dashboard-->
-    <string name="dashboard_no_progress_message">There is nothing to display!</string>
-    <string name="dashboard_error_loading_progress">Opps! Something went wong!</string>
+    <string name="dashboard_no_deadline_message">There is nothing to display!</string>
+    <string name="dashboard_error_loading_deadline">Opps! Something went wong!</string>
     <string name="retry">Retry</string>
 
     <!--Preference titles-->
@@ -86,25 +86,25 @@
     <string name="navigation_title_debug_info" translatable="false">Debug Info</string>
     <string name="navigation_title_settings">Settings</string>
 
-    <!--Edit progress-->
+    <!--Edit deadline-->
     <string name="edit_start_time_title">Start time</string>
     <string name="edit_end_time_title">End time</string>
     <string name="edit_color_title">Color</string>
     <string name="edit_title_title">Title</string>
-    <string name="progress_saved_success">Progress saved successfully.</string>
-    <string name="error_invalid_progress">Invalid progress color.</string>
+    <string name="deadline_saved_success">Deadline saved successfully.</string>
+    <string name="error_invalid_deadline">Invalid deadline color.</string>
     <string name="error_start_date_after_end_date">Start date cannot be after the end date.</string>
     <string name="error_end_date_before_start_date">End date cannot be before the start date.</string>
     <string name="invalid_notification_percent">Invalid notification.</string>
-    <string name="error_progress_title_long">Title cannot be more than %d characters long.</string>
-    <string name="menu_title_save_progress">Save</string>
+    <string name="error_deadline_title_long">Title cannot be more than %d characters long.</string>
+    <string name="menu_title_save_deadline">Save</string>
 
-    <!--Progress detail-->
+    <!--Deadline detail-->
     <string name="time_left_title">Time left:\n\n%d %s  %d %s  %d %s</string>
-    <string name="progress_delete_successful">Deleted successfully.</string>
-    <string name="progress_delete_confirmation_delete_title">Delete</string>
-    <string name="progress_delete_confirmation_message">Do you want to delete %s?</string>
-    <string name="detail_deleting_progress_message">Deleting…</string>
+    <string name="deadline_delete_successful">Deleted successfully.</string>
+    <string name="deadline_delete_confirmation_delete_title">Delete</string>
+    <string name="deadline_delete_confirmation_message">Do you want to delete %s?</string>
+    <string name="detail_deleting_deadline_message">Deleting…</string>
     <plurals name="days">
         <item quantity="zero">day</item>
         <item quantity="one">day</item>
@@ -121,9 +121,9 @@
         <item quantity="other">hours</item>
     </plurals>
     <string name="achivement_share_message">I completed my goal of %s. #GoalAchived #YearInProgress</string>
-    <string name="detail_progress_complete_title"><![CDATA[Times Up! ⏳]]></string>
-    <string name="detail_progress_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
-    <string name="detail_progress_complete_share_btn_title">Share #GoalAchived</string>
+    <string name="detail_deadline_complete_title"><![CDATA[Times Up! ⏳]]></string>
+    <string name="detail_deadline_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
+    <string name="detail_deadline_complete_share_btn_title">Share #GoalAchived</string>
     <string name="meu_title_pin_shortcut">Add to home screen</string>
     <string name="meu_title_delete">Delete</string>
 
@@ -131,7 +131,7 @@
     <string name="buy_now">Upgrade to Pro</string>
     <string name="pro_benefit_title">Upgrade to <b>PRO</b> to support further development and gain access to some great features:</string>
     <string name="purchase_successful">Purchased successful.</string>
-    <string name="pro_benefit_change_color">Change the color of the progress based on the priority.</string>
+    <string name="pro_benefit_change_color">Change the color of the deadline based on the priority.</string>
     <string name="pro_benefit_notification">Set multiple notifications to track multiple thresholds of your deadline.</string>
     <string name="pro_benefit_no_ads">No more ads</string>
     <string name="pro_benefit_support_dev">Support ongoing development</string>
@@ -148,24 +148,24 @@
     <string name="rate_us_dialog_negative_btn">Do it later</string>
 
     <!--Edit screen-->
-    <string name="edit_progress_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
-    <string name="edit_progress_discard_btn_title">Discard</string>
-    <string name="edit_progress_dismiss_btn_title">Dismiss</string>
-    <string name="edit_progress_add_notification">Add notification</string>
+    <string name="edit_deadline_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
+    <string name="edit_deadline_discard_btn_title">Discard</string>
+    <string name="edit_deadline_dismiss_btn_title">Dismiss</string>
+    <string name="edit_deadline_add_notification">Add notification</string>
     <string name="edit_notifications_title">Notifications</string>
     <string name="row_notification_time_text">Notify when %s is complete</string>
     <string name="set_notification_dialog_title">Set Notification</string>
     <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
     <string name="error_webview">Cannot load the page. Check your internet connection.</string>
-    <string name="progress_notification_title">%s reached to %.2f%%</string>
+    <string name="deadline_notification_title">%s reached to %.2f%%</string>
 
     <!--Share dialog-->
     <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
     <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
-    <string name="error_progress_not_exist">Deadline doesn\'t exist.</string>
-    <string name="edit_progress_title_hint">(e.g. This financial year)</string>
+    <string name="error_deadline_not_exist">Deadline doesn\'t exist.</string>
+    <string name="edit_deadline_title_hint">(e.g. This financial year)</string>
     <string name="notification_subtitle">Tell application when to notify you.</string>
-    <string name="color_subtitle">Choose the color to set the theme for your progress. Spice it up!</string>
+    <string name="color_subtitle">Choose the color to set the theme for your deadline. Spice it up!</string>
 
     <!--TODO: Categorize the strings-->
 </resources>

@@ -6,14 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.kevalpatel2106.yip.repo.dto.ProgressDto
+import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import java.util.concurrent.Executors
 
-@Database(entities = [ProgressDto::class], version = 2, exportSchema = true)
+@Database(entities = [DeadlineDto::class], version = 2, exportSchema = true)
 @TypeConverters(DbTypeConverter::class)
 abstract class YipDatabase : RoomDatabase() {
 
-    internal abstract fun getDeviceDao(): ProgressDao
+    internal abstract fun getDeviceDao(): DeadlineDao
 
     companion object {
         private const val DB_NAME = "yip.db"
@@ -31,7 +31,7 @@ abstract class YipDatabase : RoomDatabase() {
 
                     // Preload the data
                     Executors.newSingleThreadScheduledExecutor().execute {
-                        PrebuiltProcessBuilder.getPrebuiltProgresses(application)
+                        PrebuiltDeadlineBuilder.getPrebuiltDeadline(application)
                             .forEach { instance.getDeviceDao().insert(it) }
                     }
                 }

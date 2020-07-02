@@ -3,8 +3,8 @@
     <string name="app_invitation_url" translatable="false">https://getyip.page.link/install</string>
 
     <!--App shortcuts ids.-->
-    <string name="progress_pin_shortcut_id" translatable="false">progress_pin_shortcut</string>
-    <string name="progress_app_shortcut_id" translatable="false">progress_app_shortcut_%d</string>
+    <string name="deadline_pin_shortcut_id" translatable="false">progress_pin_shortcut</string>
+    <string name="deadline_app_shortcut_id" translatable="false">progress_app_shortcut_%d</string>
 
     <!--Preferences keys-->
     <string name="pref_key_buy_pro" translatable="false">pref_key_buy_pro</string>

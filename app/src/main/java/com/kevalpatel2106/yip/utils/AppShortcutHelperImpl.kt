@@ -6,7 +6,7 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.entity.Deadline
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.min
@@ -20,8 +20,8 @@ internal class AppShortcutHelperImpl @Inject constructor(
 
         val shortcutInfo = ShortcutInfoCompat.Builder(
             application,
-            application.getString(R.string.progress_pin_shortcut_id)
-        ).setIcon(IconCompat.createWithResource(application, R.drawable.progress_app_shortcut))
+            application.getString(R.string.deadline_pin_shortcut_id)
+        ).setIcon(IconCompat.createWithResource(application, R.drawable.deadline_app_shortcut))
             .setShortLabel(title)
             .setIntent(launchIntent)
             .setAlwaysBadged()
@@ -30,30 +30,30 @@ internal class AppShortcutHelperImpl @Inject constructor(
         ShortcutManagerCompat.requestPinShortcut(application, shortcutInfo, null)
     }
 
-    override fun updateDynamicShortcuts(progresses: List<Progress>): Boolean {
+    override fun updateDynamicShortcuts(deadlines: List<Deadline>): Boolean {
         ShortcutManagerCompat.removeAllDynamicShortcuts(application)
-        if (progresses.isEmpty() || isDeviceSupportAppShortcuts(application)) return true
+        if (deadlines.isEmpty() || isDeviceSupportAppShortcuts(application)) return true
 
-        val icon = IconCompat.createWithResource(application, R.drawable.progress_app_shortcut)
-        val shortcuts = getProgressesFoAppShortcuts(progresses)
-            .map { progress ->
+        val icon = IconCompat.createWithResource(application, R.drawable.deadline_app_shortcut)
+        val shortcuts = getDeadlinesFoAppShortcuts(deadlines)
+            .map { deadline ->
                 ShortcutInfoCompat.Builder(
                     application,
-                    application.getString(R.string.progress_app_shortcut_id, progress.id)
+                    application.getString(R.string.deadline_app_shortcut_id, deadline.id)
                 ).setIcon(icon)
-                    .setShortLabel(progress.title)
-                    .setIntent(AppLaunchHelper.launchWithProgressDetail(application, progress.id))
+                    .setShortLabel(deadline.title)
+                    .setIntent(AppLaunchHelper.launchWithDeadlineDetail(application, deadline.id))
                     .build()
             }
         return ShortcutManagerCompat.addDynamicShortcuts(application, shortcuts)
     }
 
-    private fun getProgressesFoAppShortcuts(
-        progresses: List<Progress>,
+    private fun getDeadlinesFoAppShortcuts(
+        deadlines: List<Deadline>,
         maxShortcutCount: Int = ShortcutManagerCompat.getMaxShortcutCountPerActivity(application)
-    ): List<Progress> {
-        val lastIndex = min(progresses.size, maxShortcutCount - NUMBER_OF_STATIC_APP_SHORTCUT)
-        return progresses.subList(0, lastIndex)
+    ): List<Deadline> {
+        val lastIndex = min(deadlines.size, maxShortcutCount - NUMBER_OF_STATIC_APP_SHORTCUT)
+        return deadlines.subList(0, lastIndex)
     }
 
     private fun isDeviceSupportAppShortcuts(application: Context) =

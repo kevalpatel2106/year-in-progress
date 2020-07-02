@@ -18,13 +18,13 @@
         tools:context=".dashboard.DashboardActivity">
 
         <me.saket.inboxrecyclerview.InboxRecyclerView
-            android:id="@+id/progress_list_rv"
+            android:id="@+id/deadline_list_rv"
             android:layout_width="@dimen/dashboard_list_width"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:fitsSystemWindows="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/row_progress" />
+            tools:listitem="@layout/row_deadline" />
 
         <me.saket.inboxrecyclerview.page.ExpandablePageLayout
             android:id="@+id/expandable_page_container"
@@ -45,7 +45,7 @@
             app:navigationIcon="@drawable/ic_hamburger" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_progress_fab"
+            android:id="@+id/add_deadline_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"

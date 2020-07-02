@@ -1,6 +1,6 @@
 package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
-import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
+import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,6 +11,6 @@ class LoadingRepresentableTest {
 
     @Test
     fun checkType() {
-        Assert.assertEquals(ProgressAdapter.TYPE_LOADING, LoadingRepresentable.type)
+        Assert.assertEquals(DeadlineAdapter.TYPE_LOADING, LoadingRepresentable.type)
     }
 }

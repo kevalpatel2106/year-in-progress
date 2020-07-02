@@ -2,8 +2,8 @@ package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.yip.core.setToDayMax
 import com.kevalpatel2106.yip.core.setToDayMin
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -18,27 +18,27 @@ class EditViewStateTest {
     private val initialTitle = "initial title"
     private val currentTitle = "current title"
     private val titleErrorMsg = "error title"
-    private val progressType = ProgressType.CUSTOM
-    private val progressColor = ProgressColor.COLOR_GRAY
+    private val type = DeadlineType.CUSTOM
+    private val color = DeadlineColor.COLOR_GRAY
     private val notificationList = arrayListOf(1F, 3F)
-    private val progressStartTime = Date().apply { setToDayMin() }
-    private val progressEndTime = Date().apply { setToDayMax() }
+    private val startTime = Date().apply { setToDayMin() }
+    private val endTime = Date().apply { setToDayMax() }
 
     private val state = EditViewState(
-        isLoadingProgress = true,
+        isLoading = true,
         isSomethingChanged = false,
 
-        progressType = progressType,
+        type = type,
 
         initialTitle = initialTitle,
         currentTitle = currentTitle,
         titleErrorMsg = titleErrorMsg,
 
         allowEditDate = true,
-        progressStartTime = progressStartTime,
-        progressEndTime = progressEndTime,
+        startTime = startTime,
+        endTime = endTime,
 
-        progressColor = progressColor,
+        selectedColor = color,
         lockColorPicker = true,
 
         lockNotification = true,
@@ -47,16 +47,16 @@ class EditViewStateTest {
 
     @Test
     fun checkInitialState() {
-        assertTrue(state.isLoadingProgress)
+        assertTrue(state.isLoading)
         assertFalse(state.isSomethingChanged)
-        assertEquals(progressType, state.progressType)
+        assertEquals(type, state.type)
         assertEquals(initialTitle, state.initialTitle)
         assertEquals(currentTitle, state.currentTitle)
         assertEquals(titleErrorMsg, state.titleErrorMsg)
         assertTrue(state.allowEditDate)
-        assertEquals(progressStartTime, state.progressStartTime)
-        assertEquals(progressEndTime, state.progressEndTime)
-        assertEquals(progressColor, state.progressColor)
+        assertEquals(startTime, state.startTime)
+        assertEquals(endTime, state.endTime)
+        assertEquals(color, state.selectedColor)
         assertTrue(state.lockColorPicker)
         assertTrue(state.lockNotification)
         assertEquals(notificationList.size, state.notificationList.size)
@@ -86,7 +86,7 @@ class EditViewStateTest {
     @Test
     fun checkEquals() {
         val withAnotherTitle = state.copy(initialTitle = "xyz new")
-        val withLoadingStatus = state.copy(isLoadingProgress = false)
+        val withLoadingStatus = state.copy(isLoading = false)
         val sameObject = state.copy()
 
         assertEquals(sameObject, state)
@@ -97,7 +97,7 @@ class EditViewStateTest {
     @Test
     fun checkHashcode() {
         val withAnotherTitle = state.copy(initialTitle = "xyz new")
-        val withLoadingStatus = state.copy(isLoadingProgress = false)
+        val withLoadingStatus = state.copy(isLoading = false)
         val sameObject = state.copy()
 
         assertEquals(sameObject.hashCode(), state.hashCode())

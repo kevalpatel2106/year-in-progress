@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.kevalpatel2106.yip.R
 
-internal class PaddingViewHolder(itemView: View) : ProgressListViewHolder(itemView) {
+internal class PaddingViewHolder(itemView: View) : DeadlineListViewHolder(itemView) {
 
     companion object {
         fun create(parent: ViewGroup): PaddingViewHolder {

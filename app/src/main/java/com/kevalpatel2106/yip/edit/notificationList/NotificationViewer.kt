@@ -45,7 +45,7 @@ internal class NotificationViewer @JvmOverloads constructor(
     }
 
     private fun prepareString(notificationPercent: Float): SpannableString {
-        val percentString = context.getString(R.string.progress_percentage, notificationPercent)
+        val percentString = context.getString(R.string.deadline_percentage, notificationPercent)
         val rawText = context.getString(R.string.row_notification_time_text, percentString)
 
         return SpannableString(rawText).apply {

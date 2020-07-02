@@ -15,15 +15,15 @@ import com.kevalpatel2106.yip.core.livedata.recall
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
+import com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.ErrorRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.LoadingRepresentable
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
-import com.kevalpatel2106.yip.dashboard.adapter.listItem.ProgressListItem
-import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,13 +35,13 @@ import kotlin.random.Random
 
 internal class DashboardViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
-    private val progressRepo: ProgressRepo,
+    private val deadlineRepo: DeadlineRepo,
     private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
-    private val _progresses = MutableLiveData<ArrayList<ListItemRepresentable>>(arrayListOf())
-    internal val progresses: LiveData<ArrayList<ListItemRepresentable>> = _progresses
+    private val _deadlines = MutableLiveData<ArrayList<ListItemRepresentable>>(arrayListOf())
+    internal val deadlines: LiveData<ArrayList<ListItemRepresentable>> = _deadlines
 
     private val _askForRatingSignal = SignalLiveEvent()
     internal val askForRatingSignal: LiveData<Unit> = _askForRatingSignal
@@ -52,41 +52,41 @@ internal class DashboardViewModel @ViewModelInject constructor(
     private val _userMessages = SingleLiveEvent<String>()
     internal val userMessages: LiveData<String> = _userMessages
 
-    private var _expandProgress = MutableLiveData<Long>(RESET_COLLAPSED_ID)
-    internal var expandProgress: LiveData<Long> = _expandProgress
+    private var _expandDeadline = MutableLiveData<Long>(RESET_COLLAPSED_ID)
+    internal var expandDeadline: LiveData<Long> = _expandDeadline
 
     init {
-        monitorProgresses()
+        monitorDeadlines()
     }
 
-    private fun monitorProgresses() {
+    private fun monitorDeadlines() {
         Flowable.combineLatest(
-            progressRepo.observeAllProgress(),
+            deadlineRepo.observeAllDeadlines(),
             billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
-            BiFunction<List<Progress>, Boolean, Pair<List<Progress>, Boolean>> { list, isPro -> list to isPro }
+            BiFunction<List<Deadline>, Boolean, Pair<List<Deadline>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
             // Show the loader.
-            _progresses.value?.apply {
+            _deadlines.value?.apply {
                 clear()
                 add(LoadingRepresentable)
             }
-            _progresses.recall()
-        }.doOnNext { (progresses, _) ->
-            if (!progresses.any { it.id == _expandProgress.value }) {
-                // Close any deleted progress detail
-                resetExpandedProgress()
+            _deadlines.recall()
+        }.doOnNext { (deadlines, _) ->
+            if (!deadlines.any { it.id == _expandDeadline.value }) {
+                // Close any deleted deadline detail
+                resetExpandedDeadline()
             }
-            appShortcutHelper.updateDynamicShortcuts(progresses)
+            appShortcutHelper.updateDynamicShortcuts(deadlines)
             application.updateWidgets()
-        }.map { (progresses, isPro) ->
+        }.map { (deadlines, isPro) ->
 
             // Add Ads if the user is not pro.
             @Suppress("UNCHECKED_CAST")
-            val list = progresses.map {
-                ProgressListItem(
-                    progress = it,
-                    progressString = application.getString(
-                        R.string.progress_percentage,
+            val list = deadlines.map {
+                DeadlineListItem(
+                    deadline = it,
+                    deadlineString = application.getString(
+                        R.string.deadline_percentage,
                         it.percent
                     ),
                     backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
@@ -103,31 +103,31 @@ internal class DashboardViewModel @ViewModelInject constructor(
                 }
             }
         }.subscribe({ listItems ->
-            _progresses.value?.apply {
+            _deadlines.value?.apply {
                 clear()
                 if (listItems.isEmpty()) {
                     // Show the empty list view.
-                    add(EmptyRepresentable(application.getString(R.string.dashboard_no_progress_message)))
+                    add(EmptyRepresentable(application.getString(R.string.dashboard_no_deadline_message)))
                 } else {
-                    // Show all the progress.
+                    // Show all the deadline.
                     listItems.add(PaddingItem)
                     addAll(listItems)
                 }
             }
-            _progresses.recall()
+            _deadlines.recall()
         }, { throwable ->
             Timber.e(throwable)
 
             // Display error.
-            _progresses.value?.apply {
+            _deadlines.value?.apply {
                 clear()
                 add(
                     ErrorRepresentable(
-                        application.getString(R.string.dashboard_error_loading_progress)
-                    ) { monitorProgresses() }
+                        application.getString(R.string.dashboard_error_loading_deadline)
+                    ) { monitorDeadlines() }
                 )
             }
-            _progresses.recall()
+            _deadlines.recall()
         }).addTo(compositeDisposable)
     }
 
@@ -141,20 +141,20 @@ internal class DashboardViewModel @ViewModelInject constructor(
     }
 
     internal fun userWantsToOpenDetail(
-        progressId: Long,
+        deadlineId: Long,
         @VisibleForTesting randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
     ) {
-        progressRepo.isProgressExist(progressId)
+        deadlineRepo.isDeadlineExist(deadlineId)
             .subscribe({ exist ->
                 if (exist) {
-                    _expandProgress.value = progressId
+                    _expandDeadline.value = deadlineId
                     handleRandomEvents(randomNum)
                 } else {
-                    _userMessages.value = application.getString(R.string.error_progress_not_exist)
+                    _userMessages.value = application.getString(R.string.error_deadline_not_exist)
                 }
             }, { throwable ->
                 Timber.e(throwable)
-                _userMessages.value = application.getString(R.string.error_progress_not_exist)
+                _userMessages.value = application.getString(R.string.error_deadline_not_exist)
             })
             .addTo(compositeDisposable)
     }
@@ -175,10 +175,10 @@ internal class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
-    internal fun isDetailExpanded(): Boolean = expandProgress.value != RESET_COLLAPSED_ID
+    internal fun isDetailExpanded(): Boolean = expandDeadline.value != RESET_COLLAPSED_ID
 
-    internal fun resetExpandedProgress() {
-        _expandProgress.value = RESET_COLLAPSED_ID
+    internal fun resetExpandedDeadline() {
+        _expandDeadline.value = RESET_COLLAPSED_ID
     }
 
     companion object {

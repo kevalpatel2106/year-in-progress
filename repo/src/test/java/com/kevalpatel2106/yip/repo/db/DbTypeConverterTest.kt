@@ -1,8 +1,8 @@
 package com.kevalpatel2106.yip.repo.db
 
 import android.graphics.Color
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
@@ -54,48 +54,48 @@ class DbTypeConverterTest {
     }
 
     @RunWith(JUnit4::class)
-    class ProgressTypeConversationTest {
+    class DeadlineTypeConversationTest {
         @Test
-        fun checkToProgressTypeFromKey() {
-            ProgressType.values().forEach {
+        fun checkToDeadlineTypeFromKey() {
+            DeadlineType.values().forEach {
                 assertEquals(it, DbTypeConverter.toType(it.key))
             }
         }
 
         @Test
-        fun checkToProgressTypeFromUnknownKey() {
-            assertEquals(ProgressType.CUSTOM, DbTypeConverter.toType(12))
+        fun checkToDeadlineTypeFromUnknownKey() {
+            assertEquals(DeadlineType.CUSTOM, DbTypeConverter.toType(12))
         }
 
         @Test
-        fun checkToKeyFromProgressType() {
-            ProgressType.values().forEach {
+        fun checkToKeyFromDeadlineType() {
+            DeadlineType.values().forEach {
                 assertEquals(it.key, DbTypeConverter.fromType(it))
             }
         }
     }
 
     @RunWith(RobolectricTestRunner::class)
-    class ProgressColorConverterTest {
+    class DeadlineColorConverterTest {
 
         @Test
-        fun checkToProgressColorFromColorInt() {
-            ProgressColor.values().forEach {
-                assertEquals(it, DbTypeConverter.toProgressColor(it.colorInt))
+        fun checkToDeadlineColorFromColorInt() {
+            DeadlineColor.values().forEach {
+                assertEquals(it, DbTypeConverter.toDeadlineColor(it.colorInt))
             }
         }
 
         @Test
-        fun checkToProgressColorFromUnknownColorInt() {
+        fun checkToDeadlineColorFromUnknownColorInt() {
             assertEquals(
-                ProgressColor.COLOR_GRAY,
-                DbTypeConverter.toProgressColor(Color.TRANSPARENT)
+                DeadlineColor.COLOR_GRAY,
+                DbTypeConverter.toDeadlineColor(Color.TRANSPARENT)
             )
         }
 
         @Test
-        fun checkToColorIntFromProgressColor() {
-            ProgressColor.values().forEach {
+        fun checkToColorIntFromDeadlineColor() {
+            DeadlineColor.values().forEach {
                 assertEquals(it.colorInt, DbTypeConverter.fromColor(it))
             }
         }

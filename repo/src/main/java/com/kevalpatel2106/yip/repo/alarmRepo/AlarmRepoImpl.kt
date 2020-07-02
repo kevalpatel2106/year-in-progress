@@ -10,7 +10,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.os.bundleOf
 import com.kevalpatel2106.yip.repo.db.YipDatabase
-import com.kevalpatel2106.yip.repo.dto.ProgressDto
+import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.functions.BiFunction
@@ -32,22 +32,22 @@ internal class AlarmRepoImpl(
             .firstOrError()
             .zipWith(
                 timeProvider.nowAsync(),
-                BiFunction { dtos: List<ProgressDto>, date: Date -> dtos to date }
+                BiFunction { dtos: List<DeadlineDto>, date: Date -> dtos to date }
             )
             .subscribe({ (dtos, now) ->
-                dtos.forEach { dto -> updateAlarmsForProgress(dto, triggerReceiver, now.time) }
+                dtos.forEach { dto -> updateAlarmsForDeadline(dto, triggerReceiver, now.time) }
             }, {
                 Timber.e(it)
             })
     }
 
-    private fun <T : BroadcastReceiver> updateAlarmsForProgress(
-        progress: ProgressDto,
+    private fun <T : BroadcastReceiver> updateAlarmsForDeadline(
+        deadline: DeadlineDto,
         triggerReceiver: Class<T>,
         nowMills: Long
     ) {
-        progress.notifications
-            .map { triggerMills(progress.start.time, progress.end.time, it) }
+        deadline.notifications
+            .map { triggerMills(deadline.start.time, deadline.end.time, it) }
             .filter { triggerMills -> triggerMills > nowMills }
             .forEach { triggerMills ->
                 AlarmManagerCompat.setExactAndAllowWhileIdle(
@@ -57,7 +57,7 @@ internal class AlarmRepoImpl(
                     getPendingIntent(
                         application = application,
                         alarmTime = triggerMills,
-                        progressId = progress.id,
+                        deadlineId = deadline.id,
                         triggerClass = triggerReceiver
                     )
                 )
@@ -69,11 +69,11 @@ internal class AlarmRepoImpl(
         private fun <T : BroadcastReceiver> getPendingIntent(
             application: Context,
             alarmTime: Long,
-            progressId: Long,
+            deadlineId: Long,
             triggerClass: Class<T>
         ): PendingIntent {
             val intent = Intent(application, triggerClass)
-                .apply { putExtras(bundleOf(AlarmRepo.ARG_PROGRESS_ID to progressId)) }
+                .apply { putExtras(bundleOf(AlarmRepo.ARG_DEADLINE_ID to deadlineId)) }
             return PendingIntent.getBroadcast(
                 application,
                 alarmTime.toInt(),

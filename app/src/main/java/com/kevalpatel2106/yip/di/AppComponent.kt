@@ -7,12 +7,12 @@ import android.appwidget.AppWidgetManager
 import com.kevalpatel2106.yip.YIPApplication
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.detail.DetailFragment
-import com.kevalpatel2106.yip.edit.EditProgressActivity
+import com.kevalpatel2106.yip.edit.EditDeadlineActivity
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.db.YipDatabase
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.utils.validator.Validator
@@ -21,7 +21,7 @@ import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.kevalpatel2106.yip.webviews.WebViewActivity
-import com.kevalpatel2106.yip.widget.ProgressListRemoteService
+import com.kevalpatel2106.yip.widget.DeadlineListRemoteService
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
@@ -34,7 +34,7 @@ internal interface AppComponent {
     fun getDatabase(): YipDatabase
     fun getSharedPrefs(): SharedPrefsProvider
     fun getBillingRepo(): BillingRepo
-    fun getProgressRepo(): ProgressRepo
+    fun getDeadlineRepo(): DeadlineRepo
     fun getAlarmRepo(): AlarmRepo
     fun getDateFormatter(): DateFormatter
     fun getValidator(): Validator
@@ -44,7 +44,7 @@ internal interface AppComponent {
 
     fun inject(splashActivity: SplashActivity)
     fun inject(dashboardActivity: DashboardActivity)
-    fun inject(editProgressActivity: EditProgressActivity)
+    fun inject(editDeadlineActivity: EditDeadlineActivity)
     fun inject(paymentActivity: PaymentActivity)
     fun inject(webViewActivity: WebViewActivity)
 
@@ -52,5 +52,5 @@ internal interface AppComponent {
     fun inject(settingsFragment: SettingsFragment)
     fun inject(settingsActivity: SettingsActivity)
 
-    fun inject(progressListRemoteService: ProgressListRemoteService)
+    fun inject(deadlineListRemoteService: DeadlineListRemoteService)
 }

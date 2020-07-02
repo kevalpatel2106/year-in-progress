@@ -13,7 +13,7 @@ import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.entity.isRepeatable
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
@@ -22,12 +22,12 @@ import timber.log.Timber
 
 internal class DetailViewModel @ViewModelInject internal constructor(
     @ApplicationContext private val application: Context,
-    private val progressRepo: ProgressRepo,
+    private val deadlineRepo: DeadlineRepo,
     private val appShortcutHelper: AppShortcutHelper,
     private val sdf: DateFormatter
 ) : BaseViewModel() {
 
-    private var progressId = -1L
+    private var deadlineId = -1L
 
     private val _viewState = MutableLiveData<DetailViewState>(
         DetailViewState.initialState(application)
@@ -41,41 +41,41 @@ internal class DetailViewModel @ViewModelInject internal constructor(
     internal val closeDetail: LiveData<Unit> =
         SignalLiveEvent()
 
-    private fun monitorProgress(id: Long) {
-        progressRepo.observeProgress(id)
+    private fun monitorDeadlines(id: Long) {
+        deadlineRepo.observeDeadline(id)
             .subscribe({ item ->
-                val isProgressComplete = item.percent >= 100f
-                val progressThemeColor = darkenColor(item.color.colorInt, 0.9f)
+                val isDeadlineComplete = item.percent >= 100f
+                val deadlineThemeColor = darkenColor(item.color.colorInt, 0.9f)
 
                 _viewState.value = _viewState.value?.copy(
                     cardBackground = application.getBackgroundGradient(item.color.colorInt),
 
-                    progressTitleText = item.title,
-                    progressPercentText = application.getString(
-                        R.string.progress_percentage,
+                    titleText = item.title,
+                    deadlinePercentText = application.getString(
+                        R.string.deadline_percentage,
                         item.percent
                     ),
-                    progressTimeLeftText = if (isProgressComplete) {
+                    timeLeftText = if (isDeadlineComplete) {
                         emptySpannableString()
                     } else {
                         DetailUseCase.prepareTimeLeft(
                             application = application,
                             endTime = item.end,
-                            secondaryColor = progressThemeColor
+                            secondaryColor = deadlineThemeColor
                         )
                     },
-                    progressEndTimeText = sdf.format(item.end),
-                    progressStartTimeText = sdf.format(item.start),
-                    progressColor = progressThemeColor,
-                    showRepeatable = item.progressType.isRepeatable(),
+                    endTimeText = sdf.format(item.end),
+                    startTimeText = sdf.format(item.start),
+                    deadlineColor = deadlineThemeColor,
+                    showRepeatable = item.deadlineType.isRepeatable(),
 
-                    detailFlipperPosition = if (isProgressComplete) {
-                        ProgressFlipper.POS_SHARE_PROGRESS
+                    detailFlipperPosition = if (isDeadlineComplete) {
+                        DetailViewFlipper.POS_SHARE
                     } else {
-                        ProgressFlipper.POS_TIME_LEFT
+                        DetailViewFlipper.POS_TIME_LEFT
                     },
 
-                    progressPercent = item.percent.toInt()
+                    percent = item.percent.toInt()
                 )
             }, { throwable ->
                 Timber.e(throwable)
@@ -85,12 +85,12 @@ internal class DetailViewModel @ViewModelInject internal constructor(
             .addTo(compositeDisposable)
     }
 
-    internal fun deleteProgress() {
-        progressRepo.deleteProgress(progressId)
-            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isDeletingProgress = true) }
-            .doOnTerminate { _viewState.value = _viewState.value?.copy(isDeletingProgress = false) }
+    internal fun deleteDeadline() {
+        deadlineRepo.deleteDeadline(deadlineId)
+            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isDeleting = true) }
+            .doOnTerminate { _viewState.value = _viewState.value?.copy(isDeleting = false) }
             .subscribe({
-                _userMessage.value = application.getString(R.string.progress_delete_successful)
+                _userMessage.value = application.getString(R.string.deadline_delete_successful)
                 _closeDetail.sendSignal()
             }, { throwable ->
                 Timber.e(throwable)
@@ -100,16 +100,16 @@ internal class DetailViewModel @ViewModelInject internal constructor(
     }
 
     internal fun requestPinShortcut() {
-        val title = viewState.value?.progressTitleText
+        val title = viewState.value?.titleText
             ?: application.getString(R.string.application_name)
-        val launchIntent = AppLaunchHelper.launchWithProgressDetail(application, progressId)
+        val launchIntent = AppLaunchHelper.launchWithDeadlineDetail(application, deadlineId)
         appShortcutHelper.requestPinShortcut(title, launchIntent)
     }
 
-    internal fun setProgressIdToMonitor(progressId: Long) {
-        if (this.progressId != progressId) {
-            this.progressId = progressId
-            monitorProgress(progressId)
+    internal fun setDeadlineIdToMonitor(deadlineId: Long) {
+        if (this.deadlineId != deadlineId) {
+            this.deadlineId = deadlineId
+            monitorDeadlines(deadlineId)
         }
     }
 }

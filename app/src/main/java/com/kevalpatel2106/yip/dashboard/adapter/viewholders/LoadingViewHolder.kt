@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.kevalpatel2106.yip.R
 
-internal class LoadingViewHolder(containerView: View) : ProgressListViewHolder(containerView) {
+internal class LoadingViewHolder(containerView: View) : DeadlineListViewHolder(containerView) {
 
     companion object {
         fun create(parent: ViewGroup): LoadingViewHolder {

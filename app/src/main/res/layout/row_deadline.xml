@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root_card"
+        style="@style/DashboardListCard"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="@dimen/dashboard_list_row_card_elevation"
+        app:contentPaddingBottom="@dimen/spacing_small"
+        app:contentPaddingLeft="@dimen/spacing_small"
+        app:contentPaddingRight="@dimen/spacing_small"
+        app:contentPaddingTop="@dimen/spacing_small"
+        tools:cardBackgroundColor="@android:color/red">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foreground_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_nano"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="@{percent}"
+                android:progressTint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/deadline_percent"
+                app:layout_constraintEnd_toStartOf="@+id/deadline_percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/deadline_percent"
+                tools:progress="10" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/deadline_percent"
+                style="@style/LargeText.White"
+                android:layout_width="@dimen/spacing_anti"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_nano"
+                android:gravity="end"
+                android:text="@{percentString}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deadline_name_title"
+                tools:text="43.00%" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/deadline_name_title"
+                style="@style/MediumText.White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/lato"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{deadlineName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <data>
+
+        <variable
+            name="deadlineName"
+            type="String" />
+
+        <variable
+            name="percentString"
+            type="String" />
+
+        <variable
+            name="percent"
+            type="Integer" />
+    </data>
+</layout>

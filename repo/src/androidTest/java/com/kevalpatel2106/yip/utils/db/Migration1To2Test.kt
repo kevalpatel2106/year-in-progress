@@ -5,11 +5,11 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.db.Migration1To2
 import com.kevalpatel2106.yip.repo.db.YipDatabase
-import com.kevalpatel2106.yip.repo.dto.ProgressDto
+import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -19,13 +19,13 @@ import java.util.Date
 @RunWith(AndroidJUnit4::class)
 class Migration1To2Test {
     private val TEST_DB_NAME = "yip_test.db"
-    private val testProgress = ProgressDto(
+    private val testDeadline = DeadlineDto(
         id = 438675,
-        color = ProgressColor.COLOR_BLUE,
+        color = DeadlineColor.COLOR_BLUE,
         end = Date(System.currentTimeMillis()),
         start = Date(System.currentTimeMillis()),
         notifications = listOf(34F, 345F),
-        progressType = ProgressType.DAY_PROGRESS,
+        type = DeadlineType.DAY_DEADLINE,
         title = "test"
     )
 
@@ -45,7 +45,7 @@ class Migration1To2Test {
         //Inject data in version 1.
         db.execSQL(
             "INSERT OR REPLACE INTO `progresses`(`id`,`type`,`title`,`start_mills`,`end_mills`,`color`,`sortOrder`,`is_enabled`)" +
-                    " VALUES (${testProgress.id}, ${testProgress.color}, ${testProgress.end}, ${testProgress.start}, ${testProgress.progressType}, ${testProgress.title}, 0, false);"
+                    " VALUES (${testDeadline.id}, ${testDeadline.color}, ${testDeadline.end}, ${testDeadline.start}, ${testDeadline.type}, ${testDeadline.title}, 0, false);"
         )
 
         //Run the migration
@@ -61,7 +61,7 @@ class Migration1To2Test {
         val testObserver = YipDatabase
             .create(InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as Application)
             .getDeviceDao()
-            .observe(testProgress.id)
+            .observe(testDeadline.id)
             .test()
 
         testObserver.awaitTerminalEvent()
@@ -70,12 +70,12 @@ class Migration1To2Test {
         testObserver.assertNoErrors()
             .assertComplete()
             .assertValueCount(1)
-            .assertValueAt(0) { it.id == testProgress.id }
-            .assertValueAt(0) { it.title == testProgress.title }
-            .assertValueAt(0) { it.color == testProgress.color }
-            .assertValueAt(0) { it.end == testProgress.end }
-            .assertValueAt(0) { it.start == testProgress.start }
-            .assertValueAt(0) { it.progressType == testProgress.progressType }
+            .assertValueAt(0) { it.id == testDeadline.id }
+            .assertValueAt(0) { it.title == testDeadline.title }
+            .assertValueAt(0) { it.color == testDeadline.color }
+            .assertValueAt(0) { it.end == testDeadline.end }
+            .assertValueAt(0) { it.start == testDeadline.start }
+            .assertValueAt(0) { it.type == testDeadline.type }
             .assertValueAt(0) { it.notifications.isEmpty() }
     }
 }

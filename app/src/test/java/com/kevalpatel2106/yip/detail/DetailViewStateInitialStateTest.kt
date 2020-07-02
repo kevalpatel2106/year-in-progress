@@ -37,15 +37,15 @@ class DetailViewStateInitialStateTest {
 
     @Test
     fun checkInitialState() {
-        assertEquals(emptyString(), initialState.progressEndTimeText)
+        assertEquals(emptyString(), initialState.endTimeText)
         assertNotNull(initialState.cardBackground)
-        assertEquals(ProgressFlipper.POS_TIME_LEFT, initialState.detailFlipperPosition)
-        assertFalse(initialState.isDeletingProgress)
+        assertEquals(DetailViewFlipper.POS_TIME_LEFT, initialState.detailFlipperPosition)
+        assertFalse(initialState.isDeleting)
         assertFalse(initialState.showRepeatable)
-        assertEquals(0, initialState.progressPercent)
-        assertEquals(emptyString(), initialState.progressPercentText)
-        assertEquals(Color.GRAY, initialState.progressColor)
-        assertEquals(emptyString(), initialState.progressTitleText)
+        assertEquals(0, initialState.percent)
+        assertEquals(emptyString(), initialState.deadlinePercentText)
+        assertEquals(Color.GRAY, initialState.deadlineColor)
+        assertEquals(emptyString(), initialState.titleText)
     }
 
 }

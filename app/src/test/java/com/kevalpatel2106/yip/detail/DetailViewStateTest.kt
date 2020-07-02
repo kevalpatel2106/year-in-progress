@@ -20,42 +20,42 @@ class DetailViewStateTest {
     private val testStartTime = "test start time"
     private val testEndTime = "test end time"
     private val testTimeLeftText = SpannableString("test time left")
-    private val testIsDeletingProgress = true
+    private val testIsDeleting = true
     private val testCardBackGround = GradientDrawable()
-    private val testProgressColor = Color.WHITE
-    private val testProgressFlipperPos = ProgressFlipper.POS_SHARE_PROGRESS
+    private val testDeadlineColor = Color.WHITE
+    private val testDeadlineFlipperPos = DetailViewFlipper.POS_SHARE
 
     private lateinit var state: DetailViewState
 
     @Before
     fun before() {
         state = DetailViewState(
-            progressTitleText = testTitle,
-            progressPercent = testPercent,
-            progressPercentText = testPercentText,
-            progressStartTimeText = testStartTime,
-            progressEndTimeText = testEndTime,
-            progressTimeLeftText = testTimeLeftText,
-            isDeletingProgress = testIsDeletingProgress,
+            titleText = testTitle,
+            percent = testPercent,
+            deadlinePercentText = testPercentText,
+            startTimeText = testStartTime,
+            endTimeText = testEndTime,
+            timeLeftText = testTimeLeftText,
+            isDeleting = testIsDeleting,
             cardBackground = testCardBackGround,
-            progressColor = testProgressColor,
-            detailFlipperPosition = testProgressFlipperPos,
+            deadlineColor = testDeadlineColor,
+            detailFlipperPosition = testDeadlineFlipperPos,
             showRepeatable = false
         )
     }
 
     @Test
     fun checkConstructor() {
-        assertEquals(testTitle, state.progressTitleText)
-        assertEquals(testPercent, state.progressPercent)
-        assertEquals(testPercentText, state.progressPercentText)
-        assertEquals(testStartTime, state.progressStartTimeText)
-        assertEquals(testEndTime, state.progressEndTimeText)
-        assertEquals(testTimeLeftText, state.progressTimeLeftText)
-        assertEquals(testIsDeletingProgress, state.isDeletingProgress)
+        assertEquals(testTitle, state.titleText)
+        assertEquals(testPercent, state.percent)
+        assertEquals(testPercentText, state.deadlinePercentText)
+        assertEquals(testStartTime, state.startTimeText)
+        assertEquals(testEndTime, state.endTimeText)
+        assertEquals(testTimeLeftText, state.timeLeftText)
+        assertEquals(testIsDeleting, state.isDeleting)
         assertEquals(testCardBackGround, state.cardBackground)
-        assertEquals(testProgressColor, state.progressColor)
-        assertEquals(testProgressFlipperPos, state.detailFlipperPosition)
+        assertEquals(testDeadlineColor, state.deadlineColor)
+        assertEquals(testDeadlineFlipperPos, state.detailFlipperPosition)
         assertFalse(state.showRepeatable)
     }
 
@@ -63,7 +63,7 @@ class DetailViewStateTest {
     fun testEquals() {
         val sameObject = state.copy()
         val noCardColor = state.copy(cardBackground = null)
-        val differentPercent = state.copy(progressPercent = 23)
+        val differentPercent = state.copy(percent = 23)
 
         assertEquals(sameObject, state)
         assertNotEquals(noCardColor, state)
@@ -76,7 +76,7 @@ class DetailViewStateTest {
     fun testHashcode() {
         val sameObject = state.copy()
         val noCardColor = state.copy(cardBackground = null)
-        val differentPercent = state.copy(progressPercent = 23)
+        val differentPercent = state.copy(percent = 23)
 
         assertEquals(sameObject.hashCode(), state.hashCode())
         assertNotEquals(noCardColor.hashCode(), state.hashCode())

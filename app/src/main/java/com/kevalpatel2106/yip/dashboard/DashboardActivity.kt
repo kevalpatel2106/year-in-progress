@@ -14,22 +14,22 @@ import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
-import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapter
-import com.kevalpatel2106.yip.dashboard.adapter.ProgressAdapterEventListener
+import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
+import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
-import com.kevalpatel2106.yip.edit.EditProgressActivity
-import com.kevalpatel2106.yip.entity.Progress
+import com.kevalpatel2106.yip.edit.EditDeadlineActivity
+import com.kevalpatel2106.yip.entity.Deadline
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_dashboard.add_progress_fab
+import kotlinx.android.synthetic.main.activity_dashboard.add_deadline_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
+import kotlinx.android.synthetic.main.activity_dashboard.deadline_list_rv
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
-import kotlinx.android.synthetic.main.activity_dashboard.progress_list_rv
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
 
 @AndroidEntryPoint
-internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventListener {
+internal class DashboardActivity : AppCompatActivity(), DeadlineAdapterEventListener {
 
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
 
@@ -43,12 +43,12 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
         }
 
         override fun onPageCollapsed() {
-            add_progress_fab.setImageResource(R.drawable.ic_add)
+            add_deadline_fab.setImageResource(R.drawable.ic_add)
             collapseDetail()
         }
 
         override fun onPageExpanded() {
-            add_progress_fab.setImageResource(R.drawable.ic_edit)
+            add_deadline_fab.setImageResource(R.drawable.ic_edit)
         }
     }
 
@@ -80,7 +80,7 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val detailId = intent?.getLongExtra(
-            ARG_PROGRESS_DETAIL_ID,
+            ARG_DEADLINE_DETAIL_ID,
             DashboardViewModel.RESET_COLLAPSED_ID
         ) ?: DashboardViewModel.RESET_COLLAPSED_ID
         if (detailId > 0) model.userWantsToOpenDetail(detailId)
@@ -94,14 +94,14 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
     }
 
     private fun setUpFab() {
-        add_progress_fab.setOnClickListener {
+        add_deadline_fab.setOnClickListener {
             if (model.isDetailExpanded()) {
-                EditProgressActivity.edit(
+                EditDeadlineActivity.edit(
                     context = this@DashboardActivity,
-                    progressId = requireNotNull(model.expandProgress.value)
+                    deadlineId = requireNotNull(model.expandDeadline.value)
                 )
             } else {
-                EditProgressActivity.createNew(this@DashboardActivity)
+                EditDeadlineActivity.createNew(this@DashboardActivity)
             }
         }
     }
@@ -111,35 +111,35 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
         expandable_page_container.addStateChangeCallbacks(pageStateChangeCallbacks)
 
         // Set up the adapter
-        val progressListAdapter = ProgressAdapter(this@DashboardActivity)
+        val deadlineAdapter = DeadlineAdapter(this@DashboardActivity)
 
         // Prepare the list
-        progress_list_rv.apply {
+        deadline_list_rv.apply {
             setUp(expandable_page_container)
-            adapter = progressListAdapter
+            adapter = deadlineAdapter
         }
 
-        // Start monitoring progress.
-        model.progresses.nullSafeObserve(this@DashboardActivity) {
-            progressListAdapter.submitList(it.toMutableList())
+        // Start monitoring deadline.
+        model.deadlines.nullSafeObserve(this@DashboardActivity) {
+            deadlineAdapter.submitList(it.toMutableList())
         }
 
         // Expand detail
-        model.expandProgress.nullSafeObserve(this@DashboardActivity) {
+        model.expandDeadline.nullSafeObserve(this@DashboardActivity) {
             if (it == DashboardViewModel.RESET_COLLAPSED_ID) {
-                progress_list_rv.collapse()
+                deadline_list_rv.collapse()
             } else {
                 supportFragmentManager.commitNow(allowStateLoss = true) {
                     replace(R.id.expandable_page_container, DetailFragment.newInstance(it))
                 }
-                progress_list_rv.expandItem(it)
+                deadline_list_rv.expandItem(it)
             }
         }
     }
 
-    internal fun collapseDetail() = model.resetExpandedProgress()
+    internal fun collapseDetail() = model.resetExpandedDeadline()
 
-    override fun onProgressClicked(progress: Progress) = model.userWantsToOpenDetail(progress.id)
+    override fun onDeadlineClicked(deadline: Deadline) = model.userWantsToOpenDetail(deadline.id)
 
     override fun onSupportNavigateUp(): Boolean {
         if (!model.isDetailExpanded() && !bottomNavigationSheet.isVisible) {
@@ -160,21 +160,21 @@ internal class DashboardActivity : AppCompatActivity(), ProgressAdapterEventList
     }
 
     companion object {
-        private const val ARG_PROGRESS_DETAIL_ID = "progressId"
+        private const val ARG_DEADLINE_DETAIL_ID = "deadlineId"
 
         internal fun launch(
             context: Context,
-            expandedProgressId: Long = DashboardViewModel.RESET_COLLAPSED_ID
+            expandedDeadlineId: Long = DashboardViewModel.RESET_COLLAPSED_ID
         ) {
-            context.startActivity(launchIntent(context, expandedProgressId))
+            context.startActivity(launchIntent(context, expandedDeadlineId))
         }
 
         internal fun launchIntent(
             context: Context,
-            expandedProgressId: Long = DashboardViewModel.RESET_COLLAPSED_ID
+            expandedDeadlineId: Long = DashboardViewModel.RESET_COLLAPSED_ID
         ): Intent {
             return context.prepareLaunchIntent(DashboardActivity::class.java)
-                .apply { putExtra(ARG_PROGRESS_DETAIL_ID, expandedProgressId) }
+                .apply { putExtra(ARG_DEADLINE_DETAIL_ID, expandedDeadlineId) }
         }
     }
 }

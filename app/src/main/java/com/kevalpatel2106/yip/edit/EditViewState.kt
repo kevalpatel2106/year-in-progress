@@ -3,26 +3,26 @@ package com.kevalpatel2106.yip.edit
 import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.setToDayMax
 import com.kevalpatel2106.yip.core.setToDayMin
-import com.kevalpatel2106.yip.entity.ProgressColor
-import com.kevalpatel2106.yip.entity.ProgressType
+import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.entity.DeadlineType
 import java.util.Calendar
 import java.util.Date
 
 internal data class EditViewState(
-    val isLoadingProgress: Boolean,
+    val isLoading: Boolean,
     val isSomethingChanged: Boolean,
 
-    val progressType: ProgressType,
+    val type: DeadlineType,
 
     val initialTitle: String,
     val currentTitle: String,
     val titleErrorMsg: String?,
 
     val allowEditDate: Boolean,
-    val progressStartTime: Date,
-    val progressEndTime: Date,
+    val startTime: Date,
+    val endTime: Date,
 
-    val progressColor: ProgressColor,
+    val selectedColor: DeadlineColor,
     val lockColorPicker: Boolean,
 
     val lockNotification: Boolean,
@@ -37,20 +37,20 @@ internal data class EditViewState(
             val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
 
             return EditViewState(
-                isLoadingProgress = false,
+                isLoading = false,
                 isSomethingChanged = false,
 
-                progressType = ProgressType.CUSTOM,
+                type = DeadlineType.CUSTOM,
 
                 initialTitle = emptyString(),
                 currentTitle = emptyString(),
                 titleErrorMsg = null,
 
                 allowEditDate = true,
-                progressStartTime = Date(System.currentTimeMillis()).apply { setToDayMin() },
-                progressEndTime = Date(tomorrow.timeInMillis).apply { setToDayMax() },
+                startTime = Date(System.currentTimeMillis()).apply { setToDayMin() },
+                endTime = Date(tomorrow.timeInMillis).apply { setToDayMax() },
 
-                progressColor = ProgressColor.COLOR_GRAY,
+                selectedColor = DeadlineColor.COLOR_GRAY,
                 lockColorPicker = true,
 
                 lockNotification = true,

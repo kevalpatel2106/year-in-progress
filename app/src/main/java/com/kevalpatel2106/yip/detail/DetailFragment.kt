@@ -24,10 +24,10 @@ internal class DetailFragment : Fragment() {
         DetailUseCase.preparePopupMenu(option_menu).apply {
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.menu_delete_progress -> {
-                        model.viewState.value?.progressTitleText?.let { title ->
+                    R.id.menu_delete_deadline -> {
+                        model.viewState.value?.titleText?.let { title ->
                             DetailUseCase.conformDelete(requireContext(), title) {
-                                model.deleteProgress()
+                                model.deleteDeadline()
                             }
                         }
                     }
@@ -45,7 +45,7 @@ internal class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        model.setProgressIdToMonitor(requireNotNull(arguments?.getLong(ARG_ID)))
+        model.setDeadlineIdToMonitor(requireNotNull(arguments?.getLong(ARG_ID)))
 
         return DataBindingUtil
             .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
@@ -61,15 +61,15 @@ internal class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Handle the delete
-        var deleteInProgressSnackbar: Snackbar? = null
+        var deleteDeadlineSnackbar: Snackbar? = null
         model.viewState.nullSafeObserve(this@DetailFragment) { viewState ->
-            if (viewState.isDeletingProgress) {
-                deleteInProgressSnackbar = activity?.showSnack(
-                    getString(R.string.detail_deleting_progress_message),
+            if (viewState.isDeleting) {
+                deleteDeadlineSnackbar = activity?.showSnack(
+                    getString(R.string.detail_deleting_deadline_message),
                     Snackbar.LENGTH_INDEFINITE
                 )
             } else {
-                deleteInProgressSnackbar?.dismiss()
+                deleteDeadlineSnackbar?.dismiss()
             }
         }
 
@@ -79,7 +79,7 @@ internal class DetailFragment : Fragment() {
     }
 
     fun showDetailOptions() {
-        if (model.viewState.value?.isDeletingProgress == false) {
+        if (model.viewState.value?.isDeleting == false) {
             popupMenu.show()
         }
     }
@@ -89,7 +89,7 @@ internal class DetailFragment : Fragment() {
             startActivity(
                 DetailUseCase.prepareShareAchievementIntent(
                     context = ctx,
-                    title = model.viewState.value?.progressTitleText
+                    title = model.viewState.value?.titleText
                 )
             )
         }
@@ -100,9 +100,9 @@ internal class DetailFragment : Fragment() {
     companion object {
         private const val ARG_ID = "arg_id"
 
-        internal fun newInstance(progressId: Long): DetailFragment {
+        internal fun newInstance(deadlineId: Long): DetailFragment {
             return DetailFragment().apply {
-                arguments = Bundle().apply { putLong(ARG_ID, progressId) }
+                arguments = Bundle().apply { putLong(ARG_ID, deadlineId) }
                 retainInstance = true
             }
         }

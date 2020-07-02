@@ -1,7 +1,7 @@
 package com.kevalpatel2106.yip.edit.colorPicker
 
 import androidx.recyclerview.widget.RecyclerView
-import com.kevalpatel2106.yip.entity.ProgressColor
+import com.kevalpatel2106.yip.entity.DeadlineColor
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -40,7 +40,7 @@ class ColorsAdapterTest {
     fun checkListOfColors() {
         Assert.assertTrue(adapter.colors.isNotEmpty())
 
-        val supportedColor = ProgressColor.values()
+        val supportedColor = DeadlineColor.values()
         adapter.colors.forEachIndexed { index, colorStates ->
             Assert.assertEquals(colorStates, ColorStates(supportedColor[index].colorInt, false))
         }
@@ -54,11 +54,11 @@ class ColorsAdapterTest {
 
     @Test
     fun checkSetSelectedColor() {
-        val selectedProgressColor = ProgressColor.COLOR_GRAY.colorInt
-        adapter.setSelectedColor(selectedProgressColor)
+        val selectedColor = DeadlineColor.COLOR_GRAY.colorInt
+        adapter.setSelectedColor(selectedColor)
 
         adapter.colors.forEach {
-            Assert.assertEquals(it.color == selectedProgressColor, it.isSelected)
+            Assert.assertEquals(it.color == selectedColor, it.isSelected)
         }
         Mockito.verify(dataObserver, Mockito.times(1)).onChanged()
     }

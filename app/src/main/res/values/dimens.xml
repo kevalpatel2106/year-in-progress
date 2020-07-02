@@ -11,14 +11,14 @@
     <dimen name="dashboard_list_row_card_elevation">@dimen/spacing_pico</dimen>
     <dimen name="rv_empty_state_height">200dp</dimen>
 
-    <!--Progress list widget dimension-->
+    <!--Deadline list widget dimension-->
     <dimen name="widget_min_width">190dp</dimen>
     <dimen name="widget_min_height">@dimen/spacing_huge</dimen>
     <dimen name="widget_row_height">40dp</dimen>
 
-    <!--Progress detail dimensions-->
+    <!--Deadline detail dimensions-->
     <dimen name="time_left_text_size">24sp</dimen>
-    <dimen name="progress_percent_text_size">36sp</dimen>
+    <dimen name="deadline_percent_text_size">36sp</dimen>
     <dimen name="detail_title_button_padding">12dp</dimen>
     <dimen name="payment_header_image_width">150dp</dimen>
 

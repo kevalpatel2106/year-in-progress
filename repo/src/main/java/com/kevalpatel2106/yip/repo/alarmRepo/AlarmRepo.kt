@@ -6,6 +6,6 @@ interface AlarmRepo {
     fun <T : BroadcastReceiver> updateAlarms(triggerReceiver: Class<T>)
 
     companion object {
-        const val ARG_PROGRESS_ID = "arg_progress_id"
+        const val ARG_DEADLINE_ID = "arg_deadline_id"
     }
 }

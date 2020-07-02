@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="menu_progress_group" type="id" />
-    <item name="menu_delete_progress" type="id" />
+    <item name="menu_deadline_group" type="id" />
+    <item name="menu_delete_deadline" type="id" />
     <item name="menu_pin_shortcut" type="id" />
 </resources>

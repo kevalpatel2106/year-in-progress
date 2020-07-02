@@ -2,12 +2,11 @@ package com.kevalpatel2106.yip.repo.utils.validator
 
 import android.content.Context
 import androidx.annotation.ColorInt
-import com.kevalpatel2106.yip.entity.ProgressColor
+import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.repo.R
 import java.util.Date
 
-internal class ValidatorImpl constructor(private val application: Context) :
-    Validator {
+internal class ValidatorImpl constructor(private val application: Context) : Validator {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
 
     override fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {
@@ -18,8 +17,8 @@ internal class ValidatorImpl constructor(private val application: Context) :
         return startDate != null && endDate?.after(startDate) == true
     }
 
-    override fun isValidProgressColor(@ColorInt value: Int?): Boolean {
-        return ProgressColor.values().firstOrNull { it.colorInt == value } != null
+    override fun isValidDeadlineColor(@ColorInt value: Int?): Boolean {
+        return DeadlineColor.values().firstOrNull { it.colorInt == value } != null
     }
 
     override fun isValidTitle(title: String): Boolean {

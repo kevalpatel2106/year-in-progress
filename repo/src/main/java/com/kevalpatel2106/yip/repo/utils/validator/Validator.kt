@@ -6,7 +6,7 @@ import java.util.Date
 interface Validator {
     fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean
     fun isValidEndDate(startDate: Date?, endDate: Date?): Boolean
-    fun isValidProgressColor(@ColorInt value: Int?): Boolean
+    fun isValidDeadlineColor(@ColorInt value: Int?): Boolean
     fun isValidTitle(title: String): Boolean
     fun isValidNotification(notification: List<Float>): Boolean
 }

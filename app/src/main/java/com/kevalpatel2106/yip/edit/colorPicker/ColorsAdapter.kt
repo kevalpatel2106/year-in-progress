@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
-import com.kevalpatel2106.yip.entity.ProgressColor
+import com.kevalpatel2106.yip.entity.DeadlineColor
 
 internal class ColorsAdapter(
     private val context: Context,
@@ -20,7 +20,7 @@ internal class ColorsAdapter(
 
     @VisibleForTesting
     internal val colors by lazy {
-        ProgressColor.values().map { ColorStates(it.colorInt, false) }
+        DeadlineColor.values().map { ColorStates(it.colorInt, false) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {

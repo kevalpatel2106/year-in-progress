@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Prebuilt progress titles-->
+    <!--Prebuilt deadline titles-->
     <string name="this_quarter">This quarter</string>
     <string name="this_month">This month</string>
     <string name="this_week">This week</string>

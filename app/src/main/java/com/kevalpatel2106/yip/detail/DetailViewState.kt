@@ -10,41 +10,41 @@ import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 
 internal data class DetailViewState(
-    val progressTitleText: String,
-    val progressPercent: Int,
-    val progressPercentText: String,
-    val progressStartTimeText: String,
-    val progressEndTimeText: String,
+    val titleText: String,
+    val percent: Int,
+    val deadlinePercentText: String,
+    val startTimeText: String,
+    val endTimeText: String,
 
-    val progressTimeLeftText: SpannableString,
+    val timeLeftText: SpannableString,
     val showRepeatable: Boolean,
 
-    val isDeletingProgress: Boolean,
+    val isDeleting: Boolean,
     val cardBackground: GradientDrawable?,
-    @ColorInt val progressColor: Int,
-    val detailFlipperPosition: ProgressFlipper
+    @ColorInt val deadlineColor: Int,
+    val detailFlipperPosition: DetailViewFlipper
 ) {
     companion object {
 
         fun initialState(context: Context): DetailViewState {
             return DetailViewState(
-                progressEndTimeText = emptyString(),
+                endTimeText = emptyString(),
                 cardBackground = context.getBackgroundGradient(Color.GRAY),
-                detailFlipperPosition = ProgressFlipper.POS_TIME_LEFT,
-                isDeletingProgress = false,
-                progressPercent = 0,
+                detailFlipperPosition = DetailViewFlipper.POS_TIME_LEFT,
+                isDeleting = false,
+                percent = 0,
                 showRepeatable = false,
-                progressPercentText = emptyString(),
-                progressStartTimeText = emptyString(),
-                progressTimeLeftText = emptySpannableString(),
-                progressColor = Color.GRAY,
-                progressTitleText = emptyString()
+                deadlinePercentText = emptyString(),
+                startTimeText = emptyString(),
+                timeLeftText = emptySpannableString(),
+                deadlineColor = Color.GRAY,
+                titleText = emptyString()
             )
         }
     }
 }
 
-internal enum class ProgressFlipper(val value: Int) {
+internal enum class DetailViewFlipper(val value: Int) {
     POS_TIME_LEFT(value = 0),
-    POS_SHARE_PROGRESS(value = 1)
+    POS_SHARE(value = 1)
 }

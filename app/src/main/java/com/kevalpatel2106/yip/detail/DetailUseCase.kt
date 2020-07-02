@@ -29,15 +29,15 @@ internal object DetailUseCase {
     ): PopupMenu {
         return PopupMenu(anchor.context, anchor).apply {
             menu.add(
-                R.id.menu_progress_group,
-                R.id.menu_delete_progress,
+                R.id.menu_deadline_group,
+                R.id.menu_delete_deadline,
                 Menu.NONE,
                 anchor.context.getString(R.string.meu_title_delete)
             )
 
             if (supportsPinningShortcut) {
                 menu.add(
-                    R.id.menu_progress_group,
+                    R.id.menu_deadline_group,
                     R.id.menu_pin_shortcut,
                     Menu.NONE,
                     anchor.context.getString(R.string.meu_title_pin_shortcut)
@@ -135,8 +135,8 @@ internal object DetailUseCase {
 
     internal fun conformDelete(context: Context, title: String, onDelete: () -> Unit) {
         MaterialAlertDialogBuilder(context)
-            .setMessage(context.getString(R.string.progress_delete_confirmation_message, title))
-            .setPositiveButton(context.getString(R.string.progress_delete_confirmation_delete_title)) { _, _ -> onDelete() }
+            .setMessage(context.getString(R.string.deadline_delete_confirmation_message, title))
+            .setPositiveButton(context.getString(R.string.deadline_delete_confirmation_delete_title)) { _, _ -> onDelete() }
             .setNegativeButton(android.R.string.cancel, null)
             .setCancelable(true)
             .show()

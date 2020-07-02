@@ -8,8 +8,8 @@ import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepoImpl
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepoImpl
 import com.kevalpatel2106.yip.repo.db.YipDatabase
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepo
-import com.kevalpatel2106.yip.repo.progressesRepo.ProgressRepoImpl
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
+import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepoImpl
 import com.kevalpatel2106.yip.repo.utils.TimeProvider
 import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatterImpl
@@ -45,11 +45,11 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    internal fun provideProgressRepo(
+    internal fun provideDeadlineRepo(
         @ApplicationContext application: Context,
         db: YipDatabase,
         sharedPrefsProvider: SharedPrefsProvider
-    ): ProgressRepo = ProgressRepoImpl(application, db, TimeProvider, sharedPrefsProvider)
+    ): DeadlineRepo = DeadlineRepoImpl(application, db, TimeProvider, sharedPrefsProvider)
 
     @Singleton
     @Provides

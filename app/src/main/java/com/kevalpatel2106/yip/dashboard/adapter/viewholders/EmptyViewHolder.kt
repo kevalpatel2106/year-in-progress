@@ -7,7 +7,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
 import kotlinx.android.synthetic.main.row_list_empty_list.empty_list_item_text
 
-internal class EmptyViewHolder(containerView: View) : ProgressListViewHolder(containerView) {
+internal class EmptyViewHolder(containerView: View) : DeadlineListViewHolder(containerView) {
 
     fun bind(emptyRepresentable: EmptyRepresentable) {
         empty_list_item_text.text = emptyRepresentable.message
