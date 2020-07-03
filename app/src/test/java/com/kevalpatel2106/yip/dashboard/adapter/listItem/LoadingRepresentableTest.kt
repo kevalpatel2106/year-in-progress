@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4
 class LoadingRepresentableTest {
 
     @Test
-    fun checkType() {
+    fun `check view holder type`() {
         Assert.assertEquals(DeadlineAdapter.TYPE_LOADING, LoadingRepresentable.type)
     }
 }

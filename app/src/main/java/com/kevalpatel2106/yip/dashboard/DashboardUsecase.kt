@@ -39,8 +39,8 @@ internal fun Context.prepareInterstitialAd(): InterstitialAd {
     }
 }
 
-internal fun InboxRecyclerView.setUp(expandablePageLayout: ExpandablePageLayout) {
+internal fun InboxRecyclerView.setUp(pageLayout: ExpandablePageLayout) {
     tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
-    expandablePage = expandablePageLayout
+    expandablePage = pageLayout
     (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 }

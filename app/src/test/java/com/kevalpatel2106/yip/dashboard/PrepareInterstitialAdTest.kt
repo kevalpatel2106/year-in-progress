@@ -1,8 +1,11 @@
 package com.kevalpatel2106.yip.dashboard
 
 import android.content.Context
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.R
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,8 +15,10 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class DashboardUsecaseKtTest {
-    private val testAdUnitId = "test ad id"
+class PrepareInterstitialAdTest {
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val testAdUnitId = kFixture<String>()
+
     @Mock
     lateinit var context: Context
 
@@ -25,8 +30,14 @@ class DashboardUsecaseKtTest {
     }
 
     @Test
-    fun checkInterstitialAdUnitId() {
+    fun `when prepare interstitial ad check ad unit id`() {
         val interstitialAd = context.prepareInterstitialAd()
         assertEquals(testAdUnitId, interstitialAd.adUnitId)
+    }
+
+    @Test
+    fun `when prepare interstitial ad check ad listener is set`() {
+        val interstitialAd = context.prepareInterstitialAd()
+        assertNotNull(interstitialAd.adListener)
     }
 }

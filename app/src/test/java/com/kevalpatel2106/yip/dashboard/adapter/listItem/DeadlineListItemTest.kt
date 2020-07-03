@@ -1,61 +1,59 @@
 package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
 import android.graphics.drawable.GradientDrawable
-import com.kevalpatel2106.yip.core.emptyString
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.Date
-import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
 class DeadlineListItemTest {
-    private val testId = 8765L
-    private val testTitle = "Test title"
-    private val testColor = DeadlineColor.COLOR_YELLOW
-    private val testEndDate = Date(System.currentTimeMillis())
-    private val testStartDate =
-        Date(System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS))
-    private val testType = DeadlineType.YEAR_DEADLINE
-    private val testDeadlinePercent = 2f
-    private val testNotificationPercents = arrayListOf<Float>()
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
 
     private val deadline = Deadline(
-        id = testId,
-        title = testTitle,
-        color = testColor,
-        end = testEndDate,
-        start = testStartDate,
-        deadlineType = testType,
-        notificationPercent = testNotificationPercents,
-        percent = testDeadlinePercent
+        id = kFixture(),
+        title = kFixture(),
+        color = DeadlineColor.COLOR_BLUE,
+        end = kFixture(),
+        start = kFixture(),
+        deadlineType = DeadlineType.DAY_DEADLINE,
+        notificationPercent = kFixture(),
+        percent = kFixture()
     )
+    private val percentString = kFixture<String>()
+    private val gradientDrawable = GradientDrawable()
 
     private lateinit var deadlineListItem: DeadlineListItem
 
     @Before
     fun before() {
-        deadlineListItem = DeadlineListItem(deadline, emptyString(), GradientDrawable())
+        deadlineListItem = DeadlineListItem(deadline, percentString, gradientDrawable)
     }
 
     @Test
-    fun checkListItemType() {
-        Assert.assertEquals(DeadlineAdapter.TYPE_DEADLINE, deadlineListItem.type)
+    fun `when init check value of deadline`() {
+        assertEquals(deadline, deadlineListItem.deadline)
     }
 
     @Test
-    fun checkDeadlineValue() {
-        Assert.assertEquals(deadline, deadlineListItem.deadline)
+    fun `when init check value of percent string`() {
+        assertEquals(percentString, deadlineListItem.percentString)
     }
 
     @Test
-    fun checkViewHolderType() {
-        Assert.assertEquals(DeadlineAdapter.TYPE_DEADLINE, deadlineListItem.type)
+    fun `when init check value of gradient drawable`() {
+        assertEquals(gradientDrawable, deadlineListItem.backgroundGradient)
+    }
+
+    @Test
+    fun `check view holder type`() {
+        assertEquals(DeadlineAdapter.TYPE_DEADLINE, deadlineListItem.type)
     }
 }

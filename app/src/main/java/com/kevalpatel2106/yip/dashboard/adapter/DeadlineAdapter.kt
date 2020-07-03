@@ -40,15 +40,9 @@ internal class DeadlineAdapter(
     override fun onBindViewHolder(holder: DeadlineListViewHolder, position: Int) {
         val item = getItem(position)
         when (item.type) {
-            TYPE_ERROR -> {
-                (holder as ErrorViewHolder).bind(item as ErrorRepresentable)
-            }
-            TYPE_EMPTY -> {
-                (holder as EmptyViewHolder).bind(item as EmptyRepresentable)
-            }
-            TYPE_DEADLINE -> {
-                (holder as DeadlineViewHolder).bind(item as DeadlineListItem)
-            }
+            TYPE_ERROR -> (holder as ErrorViewHolder).bind(item as ErrorRepresentable)
+            TYPE_EMPTY -> (holder as EmptyViewHolder).bind(item as EmptyRepresentable)
+            TYPE_DEADLINE -> (holder as DeadlineViewHolder).bind(item as DeadlineListItem)
         }
     }
 

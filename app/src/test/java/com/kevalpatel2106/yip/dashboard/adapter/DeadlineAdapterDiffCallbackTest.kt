@@ -1,7 +1,8 @@
 package com.kevalpatel2106.yip.dashboard.adapter
 
 import android.graphics.drawable.GradientDrawable
-import com.kevalpatel2106.yip.core.emptyString
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.ListItemRepresentable
@@ -29,9 +30,11 @@ class DeadlineAdapterDiffCallbackTest {
     ) {
 
         companion object {
+            private val kFixture: KFixture =
+                KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
             private val deadline = Deadline(
-                id = 8765L,
-                title = "Test title",
+                id = kFixture(),
+                title = kFixture(),
                 color = DeadlineColor.COLOR_YELLOW,
                 end = Date(
                     System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(
@@ -41,21 +44,16 @@ class DeadlineAdapterDiffCallbackTest {
                 ),
                 start = Date(System.currentTimeMillis()),
                 deadlineType = DeadlineType.YEAR_DEADLINE,
-                notificationPercent = arrayListOf(),
-                percent = 2f
+                notificationPercent = kFixture(),
+                percent = kFixture()
             )
-            private val deadlineItem1 =
-                DeadlineListItem(
-                    deadline,
-                    emptyString(),
-                    GradientDrawable()
-                )
-            private val deadlineItem2 =
-                DeadlineListItem(
-                    deadline.copy(id = 324L),
-                    emptyString(),
-                    GradientDrawable()
-                )
+
+            private val deadlineItem1 = DeadlineListItem(deadline, kFixture(), GradientDrawable())
+            private val deadlineItem2 = DeadlineListItem(
+                deadline.copy(id = kFixture()),
+                kFixture(),
+                GradientDrawable()
+            )
 
             @JvmStatic
             @Parameterized.Parameters
@@ -72,7 +70,7 @@ class DeadlineAdapterDiffCallbackTest {
         }
 
         @Test
-        fun whenDeadlineListItemsEquals_checkAreItemsTheSame() {
+        fun `check items are same or not`() {
             assertEquals(
                 areItemsSame,
                 DeadlineAdapterDiffCallback.areItemsTheSame(input1, input2)
@@ -88,9 +86,11 @@ class DeadlineAdapterDiffCallbackTest {
     ) {
 
         companion object {
+            private val kFixture: KFixture =
+                KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
             private val deadline = Deadline(
-                id = 8765L,
-                title = "Test title",
+                id = kFixture(),
+                title = kFixture(),
                 color = DeadlineColor.COLOR_YELLOW,
                 end = Date(
                     System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(
@@ -100,32 +100,32 @@ class DeadlineAdapterDiffCallbackTest {
                 ),
                 start = Date(System.currentTimeMillis()),
                 deadlineType = DeadlineType.YEAR_DEADLINE,
-                notificationPercent = arrayListOf(),
-                percent = 2f
+                notificationPercent = kFixture(),
+                percent = kFixture()
             )
             private val deadlineListItem = DeadlineListItem(
                 deadline,
-                emptyString(),
+                kFixture(),
                 GradientDrawable()
             )
             private val deadlineItemDiffId = DeadlineListItem(
-                deadline.copy(id = 324L),
-                emptyString(),
+                deadline.copy(id = kFixture()),
+                kFixture(),
                 GradientDrawable()
             )
             private val deadlineItemDiffTitle = DeadlineListItem(
-                deadline.copy(title = "Test title 1"),
-                emptyString(),
+                deadline.copy(title = kFixture()),
+                kFixture(),
                 GradientDrawable()
             )
             private val deadlineItemDiffPercent = DeadlineListItem(
-                deadline.copy(percent = 55F),
-                emptyString(),
+                deadline.copy(percent = kFixture()),
+                kFixture(),
                 GradientDrawable()
             )
             private val deadlineItemDiffColor = DeadlineListItem(
                 deadline.copy(color = DeadlineColor.COLOR_BLUE),
-                emptyString(),
+                kFixture(),
                 GradientDrawable()
             )
 
@@ -147,7 +147,7 @@ class DeadlineAdapterDiffCallbackTest {
         }
 
         @Test
-        fun whenDeadlineListItemsEquals_checkAreContentsTheSame() {
+        fun `check item content are same or not`() {
             assertEquals(
                 areContentsTheSame,
                 DeadlineAdapterDiffCallback.areContentsTheSame(input1, input2)

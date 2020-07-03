@@ -8,10 +8,9 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class PaddingItemTest {
-    private val paddingItem = PaddingItem
 
     @Test
-    fun checkViewHolderType() {
-        Assert.assertEquals(DeadlineAdapter.TYPE_PADDING, paddingItem.type)
+    fun `check view holder type`() {
+        Assert.assertEquals(DeadlineAdapter.TYPE_PADDING, PaddingItem.type)
     }
 }

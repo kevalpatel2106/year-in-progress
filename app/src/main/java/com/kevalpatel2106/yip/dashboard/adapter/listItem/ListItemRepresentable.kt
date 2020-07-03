@@ -12,7 +12,7 @@ internal object PaddingItem : ListItemRepresentable(DeadlineAdapter.TYPE_PADDING
 
 internal data class DeadlineListItem(
     val deadline: Deadline,
-    val deadlineString: String,
+    val percentString: String,
     val backgroundGradient: GradientDrawable
 ) : ListItemRepresentable(DeadlineAdapter.TYPE_DEADLINE)
 
@@ -26,12 +26,6 @@ data class ErrorRepresentable(
     override fun hashCode(): Int = message.hashCode()
 }
 
-data class EmptyRepresentable(
-    internal val message: String
-) : ListItemRepresentable(DeadlineAdapter.TYPE_EMPTY) {
-    override fun equals(other: Any?): Boolean = (other as? EmptyRepresentable)?.message == message
-    override fun hashCode(): Int = message.hashCode()
-}
-
-
+data class EmptyRepresentable(internal val message: String) :
+    ListItemRepresentable(DeadlineAdapter.TYPE_EMPTY)
 

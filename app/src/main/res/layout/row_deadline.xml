@@ -6,6 +6,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/root_card"
         style="@style/DashboardListCard"
+        android:background="@{item.backgroundGradient}"
+        android:onClick="@{() -> eventListener.onDeadlineClicked(item.deadline)}"
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="@dimen/dashboard_list_row_card_elevation"
         app:contentPaddingBottom="@dimen/spacing_small"
@@ -41,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_nano"
                 android:gravity="end"
-                android:text="@{percentString}"
+                android:text="@{item.percentString}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/deadline_name_title"
@@ -56,7 +58,7 @@
                 android:fontFamily="@font/lato"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{deadlineName}"
+                android:text="@{item.deadline.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -67,15 +69,15 @@
     <data>
 
         <variable
-            name="deadlineName"
-            type="String" />
-
-        <variable
-            name="percentString"
-            type="String" />
+            name="item"
+            type="com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem" />
 
         <variable
             name="percent"
             type="Integer" />
+
+        <variable
+            name="eventListener"
+            type="com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener" />
     </data>
 </layout>

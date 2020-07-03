@@ -1,24 +1,29 @@
 package com.kevalpatel2106.yip.dashboard.adapter.viewholders
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable
-import kotlinx.android.synthetic.main.row_list_empty_list.empty_list_item_text
+import com.kevalpatel2106.yip.databinding.RowEmptyListBinding
 
-internal class EmptyViewHolder(containerView: View) : DeadlineListViewHolder(containerView) {
+internal class EmptyViewHolder(
+    private val binding: RowEmptyListBinding
+) : DeadlineListViewHolder(binding.root) {
 
     fun bind(emptyRepresentable: EmptyRepresentable) {
-        empty_list_item_text.text = emptyRepresentable.message
+        binding.emptyMessage = emptyRepresentable.message
     }
 
     companion object {
         fun create(parent: ViewGroup): EmptyViewHolder {
-            return EmptyViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.row_list_empty_list, parent, false)
+            val binding = DataBindingUtil.inflate<RowEmptyListBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.row_empty_list,
+                parent,
+                false
             )
+            return EmptyViewHolder(binding)
         }
     }
 }

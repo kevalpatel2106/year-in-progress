@@ -11,7 +11,7 @@ class AdsItemTest {
     private val adsItem = AdsItem
 
     @Test
-    fun checkViewHolderType() {
+    fun `check view holder type`() {
         Assert.assertEquals(DeadlineAdapter.TYPE_AD, adsItem.type)
     }
 }

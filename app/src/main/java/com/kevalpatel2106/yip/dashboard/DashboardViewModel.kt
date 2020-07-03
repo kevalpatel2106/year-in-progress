@@ -9,10 +9,8 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.getBackgroundGradient
-import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
-import com.kevalpatel2106.yip.core.livedata.recall
-import com.kevalpatel2106.yip.core.openPlayStorePage
+import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem
@@ -40,20 +38,14 @@ internal class DashboardViewModel @ViewModelInject constructor(
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
-    private val _deadlines = MutableLiveData<ArrayList<ListItemRepresentable>>(arrayListOf())
-    internal val deadlines: LiveData<ArrayList<ListItemRepresentable>> = _deadlines
+    private val _deadlines = MutableLiveData<List<ListItemRepresentable>>(arrayListOf())
+    internal val deadlines: LiveData<List<ListItemRepresentable>> = _deadlines
 
-    private val _askForRatingSignal = SignalLiveEvent()
-    internal val askForRatingSignal: LiveData<Unit> = _askForRatingSignal
+    private val _singleEvents = SingleLiveEvent<DashboardSingleEvent>()
+    internal val singleEvents: LiveData<DashboardSingleEvent> = _singleEvents
 
-    private val _showInterstitialAdSignal = SignalLiveEvent()
-    internal val showInterstitialAdSignal: LiveData<Unit> = _showInterstitialAdSignal
-
-    private val _userMessages = SingleLiveEvent<String>()
-    internal val userMessages: LiveData<String> = _userMessages
-
-    private var _expandDeadline = MutableLiveData<Long>(RESET_COLLAPSED_ID)
-    internal var expandDeadline: LiveData<Long> = _expandDeadline
+    private var _expandViewState = MutableLiveData<DashboardExpandedViewState>(DetailViewCollapsed)
+    internal var expandViewState: LiveData<DashboardExpandedViewState> = _expandViewState
 
     init {
         monitorDeadlines()
@@ -65,98 +57,111 @@ internal class DashboardViewModel @ViewModelInject constructor(
             billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
             BiFunction<List<Deadline>, Boolean, Pair<List<Deadline>, Boolean>> { list, isPro -> list to isPro }
         ).doOnSubscribe {
-            // Show the loader.
-            _deadlines.value?.apply {
-                clear()
-                add(LoadingRepresentable)
-            }
-            _deadlines.recall()
+            _deadlines.modify { mutableListOf(LoadingRepresentable) }
         }.doOnNext { (deadlines, _) ->
-            if (!deadlines.any { it.id == _expandDeadline.value }) {
-                // Close any deleted deadline detail
-                resetExpandedDeadline()
+            if (isDetailExpanded() && !deadlines.any { it.id == expandedDeadlineId() }) {
+                onCloseDeadlineDetail()
             }
+        }.doOnNext { (deadlines, _) ->
             appShortcutHelper.updateDynamicShortcuts(deadlines)
             application.updateWidgets()
         }.map { (deadlines, isPro) ->
-
-            // Add Ads if the user is not pro.
-            @Suppress("UNCHECKED_CAST")
-            val list = deadlines.map {
+            val list: MutableList<ListItemRepresentable> = deadlines.map {
                 DeadlineListItem(
                     deadline = it,
-                    deadlineString = application.getString(
+                    percentString = application.getString(
                         R.string.deadline_percentage,
                         it.percent
                     ),
                     backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
                 )
-            }.toMutableList() as ArrayList<ListItemRepresentable>
+            }.toMutableList()
 
-            return@map list.apply {
-                // Add the ads if the user is not pro.
-                if (isNotEmpty() && !isPro) {
-                    add(
-                        if (size > MAX_POSITION_OF_AD) MAX_POSITION_OF_AD else size,
-                        AdsItem
-                    )
-                }
+            // Add the ads if the user is not pro.
+            if (list.isNotEmpty() && !isPro) {
+                val adPosition = if (list.size > AD_POSITION) AD_POSITION else list.size
+                list.add(adPosition, AdsItem)
             }
-        }.subscribe({ listItems ->
-            _deadlines.value?.apply {
-                clear()
-                if (listItems.isEmpty()) {
-                    // Show the empty list view.
-                    add(EmptyRepresentable(application.getString(R.string.dashboard_no_deadline_message)))
+
+            list
+        }.subscribe({ newList ->
+            _deadlines.modify {
+                if (newList.isEmpty()) {
+                    mutableListOf(EmptyRepresentable(application.getString(R.string.dashboard_no_deadline_message)))
                 } else {
-                    // Show all the deadline.
-                    listItems.add(PaddingItem)
-                    addAll(listItems)
+                    newList.apply { add(PaddingItem) }
                 }
             }
-            _deadlines.recall()
-        }, { throwable ->
-            Timber.e(throwable)
-
-            // Display error.
-            _deadlines.value?.apply {
-                clear()
-                add(
-                    ErrorRepresentable(
-                        application.getString(R.string.dashboard_error_loading_deadline)
-                    ) { monitorDeadlines() }
-                )
-            }
-            _deadlines.recall()
-        }).addTo(compositeDisposable)
+        }, ::handleErrorMonitoringDeadline)
+            .addTo(compositeDisposable)
     }
 
-    internal fun userWantsToRateNow() {
-        application.openPlayStorePage()
+    private fun handleErrorMonitoringDeadline(throwable: Throwable) {
+        Timber.e(throwable)
+        _deadlines.modify {
+            mutableListOf(
+                ErrorRepresentable(
+                    application.getString(R.string.dashboard_error_loading_deadline)
+                ) { monitorDeadlines() }
+            )
+        }
+    }
+
+    internal fun onRateNowClicked() {
+        _singleEvents.value = OpenPlayStore
         sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
     }
 
-    internal fun userWantsToNeverRate() {
+    internal fun onRateNeverClicked() {
         sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
     }
 
-    internal fun userWantsToOpenDetail(
+    internal fun onOpenDeadlineDetail(
         deadlineId: Long,
-        @VisibleForTesting randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
+        randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
     ) {
         deadlineRepo.isDeadlineExist(deadlineId)
             .subscribe({ exist ->
                 if (exist) {
-                    _expandDeadline.value = deadlineId
+                    _expandViewState.value = DetailViewExpanded(deadlineId)
                     handleRandomEvents(randomNum)
                 } else {
-                    _userMessages.value = application.getString(R.string.error_deadline_not_exist)
+                    _singleEvents.value = ShowUserMessage(
+                        application.getString(R.string.error_deadline_not_exist)
+                    )
                 }
             }, { throwable ->
                 Timber.e(throwable)
-                _userMessages.value = application.getString(R.string.error_deadline_not_exist)
+                _singleEvents.value = ShowUserMessage(
+                    application.getString(R.string.error_deadline_not_exist)
+                )
             })
             .addTo(compositeDisposable)
+    }
+
+    fun onAddNewButtonClicked() {
+        val expandedId = expandedDeadlineId()
+        if (expandedId != null) {
+            _singleEvents.value = OpenEditDeadline(expandedId)
+        } else {
+            _singleEvents.value = OpenCreateNewDeadline
+        }
+    }
+
+    internal fun onCloseDeadlineDetail() {
+        _expandViewState.value = DetailViewCollapsed
+    }
+
+    internal fun onBackPressed() {
+        if (isDetailExpanded()) {
+            onCloseDeadlineDetail()
+        } else {
+            _singleEvents.value = CloseScreen
+        }
+    }
+
+    internal fun onHamburgerMenuClicked() {
+        if (!isDetailExpanded()) _singleEvents.value = OpenBottomNavigationSheet
     }
 
     private fun handleRandomEvents(randomNum: Int) {
@@ -166,24 +171,21 @@ internal class DashboardViewModel @ViewModelInject constructor(
                 false
             ) && randomNum == RANDOM_NUMBER_FOR_RATING
         ) {
-            _askForRatingSignal.sendSignal()
+            _singleEvents.value = AskForRating
         }
 
         // Should show ads?
         if (randomNum == RANDOM_NUMBER_FOR_AD && !billingRepo.isPurchased()) {
-            _showInterstitialAdSignal.sendSignal()
+            _singleEvents.value = ShowInterstitialAd
         }
     }
 
-    internal fun isDetailExpanded(): Boolean = expandDeadline.value != RESET_COLLAPSED_ID
+    private fun isDetailExpanded(): Boolean = expandViewState.value is DetailViewExpanded
 
-    internal fun resetExpandedDeadline() {
-        _expandDeadline.value = RESET_COLLAPSED_ID
-    }
+    private fun expandedDeadlineId() = (expandViewState.value as? DetailViewExpanded)?.deadlineId
 
     companion object {
-        internal const val RESET_COLLAPSED_ID = -1L
-        private const val MAX_POSITION_OF_AD = 4
+        private const val AD_POSITION = 4
         private const val MAX_RANDOM_NUMBER = 14
 
         @VisibleForTesting

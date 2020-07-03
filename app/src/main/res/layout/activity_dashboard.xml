@@ -48,10 +48,11 @@
             android:id="@+id/add_deadline_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onAddNewButtonClicked()}"
             android:src="@drawable/ic_add"
-            app:tint="@android:color/white"
             app:backgroundTint="@color/colorAccent"
             app:fabSize="normal"
-            app:layout_anchor="@id/bottom_app_bar" />
+            app:layout_anchor="@id/bottom_app_bar"
+            app:tint="@android:color/white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

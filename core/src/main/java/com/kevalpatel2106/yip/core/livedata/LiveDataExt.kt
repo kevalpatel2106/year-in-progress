@@ -25,3 +25,7 @@ fun <T> LiveData<T>.nullSafeObserve(owner: LifecycleOwner, observer: (t: T) -> U
 fun <T> MutableLiveData<T>.recall() {
     this.value = value
 }
+
+inline fun <T> MutableLiveData<T>.modify(modify: T.() -> T) {
+    value = value?.modify()
+}

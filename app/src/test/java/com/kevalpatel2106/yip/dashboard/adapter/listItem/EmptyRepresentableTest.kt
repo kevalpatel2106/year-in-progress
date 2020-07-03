@@ -1,43 +1,34 @@
 package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class EmptyRepresentableTest {
-    private val testMessage = "test message"
-    private val emptyRepresentable = EmptyRepresentable(testMessage)
+    private lateinit var testMessage: String
+    private lateinit var emptyRepresentable: EmptyRepresentable
 
-    @Test
-    fun checkConstructor() {
-        Assert.assertEquals(testMessage, emptyRepresentable.message)
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+
+    @Before
+    fun before() {
+        testMessage = kFixture()
+        emptyRepresentable = EmptyRepresentable(testMessage)
     }
 
     @Test
-    fun checkEquals() {
-        val otherMessage = EmptyRepresentable("test1")
-        val sameMessage = EmptyRepresentable(testMessage)
-
-        Assert.assertNotEquals(null, emptyRepresentable)
-        Assert.assertNotEquals(234L, emptyRepresentable)
-        Assert.assertNotEquals(otherMessage, emptyRepresentable)
-        Assert.assertEquals(sameMessage, emptyRepresentable)
+    fun `when init check value of the empty message`() {
+        assertEquals(testMessage, emptyRepresentable.message)
     }
 
     @Test
-    fun checkHashcode() {
-        val otherMessage = EmptyRepresentable("test1")
-        val sameMessage = EmptyRepresentable(testMessage)
-
-        Assert.assertNotEquals(otherMessage.hashCode(), emptyRepresentable.hashCode())
-        Assert.assertEquals(sameMessage.hashCode(), emptyRepresentable.hashCode())
-    }
-
-    @Test
-    fun checkViewHolderType() {
-        Assert.assertEquals(DeadlineAdapter.TYPE_EMPTY, emptyRepresentable.type)
+    fun `check view holder type`() {
+        assertEquals(DeadlineAdapter.TYPE_EMPTY, emptyRepresentable.type)
     }
 }
