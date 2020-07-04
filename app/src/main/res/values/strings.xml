@@ -102,6 +102,8 @@
     <!--Deadline detail-->
     <string name="time_left_title">Time left:\n\n%d %s  %d %s  %d %s</string>
     <string name="deadline_delete_successful">Deleted successfully.</string>
+    <string name="deadline_delete_error">Cannot delete deadline. Try again.</string>
+    <string name="deadline_open_error">Cannot open deadline at this moment. Try again.</string>
     <string name="deadline_delete_confirmation_delete_title">Delete</string>
     <string name="deadline_delete_confirmation_message">Do you want to delete %s?</string>
     <string name="detail_deleting_deadline_message">Deleting…</string>
@@ -120,10 +122,6 @@
         <item quantity="one">hour</item>
         <item quantity="other">hours</item>
     </plurals>
-    <string name="achivement_share_message">I completed my goal of %s. #GoalAchived #YearInProgress</string>
-    <string name="detail_deadline_complete_title"><![CDATA[Times Up! ⏳]]></string>
-    <string name="detail_deadline_complete_message"><![CDATA[You\'ve reached on the deadline.]]></string>
-    <string name="detail_deadline_complete_share_btn_title">Share #GoalAchived</string>
     <string name="meu_title_pin_shortcut">Add to home screen</string>
     <string name="meu_title_delete">Delete</string>
 

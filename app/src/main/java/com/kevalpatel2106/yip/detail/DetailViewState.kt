@@ -10,19 +10,20 @@ import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 
 internal data class DetailViewState(
+    val isDeleting: Boolean,
     val titleText: String,
+
     val percent: Int,
-    val deadlinePercentText: String,
+    val percentText: String,
+
     val startTimeText: String,
     val endTimeText: String,
 
     val timeLeftText: SpannableString,
     val showRepeatable: Boolean,
 
-    val isDeleting: Boolean,
     val cardBackground: GradientDrawable?,
-    @ColorInt val deadlineColor: Int,
-    val detailFlipperPosition: DetailViewFlipper
+    @ColorInt val deadlineColor: Int
 ) {
     companion object {
 
@@ -30,11 +31,10 @@ internal data class DetailViewState(
             return DetailViewState(
                 endTimeText = emptyString(),
                 cardBackground = context.getBackgroundGradient(Color.GRAY),
-                detailFlipperPosition = DetailViewFlipper.POS_TIME_LEFT,
                 isDeleting = false,
                 percent = 0,
                 showRepeatable = false,
-                deadlinePercentText = emptyString(),
+                percentText = emptyString(),
                 startTimeText = emptyString(),
                 timeLeftText = emptySpannableString(),
                 deadlineColor = Color.GRAY,
@@ -42,9 +42,4 @@ internal data class DetailViewState(
             )
         }
     }
-}
-
-internal enum class DetailViewFlipper(val value: Int) {
-    POS_TIME_LEFT(value = 0),
-    POS_SHARE(value = 1)
 }

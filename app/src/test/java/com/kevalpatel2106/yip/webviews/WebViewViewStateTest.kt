@@ -1,6 +1,8 @@
 package com.kevalpatel2106.yip.webviews
 
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -13,13 +15,13 @@ class WebViewViewStateTest {
     @Test
     fun checkScreenTitle() {
         val state = WebViewViewState(testTitle, testLink)
-        Assert.assertEquals(testTitle, state.title)
+        assertEquals(testTitle, state.title)
     }
 
     @Test
     fun checkLink() {
         val state = WebViewViewState(testTitle, testLink)
-        Assert.assertEquals(testLink, state.linkUrl)
+        assertEquals(testLink, state.linkUrl)
     }
 
     @Test
@@ -35,8 +37,8 @@ class WebViewViewStateTest {
         val state1 = WebViewViewState.initialState()
         val stateWithDifferentArgs = WebViewViewState(testTitle, testLink)
 
-        Assert.assertEquals(state, state1)
-        Assert.assertNotEquals(state, stateWithDifferentArgs)
-        Assert.assertNotEquals(state1, stateWithDifferentArgs)
+        assertEquals(state, state1)
+        assertNotEquals(state, stateWithDifferentArgs)
+        assertNotEquals(state1, stateWithDifferentArgs)
     }
 }

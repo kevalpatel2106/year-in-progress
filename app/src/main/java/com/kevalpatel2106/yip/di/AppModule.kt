@@ -3,6 +3,10 @@ package com.kevalpatel2106.yip.di
 import android.app.AlarmManager
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandler
+import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandlerImpl
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchHelperImpl
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelperImpl
 import dagger.Module
@@ -18,8 +22,24 @@ internal class AppModule {
 
     @Singleton
     @Provides
-    internal fun provideAppShortcutHelper(@ApplicationContext application: Context): AppShortcutHelper {
-        return AppShortcutHelperImpl(application)
+    fun provideAppLaunchHelper(): AppLaunchHelper = AppLaunchHelperImpl()
+
+    @Singleton
+    @Provides
+    fun provideAppShortcutHelper(
+        @ApplicationContext application: Context,
+        appLaunchHelper: AppLaunchHelper
+    ): AppShortcutHelper {
+        return AppShortcutHelperImpl(application, appLaunchHelper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeadlineNotificationHandler(
+        @ApplicationContext application: Context,
+        appLaunchHelper: AppLaunchHelper
+    ): DeadlineNotificationHandler {
+        return DeadlineNotificationHandlerImpl(application, appLaunchHelper)
     }
 
     @Singleton

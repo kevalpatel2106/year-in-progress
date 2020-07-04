@@ -10,6 +10,7 @@ import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.BackpressureStrategy
 import io.reactivex.subjects.PublishSubject
 import org.junit.Assert
@@ -17,7 +18,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -164,7 +164,7 @@ open class DashboardViewModelMonitorDeadlineTest : DashboardViewModelTestSetUp()
     @Test
     fun `given error ocured while loading deadline when monitor deadlines called check error list item added`() {
         // Given
-        Mockito.`when`(deadlineRepo.observeAllDeadlines())
+        whenever(deadlineRepo.observeAllDeadlines())
             .thenReturn(
                 PublishSubject.error<List<Deadline>>(Throwable()).hide()
                     .toFlowable(BackpressureStrategy.DROP)

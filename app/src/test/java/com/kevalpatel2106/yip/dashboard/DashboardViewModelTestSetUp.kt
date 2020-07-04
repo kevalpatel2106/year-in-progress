@@ -12,6 +12,7 @@ import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -22,7 +23,6 @@ import org.mockito.ArgumentMatchers.anyFloat
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 abstract class DashboardViewModelTestSetUp {
@@ -65,20 +65,20 @@ abstract class DashboardViewModelTestSetUp {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(deadlineRepo.observeAllDeadlines())
+        whenever(deadlineRepo.observeAllDeadlines())
             .thenReturn(deadlineListSubject.hide().toFlowable(BackpressureStrategy.DROP))
-        Mockito.`when`(billingRepo.observeIsPurchased()).thenReturn(isPurchasedSubject)
-        Mockito.`when`(appShortcutHelper.updateDynamicShortcuts(anyList())).thenReturn(true)
+        whenever(billingRepo.observeIsPurchased()).thenReturn(isPurchasedSubject)
+        whenever(appShortcutHelper.updateDynamicShortcuts(anyList())).thenReturn(true)
 
-        Mockito.`when`(resources.getDimension(anyInt())).thenReturn(2f)
-        Mockito.`when`(application.resources).thenReturn(resources)
-        Mockito.`when`(application.getString(anyInt(), anyFloat())).thenReturn("55%")
+        whenever(resources.getDimension(anyInt())).thenReturn(2f)
+        whenever(application.resources).thenReturn(resources)
+        whenever(application.getString(anyInt(), anyFloat())).thenReturn("55%")
 
-        Mockito.`when`(application.getString(R.string.dashboard_no_deadline_message))
+        whenever(application.getString(R.string.dashboard_no_deadline_message))
             .thenReturn(noItemsMessage)
-        Mockito.`when`(application.getString(R.string.dashboard_error_loading_deadline))
+        whenever(application.getString(R.string.dashboard_error_loading_deadline))
             .thenReturn(deadlineMonitorErrorMessage)
-        Mockito.`when`(application.getString(R.string.error_deadline_not_exist))
+        whenever(application.getString(R.string.error_deadline_not_exist))
             .thenReturn(deadlineNotFoundMessage)
 
         model = DashboardViewModel(
@@ -91,7 +91,7 @@ abstract class DashboardViewModelTestSetUp {
     }
 
     protected fun setAsDeadlineDetailExpanded(testExpandedDeadline: Long) {
-        Mockito.`when`(deadlineRepo.isDeadlineExist(testExpandedDeadline))
+        whenever(deadlineRepo.isDeadlineExist(testExpandedDeadline))
             .thenReturn(Single.just(true))
         model.onOpenDeadlineDetail(testExpandedDeadline)
     }

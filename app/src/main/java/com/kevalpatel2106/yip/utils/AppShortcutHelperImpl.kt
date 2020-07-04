@@ -12,7 +12,8 @@ import javax.inject.Inject
 import kotlin.math.min
 
 internal class AppShortcutHelperImpl @Inject constructor(
-    @ApplicationContext private val application: Context
+    @ApplicationContext private val application: Context,
+    private val appLaunchHelper: AppLaunchHelper
 ) : AppShortcutHelper {
 
     override fun requestPinShortcut(title: String, launchIntent: Intent) {
@@ -42,7 +43,12 @@ internal class AppShortcutHelperImpl @Inject constructor(
                     application.getString(R.string.deadline_app_shortcut_id, deadline.id)
                 ).setIcon(icon)
                     .setShortLabel(deadline.title)
-                    .setIntent(AppLaunchHelper.launchWithDeadlineDetail(application, deadline.id))
+                    .setIntent(
+                        appLaunchHelper.getLaunchIntentWithDeadlineDetail(
+                            application,
+                            deadline.id
+                        )
+                    )
                     .build()
             }
         return ShortcutManagerCompat.addDynamicShortcuts(application, shortcuts)

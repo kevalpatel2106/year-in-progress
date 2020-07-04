@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 internal class DeadlineListRemoteFactory @Inject constructor(
     @ApplicationContext private val application: Context,
-    private val deadlineRepo: DeadlineRepo
+    private val deadlineRepo: DeadlineRepo,
+    private val appLaunchHelper: AppLaunchHelper
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private val deadlines: ArrayList<Deadline> = arrayListOf()
@@ -34,7 +35,7 @@ internal class DeadlineListRemoteFactory @Inject constructor(
 
             rowView.setOnClickFillInIntent(
                 R.id.battery_list_row,
-                AppLaunchHelper.launchWithDeadlineDetail(application, id)
+                appLaunchHelper.getLaunchIntentWithDeadlineDetail(application, id)
             )
         }
         return rowView

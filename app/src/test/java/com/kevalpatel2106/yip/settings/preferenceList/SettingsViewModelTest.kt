@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.junit.After
@@ -62,12 +63,12 @@ class SettingsViewModelTest {
     fun before() {
         MockitoAnnotations.initMocks(this@SettingsViewModelTest)
 
-        Mockito.`when`(billingRepo.observeIsPurchased()).thenReturn(isPurchasedObservable)
-        Mockito.`when`(application.getString(R.string.pref_key_dark_mode))
+        whenever(billingRepo.observeIsPurchased()).thenReturn(isPurchasedObservable)
+        whenever(application.getString(R.string.pref_key_dark_mode))
             .thenReturn(testPrefKeyDarkMode)
-        Mockito.`when`(application.getString(R.string.dark_mode_on))
+        whenever(application.getString(R.string.dark_mode_on))
             .thenReturn(testDarkModeString)
-        Mockito.`when`(sharedPrefsProvider.observeStringFromPreference(testPrefKeyDarkMode))
+        whenever(sharedPrefsProvider.observeStringFromPreference(testPrefKeyDarkMode))
             .thenReturn(darkModePrefObserver.hide())
 
         viewModel = SettingsViewModel(application, sharedPrefsProvider, billingRepo)

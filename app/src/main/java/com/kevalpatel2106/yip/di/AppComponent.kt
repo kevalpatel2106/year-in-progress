@@ -8,6 +8,7 @@ import com.kevalpatel2106.yip.YIPApplication
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.detail.DetailFragment
 import com.kevalpatel2106.yip.edit.EditDeadlineActivity
+import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandler
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
@@ -19,6 +20,7 @@ import com.kevalpatel2106.yip.repo.utils.validator.Validator
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
+import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.DeadlineListRemoteService
@@ -39,6 +41,8 @@ internal interface AppComponent {
     fun getDateFormatter(): DateFormatter
     fun getValidator(): Validator
     fun getAppShortcutHelper(): AppShortcutHelper
+    fun getAppLaunchHelper(): AppLaunchHelper
+    fun getDeadlineNotificationHandler(): DeadlineNotificationHandler
 
     fun inject(yipApplication: YIPApplication)
 

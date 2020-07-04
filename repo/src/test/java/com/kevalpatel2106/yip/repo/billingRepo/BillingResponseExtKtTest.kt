@@ -4,13 +4,13 @@ import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult
 import com.kevalpatel2106.yip.repo.R
-import junit.framework.Assert.assertEquals
+import com.nhaarman.mockitokotlin2.whenever
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
@@ -43,17 +43,17 @@ class BillingResponseExtKtTest(private val billingResponseCode: Int, private val
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(context.getString(R.string.billing_code_ok)).thenReturn("1")
-        Mockito.`when`(context.getString(R.string.billing_code_already_purchased)).thenReturn("2")
-        Mockito.`when`(context.getString(R.string.billing_code_dev_error)).thenReturn("3")
-        Mockito.`when`(context.getString(R.string.billing_code_generic_error)).thenReturn("4")
-        Mockito.`when`(context.getString(R.string.billing_code_not_supported)).thenReturn("5")
-        Mockito.`when`(context.getString(R.string.billing_code_service_disconnected))
+        whenever(context.getString(R.string.billing_code_ok)).thenReturn("1")
+        whenever(context.getString(R.string.billing_code_already_purchased)).thenReturn("2")
+        whenever(context.getString(R.string.billing_code_dev_error)).thenReturn("3")
+        whenever(context.getString(R.string.billing_code_generic_error)).thenReturn("4")
+        whenever(context.getString(R.string.billing_code_not_supported)).thenReturn("5")
+        whenever(context.getString(R.string.billing_code_service_disconnected))
             .thenReturn("6")
-        Mockito.`when`(context.getString(R.string.billing_code_service_unavailable)).thenReturn("7")
-        Mockito.`when`(context.getString(R.string.billing_code_unavailable)).thenReturn("8")
-        Mockito.`when`(context.getString(R.string.billing_code_user_cancel)).thenReturn("9")
-        Mockito.`when`(context.getString(R.string.billing_code_item_unavailable)).thenReturn("10")
+        whenever(context.getString(R.string.billing_code_service_unavailable)).thenReturn("7")
+        whenever(context.getString(R.string.billing_code_unavailable)).thenReturn("8")
+        whenever(context.getString(R.string.billing_code_user_cancel)).thenReturn("9")
+        whenever(context.getString(R.string.billing_code_item_unavailable)).thenReturn("10")
     }
 
     @Test

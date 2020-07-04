@@ -1,11 +1,11 @@
 package com.kevalpatel2106.yip.core.livedata
 
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -13,17 +13,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-/**
- * Created by Keval on 02/06/18.
- *
- * @author [kevalpatel2106](https://github.com/kevalpatel2106)
- */
 @RunWith(JUnit4::class)
 class SingleLiveEventTest {
 
@@ -48,7 +42,7 @@ class SingleLiveEventTest {
 
         // Link custom lifecycle owner with the lifecyle register.
         lifecycle = LifecycleRegistry(owner)
-        `when`(owner.lifecycle).thenReturn(lifecycle)
+        whenever(owner.lifecycle).thenReturn(lifecycle)
 
         // Start observing
         singleLiveEvent.observe(owner, eventObserver)

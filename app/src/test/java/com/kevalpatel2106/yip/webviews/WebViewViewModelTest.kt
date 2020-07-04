@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.webviews
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -11,7 +12,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
@@ -29,7 +29,7 @@ class WebViewViewModelTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this@WebViewViewModelTest)
-        Mockito.`when`(application.getString(ArgumentMatchers.anyInt())).thenReturn(testTitle)
+        whenever(application.getString(ArgumentMatchers.anyInt())).thenReturn(testTitle)
     }
 
     @Test

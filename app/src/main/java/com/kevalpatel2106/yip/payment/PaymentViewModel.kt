@@ -8,10 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.livedata.SignalLiveEvent
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
+import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import dagger.hilt.android.qualifiers.ApplicationContext
+import timber.log.Timber
 
 internal class PaymentViewModel @ViewModelInject internal constructor(
     @ApplicationContext private val application: Context,
@@ -23,25 +24,24 @@ internal class PaymentViewModel @ViewModelInject internal constructor(
     )
     val viewState: LiveData<PaymentActivityViewState> = _viewState
 
-    private val _userMessage = SingleLiveEvent<String>()
-    internal val userMessage: LiveData<String> = _userMessage
-
-    private val _closeSignal = SignalLiveEvent()
-    internal val closeSignal: LiveData<Unit> = _closeSignal
+    private val _singleEvent = SingleLiveEvent<PaymentSingleEvent>()
+    internal val singleEvent: LiveData<PaymentSingleEvent> = _singleEvent
 
     internal fun purchase(activity: Activity) {
         billingRepo.purchase(activity)
-            .doOnSubscribe {
-                _viewState.value = viewState.value?.copy(upgradeButtonClickable = false)
-            }
-            .doAfterTerminate {
-                _viewState.value = viewState.value?.copy(upgradeButtonClickable = true)
-            }
+            .doOnSubscribe { _viewState.modify { copy(upgradeButtonClickable = false) } }
+            .doAfterTerminate { _viewState.modify { copy(upgradeButtonClickable = true) } }
             .subscribe({
-                _userMessage.value = application.getString(R.string.purchase_successful)
-                _closeSignal.sendSignal()
+                _singleEvent.value = ShowUserMessage(
+                    message = application.getString(R.string.purchase_successful),
+                    closeScreen = true
+                )
             }, {
-                _userMessage.value = it.message
+                Timber.e(it)
+                _singleEvent.value = ShowUserMessage(
+                    message = it.message.orEmpty(),
+                    closeScreen = false
+                )
             })
             .addTo(compositeDisposable)
     }

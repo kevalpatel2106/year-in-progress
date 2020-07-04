@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.dashboard
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -8,7 +9,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
 
 @RunWith(JUnit4::class)
 class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp() {
@@ -35,7 +35,7 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given deadline to expand exist when open deadline called check expanded detail id changes`() {
         // given
         val testExpandedDeadline = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(testExpandedDeadline))
+        whenever(deadlineRepo.isDeadlineExist(testExpandedDeadline))
             .thenReturn(Single.just(true))
 
         // when
@@ -50,7 +50,7 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given is deadline exist check fails when open deadline called check user message shown`() {
         // given
         val testExpandedDeadline = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(testExpandedDeadline))
+        whenever(deadlineRepo.isDeadlineExist(testExpandedDeadline))
             .thenReturn(Single.error(Throwable()))
 
         // when
@@ -65,7 +65,7 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given deadline to expand does not exist when open deadline called check error message shown`() {
         // given
         val testExpandedDeadline = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(testExpandedDeadline))
+        whenever(deadlineRepo.isDeadlineExist(testExpandedDeadline))
             .thenReturn(Single.just(false))
 
         // when
@@ -80,9 +80,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given never ask for rating set when open deadline  with rating number check ask rating dialog does not appear`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
+        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
             .thenReturn(true)
 
         // when
@@ -96,9 +96,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given never ask for rating set to false when open deadline with rating number check ask rating dialog shows`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
+        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
             .thenReturn(false)
 
         // when
@@ -113,9 +113,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given never ask for rating set to false when open deadline with non-rating number check ask rating dialog not shown`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
+        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
             .thenReturn(false)
 
         // when
@@ -129,9 +129,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given user is premium when open deadline with ads number check interstitial ad never appear`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(billingRepo.isPurchased()).thenReturn(true)
+        whenever(billingRepo.isPurchased()).thenReturn(true)
 
         // when
         model.onOpenDeadlineDetail(deadlineId, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
@@ -144,9 +144,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given user is not premium when open deadline with ads number check ad appears`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(billingRepo.isPurchased()).thenReturn(false)
+        whenever(billingRepo.isPurchased()).thenReturn(false)
 
         // when
         model.onOpenDeadlineDetail(deadlineId, DashboardViewModel.RANDOM_NUMBER_FOR_AD)
@@ -160,9 +160,9 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     fun `given user is not premium when open deadline with non-ads number check ad not shown`() {
         // given
         val deadlineId = kFixture<Long>()
-        Mockito.`when`(deadlineRepo.isDeadlineExist(deadlineId))
+        whenever(deadlineRepo.isDeadlineExist(deadlineId))
             .thenReturn(Single.just(true))
-        Mockito.`when`(billingRepo.isPurchased()).thenReturn(false)
+        whenever(billingRepo.isPurchased()).thenReturn(false)
 
         // when
         model.onOpenDeadlineDetail(deadlineId, 346)

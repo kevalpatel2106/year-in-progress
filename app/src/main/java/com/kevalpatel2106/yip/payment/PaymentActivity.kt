@@ -34,11 +34,18 @@ internal class PaymentActivity : AppCompatActivity() {
         setSupportActionBar(payment_toolbar)
         supportActionBar?.set()
 
-        // Monitor
-        model.userMessage.nullSafeObserve(this@PaymentActivity) {
-            Toast.makeText(this@PaymentActivity, it, Toast.LENGTH_SHORT).show()
+        monitorSingleEvents()
+    }
+
+    private fun monitorSingleEvents() {
+        model.singleEvent.nullSafeObserve(this@PaymentActivity) { event ->
+            when (event) {
+                is ShowUserMessage -> {
+                    Toast.makeText(this@PaymentActivity, event.message, Toast.LENGTH_SHORT).show()
+                    if (event.closeScreen) onBackPressed()
+                }
+            }
         }
-        model.closeSignal.nullSafeObserve(this@PaymentActivity) { onBackPressed() }
     }
 
     fun purchase() = model.purchase(this)

@@ -10,7 +10,7 @@ dependencies {
     api "androidx.test:rules:1.2.0"
     api "androidx.test:monitor:1.2.0"
     api 'androidx.test:runner:1.2.0'
-    api("org.mockito:mockito-core:${versions.mockito}", excludeGrp)
+    api("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0", excludeGrp)
     api('org.robolectric:robolectric:4.3.1', excludeGrp)
     api('androidx.arch.core:core-testing:2.1.0', excludeGrp)
     api "com.flextrade.jfixture:kfixture:0.2.0"

@@ -8,10 +8,6 @@
         <variable
             name="viewModel"
             type="com.kevalpatel2106.yip.detail.DetailViewModel" />
-
-        <variable
-            name="view"
-            type="com.kevalpatel2106.yip.detail.DetailFragment" />
     </data>
 
     <LinearLayout
@@ -45,7 +41,7 @@
                     style="@style/DetailScreenToolbarButtonStyle"
                     android:layout_alignParentEnd="true"
                     android:clickable="@{!viewModel.viewState.deleting}"
-                    android:onClick="@{() -> view.showDetailOptions()}"
+                    android:onClick="@{() -> viewModel.showDetailOptionsMenu()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_overflow" />
@@ -54,7 +50,8 @@
                     android:id="@+id/detail_close_iv"
                     style="@style/DetailScreenToolbarButtonStyle"
                     android:layout_alignParentStart="true"
-                    android:onClick="@{() -> view.closeDetail()}"
+                    android:clickable="@{!viewModel.viewState.deleting}"
+                    android:onClick="@{() -> viewModel.onCloseButtonClicked()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_close" />
@@ -81,8 +78,8 @@
                     android:layout_width="@dimen/spacing_large"
                     android:layout_height="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_micro"
-                    android:tint="@android:color/white"
                     android:showOrHide="@{viewModel.viewState.showRepeatable}"
+                    android:tint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="@+id/detail_title_tv"
                     app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
                     app:srcCompat="@drawable/ic_repeat" />
@@ -95,7 +92,7 @@
                     android:layout_marginTop="@dimen/spacing_xxlarge"
                     android:fontFamily="@font/lato"
                     android:gravity="center_horizontal"
-                    android:text="@{viewModel.viewState.deadlinePercentText}"
+                    android:text="@{viewModel.viewState.percentText}"
                     android:textSize="@dimen/deadline_percent_text_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -150,72 +147,20 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <ViewFlipper
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_time_left_tv"
+            style="@style/LargeText.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_nano"
             android:layout_marginTop="@dimen/spacing_xlarge"
             android:layout_marginEnd="@dimen/spacing_nano"
-            app:displayChild="@{viewModel.viewState.detailFlipperPosition.value}"
+            android:gravity="center"
+            android:text="@{viewModel.viewState.timeLeftText}"
+            android:textSize="@dimen/time_left_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv">
-
-            <!--0. Time left-->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/detail_time_left_tv"
-                style="@style/LargeText.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{viewModel.viewState.timeLeftText}"
-                android:textSize="@dimen/time_left_text_size"
-                tools:text="23 days 1 hour 13 minutes" />
-
-            <!--1. Share messages-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/spacing_huge"
-                    android:layout_height="@dimen/spacing_huge"
-                    android:src="@drawable/ic_achived" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/LargeText.Accent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/spacing_small"
-                    android:paddingEnd="@dimen/spacing_small"
-                    android:text="@string/detail_deadline_complete_title"
-                    android:textColor="@{viewModel.viewState.deadlineColor}"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/MediumText.Primary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/spacing_small"
-                    android:paddingEnd="@dimen/spacing_small"
-                    android:text="@string/detail_deadline_complete_message" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:backgroundTint="@{viewModel.viewState.deadlineColor}"
-                    android:clickable="@{!viewModel.viewState.deleting}"
-                    android:onClick="@{() -> view.showShareAchievements()}"
-                    android:text="@string/detail_deadline_complete_share_btn_title"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-        </ViewFlipper>
+            app:layout_constraintTop_toBottomOf="@+id/detail_end_time_tv"
+            tools:text="23 days 1 hour 13 minutes" />
     </LinearLayout>
 </layout>

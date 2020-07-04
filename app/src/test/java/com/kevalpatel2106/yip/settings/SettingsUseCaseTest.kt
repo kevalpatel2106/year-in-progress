@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.settings
 import android.content.Context
 import android.content.Intent
 import com.kevalpatel2106.yip.core.emptyString
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -11,7 +12,6 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 
@@ -26,9 +26,9 @@ class SettingsUseCaseTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this@SettingsUseCaseTest)
-        Mockito.`when`(context.getString(anyInt(), anyString(), anyString())).thenReturn(testString)
-        Mockito.`when`(context.getString(anyInt(), anyString())).thenReturn(testString)
-        Mockito.`when`(context.getString(anyInt())).thenReturn(emptyString())
+        whenever(context.getString(anyInt(), anyString(), anyString())).thenReturn(testString)
+        whenever(context.getString(anyInt(), anyString())).thenReturn(testString)
+        whenever(context.getString(anyInt())).thenReturn(emptyString())
     }
 
     @Test

@@ -20,6 +20,9 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
     lateinit var sharedPrefsProvider: SharedPrefsProvider
 
     @Inject
+    lateinit var appLaunchHelper: AppLaunchHelper
+
+    @Inject
     lateinit var appWidgetManager: AppWidgetManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -55,7 +58,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    AppLaunchHelper.launchIntent(context),
+                    appLaunchHelper.getAppLaunchIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
@@ -66,7 +69,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    AppLaunchHelper.launchIntent(context),
+                    appLaunchHelper.getAppLaunchIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )

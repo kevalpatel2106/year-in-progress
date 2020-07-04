@@ -1,7 +1,6 @@
 package com.kevalpatel2106.yip.detail
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.text.Spannable
@@ -24,8 +23,8 @@ internal object DetailUseCase {
 
     internal fun preparePopupMenu(
         anchor: View,
-        supportsPinningShortcut: Boolean = ShortcutManagerCompat
-            .isRequestPinShortcutSupported(anchor.context)
+        supportsPinning: Boolean = ShortcutManagerCompat.isRequestPinShortcutSupported(anchor.context),
+        clickListener: PopupMenu.OnMenuItemClickListener
     ): PopupMenu {
         return PopupMenu(anchor.context, anchor).apply {
             menu.add(
@@ -34,8 +33,7 @@ internal object DetailUseCase {
                 Menu.NONE,
                 anchor.context.getString(R.string.meu_title_delete)
             )
-
-            if (supportsPinningShortcut) {
+            if (supportsPinning) {
                 menu.add(
                     R.id.menu_deadline_group,
                     R.id.menu_pin_shortcut,
@@ -43,19 +41,7 @@ internal object DetailUseCase {
                     anchor.context.getString(R.string.meu_title_pin_shortcut)
                 )
             }
-        }
-    }
-
-    internal fun prepareShareAchievementIntent(context: Context, title: String?): Intent {
-        return Intent().apply {
-            action = Intent.ACTION_SEND
-            title?.let { title ->
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    context.getString(R.string.achivement_share_message, title)
-                )
-            }
-            type = "text/plain"
+            setOnMenuItemClickListener(clickListener)
         }
     }
 

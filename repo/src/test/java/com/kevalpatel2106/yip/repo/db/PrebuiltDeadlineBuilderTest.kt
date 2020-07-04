@@ -4,6 +4,7 @@ import android.app.Application
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -12,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
@@ -31,11 +31,11 @@ class PrebuiltDeadlineBuilderTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(application.getString(R.string.this_year)).thenReturn(testTitleYear)
-        Mockito.`when`(application.getString(R.string.today)).thenReturn(testTitleToday)
-        Mockito.`when`(application.getString(R.string.this_month)).thenReturn(testTitleMonth)
-        Mockito.`when`(application.getString(R.string.this_quarter)).thenReturn(testTitleQuarter)
-        Mockito.`when`(application.getString(R.string.this_week)).thenReturn(testTitleWeek)
+        whenever(application.getString(R.string.this_year)).thenReturn(testTitleYear)
+        whenever(application.getString(R.string.today)).thenReturn(testTitleToday)
+        whenever(application.getString(R.string.this_month)).thenReturn(testTitleMonth)
+        whenever(application.getString(R.string.this_quarter)).thenReturn(testTitleQuarter)
+        whenever(application.getString(R.string.this_week)).thenReturn(testTitleWeek)
 
         prebuiltDeadlines = PrebuiltDeadlineBuilder.getPrebuiltDeadline(application)
     }

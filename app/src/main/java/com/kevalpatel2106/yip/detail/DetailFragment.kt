@@ -2,9 +2,11 @@ package com.kevalpatel2106.yip.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,24 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.option_menu
 
 @AndroidEntryPoint
-internal class DetailFragment : Fragment() {
+internal class DetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private val popupMenu: PopupMenu by lazy {
-        DetailUseCase.preparePopupMenu(option_menu).apply {
-            setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.menu_delete_deadline -> {
-                        model.viewState.value?.titleText?.let { title ->
-                            DetailUseCase.conformDelete(requireContext(), title) {
-                                model.deleteDeadline()
-                            }
-                        }
-                    }
-                    R.id.menu_pin_shortcut -> model.requestPinShortcut()
-                }
-                true
-            }
-        }
+        DetailUseCase.preparePopupMenu(anchor = option_menu, clickListener = this@DetailFragment)
     }
 
     private val model: DetailViewModel by viewModels()
@@ -51,7 +39,6 @@ internal class DetailFragment : Fragment() {
             .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
             .apply {
                 lifecycleOwner = this@DetailFragment
-                view = this@DetailFragment
                 viewModel = model
             }
             .root
@@ -59,8 +46,11 @@ internal class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        monitorViewState()
+        monitorSingleEvents()
+    }
 
-        // Handle the delete
+    private fun monitorViewState() {
         var deleteDeadlineSnackbar: Snackbar? = null
         model.viewState.nullSafeObserve(this@DetailFragment) { viewState ->
             if (viewState.isDeleting) {
@@ -72,37 +62,42 @@ internal class DetailFragment : Fragment() {
                 deleteDeadlineSnackbar?.dismiss()
             }
         }
-
-        // Handle errors.
-        model.userMessage.nullSafeObserve(this@DetailFragment) { activity?.showSnack(it) }
-        model.closeDetail.nullSafeObserve(this@DetailFragment) { closeDetail() }
     }
 
-    fun showDetailOptions() {
-        if (model.viewState.value?.isDeleting == false) {
-            popupMenu.show()
+    private fun monitorSingleEvents() {
+        model.singleEvent.nullSafeObserve(viewLifecycleOwner) { event ->
+            when (event) {
+                CloseDetailScreen -> closeDetail()
+                is ShowUserMessage -> {
+                    activity?.showSnack(event.message)
+                    if (event.closeScreen) closeDetail()
+                }
+                is ShowDeleteConfirmationDialog -> {
+                    DetailUseCase.conformDelete(requireContext(), event.deadlineTitle) {
+                        model.onDeleteDeadlineConfirmed()
+                    }
+                }
+                OpenPopUpMenu -> popupMenu.show()
+            }
         }
     }
 
-    fun showShareAchievements() {
-        context?.let { ctx ->
-            startActivity(
-                DetailUseCase.prepareShareAchievementIntent(
-                    context = ctx,
-                    title = model.viewState.value?.titleText
-                )
-            )
+    override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_delete_deadline -> model.onDeleteDeadlineClicked()
+            R.id.menu_pin_shortcut -> model.requestPinShortcut()
         }
+        return true
     }
 
-    fun closeDetail() = (activity as? DashboardActivity)?.collapseDetail()
+    private fun closeDetail() = (activity as? DashboardActivity)?.collapseDetail()
 
     companion object {
         private const val ARG_ID = "arg_id"
 
         internal fun newInstance(deadlineId: Long): DetailFragment {
             return DetailFragment().apply {
-                arguments = Bundle().apply { putLong(ARG_ID, deadlineId) }
+                arguments = bundleOf(ARG_ID to deadlineId)
                 retainInstance = true
             }
         }

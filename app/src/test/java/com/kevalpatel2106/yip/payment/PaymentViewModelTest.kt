@@ -3,29 +3,31 @@ package com.kevalpatel2106.yip.payment
 import android.app.Activity
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
+import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
+import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class PaymentViewModelTest {
+
+    @JvmField
+    @Rule
+    val rule1 = RxSchedulersOverrideRule()
 
     @JvmField
     @Rule
@@ -40,95 +42,93 @@ class PaymentViewModelTest {
     @Mock
     lateinit var activity: Activity
 
-    @Mock
-    internal lateinit var viewStateObserver: Observer<PaymentActivityViewState>
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val testSuccessMessage = kFixture<String>()
 
-    @Mock
-    internal lateinit var userMessageObserver: Observer<String>
-
-    @Mock
-    internal lateinit var closeSignalObserver: Observer<Unit>
-
-    @Captor
-    internal lateinit var userMessageCaptor: ArgumentCaptor<String>
-
-    @Captor
-    internal lateinit var viewStateCaptor: ArgumentCaptor<PaymentActivityViewState>
-
-    private lateinit var paymentViewModel: PaymentViewModel
-    private val testSuccessMessage = "Good!"
+    private lateinit var model: PaymentViewModel
 
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(application.getString(R.string.purchase_successful))
+        whenever(application.getString(R.string.purchase_successful))
             .thenReturn(testSuccessMessage)
 
-        paymentViewModel = PaymentViewModel(application, billingRepo)
-        paymentViewModel.userMessage.observeForever(userMessageObserver)
-        paymentViewModel.viewState.observeForever(viewStateObserver)
-        paymentViewModel.closeSignal.observeForever(closeSignalObserver)
-    }
-
-
-    @After
-    fun after() {
-        paymentViewModel.viewState.removeObserver(viewStateObserver)
-        paymentViewModel.userMessage.removeObserver(userMessageObserver)
-        paymentViewModel.closeSignal.removeObserver(closeSignalObserver)
+        model = PaymentViewModel(application, billingRepo)
     }
 
     @Test
-    fun checkInitialViewState() {
-        Mockito.verify(viewStateObserver, Mockito.times(INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        assertNotNull(paymentViewModel.viewState.value)
-        assertEquals(PaymentActivityViewState.initialState(), paymentViewModel.viewState.value)
-        assertEquals(PaymentActivityViewState.initialState(), viewStateCaptor.value)
+    fun `when view model created check view state`() {
+        val initialViewState = model.viewState.getOrAwaitValue()
+        assertEquals(PaymentActivityViewState.initialState(), initialViewState)
     }
 
     @Test
-    fun checkViewStatesWhenPurchaseSuccess() {
-        // Set up
-        Mockito.`when`(billingRepo.purchase(activity)).thenReturn(Single.just(emptyString()))
+    fun `given purchase success when purchase button clicked check success message shown`() {
+        // given
+        whenever(billingRepo.purchase(activity)).thenReturn(Single.just(kFixture()))
 
-        paymentViewModel.purchase(activity)
+        // when
+        model.purchase(activity)
 
-        // Verify
-        Mockito.verify(billingRepo, Mockito.times(1)).purchase(activity)
-
-        Mockito.verify(viewStateObserver, Mockito.times(2 + INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        assertFalse(viewStateCaptor.allValues[1].upgradeButtonClickable)
-        assertTrue(viewStateCaptor.value.upgradeButtonClickable)
-
-        Mockito.verify(userMessageObserver, Mockito.times(1)).onChanged(userMessageCaptor.capture())
-        assertEquals(testSuccessMessage, userMessageCaptor.value)
-        Mockito.verify(closeSignalObserver, Mockito.times(1)).onChanged(Unit)
+        // check
+        val singleEvent = model.singleEvent.getOrAwaitValue()
+        assertEquals(testSuccessMessage, (singleEvent as ShowUserMessage).message)
     }
 
     @Test
-    fun checkViewStatesWhenPurchaseError() {
-        // Set up
-        val errorMessage = "Error!"
-        Mockito.`when`(billingRepo.purchase(activity))
+    fun `given purchase success when purchase button clicked check screen closes`() {
+        // given
+        whenever(billingRepo.purchase(activity)).thenReturn(Single.just(kFixture()))
+
+        // when
+        model.purchase(activity)
+
+        // check
+        val singleEvent = model.singleEvent.getOrAwaitValue()
+        assertTrue((singleEvent as ShowUserMessage).closeScreen)
+    }
+
+    @Test
+    fun `given purchase fails when purchase button clicked check error message shown`() {
+        // given
+        val errorMessage = kFixture<String>()
+        whenever(billingRepo.purchase(activity))
             .thenReturn(Single.error(Throwable(errorMessage)))
 
-        paymentViewModel.purchase(activity)
+        // when
+        model.purchase(activity)
 
-        // Verify
-        Mockito.verify(billingRepo, Mockito.times(1)).purchase(activity, BillingRepo.SKU_ID)
-
-        Mockito.verify(viewStateObserver, Mockito.times(2 + INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        assertFalse(viewStateCaptor.allValues[1].upgradeButtonClickable)
-        assertTrue(viewStateCaptor.value.upgradeButtonClickable)
-
-        Mockito.verify(userMessageObserver, Mockito.times(1)).onChanged(errorMessage)
-        Mockito.verify(closeSignalObserver, Mockito.never()).onChanged(Unit)
+        // check
+        val singleEvent = model.singleEvent.getOrAwaitValue()
+        assertEquals(errorMessage, (singleEvent as ShowUserMessage).message)
     }
 
-    companion object {
-        private const val INITIAL_STATE_ON_CHANGE = 1
+    @Test
+    fun `given purchase success when purchase button clicked check screen does not close`() {
+        // given
+        val errorMessage = kFixture<String>()
+        whenever(billingRepo.purchase(activity))
+            .thenReturn(Single.error(Throwable(errorMessage)))
+
+        // when
+        model.purchase(activity)
+
+        // check
+        val singleEvent = model.singleEvent.getOrAwaitValue()
+        assertFalse((singleEvent as ShowUserMessage).closeScreen)
+    }
+
+    @Test
+    fun `given purchase success when purchase button clicked check upgrade button clickable`() {
+        // given
+        val errorMessage = kFixture<String>()
+        whenever(billingRepo.purchase(activity))
+            .thenReturn(Single.error(Throwable(errorMessage)))
+
+        // when
+        model.purchase(activity)
+
+        // check
+        assertTrue(model.viewState.getOrAwaitValue().upgradeButtonClickable)
     }
 }

@@ -10,6 +10,7 @@ import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.utils.validator.Validator
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.After
 import org.junit.Assert
@@ -71,11 +72,11 @@ class EditViewDeadlineModelTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        Mockito.`when`(billingRepo.observeIsPurchased()).thenReturn(BehaviorSubject.create())
-        Mockito.`when`(context.resources).thenReturn(resources)
-        Mockito.`when`(context.getString(anyInt())).thenReturn(testString)
-        Mockito.`when`(context.getString(anyInt(), anyInt())).thenReturn(testString)
-        Mockito.`when`(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
+        whenever(billingRepo.observeIsPurchased()).thenReturn(BehaviorSubject.create())
+        whenever(context.resources).thenReturn(resources)
+        whenever(context.getString(anyInt())).thenReturn(testString)
+        whenever(context.getString(anyInt(), anyInt())).thenReturn(testString)
+        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
 
         viewModel = EditDeadlineViewModel(context, deadlineRepo, alarmRepo, validator, billingRepo)
 
@@ -226,7 +227,7 @@ class EditViewDeadlineModelTest {
     @Test
     fun checkOnDeadlineTitleChanged_withInvalidTitle() {
         // Prepare
-        Mockito.`when`(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(false)
+        whenever(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(false)
         val longTitle = "123456789012345678901"
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -248,7 +249,7 @@ class EditViewDeadlineModelTest {
     @Test
     fun checkOnDeadlineTitleChanged_withValidTitle() {
         // Prepare
-        Mockito.`when`(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(true)
+        whenever(validator.isValidTitle(ArgumentMatchers.anyString())).thenReturn(true)
         val longTitle = "12345678901234567890"
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -270,7 +271,7 @@ class EditViewDeadlineModelTest {
     @Test
     fun checkOnDeadlineColorSelected_withInvalidColor() {
         // Prepare
-        Mockito.`when`(validator.isValidDeadlineColor(ArgumentMatchers.anyInt())).thenReturn(false)
+        whenever(validator.isValidDeadlineColor(ArgumentMatchers.anyInt())).thenReturn(false)
         val initialColor = viewModel.viewState.value!!.selectedColor.colorInt
         viewModel.viewState.observeForever(viewStateObserver)
 
@@ -294,7 +295,7 @@ class EditViewDeadlineModelTest {
     @Test
     fun checkOnDeadlineColorSelected_withValidColor() {
         // Prepare
-        Mockito.`when`(validator.isValidDeadlineColor(ArgumentMatchers.anyInt())).thenReturn(true)
+        whenever(validator.isValidDeadlineColor(ArgumentMatchers.anyInt())).thenReturn(true)
         viewModel.viewState.observeForever(viewStateObserver)
 
         // Change color

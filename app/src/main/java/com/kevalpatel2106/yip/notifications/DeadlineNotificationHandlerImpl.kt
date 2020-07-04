@@ -14,31 +14,18 @@ import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 
-/**
- * Helper class for showing and canceling deadline
- * notifications.
- *
- *
- * This class makes heavy use of the [NotificationCompat.Builder] helper
- * class to create notifications in a backward-compatible way.
- */
-object DeadlineNotification {
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal const val CHANNEL_ID = "deadline_notification"
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal const val COMPLETE_DOT = "|"
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal const val INCOMPLETE_DOT = ":"
+internal class DeadlineNotificationHandlerImpl(
+    private val context: Context,
+    private val appLaunchHelper: AppLaunchHelper
+) : DeadlineNotificationHandler {
 
     /**
      * Shows the notification, or updates a previously shown notification of
      * this type, with the given parameters.
-     * @see .cancel
+     * @see [NotificationManager.cancel]
      */
     @SuppressLint("NewApi")
-    fun notify(context: Context, deadline: Deadline) {
+    override fun notify(deadline: Deadline) {
         val notificationId = generateNotificationId(deadline.id)
         val title = getTitle(context, deadline.title, deadline.percent)
         val message = getMessage(context, deadline.percent)
@@ -80,11 +67,12 @@ object DeadlineNotification {
         return "$dots ${String.format(context.getString(R.string.deadline_percentage), percent)}"
     }
 
-    private fun getPendingIntent(context: Context, notificationId: Int, id: Long): PendingIntent {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun getPendingIntent(context: Context, notificationId: Int, id: Long): PendingIntent {
         return PendingIntent.getActivity(
             context,
             notificationId,
-            AppLaunchHelper.launchWithDeadlineDetail(context, id),
+            appLaunchHelper.getLaunchIntentWithDeadlineDetail(context, id),
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
@@ -103,5 +91,16 @@ object DeadlineNotification {
         } else {
             null
         }
+    }
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val CHANNEL_ID = "deadline_notification"
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val COMPLETE_DOT = "|"
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val INCOMPLETE_DOT = ":"
     }
 }

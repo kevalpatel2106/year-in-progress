@@ -182,6 +182,12 @@ internal class DashboardViewModel @ViewModelInject constructor(
 
     private fun isDetailExpanded(): Boolean = expandViewState.value is DetailViewExpanded
 
+    /**
+     * Returns the id of expanded [Deadline] if any expanded.
+     *
+     * @return [Long] id of expanded [Deadline] if any deadline detail is expanded or null if no
+     * deadline is expanded
+     */
     private fun expandedDeadlineId() = (expandViewState.value as? DetailViewExpanded)?.deadlineId
 
     companion object {

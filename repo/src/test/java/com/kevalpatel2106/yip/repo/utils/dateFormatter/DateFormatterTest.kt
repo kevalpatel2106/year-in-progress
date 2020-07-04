@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.repo.utils.dateFormatter
 import android.app.Application
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -10,7 +11,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import java.util.Calendar
 import java.util.Date
@@ -109,16 +109,16 @@ class DateFormatterTest(
     fun before() {
         MockitoAnnotations.initMocks(this)
 
-        Mockito.`when`(application.getString(R.string.pref_key_date_format))
+        whenever(application.getString(R.string.pref_key_date_format))
             .thenReturn(keyDateFormat)
-        Mockito.`when`(application.getString(R.string.pref_key_time_format))
+        whenever(application.getString(R.string.pref_key_time_format))
             .thenReturn(keyTimeFormat)
-        Mockito.`when`(application.getString(R.string.dd_MMM_yyyy)).thenReturn(dateFormat)
-        Mockito.`when`(application.getString(R.string.hh_mm_a)).thenReturn(timeFormat)
+        whenever(application.getString(R.string.dd_MMM_yyyy)).thenReturn(dateFormat)
+        whenever(application.getString(R.string.hh_mm_a)).thenReturn(timeFormat)
 
-        Mockito.`when`(sharedPrefsProvider.observeStringFromPreference(keyDateFormat, dateFormat))
+        whenever(sharedPrefsProvider.observeStringFromPreference(keyDateFormat, dateFormat))
             .thenReturn(Observable.just(dateFormat))
-        Mockito.`when`(sharedPrefsProvider.observeStringFromPreference(keyTimeFormat, timeFormat))
+        whenever(sharedPrefsProvider.observeStringFromPreference(keyTimeFormat, timeFormat))
             .thenReturn(Observable.just(timeFormat))
 
         dateFormatter = DateFormatterImpl(application, sharedPrefsProvider)

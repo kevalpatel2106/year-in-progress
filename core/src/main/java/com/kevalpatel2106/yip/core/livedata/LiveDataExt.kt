@@ -29,3 +29,5 @@ fun <T> MutableLiveData<T>.recall() {
 inline fun <T> MutableLiveData<T>.modify(modify: T.() -> T) {
     value = value?.modify()
 }
+
+fun <T : Any> LiveData<T>.nullSafeValue() = requireNotNull(value)
