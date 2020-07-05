@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.validator
+package com.kevalpatel2106.yip.repo.validator
 
 import androidx.annotation.ColorInt
 import java.util.Date

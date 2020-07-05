@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import io.reactivex.Flowable
 import io.reactivex.Single
+import java.io.IOException
 
 @Dao
 internal interface DeadlineDao {
@@ -17,6 +18,7 @@ internal interface DeadlineDao {
     )
     fun getCount(deadlineId: Long): Single<Int>
 
+    @Throws(IOException::class)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(deadline: DeadlineDto): Long
 
@@ -26,6 +28,7 @@ internal interface DeadlineDao {
     @Query("SELECT * FROM ${DeadlineTableInfo.TABLE_NAME} WHERE ${DeadlineTableInfo.ID} = :deadlineId")
     fun observe(deadlineId: Long): Flowable<DeadlineDto>
 
+    @Throws(IOException::class)
     @Query("DELETE FROM ${DeadlineTableInfo.TABLE_NAME} WHERE ${DeadlineTableInfo.ID} = :deadlineId")
     fun delete(deadlineId: Long)
 }

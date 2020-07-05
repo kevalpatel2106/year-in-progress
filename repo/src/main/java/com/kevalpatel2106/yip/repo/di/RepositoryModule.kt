@@ -7,16 +7,16 @@ import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepoImpl
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepoImpl
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatterImpl
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepoImpl
-import com.kevalpatel2106.yip.repo.utils.TimeProvider
-import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
-import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatterImpl
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProviderImpl
-import com.kevalpatel2106.yip.repo.utils.validator.Validator
-import com.kevalpatel2106.yip.repo.utils.validator.ValidatorImpl
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProviderImpl
+import com.kevalpatel2106.yip.repo.timeProvider.TimeProviderImpl
+import com.kevalpatel2106.yip.repo.validator.Validator
+import com.kevalpatel2106.yip.repo.validator.ValidatorImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,14 +34,18 @@ class RepositoryModule {
         @ApplicationContext application: Context,
         alarmManager: AlarmManager,
         yipDatabase: YipDatabase
-    ): AlarmRepo = AlarmRepoImpl(alarmManager, application, TimeProvider, yipDatabase)
+    ): AlarmRepo {
+        return AlarmRepoImpl(alarmManager, application, TimeProviderImpl(), yipDatabase)
+    }
 
     @Singleton
     @Provides
     fun provideBillingRepo(
         @ApplicationContext application: Context,
         sharedPrefsProvider: SharedPrefsProvider
-    ): BillingRepo = BillingRepoImpl(application, sharedPrefsProvider)
+    ): BillingRepo {
+        return BillingRepoImpl(application, sharedPrefsProvider)
+    }
 
     @Singleton
     @Provides
@@ -49,33 +53,34 @@ class RepositoryModule {
         @ApplicationContext application: Context,
         db: YipDatabase,
         sharedPrefsProvider: SharedPrefsProvider
-    ): DeadlineRepo = DeadlineRepoImpl(application, db, TimeProvider, sharedPrefsProvider)
+    ): DeadlineRepo {
+        return DeadlineRepoImpl(application, db, TimeProviderImpl(), sharedPrefsProvider)
+    }
 
     @Singleton
     @Provides
-    fun provideValidator(@ApplicationContext application: Context): Validator =
-        ValidatorImpl(application)
+    fun provideValidator(@ApplicationContext application: Context): Validator {
+        return ValidatorImpl(application)
+    }
 
     @Singleton
     @Provides
     fun provideDateFormatter(
         @ApplicationContext application: Context,
         sharedPrefsProvider: SharedPrefsProvider
-    ): DateFormatter =
-        DateFormatterImpl(
-            application,
-            sharedPrefsProvider
-        )
+    ): DateFormatter {
+        return DateFormatterImpl(application, sharedPrefsProvider)
+    }
 
     @Singleton
     @Provides
-    fun provideSharedPrefs(@ApplicationContext application: Context): SharedPrefsProvider =
-        SharedPrefsProviderImpl(
-            PreferenceManager.getDefaultSharedPreferences(application)
-        )
+    fun provideSharedPrefs(@ApplicationContext application: Context): SharedPrefsProvider {
+        return SharedPrefsProviderImpl(PreferenceManager.getDefaultSharedPreferences(application))
+    }
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext application: Context): YipDatabase =
-        YipDatabase.create(application)
+    fun provideDatabase(@ApplicationContext application: Context): YipDatabase {
+        return YipDatabase.create(application)
+    }
 }

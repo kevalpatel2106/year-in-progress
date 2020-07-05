@@ -22,7 +22,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnit4::class)
-open class DashboardViewModelMonitorDeadlineTest : DashboardViewModelTestSetUp() {
+class DashboardViewModelMonitorDeadlineTest : DashboardViewModelTestSetUp() {
 
     @Test
     fun `given user is pro and deadlines not empty when monitor deadlines called check deadline list items`() {

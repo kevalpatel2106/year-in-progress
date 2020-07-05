@@ -22,7 +22,7 @@ import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy

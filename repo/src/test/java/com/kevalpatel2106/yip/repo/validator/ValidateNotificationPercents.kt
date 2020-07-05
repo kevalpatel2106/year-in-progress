@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.validator
+package com.kevalpatel2106.yip.repo.validator
 
 import android.app.Application
 import android.content.res.Resources

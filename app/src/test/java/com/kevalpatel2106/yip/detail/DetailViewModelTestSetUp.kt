@@ -10,8 +10,8 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.nhaarman.mockitokotlin2.any

@@ -12,11 +12,11 @@ import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandler
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.validator.Validator
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.validator.Validator
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity

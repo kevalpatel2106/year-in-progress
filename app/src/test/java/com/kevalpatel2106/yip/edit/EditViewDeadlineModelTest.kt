@@ -9,7 +9,7 @@ import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.validator.Validator
+import com.kevalpatel2106.yip.repo.validator.Validator
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.After

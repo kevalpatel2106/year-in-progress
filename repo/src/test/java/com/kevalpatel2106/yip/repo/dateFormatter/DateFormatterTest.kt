@@ -1,8 +1,8 @@
-package com.kevalpatel2106.yip.repo.utils.dateFormatter
+package com.kevalpatel2106.yip.repo.dateFormatter
 
 import android.app.Application
 import com.kevalpatel2106.yip.repo.R
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import org.junit.Assert.assertEquals

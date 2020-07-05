@@ -10,7 +10,7 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.BackpressureStrategy

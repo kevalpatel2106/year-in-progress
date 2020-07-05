@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

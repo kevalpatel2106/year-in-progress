@@ -8,7 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppLaunchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

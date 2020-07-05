@@ -21,7 +21,7 @@ import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
-import com.kevalpatel2106.yip.repo.utils.dateFormatter.DateFormatter
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_color

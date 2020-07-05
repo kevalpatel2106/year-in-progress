@@ -15,5 +15,5 @@ data class Deadline(
     val end: Date,
     val color: DeadlineColor,
     val notificationPercent: List<Float>,
-    val percent: Float = 0f
+    val percent: Float = 0f     // value between 0 and 100
 ) : Parcelable

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.sharedPrefs
+package com.kevalpatel2106.yip.repo.sharedPrefs
 
 import io.reactivex.Observable
 

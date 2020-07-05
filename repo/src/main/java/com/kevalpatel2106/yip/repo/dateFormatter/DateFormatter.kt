@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils.dateFormatter
+package com.kevalpatel2106.yip.repo.dateFormatter
 
 import java.util.Date
 

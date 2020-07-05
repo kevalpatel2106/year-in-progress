@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.facebook.stetho.Stetho
 import com.github.anrwatchdog.ANRWatchDog
 import com.google.android.gms.ads.MobileAds
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.settings.SettingsUseCase
 import dagger.hilt.android.HiltAndroidApp
 import io.palaima.debugdrawer.timber.data.LumberYard

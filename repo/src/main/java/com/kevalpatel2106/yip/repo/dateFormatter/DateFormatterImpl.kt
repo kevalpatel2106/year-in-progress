@@ -1,15 +1,15 @@
-package com.kevalpatel2106.yip.repo.utils.dateFormatter
+package com.kevalpatel2106.yip.repo.dateFormatter
 
 import android.annotation.SuppressLint
 import android.content.Context
 import com.kevalpatel2106.yip.repo.R
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @SuppressLint("CheckResult")
-class DateFormatterImpl internal constructor(
+internal class DateFormatterImpl internal constructor(
     application: Context,
     sharedPrefsProvider: SharedPrefsProvider
 ) : DateFormatter {

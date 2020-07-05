@@ -1,17 +1,18 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.repo.timeProvider
 
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class TimeProviderTest {
+class TimeProviderImplTest {
 
     @Test
     fun testMinuteObserver() {
         val testIntervalMills = 100L
 
-        val testObserver = TimeProvider.minuteObserver(testIntervalMills).test()
+        val testObserver = TimeProviderImpl()
+            .minuteObserver(testIntervalMills).test()
         Thread.sleep((4.5 * testIntervalMills).toLong())
         testObserver.dispose()
 
@@ -22,7 +23,8 @@ class TimeProviderTest {
 
     @Test
     fun testNowAsync() {
-        val testObserver = TimeProvider.nowAsync().test()
+        val testObserver = TimeProviderImpl()
+            .nowAsync().test()
         testObserver.awaitTerminalEvent()
 
         testObserver.assertNoErrors()

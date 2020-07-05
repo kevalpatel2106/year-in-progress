@@ -9,9 +9,9 @@ import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltDeadline
 import com.kevalpatel2106.yip.repo.dto.toEntity
+import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.timeProvider.TimeProvider
 import com.kevalpatel2106.yip.repo.utils.RxSchedulers
-import com.kevalpatel2106.yip.repo.utils.TimeProvider
-import com.kevalpatel2106.yip.repo.utils.sharedPrefs.SharedPrefsProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable

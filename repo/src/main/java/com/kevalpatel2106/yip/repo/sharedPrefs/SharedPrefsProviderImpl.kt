@@ -6,7 +6,7 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.kevalpatel2106.yip.repo.utils.sharedPrefs
+package com.kevalpatel2106.yip.repo.sharedPrefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

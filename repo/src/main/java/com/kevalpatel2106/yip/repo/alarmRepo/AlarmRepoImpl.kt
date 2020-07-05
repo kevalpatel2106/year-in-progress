@@ -11,7 +11,7 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.os.bundleOf
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
-import com.kevalpatel2106.yip.repo.utils.TimeProvider
+import com.kevalpatel2106.yip.repo.timeProvider.TimeProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
