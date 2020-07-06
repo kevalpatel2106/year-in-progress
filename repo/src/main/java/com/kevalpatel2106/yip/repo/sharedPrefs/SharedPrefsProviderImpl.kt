@@ -11,7 +11,6 @@ package com.kevalpatel2106.yip.repo.sharedPrefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import io.reactivex.Observable
 
 /**
@@ -86,8 +85,6 @@ internal class SharedPrefsProviderImpl(
                 rxPreferences.getString(key)
             }
         }.asObservable()
-            .subscribeOn(RxSchedulers.disk)
-            .observeOn(RxSchedulers.main)
     }
 
     override fun getStringFromPreference(key: String, defVal: String?): String? =

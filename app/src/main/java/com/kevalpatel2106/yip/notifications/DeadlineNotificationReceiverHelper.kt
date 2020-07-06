@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.notifications
 
 import android.annotation.SuppressLint
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import timber.log.Timber
@@ -13,6 +14,8 @@ internal class DeadlineNotificationReceiverHelper @Inject constructor(
     @SuppressLint("CheckResult")
     internal fun onReceive(deadlineId: Long) {
         deadlineRepo.observeDeadline(deadlineId)
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
             .firstOrError()
             .filter { deadline -> !isItTooLate(deadline) }
             .subscribe(deadlineNotificationHandler::notify, Timber::e)

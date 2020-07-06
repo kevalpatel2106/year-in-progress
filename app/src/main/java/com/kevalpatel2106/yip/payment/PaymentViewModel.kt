@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.modify
@@ -29,6 +30,8 @@ internal class PaymentViewModel @ViewModelInject internal constructor(
 
     internal fun purchase(activity: Activity) {
         billingRepo.purchase(activity)
+            .subscribeOn(RxSchedulers.main)
+            .observeOn(RxSchedulers.main)
             .doOnSubscribe { _viewState.modify { copy(upgradeButtonClickable = false) } }
             .doAfterTerminate { _viewState.modify { copy(upgradeButtonClickable = true) } }
             .subscribe({

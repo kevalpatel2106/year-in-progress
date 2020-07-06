@@ -36,6 +36,8 @@ class RxSchedulersOverrideRule : TestRule {
 
                 RxJavaPlugins.reset()
                 RxJavaPlugins.setIoSchedulerHandler { scheduler }
+                RxJavaPlugins.setComputationSchedulerHandler { scheduler }
+                RxJavaPlugins.setSingleSchedulerHandler { scheduler }
                 RxJavaPlugins.setNewThreadSchedulerHandler { scheduler }
 
                 base.evaluate()

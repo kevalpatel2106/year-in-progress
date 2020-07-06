@@ -10,7 +10,6 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetailsParams
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
-import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -115,7 +114,6 @@ internal class BillingRepoImpl(
             })
         }.doAfterSuccess { isPurchased.onNext(true) }
             .map { sku }
-            .subscribeOn(RxSchedulers.main)
     }
 
     private fun BillingClient.buyNewProduct(

@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.repo.utils
+package com.kevalpatel2106.yip.core
 
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +16,7 @@ class RxSchedulersTest {
         var firstObservable = 0L
         var secondObservable = 0L
         val delayObservable = Observable.just(12)
-            .delay(100, TimeUnit.MILLISECONDS, RxSchedulers.database)
+            .delay(100, TimeUnit.MILLISECONDS, com.kevalpatel2106.yip.core.RxSchedulers.database)
             .observeOn(Schedulers.io())
 
         delayObservable.doOnSubscribe {

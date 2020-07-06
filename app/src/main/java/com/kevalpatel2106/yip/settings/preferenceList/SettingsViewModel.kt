@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
@@ -44,6 +45,8 @@ internal class SettingsViewModel @ViewModelInject internal constructor(
 
     private fun monitorDarkModeSettings() {
         sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
+            .subscribeOn(RxSchedulers.preference)
+            .observeOn(RxSchedulers.main)
             .distinctUntilChanged()
             .subscribe { darkModeSettings ->
                 val darkModeSettingsInt = SettingsUseCase.getNightModeSettings(

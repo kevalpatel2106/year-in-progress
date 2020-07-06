@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.SNACK_BAR_DURATION
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
@@ -20,7 +21,6 @@ import com.kevalpatel2106.yip.notifications.DeadlineNotificationReceiver
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import com.kevalpatel2106.yip.repo.validator.Validator
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
@@ -71,6 +71,8 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
 
     private fun monitorDeadline(id: Long) {
         deadlineRepo.observeDeadline(id)
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
             .firstOrError()
             .doOnSubscribe { _viewState.value = _viewState.value?.copy(isLoading = true) }
             .subscribe({ deadline ->
@@ -226,11 +228,13 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
                 color = selectedColor,
                 type = type,
                 notifications = notificationList
-            ).doOnSubscribe {
-                _viewState.value = _viewState.value?.copy(isLoading = true)
-            }.doOnSuccess {
-                _userMessage.value = application.getString(R.string.deadline_saved_success)
-            }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
+            ).subscribeOn(RxSchedulers.database)
+                .observeOn(RxSchedulers.main)
+                .doOnSubscribe {
+                    _viewState.value = _viewState.value?.copy(isLoading = true)
+                }.doOnSuccess {
+                    _userMessage.value = application.getString(R.string.deadline_saved_success)
+                }.delay(SNACK_BAR_DURATION, TimeUnit.MILLISECONDS, RxSchedulers.main)
                 .doAfterTerminate {
                     _viewState.value = _viewState.value?.copy(isLoading = false)
                 }.subscribe({

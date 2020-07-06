@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.darkenColor
 import com.kevalpatel2106.yip.core.emptySpannableString
@@ -48,6 +49,8 @@ internal class DetailViewModel @ViewModelInject internal constructor(
 
     private fun monitorDeadlines(id: Long) {
         deadlineRepo.observeDeadline(id)
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
             .subscribe({ deadline ->
                 val deadlineThemeColor = darkenColor(deadline.color.colorInt, 0.9f)
                 val timeLeftString = if (deadline.percent >= 100f) {
@@ -102,6 +105,8 @@ internal class DetailViewModel @ViewModelInject internal constructor(
 
     internal fun onDeleteDeadlineConfirmed() {
         deadlineRepo.deleteDeadline(deadlineId)
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
             .doOnSubscribe { _viewState.modify { copy(isDeleting = true) } }
             .doOnTerminate { _viewState.modify { copy(isDeleting = false) } }
             .subscribe({

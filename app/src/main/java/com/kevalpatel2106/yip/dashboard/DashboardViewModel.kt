@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.getBackgroundGradient
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
@@ -56,43 +57,45 @@ internal class DashboardViewModel @ViewModelInject constructor(
             deadlineRepo.observeAllDeadlines(),
             billingRepo.observeIsPurchased().toFlowable(BackpressureStrategy.BUFFER),
             BiFunction<List<Deadline>, Boolean, Pair<List<Deadline>, Boolean>> { list, isPro -> list to isPro }
-        ).doOnSubscribe {
-            _deadlines.modify { mutableListOf(LoadingRepresentable) }
-        }.doOnNext { (deadlines, _) ->
-            if (isDetailExpanded() && !deadlines.any { it.id == expandedDeadlineId() }) {
-                onCloseDeadlineDetail()
-            }
-        }.doOnNext { (deadlines, _) ->
-            appShortcutHelper.updateDynamicShortcuts(deadlines)
-            application.updateWidgets()
-        }.map { (deadlines, isPro) ->
-            val list: MutableList<ListItemRepresentable> = deadlines.map {
-                DeadlineListItem(
-                    deadline = it,
-                    percentString = application.getString(
-                        R.string.deadline_percentage,
-                        it.percent
-                    ),
-                    backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
-                )
-            }.toMutableList()
-
-            // Add the ads if the user is not pro.
-            if (list.isNotEmpty() && !isPro) {
-                val adPosition = if (list.size > AD_POSITION) AD_POSITION else list.size
-                list.add(adPosition, AdsItem)
-            }
-
-            list
-        }.subscribe({ newList ->
-            _deadlines.modify {
-                if (newList.isEmpty()) {
-                    mutableListOf(EmptyRepresentable(application.getString(R.string.dashboard_no_deadline_message)))
-                } else {
-                    newList.apply { add(PaddingItem) }
+        ).subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
+            .doOnSubscribe {
+                _deadlines.modify { mutableListOf(LoadingRepresentable) }
+            }.doOnNext { (deadlines, _) ->
+                if (isDetailExpanded() && !deadlines.any { it.id == expandedDeadlineId() }) {
+                    onCloseDeadlineDetail()
                 }
-            }
-        }, ::handleErrorMonitoringDeadline)
+            }.doOnNext { (deadlines, _) ->
+                appShortcutHelper.updateDynamicShortcuts(deadlines)
+                application.updateWidgets()
+            }.map { (deadlines, isPro) ->
+                val list: MutableList<ListItemRepresentable> = deadlines.map {
+                    DeadlineListItem(
+                        deadline = it,
+                        percentString = application.getString(
+                            R.string.deadline_percentage,
+                            it.percent
+                        ),
+                        backgroundGradient = application.getBackgroundGradient(it.color.colorInt)
+                    )
+                }.toMutableList()
+
+                // Add the ads if the user is not pro.
+                if (list.isNotEmpty() && !isPro) {
+                    val adPosition = if (list.size > AD_POSITION) AD_POSITION else list.size
+                    list.add(adPosition, AdsItem)
+                }
+
+                list
+            }.subscribe({ newList ->
+                _deadlines.modify {
+                    if (newList.isEmpty()) {
+                        mutableListOf(EmptyRepresentable(application.getString(R.string.dashboard_no_deadline_message)))
+                    } else {
+                        newList.apply { add(PaddingItem) }
+                    }
+                }
+            }, ::handleErrorMonitoringDeadline)
             .addTo(compositeDisposable)
     }
 
@@ -121,6 +124,8 @@ internal class DashboardViewModel @ViewModelInject constructor(
         randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
     ) {
         deadlineRepo.isDeadlineExist(deadlineId)
+            .subscribeOn(RxSchedulers.database)
+            .observeOn(RxSchedulers.main)
             .subscribe({ exist ->
                 if (exist) {
                     _expandViewState.value = DetailViewExpanded(deadlineId)

@@ -11,7 +11,6 @@ import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltDeadline
 import com.kevalpatel2106.yip.repo.dto.toEntity
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.timeProvider.TimeProvider
-import com.kevalpatel2106.yip.repo.utils.RxSchedulers
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
@@ -60,8 +59,7 @@ internal class DeadlineRepoImpl(
                 orderKeyEndingTimeDesc -> deadlines.sortedByDescending { it.end.time }
                 else -> throw IllegalArgumentException("Invalid sort order: $sortOrder")
             }
-        }.subscribeOn(RxSchedulers.database)
-            .observeOn(RxSchedulers.main)
+        }
     }
 
     override fun observeDeadline(deadlineId: Long): Flowable<Deadline> {
@@ -73,22 +71,20 @@ internal class DeadlineRepoImpl(
             }
         ).map { (deadlineDto, now) ->
             deadlineDto.modifyPrebuiltDeadline(now).toEntity(now)
-        }.subscribeOn(RxSchedulers.database)
-            .observeOn(RxSchedulers.main)
+        }
     }
 
     override fun isDeadlineExist(deadlineId: Long): Single<Boolean> {
         return db.getDeviceDao()
             .getCount(deadlineId)
             .map { it > 0 }
-            .subscribeOn(RxSchedulers.database)
-            .observeOn(RxSchedulers.main)
+            .doOnError {
+                it.printStackTrace()
+            }
     }
 
     override fun deleteDeadline(deadlineId: Long): Completable {
         return Completable.fromCallable { db.getDeviceDao().delete(deadlineId) }
-            .subscribeOn(RxSchedulers.database)
-            .observeOn(RxSchedulers.main)
     }
 
     override fun addUpdateDeadline(
@@ -117,7 +113,6 @@ internal class DeadlineRepoImpl(
             BiFunction { dto: DeadlineDto, now: Date -> dto to now }
         ).map { (dto, now) ->
             dto.toEntity(now)
-        }.subscribeOn(RxSchedulers.database)
-            .observeOn(RxSchedulers.main)
+        }
     }
 }
