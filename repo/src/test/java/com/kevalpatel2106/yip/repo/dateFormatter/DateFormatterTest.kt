@@ -40,56 +40,20 @@ class DateFormatterTest(
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
                 // Time: hh:mm a
-                arrayOf(
-                    "dd-MMM-yyyy", "hh:mm a",
-                    date, "01-Dec-2019 01:10 PM", "01-Dec-2019"
-                ),
-                arrayOf(
-                    "dd-MM-yyyy", "hh:mm a",
-                    date, "01-12-2019 01:10 PM", "01-12-2019"
-                ),
-                arrayOf(
-                    "dd MMM yyyy", "hh:mm a",
-                    date, "01 Dec 2019 01:10 PM", "01 Dec 2019"
-                ),
-                arrayOf(
-                    "MM-dd-yyyy", "hh:mm a",
-                    date, "12-01-2019 01:10 PM", "12-01-2019"
-                ),
-                arrayOf(
-                    "MMM dd yyyy", "hh:mm a",
-                    date, "Dec 01 2019 01:10 PM", "Dec 01 2019"
-                ),
-                arrayOf(
-                    "MMM dd,yyyy", "hh:mm a",
-                    date, "Dec 01,2019 01:10 PM", "Dec 01,2019"
-                ),
+                arrayOf("dd-MMM-yyyy", "hh:mm a", date, "01-Dec-2019 01:10 PM", "01-Dec-2019"),
+                arrayOf("dd-MM-yyyy", "hh:mm a", date, "01-12-2019 01:10 PM", "01-12-2019"),
+                arrayOf("dd MMM yyyy", "hh:mm a", date, "01 Dec 2019 01:10 PM", "01 Dec 2019"),
+                arrayOf("MM-dd-yyyy", "hh:mm a", date, "12-01-2019 01:10 PM", "12-01-2019"),
+                arrayOf("MMM dd yyyy", "hh:mm a", date, "Dec 01 2019 01:10 PM", "Dec 01 2019"),
+                arrayOf("MMM dd,yyyy", "hh:mm a", date, "Dec 01,2019 01:10 PM", "Dec 01,2019"),
 
                 // Time: HH:mm
-                arrayOf(
-                    "dd-MMM-yyyy", "HH:mm",
-                    date, "01-Dec-2019 13:10", "01-Dec-2019"
-                ),
-                arrayOf(
-                    "dd-MM-yyyy", "HH:mm",
-                    date, "01-12-2019 13:10", "01-12-2019"
-                ),
-                arrayOf(
-                    "dd MMM yyyy", "HH:mm",
-                    date, "01 Dec 2019 13:10", "01 Dec 2019"
-                ),
-                arrayOf(
-                    "MM-dd-yyyy", "HH:mm",
-                    date, "12-01-2019 13:10", "12-01-2019"
-                ),
-                arrayOf(
-                    "MMM dd yyyy", "HH:mm",
-                    date, "Dec 01 2019 13:10", "Dec 01 2019"
-                ),
-                arrayOf(
-                    "MMM dd,yyyy", "HH:mm",
-                    date, "Dec 01,2019 13:10", "Dec 01,2019"
-                )
+                arrayOf("dd-MMM-yyyy", "HH:mm", date, "01-Dec-2019 13:10", "01-Dec-2019"),
+                arrayOf("dd-MM-yyyy", "HH:mm", date, "01-12-2019 13:10", "01-12-2019"),
+                arrayOf("dd MMM yyyy", "HH:mm", date, "01 Dec 2019 13:10", "01 Dec 2019"),
+                arrayOf("MM-dd-yyyy", "HH:mm", date, "12-01-2019 13:10", "12-01-2019"),
+                arrayOf("MMM dd yyyy", "HH:mm", date, "Dec 01 2019 13:10", "Dec 01 2019"),
+                arrayOf("MMM dd,yyyy", "HH:mm", date, "Dec 01,2019 13:10", "Dec 01,2019")
             )
         }
     }
@@ -125,12 +89,12 @@ class DateFormatterTest(
     }
 
     @Test
-    fun checkDateTimeFormat() {
+    fun `given date and time format when when format called check formatted date and time`() {
         assertEquals(formatWithTime, dateFormatter.format(date))
     }
 
     @Test
-    fun checkDateFormat() {
+    fun `given date format when when format date only called check formatted date`() {
         assertEquals(formatDateOnly, dateFormatter.formatDateOnly(date))
     }
 

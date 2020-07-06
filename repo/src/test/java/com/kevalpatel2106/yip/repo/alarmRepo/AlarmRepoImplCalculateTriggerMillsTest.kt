@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.repo.alarmRepo
 
 import org.junit.Assert
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
@@ -10,15 +9,15 @@ import org.junit.runners.JUnit4
 import org.junit.runners.Parameterized
 
 @RunWith(Enclosed::class)
-class AlarmRepoImplCompanionTest {
+internal class AlarmRepoImplCalculateTriggerMillsTest {
 
     @RunWith(Parameterized::class)
-    class CalculateTriggerMillsTest(
+    class ValidInputTest(
         private val startMills: Long,
         private val endMills: Long,
-        private val percent: Float,
+        private val triggerPercent: Float,
         private val triggerMills: Long
-    ) {
+    ) : AlarmRepoImplTestSetUp() {
 
         companion object {
 
@@ -40,42 +39,42 @@ class AlarmRepoImplCompanionTest {
         }
 
         @Test
-        fun checkGetTriggerMills() {
-            val mills = AlarmRepoImpl.triggerMills(startMills, endMills, percent)
+        fun `given start-end time and trigger percent check alarm trigger time`() {
+            val mills = alarmRepo.triggerMills(startMills, endMills, triggerPercent)
             assertEquals(triggerMills, mills)
         }
     }
 
     @RunWith(JUnit4::class)
-    class CalculateTriggerMillsTest1 {
+    class InvalidInputsTest : AlarmRepoImplTestSetUp() {
 
         @Test
-        fun checkNegativeStartDate() {
+        fun `given negative start date when calculating trigger mills check it fails`() {
             try {
-                AlarmRepoImpl.triggerMills(-1, 100, 1F)
+                alarmRepo.triggerMills(-1, 100, 1F)
                 Assert.fail("Test should throw IllegalArgumentException at this moment.")
             } catch (e: IllegalArgumentException) {
-                assertNotNull(e.message)
+                Assert.assertNotNull(e.message)
             }
         }
 
         @Test
-        fun checkNegativeEndDate() {
+        fun `given negative end date when calculating trigger mills check it fails`() {
             try {
-                AlarmRepoImpl.triggerMills(0, -1, 1F)
+                alarmRepo.triggerMills(0, -1, 1F)
                 Assert.fail("Test should throw IllegalArgumentException at this moment.")
             } catch (e: IllegalArgumentException) {
-                assertNotNull(e.message)
+                Assert.assertNotNull(e.message)
             }
         }
 
         @Test
-        fun checkStartDateGreaterThanEndDate() {
+        fun `given start date after end date when calculating trigger mills check it fails`() {
             try {
-                AlarmRepoImpl.triggerMills(100, 99, 1F)
+                alarmRepo.triggerMills(100, 99, 1F)
                 Assert.fail("Test should throw IllegalArgumentException at this moment.")
             } catch (e: IllegalArgumentException) {
-                assertNotNull(e.message)
+                Assert.assertNotNull(e.message)
             }
         }
     }

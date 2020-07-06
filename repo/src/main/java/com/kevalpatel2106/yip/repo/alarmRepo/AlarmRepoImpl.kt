@@ -64,33 +64,30 @@ internal class AlarmRepoImpl(
             }
     }
 
-    companion object {
+    private fun <T : BroadcastReceiver> getPendingIntent(
+        application: Context,
+        alarmTime: Long,
+        deadlineId: Long,
+        triggerClass: Class<T>
+    ): PendingIntent {
+        val intent = Intent(application, triggerClass)
+            .apply { putExtras(bundleOf(AlarmRepo.ARG_DEADLINE_ID to deadlineId)) }
+        return PendingIntent.getBroadcast(
+            application,
+            alarmTime.toInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
 
-        private fun <T : BroadcastReceiver> getPendingIntent(
-            application: Context,
-            alarmTime: Long,
-            deadlineId: Long,
-            triggerClass: Class<T>
-        ): PendingIntent {
-            val intent = Intent(application, triggerClass)
-                .apply { putExtras(bundleOf(AlarmRepo.ARG_DEADLINE_ID to deadlineId)) }
-            return PendingIntent.getBroadcast(
-                application,
-                alarmTime.toInt(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
-
-        @VisibleForTesting
-        internal fun triggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
-            return if (startMills < 0 || endMills < 0) {
-                throw IllegalArgumentException("Start mills or end mills is negative.")
-            } else if (startMills > endMills) {
-                throw IllegalArgumentException("Start mills greater than end mills.")
-            } else {
-                startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
-            }
+    @VisibleForTesting
+    fun triggerMills(startMills: Long, endMills: Long, triggerPercent: Float): Long {
+        return if (startMills < 0 || endMills < 0) {
+            throw IllegalArgumentException("Start mills or end mills is negative.")
+        } else if (startMills > endMills) {
+            throw IllegalArgumentException("Start mills greater than end mills.")
+        } else {
+            startMills + ((endMills - startMills) * (triggerPercent / 100)).roundToLong()
         }
     }
 }
