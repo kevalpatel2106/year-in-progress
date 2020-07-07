@@ -15,6 +15,7 @@ import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
+import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.validator.Validator
 import com.kevalpatel2106.yip.settings.SettingsActivity
@@ -43,6 +44,7 @@ internal interface AppComponent {
     fun getAppShortcutHelper(): AppShortcutHelper
     fun getAppLaunchHelper(): AppLaunchHelper
     fun getDeadlineNotificationHandler(): DeadlineNotificationHandler
+    fun getNightModeRepo(): NightModeRepo
 
     fun inject(yipApplication: YIPApplication)
 

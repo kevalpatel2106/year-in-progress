@@ -1,135 +1,112 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
-import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.kevalpatel2106.yip.BuildConfig
-import com.kevalpatel2106.yip.R
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
+import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
+import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
-import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class SettingsViewModelTest {
-    private val testPrefKeyDarkMode = "dark_mode"
-    private val testDarkModeString = "dark_mode_on" // Copied from const.xml
 
     @Rule
     @JvmField
     val rule: TestRule = InstantTaskExecutorRule()
 
+    @Rule
+    @JvmField
+    val rule1: TestRule = RxSchedulersOverrideRule()
+
     @Mock
     internal lateinit var billingRepo: BillingRepo
 
     @Mock
-    internal lateinit var application: Application
+    internal lateinit var nightModeRepo: NightModeRepo
 
-    @Mock
-    internal lateinit var sharedPrefsProvider: SharedPrefsProvider
-
-    @Mock
-    internal lateinit var darkModeSettingsObserver: Observer<Int>
-
-    @Mock
-    internal lateinit var viewStateObserver: Observer<SettingsFragmentViewState>
-
-    @Captor
-    internal lateinit var darkModeSettingsCaptor: ArgumentCaptor<Int>
-
-    @Captor
-    internal lateinit var viewStateCaptor: ArgumentCaptor<SettingsFragmentViewState>
-
-    private val darkModePrefObserver = PublishSubject.create<String>()
-    private val isPurchasedObservable = BehaviorSubject.createDefault(true)
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val darkModeObservable = BehaviorSubject.create<Int>()
+    private val isPurchasedObservable = BehaviorSubject.create<Boolean>()
     private lateinit var viewModel: SettingsViewModel
 
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this@SettingsViewModelTest)
-
         whenever(billingRepo.observeIsPurchased()).thenReturn(isPurchasedObservable)
-        whenever(application.getString(R.string.pref_key_dark_mode))
-            .thenReturn(testPrefKeyDarkMode)
-        whenever(application.getString(R.string.dark_mode_on))
-            .thenReturn(testDarkModeString)
-        whenever(sharedPrefsProvider.observeStringFromPreference(testPrefKeyDarkMode))
-            .thenReturn(darkModePrefObserver.hide())
+        whenever(nightModeRepo.observeNightModeChanges()).thenReturn(darkModeObservable)
 
-        viewModel = SettingsViewModel(application, sharedPrefsProvider, billingRepo)
-        viewModel.darkModeSettings.observeForever(darkModeSettingsObserver)
-        viewModel.viewState.observeForever(viewStateObserver)
-    }
-
-    @After
-    fun after() {
-        viewModel.darkModeSettings.removeObserver(darkModeSettingsObserver)
-        viewModel.viewState.removeObserver(viewStateObserver)
+        viewModel = SettingsViewModel(nightModeRepo, billingRepo)
     }
 
     @Test
-    fun checkInitWhenProUser() {
+    fun `when view model initialized check refresh purchase state called`() {
+        // Check
+        verify(billingRepo).refreshPurchaseState()
+    }
+
+    @Test
+    fun `when subscribe to user pro status changes check buy pro button is disable`() {
+
+        // Check
+        val viewState = viewModel.viewState.getOrAwaitValue()
+        assertFalse(viewState.isBuyProClickable)
+    }
+
+    @Test
+    fun `when user pro status changes check buy pro button is enabled`() {
+        // When
+        isPurchasedObservable.onNext(kFixture())
+
+        // Check
+        val viewState = viewModel.viewState.getOrAwaitValue()
+        assertTrue(viewState.isBuyProClickable)
+    }
+
+    @Test
+    fun `when user pro status changes to pro check buy pro button is invisible`() {
         // When
         isPurchasedObservable.onNext(true)
 
         // Check
-        Mockito.verify(viewStateObserver, Mockito.times(2 + INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        Mockito.verify(billingRepo, Mockito.atLeast(1)).observeIsPurchased()
-
-        Assert.assertEquals(true, viewStateCaptor.value.isBuyProClickable)
-        Assert.assertEquals(false, viewStateCaptor.value.isBuyProVisible)
-        Assert.assertEquals(
-            BuildConfig.VERSION_NAME,
-            viewStateCaptor.value.versionPreferenceSummary
-        )
+        val viewState = viewModel.viewState.getOrAwaitValue()
+        assertFalse(viewState.isBuyProVisible)
     }
 
     @Test
-    fun checkInitWhenNonProUser() {
+    fun `when user pro status changes to not pro check buy pro button is visible`() {
         // When
         isPurchasedObservable.onNext(false)
 
         // Check
-        Mockito.verify(viewStateObserver, Mockito.times(2 + INITIAL_STATE_ON_CHANGE))
-            .onChanged(viewStateCaptor.capture())
-        Mockito.verify(billingRepo, Mockito.atLeast(1)).observeIsPurchased()
-
-        Assert.assertEquals(true, viewStateCaptor.value.isBuyProClickable)
-        Assert.assertEquals(true, viewStateCaptor.value.isBuyProVisible)
-        Assert.assertEquals(
-            BuildConfig.VERSION_NAME,
-            viewStateCaptor.value.versionPreferenceSummary
-        )
+        val viewState = viewModel.viewState.getOrAwaitValue()
+        assertTrue(viewState.isBuyProVisible)
     }
 
     @Test
-    fun checkInitWhenDarkModeOn() {
+    fun `when dark mode settings changes check dark mode value in view state updates`() {
+        // given
+        val newDarkModeValue = kFixture<Int>()
+
         // When
-        darkModePrefObserver.onNext(testDarkModeString)
+        darkModeObservable.onNext(newDarkModeValue)
 
         // Check
-        Mockito.verify(darkModeSettingsObserver, Mockito.times(1))
-            .onChanged(darkModeSettingsCaptor.capture())
-        Assert.assertEquals(AppCompatDelegate.MODE_NIGHT_YES, darkModeSettingsCaptor.value)
-    }
-
-    companion object {
-        private const val INITIAL_STATE_ON_CHANGE = 1
+        val viewState = viewModel.viewState.getOrAwaitValue()
+        assertEquals(newDarkModeValue, viewState.darkModeValue)
     }
 }

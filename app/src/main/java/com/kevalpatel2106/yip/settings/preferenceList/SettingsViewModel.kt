@@ -1,60 +1,45 @@
 package com.kevalpatel2106.yip.settings.preferenceList
 
-import android.content.Context
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
-import com.kevalpatel2106.yip.settings.SettingsUseCase
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo
 
-internal class SettingsViewModel @ViewModelInject internal constructor(
-    @ApplicationContext private val application: Context,
-    private val sharedPrefsProvider: SharedPrefsProvider,
+internal class SettingsViewModel @ViewModelInject constructor(
+    private val nightModeRepo: NightModeRepo,
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val _viewState = MutableLiveData<SettingsFragmentViewState>(
-        SettingsFragmentViewState.initialState()
+        SettingsFragmentViewState.initialState(nightModeRepo.getNightModeSetting())
     )
     internal val viewState: LiveData<SettingsFragmentViewState> = _viewState
 
-    private val _darkModeSettings = MutableLiveData<Int>()
-    internal val darkModeSettings: LiveData<Int> = _darkModeSettings
-
     init {
+        billingRepo.refreshPurchaseState()
         monitorPurchaseStatus()
         monitorDarkModeSettings()
     }
 
     private fun monitorPurchaseStatus() {
         billingRepo.observeIsPurchased()
-            .doOnSubscribe { _viewState.value = _viewState.value?.copy(isBuyProClickable = false) }
-            .doOnNext { _viewState.value = _viewState.value?.copy(isBuyProClickable = true) }
-            .subscribe { purchased ->
-                _viewState.value = _viewState.value?.copy(isBuyProVisible = !purchased)
-            }
+            .subscribeOn(RxSchedulers.compute)
+            .observeOn(RxSchedulers.main)
+            .doOnSubscribe { _viewState.modify { copy(isBuyProClickable = false) } }
+            .doOnNext { _viewState.modify { copy(isBuyProClickable = true) } }
+            .subscribe { purchased -> _viewState.modify { copy(isBuyProVisible = !purchased) } }
             .addTo(compositeDisposable)
     }
 
-    internal fun refreshPurchaseState() = billingRepo.refreshPurchaseState()
-
     private fun monitorDarkModeSettings() {
-        sharedPrefsProvider.observeStringFromPreference(application.getString(R.string.pref_key_dark_mode))
+        nightModeRepo.observeNightModeChanges()
             .subscribeOn(RxSchedulers.preference)
             .observeOn(RxSchedulers.main)
-            .distinctUntilChanged()
-            .subscribe { darkModeSettings ->
-                val darkModeSettingsInt = SettingsUseCase.getNightModeSettings(
-                    context = application,
-                    darkModeSettings = darkModeSettings
-                )
-                _darkModeSettings.value = darkModeSettingsInt
-            }
+            .subscribe { _viewState.modify { copy(darkModeValue = it) } }
             .addTo(compositeDisposable)
     }
 }

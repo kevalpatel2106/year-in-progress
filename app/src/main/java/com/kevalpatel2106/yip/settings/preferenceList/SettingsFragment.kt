@@ -27,7 +27,6 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { model.refreshPurchaseState() }
 
         // Set the sort sortOrder
         findPreference<ListPreference>(getString(R.string.pref_key_order))?.summaryProvider =
@@ -58,9 +57,10 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             versionPref?.summary = it.versionPreferenceSummary
             buyProPref?.isEnabled = it.isBuyProClickable
             buyProPrefHeader?.isVisible = it.isBuyProVisible
-        }
-        model.darkModeSettings.nullSafeObserve(this) { darkModeSettings ->
-            AppCompatDelegate.setDefaultNightMode(darkModeSettings)
+
+            if (AppCompatDelegate.getDefaultNightMode() != it.darkModeValue) {
+                AppCompatDelegate.setDefaultNightMode(it.darkModeValue)
+            }
         }
     }
 
@@ -86,7 +86,6 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
         }
         return super.onPreferenceTreeClick(preference)
     }
-
 
     companion object {
         internal fun getNewInstance() = SettingsFragment()

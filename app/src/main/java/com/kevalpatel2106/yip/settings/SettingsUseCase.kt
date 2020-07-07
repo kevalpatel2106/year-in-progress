@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.settings
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.kevalpatel2106.yip.R
 
@@ -11,7 +10,7 @@ internal object SettingsUseCase {
     internal fun prepareShareIntent(context: Context): Intent {
         return Intent().apply {
             action = Intent.ACTION_SEND
-            type = "text/plain"
+            type = INTENT_TYPE_TEXT
             addFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TASK
                         or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -40,13 +39,5 @@ internal object SettingsUseCase {
         context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
     }
 
-
-    internal fun getNightModeSettings(context: Context, darkModeSettings: String?): Int {
-        return when (darkModeSettings) {
-            context.getString(R.string.dark_mode_on) -> AppCompatDelegate.MODE_NIGHT_YES
-            context.getString(R.string.dark_mode_off) -> AppCompatDelegate.MODE_NIGHT_NO
-            context.getString(R.string.dark_mode_system_default) -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            else -> AppCompatDelegate.MODE_NIGHT_NO
-        }
-    }
+    private const val INTENT_TYPE_TEXT = "text/plain"
 }

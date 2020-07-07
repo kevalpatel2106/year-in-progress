@@ -2,10 +2,11 @@ package com.kevalpatel2106.yip.settings
 
 import android.content.Context
 import android.content.Intent
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.core.emptyString
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,46 +18,42 @@ import org.robolectric.RobolectricTestRunner
 
 
 @RunWith(RobolectricTestRunner::class)
-class SettingsUseCaseTest {
-    private val testString = "testString"
+class SettingsUseCasePrepareShareIntentTest {
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val testString = kFixture<String>()
 
     @Mock
     internal lateinit var context: Context
 
     @Before
     fun before() {
-        MockitoAnnotations.initMocks(this@SettingsUseCaseTest)
+        MockitoAnnotations.initMocks(this)
+
         whenever(context.getString(anyInt(), anyString(), anyString())).thenReturn(testString)
         whenever(context.getString(anyInt(), anyString())).thenReturn(testString)
         whenever(context.getString(anyInt())).thenReturn(emptyString())
     }
 
     @Test
-    fun checkPrepareShareIntent_whenContextNotNull() {
-        val intent = SettingsUseCase.prepareShareIntent(context)
-        assertNotNull(intent)
-    }
-
-    @Test
-    fun checkPrepareShareIntentAction_whenContextNotNull() {
+    fun `when preparing share intent check intent action`() {
         val intent = SettingsUseCase.prepareShareIntent(context)
         assertEquals(Intent.ACTION_SEND, intent.action)
     }
 
     @Test
-    fun checkPrepareShareIntentSubject_whenContextNotNull() {
+    fun `when preparing share intent check intent subject`() {
         val intent = SettingsUseCase.prepareShareIntent(context)
         assertEquals(testString, intent.getStringExtra(Intent.EXTRA_SUBJECT))
     }
 
     @Test
-    fun checkPrepareShareIntentText_whenContextNotNull() {
+    fun `when preparing share intent check intent text`() {
         val intent = SettingsUseCase.prepareShareIntent(context)
         assertEquals(testString, intent.getStringExtra(Intent.EXTRA_TEXT))
     }
 
     @Test
-    fun checkPrepareShareIntentType_whenContextNotNull() {
+    fun `when preparing share intent check intent type`() {
         val intent = SettingsUseCase.prepareShareIntent(context)
         assertEquals("text/plain", intent.type)
     }

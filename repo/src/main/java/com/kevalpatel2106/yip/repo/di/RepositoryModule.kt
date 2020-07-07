@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.repo.di
 
 import android.app.AlarmManager
+import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
@@ -12,6 +13,8 @@ import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatterImpl
 import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepoImpl
+import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo
+import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepoImpl
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProviderImpl
 import com.kevalpatel2106.yip.repo.timeProvider.TimeProviderImpl
@@ -27,6 +30,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 class RepositoryModule {
+
+    @Singleton
+    @Provides
+    internal fun provideNightModeRepo(
+        application: Application,
+        sharedPrefsProvider: SharedPrefsProvider
+    ): NightModeRepo {
+        return NightModeRepoImpl(application, sharedPrefsProvider)
+    }
 
     @Singleton
     @Provides
