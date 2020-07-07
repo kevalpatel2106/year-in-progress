@@ -72,7 +72,7 @@ internal class DeadlineNotificationHandlerImpl(
         return PendingIntent.getActivity(
             context,
             notificationId,
-            appLaunchHelper.getLaunchIntentWithDeadlineDetail(context, id),
+            appLaunchHelper.launchAppWithDeadlineDetail(context, id),
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }

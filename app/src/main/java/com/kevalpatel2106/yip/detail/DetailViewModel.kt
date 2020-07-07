@@ -98,8 +98,7 @@ internal class DetailViewModel @ViewModelInject internal constructor(
 
     internal fun requestPinShortcut() {
         val title = _viewState.nullSafeValue().titleText
-        val launchIntent =
-            appLaunchHelper.getLaunchIntentWithDeadlineDetail(application, deadlineId)
+        val launchIntent = appLaunchHelper.launchAppWithDeadlineDetail(application, deadlineId)
         appShortcutHelper.requestPinShortcut(title, launchIntent)
     }
 

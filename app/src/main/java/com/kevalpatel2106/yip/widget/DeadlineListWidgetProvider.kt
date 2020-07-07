@@ -58,7 +58,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    appLaunchHelper.getAppLaunchIntent(context),
+                    appLaunchHelper.launchAppWithDeadlineList(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
@@ -69,7 +69,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    appLaunchHelper.getAppLaunchIntent(context),
+                    appLaunchHelper.launchAppWithDeadlineList(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )

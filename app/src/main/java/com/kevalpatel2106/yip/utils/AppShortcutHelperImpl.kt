@@ -44,10 +44,7 @@ internal class AppShortcutHelperImpl @Inject constructor(
                 ).setIcon(icon)
                     .setShortLabel(deadline.title)
                     .setIntent(
-                        appLaunchHelper.getLaunchIntentWithDeadlineDetail(
-                            application,
-                            deadline.id
-                        )
+                        appLaunchHelper.launchAppWithDeadlineDetail(application, deadline.id)
                     )
                     .build()
             }

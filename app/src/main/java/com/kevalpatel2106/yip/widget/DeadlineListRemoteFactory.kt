@@ -35,7 +35,7 @@ internal class DeadlineListRemoteFactory @Inject constructor(
 
             rowView.setOnClickFillInIntent(
                 R.id.battery_list_row,
-                appLaunchHelper.getLaunchIntentWithDeadlineDetail(application, id)
+                appLaunchHelper.launchAppWithDeadlineDetail(application, id)
             )
         }
         return rowView

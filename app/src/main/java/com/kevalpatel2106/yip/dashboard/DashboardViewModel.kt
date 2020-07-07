@@ -6,6 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
 import com.kevalpatel2106.yip.core.addTo
@@ -123,6 +124,8 @@ internal class DashboardViewModel @ViewModelInject constructor(
         deadlineId: Long,
         randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
     ) {
+        if (deadlineId == AppConstants.INVALID_DEADLINE_ID) return
+
         deadlineRepo.isDeadlineExist(deadlineId)
             .subscribeOn(RxSchedulers.database)
             .observeOn(RxSchedulers.main)

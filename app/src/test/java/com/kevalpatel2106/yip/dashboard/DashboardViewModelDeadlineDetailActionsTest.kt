@@ -1,6 +1,9 @@
 package com.kevalpatel2106.yip.dashboard
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
+import com.kevalpatel2106.yip.core.AppConstants
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
@@ -168,6 +171,19 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
         model.onOpenDeadlineDetail(deadlineId, 346)
 
         // Check
+        assertNull(model.singleEvents.value)
+    }
+
+    @Test
+    fun `given deadline id to open is invalid when open deadline called check deadline is not open`() {
+        // given
+        val deadlineIdToOpen = AppConstants.INVALID_DEADLINE_ID
+
+        // when
+        model.onOpenDeadlineDetail(deadlineIdToOpen, kFixture())
+
+        // Check
+        verify(deadlineRepo, never()).isDeadlineExist(deadlineIdToOpen)
         assertNull(model.singleEvents.value)
     }
 }

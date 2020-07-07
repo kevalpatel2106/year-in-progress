@@ -39,6 +39,6 @@ class DeadlineNotificationHandlerImplPendingIntentTest {
         deadlineNotificationHandler.getPendingIntent(context, notificationId, deadlineId)
 
         // check
-        Mockito.verify(appLaunchHelper).getLaunchIntentWithDeadlineDetail(context, deadlineId)
+        Mockito.verify(appLaunchHelper).launchAppWithDeadlineDetail(context, deadlineId)
     }
 }

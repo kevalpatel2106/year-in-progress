@@ -10,6 +10,7 @@ import androidx.fragment.app.commitNow
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
@@ -59,7 +60,10 @@ internal class DashboardActivity : AppCompatActivity(),
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val detailId = intent.getLongExtra(ARG_DEADLINE_DETAIL_ID, -1)
+        val detailId = intent.getLongExtra(
+            ARG_DEADLINE_DETAIL_ID,
+            AppConstants.INVALID_DEADLINE_ID
+        )
         model.onOpenDeadlineDetail(detailId)
     }
 
