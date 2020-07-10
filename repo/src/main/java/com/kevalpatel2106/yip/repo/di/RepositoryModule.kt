@@ -29,7 +29,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class RepositoryModule {
+internal class RepositoryModule {
 
     @Singleton
     @Provides
@@ -95,4 +95,9 @@ class RepositoryModule {
     fun provideDatabase(@ApplicationContext application: Context): YipDatabase {
         return YipDatabase.create(application)
     }
+
+    @Singleton
+    @Provides
+    fun provideAlarmManager(@ApplicationContext application: Context): AlarmManager =
+        application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }

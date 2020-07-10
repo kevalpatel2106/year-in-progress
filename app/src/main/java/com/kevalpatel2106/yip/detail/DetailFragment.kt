@@ -98,7 +98,6 @@ internal class DetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         internal fun newInstance(deadlineId: Long): DetailFragment {
             return DetailFragment().apply {
                 arguments = bundleOf(ARG_ID to deadlineId)
-                retainInstance = true
             }
         }
     }

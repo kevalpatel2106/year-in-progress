@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.di
 
-import android.app.AlarmManager
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandler
@@ -41,12 +40,6 @@ internal class AppModule {
     ): DeadlineNotificationHandler {
         return DeadlineNotificationHandlerImpl(application, appLaunchHelper)
     }
-
-    @Singleton
-    @Provides
-    fun provideAlarmManager(@ApplicationContext application: Context): AlarmManager =
-        application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
     @Singleton
     @Provides
     fun provideAppWidgetService(@ApplicationContext application: Context): AppWidgetManager =
