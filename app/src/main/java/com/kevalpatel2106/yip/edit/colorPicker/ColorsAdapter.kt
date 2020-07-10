@@ -31,12 +31,8 @@ internal class ColorsAdapter(
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         holder.bind(colors[position], isLocked) { selected ->
-            if (isLocked) {
-                colorSelectedListener.onLockedColorClicked()
-            } else {
-                colorSelectedListener.onColorSelected(selected.color)
-                setSelectedColor(selected.color)
-            }
+            colorSelectedListener.onColorSelected(selected.color)
+            if (!isLocked) setSelectedColor(selected.color)
         }
     }
 

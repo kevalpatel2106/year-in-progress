@@ -3,16 +3,13 @@ package com.kevalpatel2106.yip.settings
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.addTo
 import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHide
-
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
-import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_settings.settings_ads_view
@@ -30,11 +27,6 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         super.onCreate(savedInstanceState)
         setToolbar()
         setAds()
-
-        // Set preference
-        supportFragmentManager.commit {
-            replace(R.id.settings, SettingsFragment.getNewInstance())
-        }
     }
 
     private fun setAds() {

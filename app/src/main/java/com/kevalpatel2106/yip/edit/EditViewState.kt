@@ -5,12 +5,12 @@ import com.kevalpatel2106.yip.core.setToDayMax
 import com.kevalpatel2106.yip.core.setToDayMin
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import java.util.Calendar
 import java.util.Date
 
 internal data class EditViewState(
     val isLoading: Boolean,
-    val isSomethingChanged: Boolean,
 
     val type: DeadlineType,
 
@@ -20,12 +20,15 @@ internal data class EditViewState(
 
     val allowEditDate: Boolean,
     val startTime: Date,
+    val startTimeString: String,
     val endTime: Date,
+    val endTimeString: String,
 
+    val allowEditColor: Boolean,
     val selectedColor: DeadlineColor,
-    val lockColorPicker: Boolean,
+    val showLockedColorPicker: Boolean,
 
-    val lockNotification: Boolean,
+    val allowEditNotifications: Boolean,
     val notificationList: List<Float>
 ) {
 
@@ -33,12 +36,13 @@ internal data class EditViewState(
 
     companion object {
 
-        internal fun initialState(): EditViewState {
+        internal fun initialState(df: DateFormatter): EditViewState {
             val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
+            val startTime = Date(System.currentTimeMillis()).apply { setToDayMin() }
+            val endTime = Date(tomorrow.timeInMillis).apply { setToDayMax() }
 
             return EditViewState(
                 isLoading = false,
-                isSomethingChanged = false,
 
                 type = DeadlineType.CUSTOM,
 
@@ -46,14 +50,17 @@ internal data class EditViewState(
                 currentTitle = emptyString(),
                 titleErrorMsg = null,
 
-                allowEditDate = true,
-                startTime = Date(System.currentTimeMillis()).apply { setToDayMin() },
-                endTime = Date(tomorrow.timeInMillis).apply { setToDayMax() },
+                allowEditDate = false,
+                startTime = startTime,
+                startTimeString = df.formatDateOnly(startTime),
+                endTime = endTime,
+                endTimeString = df.formatDateOnly(endTime),
 
+                allowEditColor = false,
                 selectedColor = DeadlineColor.COLOR_GRAY,
-                lockColorPicker = true,
+                showLockedColorPicker = true,
 
-                lockNotification = true,
+                allowEditNotifications = false,
                 notificationList = emptyList()
             )
         }

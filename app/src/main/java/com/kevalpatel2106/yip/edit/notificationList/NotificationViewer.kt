@@ -20,7 +20,6 @@ internal class NotificationViewer @JvmOverloads constructor(
     diffStyleAttributes: Int = 0
 ) : LinearLayout(context, attributes, diffStyleAttributes) {
 
-    internal var isLocked: Boolean = false
     internal var callback: NotificationViewerInterface? = null
     private val inflater: LayoutInflater by lazy { LayoutInflater.from(context) }
 
@@ -69,18 +68,11 @@ internal class NotificationViewer @JvmOverloads constructor(
 
     private fun addNewNotificationRow() {
         val view = inflater.inflate(R.layout.row_add_notification, this@NotificationViewer, false)
-        view.setOnClickListener {
-            if (isLocked) {
-                callback?.onLockClicked()
-            } else {
-                callback?.addNotificationClicked()
-            }
-        }
+        view.setOnClickListener { callback?.addNotificationClicked() }
         addView(view)
     }
 
     interface NotificationViewerInterface {
-        fun onLockClicked()
         fun addNotificationClicked()
         fun onNotificationRemoved(percent: Float)
     }

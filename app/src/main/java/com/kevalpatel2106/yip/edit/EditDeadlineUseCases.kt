@@ -2,7 +2,6 @@ package com.kevalpatel2106.yip.edit
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
@@ -40,44 +39,44 @@ internal object EditDeadlineUseCases {
             preset.get(Calendar.DAY_OF_MONTH)
         )
     }
-}
 
-@SuppressLint("InflateParams")
-internal fun Context.showNotificationPickerDialog(onAdded: (percent: Float) -> Unit) {
-    AlertDialog.Builder(this).apply {
-        var currentPercent = 0
-        val dialogView = LayoutInflater
-            .from(context)
-            .inflate(R.layout.dialog_notification_time_picker, null)
-            .apply {
+    @SuppressLint("InflateParams")
+    internal fun EditDeadlineActivity.showNotificationPickerDialog(onAdded: (percent: Float) -> Unit) {
+        AlertDialog.Builder(this).apply {
+            var currentPercent = 0
+            val dialogView = LayoutInflater
+                .from(context)
+                .inflate(R.layout.dialog_notification_time_picker, null)
+                .apply {
 
-                dialog_notification_percent_text.text = context.getString(
-                    R.string.set_notification_dialog_summary,
-                    currentPercent
-                )
-                dialog_notification_seekbar.setOnSeekBarChangeListener(object :
-                    SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(
-                        seekBar: SeekBar?,
-                        progress: Int,
-                        fromUser: Boolean
-                    ) {
-                        currentPercent = progress
-                        dialog_notification_percent_text.text = context.getString(
-                            R.string.set_notification_dialog_summary,
-                            currentPercent
-                        )
-                    }
+                    dialog_notification_percent_text.text = context.getString(
+                        R.string.set_notification_dialog_summary,
+                        currentPercent
+                    )
+                    dialog_notification_seekbar.setOnSeekBarChangeListener(object :
+                        SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(
+                            seekBar: SeekBar?,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                            currentPercent = progress
+                            dialog_notification_percent_text.text = context.getString(
+                                R.string.set_notification_dialog_summary,
+                                currentPercent
+                            )
+                        }
 
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-                })
-            }
+                        override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+                        override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+                    })
+                }
 
-        setView(dialogView)
-        setCancelable(false)
-        setTitle(R.string.set_notification_dialog_title)
-        setNegativeButton(android.R.string.cancel, null)
-        setPositiveButton(android.R.string.ok) { _, _ -> onAdded(currentPercent.toFloat()) }
-    }.show()
+            setView(dialogView)
+            setCancelable(false)
+            setTitle(R.string.set_notification_dialog_title)
+            setNegativeButton(android.R.string.cancel, null)
+            setPositiveButton(android.R.string.ok) { _, _ -> onAdded(currentPercent.toFloat()) }
+        }.show()
+    }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.feature.core.BuildConfig
 import com.kevalpatel2106.feature.core.R
@@ -45,7 +46,8 @@ fun Activity.showSnack(
     message: String,
     duration: Int = SNACK_BAR_DURATION.toInt(),
     actonTitle: Int = -1,
-    actionListener: ((View) -> Unit)? = null
+    actionListener: ((View) -> Unit)? = null,
+    dismissListener: (() -> Unit)? = null
 ): Snackbar {
     val snackbar = Snackbar.make(
         findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as ViewGroup,
@@ -55,6 +57,12 @@ fun Activity.showSnack(
         actonTitle.takeIf { it > 0 }?.let { actionTitle ->
             setAction(actionTitle, actionListener)
         }
+        addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                dismissListener?.invoke()
+            }
+        })
     }
     snackbar.show()
     return snackbar

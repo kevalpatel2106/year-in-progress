@@ -164,6 +164,7 @@
     <string name="edit_deadline_title_hint">(e.g. This financial year)</string>
     <string name="notification_subtitle">Tell application when to notify you.</string>
     <string name="color_subtitle">Choose the color to set the theme for your deadline. Spice it up!</string>
+    <string name="error_deadline_save">Cannot save the deadline info. Try again.</string>
 
     <!--TODO: Categorize the strings-->
 </resources>

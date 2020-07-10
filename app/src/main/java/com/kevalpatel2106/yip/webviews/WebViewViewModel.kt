@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
+import com.kevalpatel2106.yip.core.livedata.modify
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 internal class WebViewViewModel @ViewModelInject constructor(
@@ -32,9 +33,9 @@ internal class WebViewViewModel @ViewModelInject constructor(
     @SuppressLint("ResourceType")
     fun submitLink(link: String?, @StringRes title: Int) {
         require(!(link == null || title <= 0)) { "Invalid link: $link or title: $title" }
-        viewState.value = viewState.value?.copy(
-            linkUrl = link,
-            title = application.getString(title)
-        )
+        viewState.modify {
+            copy(linkUrl = link, title = application.getString(title))
+        }
+        flipperPosition.value = WebviewFlipperPosition.POS_LOADING
     }
 }

@@ -42,6 +42,7 @@ class SettingsViewModelTest {
     private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
     private val darkModeObservable = BehaviorSubject.create<Int>()
     private val isPurchasedObservable = BehaviorSubject.create<Boolean>()
+    private val initialDarkModeValue = kFixture<Int>()
     private lateinit var viewModel: SettingsViewModel
 
     @Before
@@ -49,6 +50,7 @@ class SettingsViewModelTest {
         MockitoAnnotations.initMocks(this@SettingsViewModelTest)
         whenever(billingRepo.observeIsPurchased()).thenReturn(isPurchasedObservable)
         whenever(nightModeRepo.observeNightModeChanges()).thenReturn(darkModeObservable)
+        whenever(nightModeRepo.getNightModeSetting()).thenReturn(initialDarkModeValue)
 
         viewModel = SettingsViewModel(nightModeRepo, billingRepo)
     }
@@ -57,6 +59,15 @@ class SettingsViewModelTest {
     fun `when view model initialized check refresh purchase state called`() {
         // Check
         verify(billingRepo).refreshPurchaseState()
+    }
+
+    @Test
+    fun `when view model initialized check initial view state value`() {
+        // Check
+        assertEquals(
+            SettingsFragmentViewState.initialState(initialDarkModeValue),
+            viewModel.viewState.getOrAwaitValue()
+        )
     }
 
     @Test

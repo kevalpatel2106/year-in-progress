@@ -1,43 +1,75 @@
 package com.kevalpatel2106.yip.edit
 
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
+import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import java.util.Calendar
 
 @RunWith(JUnit4::class)
 class EditViewInitialStateTest {
-    private val initialState = EditViewState.initialState()
+
+    @Mock
+    lateinit var dateFormatter: DateFormatter
+
+    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val formattedDateString = kFixture<String>()
+    private lateinit var initialState: EditViewState
+
+    @Before
+    fun before() {
+        MockitoAnnotations.initMocks(this)
+        whenever(dateFormatter.formatDateOnly(any())).thenReturn(formattedDateString)
+
+        initialState = EditViewState.initialState(dateFormatter)
+    }
 
     @Test
-    fun checkTitleState() {
+    fun `given initial view state check is loading false`() {
+        assertFalse(initialState.isLoading)
+    }
+
+    @Test
+    fun `given initial view state check initial title ie empty`() {
         assertEquals(emptyString(), initialState.initialTitle)
+    }
+
+    @Test
+    fun `given initial view state check current title is empty`() {
         assertEquals(emptyString(), initialState.currentTitle)
+    }
+
+    @Test
+    fun `given initial view state check title error is null`() {
         assertNull(initialState.titleErrorMsg)
-        assertFalse(initialState.isTitleChanged())
     }
 
     @Test
-    fun checkColorPickerState() {
-        assertEquals(DeadlineColor.COLOR_GRAY, initialState.selectedColor)
-        assertTrue(initialState.lockColorPicker)
+    fun `given initial view state check deadline type is custom`() {
+        assertEquals(DeadlineType.CUSTOM, initialState.type)
     }
 
     @Test
-    fun checkNotificationState() {
-        assertTrue(initialState.lockNotification)
-        assertTrue(initialState.notificationList.isEmpty())
+    fun `given initial view state check edit date not allowed`() {
+        assertFalse(initialState.allowEditDate)
     }
 
     @Test
-    fun checkStartDate() {
+    fun `given initial view state check start date`() {
         val nowCal = Calendar.getInstance()
 
         val startCal = Calendar.getInstance().apply { time = initialState.startTime }
@@ -51,7 +83,12 @@ class EditViewInitialStateTest {
     }
 
     @Test
-    fun checkEndDate() {
+    fun `given initial view state check start date string`() {
+        assertEquals(formattedDateString, initialState.startTimeString)
+    }
+
+    @Test
+    fun `given initial view state check end date`() {
         val nowCal = Calendar.getInstance()
 
         val endCal = Calendar.getInstance().apply { time = initialState.endTime }
@@ -65,14 +102,27 @@ class EditViewInitialStateTest {
     }
 
     @Test
-    fun checkDeadlineTypeState() {
-        assertEquals(DeadlineType.CUSTOM, initialState.type)
+    fun `given initial view state check end date string`() {
+        assertEquals(formattedDateString, initialState.endTimeString)
     }
 
     @Test
-    fun checkOtherInitialState() {
-        assertFalse(initialState.isLoading)
-        assertFalse(initialState.isSomethingChanged)
-        assertTrue(initialState.allowEditDate)
+    fun `given initial view state check edit color not allowed`() {
+        assertFalse(initialState.allowEditColor)
+    }
+
+    @Test
+    fun `given initial view state check selected color is gray date`() {
+        assertEquals(DeadlineColor.COLOR_GRAY, initialState.selectedColor)
+    }
+
+    @Test
+    fun `given initial view state check locked color is showed`() {
+        assertTrue(initialState.showLockedColorPicker)
+    }
+
+    @Test
+    fun `given initial view state check notification list empty`() {
+        assertTrue(initialState.notificationList.isEmpty())
     }
 }
