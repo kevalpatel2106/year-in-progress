@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Primary colors-->
     <color name="colorPrimaryDark">#131331</color>
     <color name="colorPrimary">#131331</color>
     <color name="colorPrimaryLight">#3C385B</color>
 
+    <!--Accent colors-->
     <color name="colorAccentDark">#B92C64</color>
     <color name="colorAccent">#EF6191</color>
     <color name="colorAccentLight">#FA5788</color>
 
+    <!--View state colors-->
     <color name="colorControlNormal">#111</color>
 
     <!--text colors-->
@@ -19,6 +22,7 @@
     <color name="window_background_color">#EFEFEF</color>
     <color name="ic_launcher_background">#455A64</color>
 
+    <!--Other colors-->
     <color name="icon_color">@android:color/white</color>
     <color name="divider_color">#BDBDBD</color>
 </resources>

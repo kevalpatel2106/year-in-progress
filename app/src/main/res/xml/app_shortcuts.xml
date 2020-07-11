@@ -5,7 +5,7 @@
     <!--Do not use @string for shortcut id. https://stackoverflow.com/a/40234996/4690731-->
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_add_circle"
+        android:icon="@drawable/ic_add_circle_accent"
         android:shortcutDisabledMessage="@string/app_shortcut_disable"
         android:shortcutId="create_deadline"
         android:shortcutLongLabel="@string/app_shortcut_title_create_deadline_long"

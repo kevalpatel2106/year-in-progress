@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/MediumText.Accent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,8 +8,7 @@
     android:drawablePadding="@dimen/spacing_micro"
     android:drawableStart="@drawable/ic_add"
     android:paddingBottom="@dimen/spacing_micro"
-    android:paddingEnd="@dimen/spacing_small"
     android:paddingTop="@dimen/spacing_micro"
+    android:textDirection="anyRtl"
     android:text="@string/edit_deadline_add_notification"
-    app:drawableTint="@color/colorAccent"
-    tools:ignore="RtlSymmetry" />
+    app:drawableTint="@color/colorAccent" />

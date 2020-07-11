@@ -52,11 +52,12 @@
                 android:backgroundTint="@color/colorAccent"
                 android:enabled="@{viewModel.viewState.upgradeButtonClickable}"
                 android:onClick="@{() -> view.purchase()}"
-                android:paddingBottom="@dimen/spacing_pico"
-                android:paddingEnd="@dimen/spacing_small"
                 android:paddingStart="@dimen/spacing_small"
                 android:paddingTop="@dimen/spacing_pico"
-                android:text="@string/buy_now" />
+                android:paddingEnd="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_pico"
+                android:text="@string/buy_now"
+                android:textColor="@android:color/white" />
         </com.google.android.material.card.MaterialCardView>
 
         <ScrollView
@@ -77,7 +78,7 @@
                     android:layout_width="@dimen/payment_header_image_width"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_speedometer"
+                    android:src="@drawable/ic_speedometer_colored"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +100,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/appCompatTextView2"
                     style="@style/PaymentScreenProBenefitTextStyle"
-                    android:drawableStart="@drawable/ic_ads"
+                    android:drawableStart="@drawable/ic_ads_colored"
                     android:text="@string/pro_benefit_no_ads"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +109,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/appCompatTextView3"
                     style="@style/PaymentScreenProBenefitTextStyle"
-                    android:drawableStart="@drawable/ic_priority"
+                    android:drawableStart="@drawable/ic_priority_colored"
                     android:text="@string/pro_benefit_change_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

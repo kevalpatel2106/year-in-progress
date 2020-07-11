@@ -40,7 +40,7 @@ internal fun Context.prepareInterstitialAd(): InterstitialAd {
 }
 
 internal fun InboxRecyclerView.setUp(pageLayout: ExpandablePageLayout) {
-    tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.65F)
+    tintPainter = TintPainter.uncoveredArea(color = Color.WHITE, opacity = 0.05F)
     expandablePage = pageLayout
     (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 }

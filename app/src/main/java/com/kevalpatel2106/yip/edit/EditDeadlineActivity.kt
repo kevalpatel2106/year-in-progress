@@ -25,21 +25,15 @@ import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
-import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
-import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_color
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_deadline_title
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_toolbar
 import kotlinx.android.synthetic.main.activity_edit_deadline.notification_times
-import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
     NotificationViewer.NotificationViewerInterface {
-
-    @Inject
-    lateinit var sdf: Lazy<DateFormatter>
 
     private val model: EditDeadlineViewModel by viewModels()
 

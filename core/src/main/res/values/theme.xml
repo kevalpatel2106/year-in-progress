@@ -30,6 +30,9 @@
         <!--Divider-->
         <item name="android:dividerHeight">@dimen/divider_height</item>
         <item name="android:listDivider">@drawable/list_divider</item>
+        <item name="dividerHorizontal">@drawable/list_divider</item>
+
+        <!--State color-->
         <item name="colorControlNormal">@color/colorControlNormal</item>
 
         <!--Seekbar-->
@@ -37,7 +40,8 @@
         <item name="seekBarStyle">@style/YipComponentTheme.Seekbar
         </item> <!--This is essential for some devices, e.g. Samsung-->
 
-        <!--Alert dialog-->
+        <!--Dialogs-->
+        <item name="alertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
         <item name="materialAlertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
         <item name="bottomSheetDialogTheme">@style/YipComponentTheme.RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
@@ -45,6 +49,9 @@
         <!--Snackbar-->
         <item name="snackbarStyle">@style/YipComponentTheme.Snackbar</item>
         <item name="snackbarButtonStyle">@style/YipComponentTheme.SnackbarButtom</item>
+
+        <!--EditText-->
+        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
     </style>
 
     <!--Seekbar-->
@@ -59,6 +66,7 @@
     <style name="YipComponentTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_micro</item>
+        <item name="titleTextColor">@color/colorAccent</item>
         <item name="buttonBarNegativeButtonStyle">@style/ButtonBarNegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/ButtonBarPositiveButtonStyle</item>
     </style>
@@ -69,11 +77,11 @@
     </style>
 
     <style name="ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
     <style name="ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
     <!--Bottom sheet dialog theme-->

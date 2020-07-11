@@ -14,7 +14,7 @@
             android:layout_height="@dimen/spacing_xlarge"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_drag_handle" />
+            app:srcCompat="@drawable/ic_drag_handle_gray" />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/MediumText.White"
@@ -50,7 +50,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/navigation_drawer_option_debug"
             style="@style/BottomDrawerOptions"
-            android:drawableStart="@drawable/ic_info"
+            android:drawableStart="@drawable/ic_info_accent"
             android:onClick="@{clickHandler::onClick}"
             android:text="@string/navigation_title_debug_info" />
     </LinearLayout>

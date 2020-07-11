@@ -21,7 +21,7 @@ internal class NotificationViewer @JvmOverloads constructor(
 ) : LinearLayout(context, attributes, diffStyleAttributes) {
 
     internal var callback: NotificationViewerInterface? = null
-    private val inflater: LayoutInflater by lazy { LayoutInflater.from(context) }
+    private val inflater = LayoutInflater.from(context)
 
     init {
         orientation = VERTICAL

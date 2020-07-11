@@ -8,7 +8,7 @@
             android:defaultValue="@string/order_title_a_to_z"
             android:entries="@array/sort_order_titles"
             android:entryValues="@array/sort_order_values"
-            android:icon="@drawable/ic_sort"
+            android:icon="@drawable/ic_sort_accent"
             android:key="@string/pref_key_order"
             android:title="@string/pref_title_sort_by" />
 
@@ -16,7 +16,7 @@
             android:defaultValue="dd-MMM-yyyy"
             android:entries="@array/date_format_titles"
             android:entryValues="@array/date_format_values"
-            android:icon="@drawable/ic_date_range"
+            android:icon="@drawable/ic_date_range_accent"
             android:key="@string/pref_key_date_format"
             android:title="@string/pref_title_date_format" />
 
@@ -24,7 +24,7 @@
             android:defaultValue="hh:mm a"
             android:entries="@array/time_format_titles"
             android:entryValues="@array/time_format_values"
-            android:icon="@drawable/ic_clock"
+            android:icon="@drawable/ic_clock_accent"
             android:key="@string/pref_key_time_format"
             android:title="@string/pref_title_time_format" />
 
@@ -32,7 +32,7 @@
             android:defaultValue="@string/dark_mode_system_default"
             android:entries="@array/night_theme_mode_titles"
             android:entryValues="@array/night_theme_mode_values"
-            android:icon="@drawable/ic_dark_mode"
+            android:icon="@drawable/ic_dark_mode_accent"
             android:key="@string/pref_key_dark_mode"
             android:title="@string/pref_title_dark_mode" />
     </androidx.preference.PreferenceCategory>
@@ -40,7 +40,7 @@
     <androidx.preference.PreferenceCategory android:title="@string/widget_header">
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_widget"
+            android:icon="@drawable/ic_widget_accent"
             android:key="@string/pref_key_add_widget"
             android:title="@string/pref_title_add_widget" />
     </androidx.preference.PreferenceCategory>
@@ -52,19 +52,19 @@
         tools:isPreferenceVisible="true">
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_money"
+            android:icon="@drawable/ic_money_accent"
             android:key="@string/pref_key_buy_pro"
             android:title="@string/pref_title_buy_pro" />
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory android:title="@string/legal_header">
         <androidx.preference.Preference
-            android:icon="@drawable/ic_privacy"
+            android:icon="@drawable/ic_privacy_accent"
             android:key="@string/pref_key_privacy_policy"
             android:title="@string/pref_title_privacy_policy" />
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_open_source"
+            android:icon="@drawable/ic_open_source_accent"
             android:key="@string/pref_key_open_source_licences"
             android:title="@string/pref_title_open_source_licences" />
     </androidx.preference.PreferenceCategory>
@@ -72,22 +72,22 @@
     <androidx.preference.PreferenceCategory android:title="@string/about_header">
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_info"
+            android:icon="@drawable/ic_info_accent"
             android:key="@string/pref_key_version"
             android:title="@string/pref_title_version" />
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_changelog"
+            android:icon="@drawable/ic_changelog_accent"
             android:key="@string/pref_key_changelog"
             android:title="@string/pref_title_changelog" />
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_mail"
+            android:icon="@drawable/ic_mail_accent"
             android:key="@string/pref_key_contact"
             android:title="@string/pref_title_contact" />
 
         <androidx.preference.Preference
-            android:icon="@drawable/ic_share"
+            android:icon="@drawable/ic_share_accent"
             android:key="@string/pref_key_share_friends"
             android:title="@string/pref_title_share_friend" />
     </androidx.preference.PreferenceCategory>

@@ -15,7 +15,7 @@
         android:layout_width="@dimen/spacing_xlarge"
         android:layout_height="@dimen/spacing_xlarge"
         android:background="?selectableItemBackground"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/colorPrimaryText"
         app:layout_constraintBottom_toBottomOf="@+id/notification_time_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

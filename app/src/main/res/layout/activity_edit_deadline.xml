@@ -92,6 +92,10 @@
                         android:id="@+id/edit_deadline_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:importantForAutofill="no"
+                        android:textDirection="anyRtl"
                         android:textAppearance="@style/MediumText.Primary">
 
                         <requestFocus />
@@ -110,7 +114,7 @@
                     android:id="@+id/edit_start_time"
                     style="@style/EditScreenValueStyle"
                     android:background="?selectableItemBackground"
-                    android:drawableEnd="@drawable/ic_date_range"
+                    android:drawableEnd="@drawable/ic_date_range_accent"
                     android:enabled="@{viewModel.viewState.allowEditDate}"
                     android:onClick="@{() -> viewModel.onStartDateClicked()}"
                     android:paddingTop="@dimen/spacing_nano"
@@ -133,7 +137,7 @@
                     android:id="@+id/edit_end_time"
                     style="@style/EditScreenValueStyle"
                     android:background="?selectableItemBackground"
-                    android:drawableEnd="@drawable/ic_date_range"
+                    android:drawableEnd="@drawable/ic_date_range_accent"
                     android:enabled="@{viewModel.viewState.allowEditDate}"
                     android:onClick="@{() -> viewModel.onEndDateClicked()}"
                     android:paddingTop="@dimen/spacing_nano"
@@ -150,7 +154,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/edit_start_time_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/edit_start_time_title"
-                    app:srcCompat="@drawable/ic_clock" />
+                    app:srcCompat="@drawable/ic_clock_accent" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/edit_color_title"
