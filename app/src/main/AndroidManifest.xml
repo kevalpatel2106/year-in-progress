@@ -35,6 +35,8 @@
             android:theme="@style/YipTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="@string/launch_action_create_new_deadline" />
+                <action android:name="@string/launch_action_open_deadline" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />

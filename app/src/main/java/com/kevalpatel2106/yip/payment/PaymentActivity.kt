@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +57,7 @@ internal class PaymentActivity : AppCompatActivity() {
 
     companion object {
         fun launch(context: Context) {
-            context.startActivity(context.prepareLaunchIntent(PaymentActivity::class.java))
+            context.startActivity(context.getLaunchIntent(PaymentActivity::class.java))
         }
     }
 }

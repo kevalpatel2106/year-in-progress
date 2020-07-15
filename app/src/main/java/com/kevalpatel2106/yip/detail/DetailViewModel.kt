@@ -18,7 +18,7 @@ import com.kevalpatel2106.yip.core.livedata.nullSafeValue
 import com.kevalpatel2106.yip.entity.isRepeatable
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
@@ -27,7 +27,7 @@ internal class DetailViewModel @ViewModelInject internal constructor(
     @ApplicationContext private val application: Context,
     private val deadlineRepo: DeadlineRepo,
     private val appShortcutHelper: AppShortcutHelper,
-    private val appLaunchHelper: AppLaunchHelper,
+    private val appLaunchIntentProvider: AppLaunchIntentProvider,
     private val sdf: DateFormatter
 ) : BaseViewModel() {
     private var deadlineId = AppConstants.INVALID_DEADLINE_ID
@@ -98,7 +98,8 @@ internal class DetailViewModel @ViewModelInject internal constructor(
 
     internal fun requestPinShortcut() {
         val title = _viewState.nullSafeValue().titleText
-        val launchIntent = appLaunchHelper.launchAppWithDeadlineDetail(application, deadlineId)
+        val launchIntent =
+            appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(application, deadlineId)
         appShortcutHelper.requestPinShortcut(title, launchIntent)
     }
 

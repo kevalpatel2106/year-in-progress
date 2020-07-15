@@ -3,7 +3,7 @@ package com.kevalpatel2106.yip.notifications
 import android.content.Context
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +22,7 @@ class DeadlineNotificationHandlerImplPendingIntentTest {
     lateinit var context: Context
 
     @Mock
-    internal lateinit var appLaunchHelper: AppLaunchHelper
+    internal lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
 
     private lateinit var deadlineNotificationHandler: DeadlineNotificationHandlerImpl
 
@@ -30,7 +30,8 @@ class DeadlineNotificationHandlerImplPendingIntentTest {
     fun before() {
         MockitoAnnotations.initMocks(this)
 
-        deadlineNotificationHandler = DeadlineNotificationHandlerImpl(context, appLaunchHelper)
+        deadlineNotificationHandler =
+            DeadlineNotificationHandlerImpl(context, appLaunchIntentProvider)
     }
 
     @Test
@@ -39,6 +40,7 @@ class DeadlineNotificationHandlerImplPendingIntentTest {
         deadlineNotificationHandler.getPendingIntent(context, notificationId, deadlineId)
 
         // check
-        Mockito.verify(appLaunchHelper).launchAppWithDeadlineDetail(context, deadlineId)
+        Mockito.verify(appLaunchIntentProvider)
+            .launchAppWithDeadlineDetailIntent(context, deadlineId)
     }
 }

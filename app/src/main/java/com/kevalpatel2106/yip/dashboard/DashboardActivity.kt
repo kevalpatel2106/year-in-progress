@@ -7,13 +7,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commitNow
+import androidx.navigation.navArgs
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.AppConstants
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.openPlayStorePage
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
@@ -22,7 +22,9 @@ import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
+import com.kevalpatel2106.yip.detail.DetailFragmentArgs
 import com.kevalpatel2106.yip.edit.EditDeadlineActivity
+import com.kevalpatel2106.yip.edit.EditDeadlineActivityArgs
 import com.kevalpatel2106.yip.entity.Deadline
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_dashboard.add_deadline_fab
@@ -36,6 +38,7 @@ internal class DashboardActivity : AppCompatActivity(),
     DeadlineAdapterEventListener,
     PageStateChangeCallbacks {
 
+    private val navArgs by navArgs<DashboardActivityArgs>()
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
     private val model: DashboardViewModel by viewModels()
 
@@ -60,18 +63,17 @@ internal class DashboardActivity : AppCompatActivity(),
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val detailId = intent.getLongExtra(
-            ARG_DEADLINE_DETAIL_ID,
-            AppConstants.INVALID_DEADLINE_ID
-        )
-        model.onOpenDeadlineDetail(detailId)
+        model.onOpenDeadlineDetail(navArgs.expandedDeadlineId)
     }
 
     private fun observeSingleEvents(interstitialAd: InterstitialAd) {
         model.singleEvents.nullSafeObserve(this@DashboardActivity) { event ->
             when (event) {
                 is ShowUserMessage -> showSnack(event.message)
-                is OpenEditDeadline -> EditDeadlineActivity.edit(this, event.deadlineId)
+                is OpenEditDeadline -> EditDeadlineActivity.edit(
+                    this,
+                    EditDeadlineActivityArgs(event.deadlineId)
+                )
                 AskForRating -> {
                     showRatingDialog(
                         rateNow = { model.onRateNowClicked() },
@@ -95,7 +97,7 @@ internal class DashboardActivity : AppCompatActivity(),
                     supportFragmentManager.commitNow(allowStateLoss = true) {
                         replace(
                             R.id.expandable_page_container,
-                            DetailFragment.newInstance(viewState.deadlineId)
+                            DetailFragment.newInstance(DetailFragmentArgs(viewState.deadlineId))
                         )
                     }
                     deadline_list_rv.expandItem(viewState.deadlineId)
@@ -146,15 +148,13 @@ internal class DashboardActivity : AppCompatActivity(),
     override fun onPageExpanded() = add_deadline_fab.setImageResource(R.drawable.ic_edit)
 
     companion object {
-        private const val ARG_DEADLINE_DETAIL_ID = "deadlineId"
+        internal fun launch(context: Context, args: DashboardActivityArgs) =
+            context.startActivity(launchIntent(context, args))
 
-        internal fun launch(context: Context, expandedDeadlineId: Long? = null) {
-            context.startActivity(launchIntent(context, expandedDeadlineId))
-        }
-
-        internal fun launchIntent(context: Context, expandedDeadlineId: Long? = null): Intent {
-            return context.prepareLaunchIntent(DashboardActivity::class.java)
-                .apply { putExtra(ARG_DEADLINE_DETAIL_ID, expandedDeadlineId) }
+        internal fun launchIntent(context: Context, args: DashboardActivityArgs): Intent {
+            return context.getLaunchIntent(DashboardActivity::class.java) {
+                putExtras(args.toBundle())
+            }
         }
     }
 }

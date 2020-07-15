@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,9 +11,7 @@
 
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -92,11 +92,11 @@
                         android:id="@+id/edit_deadline_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
                         android:paddingStart="0dp"
                         android:paddingEnd="0dp"
-                        android:importantForAutofill="no"
-                        android:textDirection="anyRtl"
-                        android:textAppearance="@style/MediumText.Primary">
+                        android:textAppearance="@style/MediumText.Primary"
+                        android:textDirection="anyRtl">
 
                         <requestFocus />
                     </com.google.android.material.textfield.TextInputEditText>
@@ -105,48 +105,50 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/edit_start_time_title"
                     style="@style/EditScreenTitleStyle"
-                    android:text="@string/edit_start_time_title"
+                    android:text="@string/edit_date_range_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
                     app:layout_constraintTop_toBottomOf="@+id/edit_deadline_title_til" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/edit_start_time"
-                    style="@style/EditScreenValueStyle"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/date_selection_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
-                    android:drawableEnd="@drawable/ic_date_range_accent"
                     android:enabled="@{viewModel.viewState.allowEditDate}"
-                    android:onClick="@{() -> viewModel.onStartDateClicked()}"
+                    android:onClick="@{() -> viewModel.onDateClicked()}"
                     android:paddingTop="@dimen/spacing_nano"
+                    android:paddingEnd="@dimen/spacing_nano"
                     android:paddingBottom="@dimen/spacing_nano"
-                    android:text="@{viewModel.viewState.startTimeString}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_start_time_title"
-                    tools:text="@tools:sample/date/ddmmyy" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_start_time_title">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/edit_end_time_title"
-                    style="@style/EditScreenTitleStyle"
-                    android:text="@string/edit_end_time_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_start_time" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_start_time"
+                        style="@style/EditScreenValueStyle"
+                        android:text="@{viewModel.viewState.startTimeString}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@tools:sample/date/ddmmyy" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/edit_end_time"
-                    style="@style/EditScreenValueStyle"
-                    android:background="?selectableItemBackground"
-                    android:drawableEnd="@drawable/ic_date_range_accent"
-                    android:enabled="@{viewModel.viewState.allowEditDate}"
-                    android:onClick="@{() -> viewModel.onEndDateClicked()}"
-                    android:paddingTop="@dimen/spacing_nano"
-                    android:paddingBottom="@dimen/spacing_nano"
-                    android:text="@{viewModel.viewState.endTimeString}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_end_time_title"
-                    tools:text="@tools:sample/date/ddmmyy" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/start_end_date_divider"
+                        style="@style/EditScreenSubTitleStyle"
+                        android:paddingStart="@dimen/spacing_micro"
+                        android:paddingEnd="@dimen/spacing_micro"
+                        android:text="@string/edit_start_end_date_divider"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/edit_start_time"
+                        app:layout_constraintStart_toEndOf="@+id/edit_start_time" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/edit_end_time"
+                        style="@style/EditScreenValueStyle"
+                        android:text="@{viewModel.viewState.endTimeString}"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/edit_start_time"
+                        app:layout_constraintStart_toEndOf="@+id/start_end_date_divider"
+                        tools:text="@tools:sample/date/ddmmyy" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/edit_time_image"
@@ -162,7 +164,7 @@
                     android:text="@string/edit_color_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_end_time" />
+                    app:layout_constraintTop_toBottomOf="@+id/date_selection_container" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/edit_color_subtitle"

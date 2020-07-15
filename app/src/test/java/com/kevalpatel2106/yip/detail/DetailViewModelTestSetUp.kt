@@ -12,7 +12,7 @@ import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
@@ -44,7 +44,7 @@ abstract class DetailViewModelTestSetUp {
     lateinit var deadlineRepo: DeadlineRepo
 
     @Mock
-    lateinit var appLaunchHelper: AppLaunchHelper
+    lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
 
     @Mock
     lateinit var appShortcutHelper: AppShortcutHelper
@@ -89,7 +89,7 @@ abstract class DetailViewModelTestSetUp {
             context,
             deadlineRepo,
             appShortcutHelper,
-            appLaunchHelper,
+            appLaunchIntentProvider,
             dateFormatter
         )
     }

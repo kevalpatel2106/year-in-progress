@@ -87,8 +87,8 @@
     <string name="navigation_title_settings">Settings</string>
 
     <!--Edit deadline-->
-    <string name="edit_start_time_title">Start time</string>
-    <string name="edit_end_time_title">End time</string>
+    <string name="edit_date_range_title">Date</string>
+    <string name="edit_start_end_date_divider">to</string>
     <string name="edit_color_title">Color</string>
     <string name="edit_title_title">Title</string>
     <string name="deadline_saved_success">Deadline saved successfully.</string>

@@ -35,7 +35,8 @@ ext {
             'billingclient'    : '3.0.0',
             'inboxrecyclerview': '2.0.0-beta3',
             'debugdrawer'      : '0.8.0',
-            'lifecycle'        : '2.2.0'
+            'lifecycle'        : '2.2.0',
+            'navigation'       : '2.3.0'
     ]
 
     packageExcludes = {

@@ -66,7 +66,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
         val launchIntentCaptor = argumentCaptor<Intent>()
         val deadline = generateDeadline()
         val launchIntent = Intent()
-        whenever(appLaunchHelper.launchAppWithDeadlineDetail(context, deadline.id))
+        whenever(appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(context, deadline.id))
             .thenReturn(launchIntent)
 
         model.setDeadlineIdToMonitor(deadline.id)

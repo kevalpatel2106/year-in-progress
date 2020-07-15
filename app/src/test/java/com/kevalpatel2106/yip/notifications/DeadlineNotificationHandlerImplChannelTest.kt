@@ -5,7 +5,7 @@ import android.os.Build
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -25,7 +25,7 @@ class DeadlineNotificationHandlerImplChannelTest {
     lateinit var context: Context
 
     @Mock
-    internal lateinit var appLaunchHelper: AppLaunchHelper
+    internal lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
 
     private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
     private val mockChannelTitle = kFixture<String>()
@@ -38,7 +38,8 @@ class DeadlineNotificationHandlerImplChannelTest {
         whenever(context.getString(R.string.deadline_notification_channel_title))
             .thenReturn(mockChannelTitle)
 
-        deadlineNotificationHandler = DeadlineNotificationHandlerImpl(context, appLaunchHelper)
+        deadlineNotificationHandler =
+            DeadlineNotificationHandlerImpl(context, appLaunchIntentProvider)
     }
 
     @Test

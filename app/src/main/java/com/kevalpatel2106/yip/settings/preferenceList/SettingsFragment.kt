@@ -14,6 +14,10 @@ import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsUseCase
 import com.kevalpatel2106.yip.webviews.WebViewActivity
+import com.kevalpatel2106.yip.webviews.WebViewActivityArgs
+import com.kevalpatel2106.yip.webviews.WebViewLaunchContent.ADD_WIDGET
+import com.kevalpatel2106.yip.webviews.WebViewLaunchContent.CHANGELOG
+import com.kevalpatel2106.yip.webviews.WebViewLaunchContent.PRIVACY_POLICY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,13 +73,13 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             getString(R.string.pref_key_buy_pro) -> context?.let { PaymentActivity.launch(it) }
             getString(R.string.pref_key_contact) -> context?.sendMailToDev()
             getString(R.string.pref_key_add_widget) -> {
-                context?.let { WebViewActivity.showWidgetGuide(it) }
+                WebViewActivity.launch(requireContext(), WebViewActivityArgs(ADD_WIDGET))
             }
             getString(R.string.pref_key_privacy_policy) -> {
-                context?.let { WebViewActivity.showPrivacyPolicy(it) }
+                WebViewActivity.launch(requireContext(), WebViewActivityArgs(PRIVACY_POLICY))
             }
             getString(R.string.pref_key_changelog) -> {
-                context?.let { WebViewActivity.showChangelog(it) }
+                WebViewActivity.launch(requireContext(), WebViewActivityArgs(CHANGELOG))
             }
             getString(R.string.pref_key_open_source_licences) -> {
                 SettingsUseCase.showLibraryLicences(requireContext())
@@ -85,9 +89,5 @@ internal class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
         return super.onPreferenceTreeClick(preference)
-    }
-
-    companion object {
-        internal fun getNewInstance() = SettingsFragment()
     }
 }

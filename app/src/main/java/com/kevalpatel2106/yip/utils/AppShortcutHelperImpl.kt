@@ -13,7 +13,7 @@ import kotlin.math.min
 
 internal class AppShortcutHelperImpl @Inject constructor(
     @ApplicationContext private val application: Context,
-    private val appLaunchHelper: AppLaunchHelper
+    private val appLaunchIntentProvider: AppLaunchIntentProvider
 ) : AppShortcutHelper {
 
     override fun requestPinShortcut(title: String, launchIntent: Intent) {
@@ -44,7 +44,10 @@ internal class AppShortcutHelperImpl @Inject constructor(
                 ).setIcon(icon)
                     .setShortLabel(deadline.title)
                     .setIntent(
-                        appLaunchHelper.launchAppWithDeadlineDetail(application, deadline.id)
+                        appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(
+                            application,
+                            deadline.id
+                        )
                     )
                     .build()
             }

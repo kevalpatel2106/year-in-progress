@@ -32,7 +32,7 @@ class ContextExtensionKtTest {
     @Throws(Exception::class)
     fun checkPrepareLaunchIntent_InNewTask() {
         val launchIntent = RuntimeEnvironment.application
-            .prepareLaunchIntent(TestActivity::class.java, true)
+            .getLaunchIntent(TestActivity::class.java, true)
 
         assertEquals(TestActivity::class.java.name, launchIntent.component!!.className)
         assertEquals(
@@ -46,7 +46,7 @@ class ContextExtensionKtTest {
     @Throws(Exception::class)
     fun checkPrepareLaunchIntent_WithoutNewTask() {
         val launchIntent = RuntimeEnvironment.application
-            .prepareLaunchIntent(TestActivity::class.java, false)
+            .getLaunchIntent(TestActivity::class.java, false)
 
         assertEquals(TestActivity::class.java.name, launchIntent.component!!.className)
         assertEquals(0, launchIntent.flags)

@@ -1,15 +1,16 @@
 package com.kevalpatel2106.yip.edit
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
+import androidx.core.util.Pair
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kevalpatel2106.yip.R
 import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.dialog_notification_percent_text
 import kotlinx.android.synthetic.main.dialog_notification_time_picker.view.dialog_notification_seekbar
-import java.util.Calendar
 import java.util.Date
 
 internal object EditDeadlineUseCases {
@@ -22,22 +23,22 @@ internal object EditDeadlineUseCases {
             .show()
     }
 
-    internal fun EditDeadlineActivity.getDatePicker(
-        preset: Calendar = Calendar.getInstance(),
-        listener: (date: Date) -> Unit
-    ): DatePickerDialog {
-        return DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                val cal = Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth, 0, 0)
-                }
-                listener.invoke(Date(cal.timeInMillis))
-            },
-            preset.get(Calendar.YEAR),
-            preset.get(Calendar.MONTH),
-            preset.get(Calendar.DAY_OF_MONTH)
-        )
+    internal inline fun showDatePicker(
+        fragmentManager: FragmentManager,
+        startDateSelection: Date,
+        endDateSelection: Date,
+        crossinline listener: (startDate: Date, endDate: Date) -> Unit
+    ) {
+        MaterialDatePicker.Builder
+            .dateRangePicker()
+            .setTheme(R.style.YipComponentTheme_DatePickerDialog)
+            .setSelection(Pair(startDateSelection.time, endDateSelection.time))
+            .build()
+            .apply {
+                clearOnDismissListeners()
+                addOnPositiveButtonClickListener { listener(Date(it.first!!), Date(it.second!!)) }
+            }
+            .show(fragmentManager, MaterialDatePicker::class.simpleName)
     }
 
     @SuppressLint("InflateParams")

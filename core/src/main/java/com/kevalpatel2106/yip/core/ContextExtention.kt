@@ -28,14 +28,16 @@ private const val NEW_TASK_INTENT_FLAG =
  */
 fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)
 
-fun <T : AppCompatActivity> Context.prepareLaunchIntent(
+fun <T : AppCompatActivity> Context.getLaunchIntent(
     aClass: Class<T>,
-    isNewTask: Boolean = false
+    isNewTask: Boolean = false,
+    extras: (Intent.() -> Unit)? = null
 ): Intent {
     return Intent(this, aClass).apply {
         if (isNewTask) {
             addFlags(NEW_TASK_INTENT_FLAG)
         }
+        extras?.invoke(this)
     }
 }
 

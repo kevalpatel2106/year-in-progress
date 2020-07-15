@@ -3,15 +3,12 @@ package com.kevalpatel2106.yip.webviews
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.navArgs
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_web_view.webview_toolbar
 @AndroidEntryPoint
 internal class WebViewActivity : AppCompatActivity() {
 
+    private val args by navArgs<WebViewActivityArgs>()
     private val model: WebViewViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,30 +35,14 @@ internal class WebViewActivity : AppCompatActivity() {
         supportActionBar?.set()
 
         webview.setUp()
-        webview.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                model.onPageLoaded()
-            }
-
-            override fun onReceivedError(
-                view: WebView?,
-                request: WebResourceRequest?,
-                error: WebResourceError?
-            ) {
-                super.onReceivedError(view, request, error)
-                model.onPageLoadingFailed()
-            }
-        }
+        webview.webViewClient = CustomWebViewClient(model)
 
         onNewIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val args = intent.getParcelableExtra<WebviewActivityArgs>(ARGS)
-            ?: throw IllegalStateException("Null argument.")
-        model.submitLink(args.link, args.titleRes)
+        model.submitLink(getString(args.content.link), getString(args.content.title))
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -69,39 +51,11 @@ internal class WebViewActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val ARGS = "args"
-
-        private fun launch(context: Context, args: WebviewActivityArgs) {
-            context.startActivity(context.prepareLaunchIntent(WebViewActivity::class.java).apply {
-                putExtra(ARGS, args)
-            })
-        }
-
-        fun showPrivacyPolicy(context: Context) {
-            launch(
-                context, WebviewActivityArgs(
-                    R.string.title_activity_privacy_policy,
-                    context.getString(R.string.privacy_policy_url)
-                )
-            )
-        }
-
-        fun showChangelog(context: Context) {
-            launch(
-                context, WebviewActivityArgs(
-                    R.string.title_activity_changelog,
-                    context.getString(R.string.changelog_url)
-                )
-            )
-        }
-
-        fun showWidgetGuide(context: Context) {
-            launch(
-                context, WebviewActivityArgs(
-                    R.string.title_activity_widget_guide,
-                    context.getString(R.string.add_widget_guide_url)
-                )
-            )
+        fun launch(context: Context, args: WebViewActivityArgs) {
+            val intent = context.getLaunchIntent(WebViewActivity::class.java).apply {
+                putExtras(args.toBundle())
+            }
+            context.startActivity(intent)
         }
     }
 }

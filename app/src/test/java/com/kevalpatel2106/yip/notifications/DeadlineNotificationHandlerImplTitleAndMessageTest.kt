@@ -4,7 +4,7 @@ import android.content.Context
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,7 +27,7 @@ class DeadlineNotificationHandlerImplTitleAndMessageTest(private val percent: Fl
     lateinit var context: Context
 
     @Mock
-    internal lateinit var appLaunchHelper: AppLaunchHelper
+    internal lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
 
     private lateinit var deadlineNotificationHandler: DeadlineNotificationHandlerImpl
 
@@ -39,7 +39,8 @@ class DeadlineNotificationHandlerImplTitleAndMessageTest(private val percent: Fl
         whenever(context.getString(R.string.deadline_percentage))
             .thenReturn(deadlinePercentageString)
 
-        deadlineNotificationHandler = DeadlineNotificationHandlerImpl(context, appLaunchHelper)
+        deadlineNotificationHandler =
+            DeadlineNotificationHandlerImpl(context, appLaunchIntentProvider)
     }
 
     @Test

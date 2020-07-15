@@ -6,10 +6,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_detail.option_menu
 
 @AndroidEntryPoint
 internal class DetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
+    private val navArgs by navArgs<DetailFragmentArgs>()
 
     private val popupMenu: PopupMenu by lazy {
         DetailUseCase.preparePopupMenu(anchor = option_menu, clickListener = this@DetailFragment)
@@ -33,7 +34,7 @@ internal class DetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        model.setDeadlineIdToMonitor(requireNotNull(arguments?.getLong(ARG_ID)))
+        model.setDeadlineIdToMonitor(navArgs.deadlineId)
 
         return DataBindingUtil
             .inflate<FragmentDetailBinding>(inflater, R.layout.fragment_detail, container, false)
@@ -93,12 +94,8 @@ internal class DetailFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private fun closeDetail() = (activity as? DashboardActivity)?.collapseDetail()
 
     companion object {
-        private const val ARG_ID = "arg_id"
-
-        internal fun newInstance(deadlineId: Long): DetailFragment {
-            return DetailFragment().apply {
-                arguments = bundleOf(ARG_ID to deadlineId)
-            }
+        internal fun newInstance(detailFragmentArgs: DetailFragmentArgs): DetailFragment {
+            return DetailFragment().apply { arguments = detailFragmentArgs.toBundle() }
         }
     }
 }

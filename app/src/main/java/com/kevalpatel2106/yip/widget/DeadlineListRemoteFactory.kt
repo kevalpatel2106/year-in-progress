@@ -6,7 +6,7 @@ import android.widget.RemoteViewsService
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 internal class DeadlineListRemoteFactory @Inject constructor(
     @ApplicationContext private val application: Context,
     private val deadlineRepo: DeadlineRepo,
-    private val appLaunchHelper: AppLaunchHelper
+    private val appLaunchIntentProvider: AppLaunchIntentProvider
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private val deadlines: ArrayList<Deadline> = arrayListOf()
@@ -35,7 +35,7 @@ internal class DeadlineListRemoteFactory @Inject constructor(
 
             rowView.setOnClickFillInIntent(
                 R.id.battery_list_row,
-                appLaunchHelper.launchAppWithDeadlineDetail(application, id)
+                appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(application, id)
             )
         }
         return rowView

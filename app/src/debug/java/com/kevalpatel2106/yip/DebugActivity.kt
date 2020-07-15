@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import io.palaima.debugdrawer.commons.BuildModule
 import io.palaima.debugdrawer.commons.DeviceModule
 import io.palaima.debugdrawer.commons.NetworkModule
@@ -62,7 +62,7 @@ class DebugActivity : AppCompatActivity() {
     companion object {
 
         internal fun launch(context: Context) {
-            context.startActivity(context.prepareLaunchIntent(DebugActivity::class.java))
+            context.startActivity(context.getLaunchIntent(DebugActivity::class.java))
         }
     }
 }

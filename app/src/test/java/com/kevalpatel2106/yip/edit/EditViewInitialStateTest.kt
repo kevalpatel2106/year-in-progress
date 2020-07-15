@@ -65,7 +65,7 @@ class EditViewInitialStateTest {
 
     @Test
     fun `given initial view state check edit date not allowed`() {
-        assertFalse(initialState.allowEditDate)
+        assertTrue(initialState.allowEditDate)
     }
 
     @Test
@@ -108,7 +108,7 @@ class EditViewInitialStateTest {
 
     @Test
     fun `given initial view state check edit color not allowed`() {
-        assertFalse(initialState.allowEditColor)
+        assertTrue(initialState.allowEditColor)
     }
 
     @Test

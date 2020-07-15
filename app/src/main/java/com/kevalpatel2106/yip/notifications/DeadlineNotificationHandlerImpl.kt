@@ -12,11 +12,11 @@ import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.emptyString
 import com.kevalpatel2106.yip.entity.Deadline
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 
 internal class DeadlineNotificationHandlerImpl(
     private val context: Context,
-    private val appLaunchHelper: AppLaunchHelper
+    private val appLaunchIntentProvider: AppLaunchIntentProvider
 ) : DeadlineNotificationHandler {
 
     /**
@@ -72,7 +72,7 @@ internal class DeadlineNotificationHandlerImpl(
         return PendingIntent.getActivity(
             context,
             notificationId,
-            appLaunchHelper.launchAppWithDeadlineDetail(context, id),
+            appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(context, id),
             PendingIntent.FLAG_UPDATE_CURRENT
         )
     }

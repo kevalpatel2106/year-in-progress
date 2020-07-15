@@ -12,7 +12,7 @@ import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import com.kevalpatel2106.yip.settings.preferenceList.SettingsFragment
 import com.kevalpatel2106.yip.splash.SplashActivity
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.kevalpatel2106.yip.webviews.WebViewActivity
 import com.kevalpatel2106.yip.widget.DeadlineListRemoteService
@@ -23,7 +23,7 @@ import dagger.hilt.android.components.ApplicationComponent
 @InstallIn(ApplicationComponent::class)
 @EntryPoint
 internal interface AppComponent {
-    fun getAppLaunchHelper(): AppLaunchHelper
+    fun getAppLaunchHelper(): AppLaunchIntentProvider
     fun getAppWidgetService(): AppWidgetManager
     fun getAppShortcutHelper(): AppShortcutHelper
     fun getDeadlineNotificationHandler(): DeadlineNotificationHandler

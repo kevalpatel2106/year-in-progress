@@ -114,45 +114,33 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
             .addTo(compositeDisposable)
     }
 
-    fun onStartDateClicked() {
-        _singleViewState.value = OpenStartDatePicker
+    fun onDateClicked() {
+        _singleViewState.value = OpenDatePicker
     }
 
-    fun onEndDateClicked() {
-        _singleViewState.value = OpenEndDatePicker
-    }
-
-    fun onStartDateSelected(startDate: Date) {
-        val newEndDate =
-            if (validator.isValidStartDate(startDate, viewState.nullSafeValue().endTime)) {
-                viewState.nullSafeValue().endTime
-            } else {
-                Date(startDate.time + oneDayMills)
-            }
-
-        isSomethingChanged = true
-        _viewState.modify {
-            copy(
-                startTime = startDate,
-                startTimeString = df.formatDateOnly(startDate),
-                endTime = newEndDate,
-                endTimeString = df.formatDateOnly(newEndDate)
+    fun onDateRangeSelected(startDate: Date, endDate: Date) {
+        if (!validator.isValidStartDate(startDate, endDate)) {
+            _singleViewState.value = ShowUserMessage(
+                application.getString(R.string.error_end_date_before_start_date),
+                false
             )
-        }
-    }
-
-    fun onEndDateSelected(endDate: Date) {
-        if (validator.isValidEndDate(viewState.nullSafeValue().startTime, endDate)) {
-            isSomethingChanged = true
-            _viewState.modify {
-                copy(endTime = endDate, endTimeString = df.formatDateOnly(endDate))
-            }
-        } else {
+            _viewState.modify { this }
+        } else if (!validator.isValidEndDate(startDate, endDate)) {
             _singleViewState.value = ShowUserMessage(
                 application.getString(R.string.error_start_date_after_end_date),
                 false
             )
             _viewState.modify { this }
+        } else {
+            isSomethingChanged = true
+            _viewState.modify {
+                copy(
+                    startTime = startDate,
+                    startTimeString = df.formatDateOnly(startDate),
+                    endTime = endDate,
+                    endTimeString = df.formatDateOnly(endDate)
+                )
+            }
         }
     }
 

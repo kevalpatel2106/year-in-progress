@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/emptyFragment"
+    tools:ignore="UnusedNavigation">
+
+    <activity
+        android:id="@+id/dashboardActivity"
+        android:name="com.kevalpatel2106.yip.dashboard.DashboardActivity"
+        android:label="DashboardActivity">
+
+        <argument
+            android:name="expandedDeadlineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </activity>
+
+    <activity
+        android:id="@+id/editDeadlineActivity"
+        android:name="com.kevalpatel2106.yip.edit.EditDeadlineActivity"
+        android:label="EditDeadlineActivity">
+
+        <argument
+            android:name="deadlineToEdit"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </activity>
+
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="androidx.fragment.app.Fragment" />
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.kevalpatel2106.yip.detail.DetailFragment"
+        android:label="DetailFragment">
+
+        <argument
+            android:name="deadlineId"
+            app:argType="long" />
+    </fragment>
+
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.kevalpatel2106.yip.splash.SplashActivity"
+        android:label="SplashActivity">
+
+        <argument
+            android:name="deadlineId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </activity>
+
+    <activity
+        android:id="@+id/webViewActivity"
+        android:name="com.kevalpatel2106.yip.webviews.WebViewActivity"
+        android:label="WebViewActivity">
+
+        <argument
+            android:name="content"
+            app:argType="com.kevalpatel2106.yip.webviews.WebViewLaunchContent"
+            app:nullable="false" />
+    </activity>
+</navigation>

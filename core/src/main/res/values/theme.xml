@@ -43,6 +43,7 @@
         <!--Dialogs-->
         <item name="alertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
         <item name="materialAlertDialogTheme">@style/YipComponentTheme.AlertDialog</item>
+        <item name="materialCalendarTheme">@style/YipComponentTheme.DatePickerDialog</item>
         <item name="bottomSheetDialogTheme">@style/YipComponentTheme.RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
 
@@ -63,6 +64,12 @@
     </style>
 
     <!--Alert dialogs-->
+    <style name="YipComponentTheme.DatePickerDialog" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="dialogCornerRadius">@dimen/spacing_micro</item>
+        <item name="colorPrimary">@color/colorPrimaryText</item>
+    </style>
+
     <style name="YipComponentTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_micro</item>

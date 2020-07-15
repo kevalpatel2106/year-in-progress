@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
-import com.kevalpatel2106.yip.utils.AppLaunchHelper
+import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
     lateinit var sharedPrefsProvider: SharedPrefsProvider
 
     @Inject
-    lateinit var appLaunchHelper: AppLaunchHelper
+    lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
 
     @Inject
     lateinit var appWidgetManager: AppWidgetManager
@@ -58,7 +58,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    appLaunchHelper.launchAppWithDeadlineList(context),
+                    appLaunchIntentProvider.launchAppWithDeadlineListIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
@@ -69,7 +69,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
                 PendingIntent.getActivity(
                     context,
                     0,
-                    appLaunchHelper.launchAppWithDeadlineList(context),
+                    appLaunchIntentProvider.launchAppWithDeadlineListIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )

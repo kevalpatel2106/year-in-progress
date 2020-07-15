@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHide
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
 
     companion object {
         internal fun launch(context: Context) {
-            context.startActivity(context.prepareLaunchIntent(SettingsActivity::class.java))
+            context.startActivity(context.getLaunchIntent(SettingsActivity::class.java))
         }
     }
 }

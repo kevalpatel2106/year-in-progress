@@ -9,18 +9,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.navArgs
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.core.livedata.nullSafeValue
-import com.kevalpatel2106.yip.core.prepareLaunchIntent
 import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.core.showOrHideLoader
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.databinding.ActivityEditDeadlineBinding
 import com.kevalpatel2106.yip.edit.EditDeadlineUseCases.conformBeforeExit
-import com.kevalpatel2106.yip.edit.EditDeadlineUseCases.getDatePicker
+import com.kevalpatel2106.yip.edit.EditDeadlineUseCases.showDatePicker
 import com.kevalpatel2106.yip.edit.EditDeadlineUseCases.showNotificationPickerDialog
-import com.kevalpatel2106.yip.edit.EditDeadlineViewModel.Companion.NEW_DEADLINE_ID
 import com.kevalpatel2106.yip.edit.colorPicker.ColorPickerListener
 import com.kevalpatel2106.yip.edit.colorPicker.ColorsAdapter
 import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_edit_deadline.notification_times
 internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
     NotificationViewer.NotificationViewerInterface {
 
+    private val navArgs by navArgs<EditDeadlineActivityArgs>()
     private val model: EditDeadlineViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,15 +95,13 @@ internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
                 ShowNotificationPicker -> {
                     showNotificationPickerDialog { percent -> model.onNotificationAdded(percent) }
                 }
-                OpenStartDatePicker -> {
-                    getDatePicker(listener = { date -> model.onEndDateSelected(date) })
-                        .apply {
-                            datePicker.minDate = model.viewState.nullSafeValue().startTime.time
-                        }
-                        .show()
-                }
-                OpenEndDatePicker -> {
-                    getDatePicker(listener = { date -> model.onStartDateSelected(date) }).show()
+                OpenDatePicker -> {
+                    showDatePicker(
+                        fragmentManager = supportFragmentManager,
+                        startDateSelection = model.viewState.nullSafeValue().startTime,
+                        endDateSelection = model.viewState.nullSafeValue().endTime,
+                        listener = { start, end -> model.onDateRangeSelected(start, end) }
+                    )
                 }
             }
         }
@@ -115,9 +114,7 @@ internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
     override fun onColorSelected(color: Int) = model.onColorSelected(color)
 
     override fun onNewIntent(intent: Intent?) {
-        val deadlineId =
-            intent?.getLongExtra(ARG_EDIT_DEADLINE_ID, NEW_DEADLINE_ID) ?: NEW_DEADLINE_ID
-        model.setDeadlineId(deadlineId)
+        model.setDeadlineId(navArgs.deadlineToEdit)
         super.onNewIntent(intent)
     }
 
@@ -145,19 +142,19 @@ internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
     }
 
     companion object {
-        private const val ARG_EDIT_DEADLINE_ID = "deadline_id"
+        internal fun createNew(context: Context) = context.startActivity(createNewIntent(context))
 
-        internal fun createNew(context: Context) =
-            context.startActivity(createNewDeadlineIntent(context))
+        internal fun createNewIntent(context: Context): Intent {
+            return context.getLaunchIntent(EditDeadlineActivity::class.java) {
+                putExtras(EditDeadlineActivityArgs().toBundle())
+            }
+        }
 
-        internal fun createNewDeadlineIntent(context: Context): Intent =
-            context.prepareLaunchIntent(EditDeadlineActivity::class.java)
-
-        internal fun edit(context: Context, deadlineId: Long) {
-            context.startActivity(
-                context.prepareLaunchIntent(EditDeadlineActivity::class.java)
-                    .apply { putExtra(ARG_EDIT_DEADLINE_ID, deadlineId) }
-            )
+        internal fun edit(context: Context, args: EditDeadlineActivityArgs) {
+            val intent = context.getLaunchIntent(EditDeadlineActivity::class.java) {
+                putExtras(args.toBundle())
+            }
+            context.startActivity(intent)
         }
     }
 }

@@ -50,17 +50,17 @@ internal data class EditViewState(
                 currentTitle = emptyString(),
                 titleErrorMsg = null,
 
-                allowEditDate = false,
+                allowEditDate = true,
                 startTime = startTime,
                 startTimeString = df.formatDateOnly(startTime),
                 endTime = endTime,
                 endTimeString = df.formatDateOnly(endTime),
 
-                allowEditColor = false,
+                allowEditColor = true,
                 selectedColor = DeadlineColor.COLOR_GRAY,
                 showLockedColorPicker = true,
 
-                allowEditNotifications = false,
+                allowEditNotifications = true,
                 notificationList = emptyList()
             )
         }

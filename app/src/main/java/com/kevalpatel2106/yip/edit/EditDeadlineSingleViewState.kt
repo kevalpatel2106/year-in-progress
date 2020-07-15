@@ -6,7 +6,6 @@ data class ShowUserMessage(val message: String, val closeScreen: Boolean) :
 
 object ShowNotificationPicker : EditDeadlineSingleViewState()
 object OpenPaymentScreen : EditDeadlineSingleViewState()
-object OpenEndDatePicker : EditDeadlineSingleViewState()
-object OpenStartDatePicker : EditDeadlineSingleViewState()
+object OpenDatePicker : EditDeadlineSingleViewState()
 object CloseScreen : EditDeadlineSingleViewState()
 object ShowConfirmationDialog : EditDeadlineSingleViewState()
