@@ -8,6 +8,7 @@ import java.util.Date
 
 internal class ValidatorImpl constructor(private val application: Context) : Validator {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
+    private val descriptionLength by lazy { application.resources.getInteger(R.integer.max_process_description) }
 
     override fun isValidStartDate(startDate: Date?, endDate: Date?): Boolean {
         return endDate != null && startDate?.before(endDate) == true
@@ -22,7 +23,11 @@ internal class ValidatorImpl constructor(private val application: Context) : Val
     }
 
     override fun isValidTitle(title: String): Boolean {
-        return title.length in 1..titleLength
+        return title.trim().length in 1..titleLength
+    }
+
+    override fun isValidDescription(description: String?): Boolean {
+        return if (description == null) true else description.trim().length in 0..descriptionLength
     }
 
     override fun isValidNotification(notification: List<Float>): Boolean {

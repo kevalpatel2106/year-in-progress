@@ -18,6 +18,9 @@ internal data class EditViewState(
     val currentTitle: String,
     val titleErrorMsg: String?,
 
+    val initialDescription: String,
+    val currentDescription: String,
+
     val allowEditDate: Boolean,
     val startTime: Date,
     val startTimeString: String,
@@ -34,6 +37,8 @@ internal data class EditViewState(
 
     fun isTitleChanged(): Boolean = initialTitle.trim() != currentTitle.trim()
 
+    fun isDescriptionChanged(): Boolean = initialDescription.trim() != currentDescription.trim()
+
     companion object {
 
         internal fun initialState(df: DateFormatter): EditViewState {
@@ -49,6 +54,9 @@ internal data class EditViewState(
                 initialTitle = emptyString(),
                 currentTitle = emptyString(),
                 titleErrorMsg = null,
+
+                initialDescription = emptyString(),
+                currentDescription = emptyString(),
 
                 allowEditDate = true,
                 startTime = startTime,

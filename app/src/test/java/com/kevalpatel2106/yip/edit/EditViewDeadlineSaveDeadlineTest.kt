@@ -18,7 +18,6 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -78,17 +77,41 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         deadlineSubject.onNext(deadline)
         viewModel.isSomethingChanged = true
         whenever(validator.isValidTitle(any())).thenReturn(false)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)
         whenever(validator.isValidNotification(anyList())).thenReturn(true)
+
         // when
         viewModel.saveDeadline()
 
         // check
         assertEquals(testString, viewModel.viewState.getOrAwaitValue().titleErrorMsg)
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
+        )
+    }
+
+    @Test
+    fun `given deadline description invalid when save deadline check title error message displayed`() {
+        // given
+        deadlineSubject.onNext(deadline)
+        viewModel.isSomethingChanged = true
+        whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(false)
+        whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
+        whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
+        whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)
+        whenever(validator.isValidNotification(anyList())).thenReturn(true)
+
+        // when
+        viewModel.saveDeadline()
+
+        // check
+        assertEquals(testString, viewModel.viewState.getOrAwaitValue().titleErrorMsg)
+        verify(deadlineRepo, never()).addUpdateDeadline(
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -98,6 +121,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         deadlineSubject.onNext(deadline)
         viewModel.isSomethingChanged = true
         whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(false)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)
@@ -111,7 +135,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -121,6 +145,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         deadlineSubject.onNext(deadline)
         viewModel.isSomethingChanged = true
         whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(false)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)
@@ -135,7 +160,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -145,6 +170,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         deadlineSubject.onNext(deadline)
         viewModel.isSomethingChanged = true
         whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(false)
@@ -159,7 +185,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -169,6 +195,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         deadlineSubject.onNext(deadline)
         viewModel.isSomethingChanged = true
         whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)
@@ -183,7 +210,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -220,7 +247,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         verify(deadlineRepo).addUpdateDeadline(
             anyLong(), anyString(), description.capture(), any(), any(), any(), any(), anyList()
         )
-        assertNull(description.lastValue)
+        assertEquals(deadline.description?.trim()?.capitalize(), description.lastValue)
     }
 
     @Test
@@ -418,6 +445,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
 
     private fun markAllInputValid() {
         whenever(validator.isValidTitle(any())).thenReturn(true)
+        whenever(validator.isValidDescription(any())).thenReturn(true)
         whenever(validator.isValidStartDate(any(), any())).thenReturn(true)
         whenever(validator.isValidEndDate(any(), any())).thenReturn(true)
         whenever(validator.isValidDeadlineColor(anyInt())).thenReturn(true)

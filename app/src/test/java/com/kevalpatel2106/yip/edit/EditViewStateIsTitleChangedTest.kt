@@ -11,7 +11,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class EditViewStateTest {
+class EditViewStateIsTitleChangedTest {
 
     @Mock
     lateinit var dateFormatter: DateFormatter

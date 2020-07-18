@@ -54,6 +54,16 @@ class EditViewInitialStateTest {
     }
 
     @Test
+    fun `given initial view state check initial description is empty`() {
+        assertEquals(emptyString(), initialState.initialDescription)
+    }
+
+    @Test
+    fun `given initial view state check current description is empty`() {
+        assertEquals(emptyString(), initialState.currentDescription)
+    }
+
+    @Test
     fun `given initial view state check title error is null`() {
         assertNull(initialState.titleErrorMsg)
     }

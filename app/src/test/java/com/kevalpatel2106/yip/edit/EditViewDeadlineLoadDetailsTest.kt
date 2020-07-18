@@ -120,6 +120,32 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     }
 
     @Test
+    fun `given deadline when set deadline id check initial description in view state`() {
+        // given
+        val deadline = generateDeadline()
+        deadlineSubject.onNext(deadline)
+
+        // when
+        viewModel.setDeadlineId(deadline.id)
+
+        // then
+        assertEquals(deadline.description, viewModel.viewState.getOrAwaitValue().initialDescription)
+    }
+
+    @Test
+    fun `given deadline when set deadline id check current description in view state`() {
+        // given
+        val deadline = generateDeadline()
+        deadlineSubject.onNext(deadline)
+
+        // when
+        viewModel.setDeadlineId(deadline.id)
+
+        // then
+        assertEquals(deadline.description, viewModel.viewState.getOrAwaitValue().currentDescription)
+    }
+
+    @Test
     fun `given deadline when set deadline id check no title error message is displayed`() {
         // given
         val deadline = generateDeadline()

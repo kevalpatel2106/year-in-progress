@@ -13,8 +13,8 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
-class ValidateTitleTest(
-    private val title: String,
+class ValidateDescriptionTest(
+    private val description: String,
     private val isValid: Boolean
 ) {
     private lateinit var validator: Validator
@@ -29,7 +29,7 @@ class ValidateTitleTest(
     fun before() {
         MockitoAnnotations.initMocks(this)
         whenever(application.resources).thenReturn(resources)
-        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
+        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(10)
 
         validator = ValidatorImpl(application)
     }
@@ -39,17 +39,18 @@ class ValidateTitleTest(
         @Parameterized.Parameters
         fun data(): ArrayList<Array<out Any?>> {
             return arrayListOf(
-                arrayOf("", false),
+                arrayOf(null, true),
+                arrayOf("", true),
                 arrayOf("1", true),
-                arrayOf("12345678901", true),
-                arrayOf("12345678901                       ", true),
-                arrayOf("123456789011234567890", false)
+                arrayOf("1234567", true),
+                arrayOf("1234567       ", true),
+                arrayOf("12345678901", false)
             )
         }
     }
 
     @Test
     fun validateTitle() {
-        Assert.assertEquals(isValid, validator.isValidTitle(title))
+        Assert.assertEquals(isValid, validator.isValidDescription(description))
     }
 }
