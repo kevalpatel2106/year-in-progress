@@ -52,6 +52,7 @@ internal abstract class AlarmRepoImplTestSetUp {
         return DeadlineDto(
             id = kFixture(),
             title = kFixture(),
+            description = kFixture(),
             color = DeadlineColor.COLOR_YELLOW,
             start = Date(nowDate.time - 1_000_000), // 50% passed deadline
             end = Date(nowDate.time + 1_000_000),   // 50% remaining deadline

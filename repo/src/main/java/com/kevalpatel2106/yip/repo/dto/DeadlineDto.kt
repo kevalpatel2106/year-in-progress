@@ -20,6 +20,9 @@ internal data class DeadlineDto(
     @ColumnInfo(name = DeadlineTableInfo.TITLE)
     val title: String,
 
+    @ColumnInfo(name = DeadlineTableInfo.DESCRIPTION)
+    val description: String?,
+
     @ColumnInfo(name = DeadlineTableInfo.START_TIME)
     var start: Date,
 

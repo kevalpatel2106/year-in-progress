@@ -99,6 +99,7 @@ internal class DeadlineRepoImpl(
         return Single.create<DeadlineDto> { emitter ->
             val dto = DeadlineDto(
                 id = deadlineId,
+                description = null,
                 color = color,
                 end = endTime,
                 type = type,

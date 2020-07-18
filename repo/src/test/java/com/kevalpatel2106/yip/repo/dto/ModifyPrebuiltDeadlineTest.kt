@@ -1,5 +1,7 @@
 package com.kevalpatel2106.yip.repo.dto
 
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.utils.endOfTheDay
@@ -27,12 +29,14 @@ internal class ModifyPrebuiltDeadlineTest(
 ) {
 
     companion object {
+        private val kFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
         private val nowMills = System.currentTimeMillis()
         private val nowCal: Calendar
             get() = Calendar.getInstance().apply { timeInMillis = nowMills }
         private val baseDeadline = DeadlineDto(
             id = 23L,
             title = "XYZ",
+            description = kFixture(),
             type = DeadlineType.DAY_DEADLINE,
             color = DeadlineColor.COLOR_BLUE,
             notifications = arrayListOf(0.1F),

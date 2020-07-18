@@ -30,3 +30,9 @@ internal object Migration1To2 : Migration(1, 2) {
         database.execSQL("DROP TABLE $TEMP_TABLE_NAME;")
     }
 }
+
+internal object Migration2To3 : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE ${DeadlineTableInfo.TABLE_NAME} ADD COLUMN ${DeadlineTableInfo.DESCRIPTION} TEXT;")
+    }
+}
