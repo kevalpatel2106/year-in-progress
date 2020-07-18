@@ -91,6 +91,7 @@ internal abstract class EditViewDeadlineModelTestSetUp {
         return Deadline(
             id = kFixture(),
             title = kFixture(),
+            description = kFixture(),
             color = DeadlineColor.COLOR_YELLOW,
             start = Date(System.currentTimeMillis()),
             end = Date(System.currentTimeMillis() - 1),

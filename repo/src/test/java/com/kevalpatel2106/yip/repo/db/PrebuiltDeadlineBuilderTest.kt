@@ -1,12 +1,15 @@
 package com.kevalpatel2106.yip.repo.db
 
 import android.app.Application
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -17,11 +20,12 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class PrebuiltDeadlineBuilderTest {
-    private val testTitleYear = "year"
-    private val testTitleToday = "today"
-    private val testTitleMonth = "month"
-    private val testTitleQuarter = "quarter"
-    private val testTitleWeek = "week"
+    private val kFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val testTitleYear = kFixture<String>()
+    private val testTitleToday = kFixture<String>()
+    private val testTitleMonth = kFixture<String>()
+    private val testTitleQuarter = kFixture<String>()
+    private val testTitleWeek = kFixture<String>()
 
     @Mock
     lateinit var application: Application
@@ -47,11 +51,9 @@ class PrebuiltDeadlineBuilderTest {
 
     @Test
     fun checkExpectedDeadlineTypesPresent() {
-        assertTrue(prebuiltDeadlines.any { it.type == DeadlineType.DAY_DEADLINE })
-        assertTrue(prebuiltDeadlines.any { it.type == DeadlineType.YEAR_DEADLINE })
-        assertTrue(prebuiltDeadlines.any { it.type == DeadlineType.WEEK_DEADLINE })
-        assertTrue(prebuiltDeadlines.any { it.type == DeadlineType.MONTH_DEADLINE })
-        assertTrue(prebuiltDeadlines.any { it.type == DeadlineType.QUARTER_DEADLINE })
+        DeadlineType.values()
+            .filter { it != DeadlineType.CUSTOM }
+            .forEach { type -> prebuiltDeadlines.any { it.type == type } }
     }
 
     @Test
@@ -78,6 +80,11 @@ class PrebuiltDeadlineBuilderTest {
     @Test
     fun checkColors() {
         prebuiltDeadlines.forEach { assertEquals(it.type.color, it.color) }
+    }
+
+    @Test
+    fun checkDescription() {
+        prebuiltDeadlines.forEach { assertNull(it.description) }
     }
 
     @Test

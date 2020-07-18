@@ -9,6 +9,7 @@ import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.entity.isPreBuild
 import com.kevalpatel2106.yip.notifications.DeadlineNotificationReceiver
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
@@ -17,6 +18,7 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -40,7 +42,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         viewModel.setDeadlineId(deadline.id)
         whenever(
             deadlineRepo.addUpdateDeadline(
-                anyLong(), anyString(), any(), any(), any(), any(), anyList()
+                anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
             )
         ).thenReturn(addDeadlineResponseSubject.firstOrError())
     }
@@ -52,7 +54,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
 
         // check
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -66,7 +68,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
 
         // check
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -86,7 +88,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         assertEquals(testString, viewModel.viewState.getOrAwaitValue().titleErrorMsg)
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -109,7 +111,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -133,7 +135,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -157,7 +159,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -181,7 +183,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
             viewModel.singleViewState.getOrAwaitValue()
         )
         verify(deadlineRepo, never()).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyString(), any(), any(), any(), any(), anyList()
         )
     }
 
@@ -198,9 +200,27 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val titleCaptor = argumentCaptor<String>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), titleCaptor.capture(), any(), any(), any(), any(), anyList()
+            anyLong(), titleCaptor.capture(), anyOrNull(), any(), any(), any(), any(), anyList()
         )
         assertEquals(deadline.title.capitalize(), titleCaptor.lastValue)
+    }
+
+    @Test
+    fun `given all inputs valid when save deadline called check description to save`() {
+        // given
+        deadlineSubject.onNext(deadline)
+        viewModel.isSomethingChanged = true
+        markAllInputValid()
+
+        // when
+        viewModel.saveDeadline()
+
+        // check
+        val description = argumentCaptor<String>()
+        verify(deadlineRepo).addUpdateDeadline(
+            anyLong(), anyString(), description.capture(), any(), any(), any(), any(), anyList()
+        )
+        assertNull(description.lastValue)
     }
 
     @Test
@@ -216,7 +236,8 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val colorCaptor = argumentCaptor<DeadlineColor>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), anyString(), colorCaptor.capture(), any(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(),
+            colorCaptor.capture(), any(), any(), any(), anyList()
         )
         assertEquals(deadline.color, colorCaptor.lastValue)
     }
@@ -234,7 +255,8 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val startDateCaptor = argumentCaptor<Date>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), anyString(), any(), startDateCaptor.capture(), any(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(),
+            startDateCaptor.capture(), any(), any(), anyList()
         )
         assertEquals(deadline.start.apply { setToDayMin() }, startDateCaptor.lastValue)
     }
@@ -252,7 +274,8 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val endDateCaptor = argumentCaptor<Date>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), endDateCaptor.capture(), any(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(),
+            any(), endDateCaptor.capture(), any(), anyList()
         )
         assertEquals(deadline.start.apply { setToDayMax() }, endDateCaptor.lastValue)
     }
@@ -270,7 +293,8 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val typeCaptor = argumentCaptor<DeadlineType>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), typeCaptor.capture(), anyList()
+            anyLong(), anyString(), anyOrNull(), any(),
+            any(), any(), typeCaptor.capture(), anyList()
         )
         assertEquals(deadline.deadlineType, typeCaptor.lastValue)
     }
@@ -288,7 +312,8 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         // check
         val notificationListCaptor = argumentCaptor<List<Float>>()
         verify(deadlineRepo).addUpdateDeadline(
-            anyLong(), anyString(), any(), any(), any(), any(), notificationListCaptor.capture()
+            anyLong(), anyString(), anyOrNull(), any(),
+            any(), any(), any(), notificationListCaptor.capture()
         )
         assertEquals(deadline.notificationPercent, notificationListCaptor.lastValue)
     }
@@ -353,7 +378,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         markAllInputValid()
         whenever(
             deadlineRepo.addUpdateDeadline(
-                anyLong(), anyString(), any(), any(), any(), any(), anyList()
+                anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
             )
         ).thenReturn(Single.error(Throwable(kFixture<String>())))
 
@@ -375,7 +400,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         markAllInputValid()
         whenever(
             deadlineRepo.addUpdateDeadline(
-                anyLong(), anyString(), any(), any(), any(), any(), anyList()
+                anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
             )
         ).thenReturn(Single.error(Throwable(kFixture<String>())))
 

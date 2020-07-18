@@ -30,13 +30,14 @@ internal class DeadlineRepoImplUpdateDeadlineTest : DeadlineRepoImplTestSetUp() 
 
         // when
         val testSubscriber = deadlineRepo.addUpdateDeadline(
-            deadlineDto.id,
-            deadlineDto.title,
-            deadlineDto.color,
-            deadlineDto.start,
-            deadlineDto.end,
-            deadlineDto.type,
-            deadlineDto.notifications
+            deadlineId = deadlineDto.id,
+            title = deadlineDto.title,
+            description = deadlineDto.description,
+            color = deadlineDto.color,
+            startTime = deadlineDto.start,
+            endTime = deadlineDto.end,
+            type = deadlineDto.type,
+            notifications = deadlineDto.notifications
         ).test()
         testSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
 
@@ -62,13 +63,14 @@ internal class DeadlineRepoImplUpdateDeadlineTest : DeadlineRepoImplTestSetUp() 
 
         // when
         val testSubscriber = deadlineRepo.addUpdateDeadline(
-            deadlineDto.id,
-            deadlineDto.title,
-            deadlineDto.color,
-            deadlineDto.start,
-            deadlineDto.end,
-            deadlineDto.type,
-            deadlineDto.notifications
+            deadlineId = deadlineDto.id,
+            title = deadlineDto.title,
+            description = deadlineDto.description,
+            color = deadlineDto.color,
+            startTime = deadlineDto.start,
+            endTime = deadlineDto.end,
+            type = deadlineDto.type,
+            notifications = deadlineDto.notifications
         ).test()
         testSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
 
@@ -85,13 +87,14 @@ internal class DeadlineRepoImplUpdateDeadlineTest : DeadlineRepoImplTestSetUp() 
         // when
         val deadlineDto = generateCustomDeadlineDto()
         val testSubscriber = deadlineRepo.addUpdateDeadline(
-            deadlineDto.id,
-            deadlineDto.title,
-            deadlineDto.color,
-            deadlineDto.start,
-            deadlineDto.end,
-            deadlineDto.type,
-            deadlineDto.notifications
+            deadlineId = deadlineDto.id,
+            title = deadlineDto.title,
+            description = deadlineDto.description,
+            color = deadlineDto.color,
+            startTime = deadlineDto.start,
+            endTime = deadlineDto.end,
+            type = deadlineDto.type,
+            notifications = deadlineDto.notifications
         ).test()
         testSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
 

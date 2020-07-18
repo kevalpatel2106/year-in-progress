@@ -18,6 +18,7 @@ interface DeadlineRepo {
     fun addUpdateDeadline(
         deadlineId: Long,
         title: String,
+        description: String?,
         color: DeadlineColor,
         startTime: Date,
         endTime: Date,

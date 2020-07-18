@@ -228,6 +228,7 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
             deadlineRepo.addUpdateDeadline(
                 deadlineId = deadlineId,
                 title = currentTitle.capitalize(),
+                description = null,
                 startTime = startTime.apply { setToDayMin() },
                 endTime = endTime.apply { setToDayMax() },
                 color = selectedColor,

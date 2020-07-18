@@ -34,8 +34,8 @@ internal class ModifyPrebuiltDeadlineTest(
         private val nowCal: Calendar
             get() = Calendar.getInstance().apply { timeInMillis = nowMills }
         private val baseDeadline = DeadlineDto(
-            id = 23L,
-            title = "XYZ",
+            id = kFixture(),
+            title = kFixture(),
             description = kFixture(),
             type = DeadlineType.DAY_DEADLINE,
             color = DeadlineColor.COLOR_BLUE,
@@ -104,6 +104,7 @@ internal class ModifyPrebuiltDeadlineTest(
 
         assertEquals(output.id, modified.id)
         assertEquals(output.title, modified.title)
+        assertEquals(output.description, modified.description)
         assertEquals(output.color, modified.color)
         assertEquals(output.type, modified.type)
         assertEquals(output.notifications.size, modified.notifications.size)
