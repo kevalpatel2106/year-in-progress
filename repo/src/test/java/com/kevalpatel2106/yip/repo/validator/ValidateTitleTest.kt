@@ -29,7 +29,7 @@ class ValidateTitleTest(
     fun before() {
         MockitoAnnotations.initMocks(this)
         whenever(application.resources).thenReturn(resources)
-        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(20)
+        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(3)
 
         validator = ValidatorImpl(application)
     }
@@ -41,9 +41,10 @@ class ValidateTitleTest(
             return arrayListOf(
                 arrayOf("", false),
                 arrayOf("1", true),
-                arrayOf("12345678901", true),
-                arrayOf("12345678901                       ", true),
-                arrayOf("123456789011234567890", false)
+                arrayOf("12", true),
+                arrayOf("123", true),
+                arrayOf("      123        ", true),
+                arrayOf("1234", false)
             )
         }
     }

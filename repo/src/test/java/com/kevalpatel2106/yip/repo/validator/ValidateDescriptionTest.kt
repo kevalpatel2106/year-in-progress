@@ -29,7 +29,7 @@ class ValidateDescriptionTest(
     fun before() {
         MockitoAnnotations.initMocks(this)
         whenever(application.resources).thenReturn(resources)
-        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(10)
+        whenever(resources.getInteger(ArgumentMatchers.anyInt())).thenReturn(3)
 
         validator = ValidatorImpl(application)
     }
@@ -42,15 +42,16 @@ class ValidateDescriptionTest(
                 arrayOf(null, true),
                 arrayOf("", true),
                 arrayOf("1", true),
-                arrayOf("1234567", true),
-                arrayOf("1234567       ", true),
-                arrayOf("12345678901", false)
+                arrayOf("12", true),
+                arrayOf("123", true),
+                arrayOf("      123        ", true),
+                arrayOf("1234", false)
             )
         }
     }
 
     @Test
-    fun validateTitle() {
+    fun validateDescription() {
         Assert.assertEquals(isValid, validator.isValidDescription(description))
     }
 }
