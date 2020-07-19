@@ -62,7 +62,6 @@
                     style="@style/EditScreenTitleStyle"
                     android:layout_marginTop="@dimen/spacing_pico"
                     android:text="@string/edit_title_title"
-                    app:errorText="@{viewModel.viewState.titleErrorMsg}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -79,6 +78,7 @@
                     app:errorEnabled="true"
                     app:errorIconDrawable="@drawable/ic_cancel_rounded"
                     app:errorIconTint="@android:color/holo_red_dark"
+                    app:errorText="@{viewModel.viewState.titleErrorMsg}"
                     app:errorTextAppearance="@style/NanoText.Red"
                     app:helperText="@string/edit_deadline_title_hint"
                     app:helperTextEnabled="true"
@@ -90,16 +90,56 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_deadline_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="0dp"
-                        android:textAppearance="@style/MediumText.Primary"
-                        android:textDirection="anyRtl">
+                        style="@style/EditScreenTextInputEditTextStyle">
 
                         <requestFocus />
                     </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/edit_descriotion_image"
+                    style="@style/EditScreenImageStyle"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edit_process_description_title"
+                    app:srcCompat="@drawable/ic_notes" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/edit_process_description_title"
+                    style="@style/EditScreenTitleStyle"
+                    android:text="@string/edit_description_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/edit_deadline_title_til" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/edit_description_subtitle"
+                    style="@style/EditScreenSubTitleStyle"
+                    android:text="@string/description_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_process_description_title" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_deadline_description_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/window_background_color"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/max_process_description"
+                    app:counterOverflowTextAppearance="@style/NanoText.Red"
+                    app:counterTextAppearance="@style/NanoText.Secondary"
+                    app:errorEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/edit_description_subtitle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_deadline_description"
+                        style="@style/EditScreenTextInputEditTextStyle"
+                        android:maxLines="3"
+                        android:minLines="1"
+                        android:scrollbars="vertical" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -108,7 +148,7 @@
                     android:text="@string/edit_date_range_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_deadline_title_til" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_deadline_description_til" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/date_selection_container"
@@ -126,7 +166,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/edit_start_time"
-                        style="@style/EditScreenValueStyle"
+                        style="@style/EditScreenDatesStyle"
                         android:text="@{viewModel.viewState.startTimeString}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -143,7 +183,7 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/edit_end_time"
-                        style="@style/EditScreenValueStyle"
+                        style="@style/EditScreenDatesStyle"
                         android:text="@{viewModel.viewState.endTimeString}"
                         app:layout_constraintBaseline_toBaselineOf="@+id/edit_start_time"
                         app:layout_constraintStart_toEndOf="@+id/start_end_date_divider"

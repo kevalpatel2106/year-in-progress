@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--App launch actions - Check other usages before changing any of actions-->
-    <string name="launch_action_create_new_deadline">com.kevalpatel2106.yip.create_new</string>
-    <string name="launch_action_open_deadline">com.kevalpatel2106.yip.open_progress</string>
+    <string name="launch_action_create_new_deadline" translatable="false">com.kevalpatel2106.yip.create_new</string>
+    <string name="launch_action_open_deadline" translatable="false">com.kevalpatel2106.yip.open_progress</string>
 
+    <!--App share url-->
     <string name="app_invitation_url" translatable="false">https://getyip.page.link/install</string>
 
     <!--App shortcuts ids.-->
