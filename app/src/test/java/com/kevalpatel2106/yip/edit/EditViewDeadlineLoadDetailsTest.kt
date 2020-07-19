@@ -146,6 +146,32 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     }
 
     @Test
+    fun `given deadline with null description when set deadline id check initial description in view state is empty string`() {
+        // given
+        val deadline = generateDeadline().copy(description = null)
+        deadlineSubject.onNext(deadline)
+
+        // when
+        viewModel.setDeadlineId(deadline.id)
+
+        // then
+        assertTrue(viewModel.viewState.getOrAwaitValue().initialDescription.isEmpty())
+    }
+
+    @Test
+    fun `given deadline with null description when set deadline id check current description in view state is empty string`() {
+        // given
+        val deadline = generateDeadline().copy(description = null)
+        deadlineSubject.onNext(deadline)
+
+        // when
+        viewModel.setDeadlineId(deadline.id)
+
+        // then
+        assertTrue(viewModel.viewState.getOrAwaitValue().currentDescription.isEmpty())
+    }
+
+    @Test
     fun `given deadline when set deadline id check no title error message is displayed`() {
         // given
         val deadline = generateDeadline()
