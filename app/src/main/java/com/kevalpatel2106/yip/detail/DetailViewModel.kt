@@ -66,6 +66,10 @@ internal class DetailViewModel @ViewModelInject internal constructor(
                 _viewState.modify {
                     copy(
                         titleText = deadline.title,
+
+                        descriptionText = deadline.description,
+                        hasDescription = !deadline.description.isNullOrEmpty(),
+
                         showRepeatable = deadline.deadlineType.isRepeatable(),
                         timeLeftText = timeLeftString,
 

@@ -73,15 +73,30 @@
                     app:layout_constraintTop_toBottomOf="@id/detail_close_iv"
                     tools:text="@tools:sample/lorem/random" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/detail_description_tv"
+                    style="@style/SmallText.White"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_micro"
+                    android:fontFamily="@font/lato"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:showOrHide="@{viewModel.viewState.hasDescription}"
+                    android:text="@{viewModel.viewState.descriptionText}"
+                    app:layout_constraintEnd_toEndOf="@id/detail_title_tv"
+                    app:layout_constraintStart_toStartOf="@id/detail_title_tv"
+                    app:layout_constraintTop_toBottomOf="@id/detail_title_tv"
+                    tools:text="@tools:sample/lorem/random" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView"
                     android:layout_width="@dimen/spacing_large"
                     android:layout_height="@dimen/spacing_large"
-                    android:layout_marginTop="@dimen/spacing_micro"
                     android:showOrHide="@{viewModel.viewState.showRepeatable}"
                     android:tint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="@+id/detail_title_tv"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
+                    app:layout_constraintTop_toTopOf="@+id/detail_deadline_percent_tv"
                     app:srcCompat="@drawable/ic_repeat" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -89,7 +104,7 @@
                     style="@style/LargeText.White"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xxlarge"
+                    android:layout_marginTop="@dimen/spacing_xlarge"
                     android:fontFamily="@font/lato"
                     android:gravity="center_horizontal"
                     android:text="@{viewModel.viewState.percentText}"
@@ -97,7 +112,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_title_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_description_tv"
                     tools:text="100%" />
 
                 <ProgressBar
