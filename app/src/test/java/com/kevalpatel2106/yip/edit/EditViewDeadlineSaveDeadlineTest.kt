@@ -109,7 +109,10 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
         viewModel.saveDeadline()
 
         // check
-        assertEquals(testString, viewModel.viewState.getOrAwaitValue().titleErrorMsg)
+        assertEquals(
+            ShowUserMessage(testString, false),
+            viewModel.singleViewState.getOrAwaitValue()
+        )
         verify(deadlineRepo, never()).addUpdateDeadline(
             anyLong(), anyString(), anyOrNull(), any(), any(), any(), any(), anyList()
         )

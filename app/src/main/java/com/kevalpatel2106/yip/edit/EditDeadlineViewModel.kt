@@ -187,6 +187,13 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
         }
     }
 
+    fun onDescriptionChanged(newDescription: String) {
+        if (newDescription.trim() != viewState.nullSafeValue().initialDescription.trim()) {
+            isSomethingChanged = true
+            _viewState.modify { copy(currentDescription = newDescription) }
+        }
+    }
+
     fun onAddNotificationClicked() {
         _singleViewState.value = if (isPremiumUser) {
             ShowNotificationPicker
@@ -291,14 +298,13 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
         }
 
         if (!validator.isValidDescription(currentDescription)) {
-            _viewState.modify {
-                copy(
-                    titleErrorMsg = application.getString(
-                        R.string.error_deadline_description_long,
-                        application.resources.getInteger(R.integer.max_process_description)
-                    )
-                )
-            }
+            _singleViewState.value = ShowUserMessage(
+                message = application.getString(
+                    R.string.error_deadline_description_long,
+                    application.resources.getInteger(R.integer.max_process_description)
+                ),
+                closeScreen = false
+            )
             return false
         }
 
