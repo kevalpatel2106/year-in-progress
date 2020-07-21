@@ -104,7 +104,7 @@ internal class DetailViewModel @ViewModelInject internal constructor(
         val title = _viewState.nullSafeValue().titleText
         val launchIntent =
             appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(application, deadlineId)
-        appShortcutHelper.requestPinShortcut(title, launchIntent)
+        appShortcutHelper.requestPinShortcut(deadlineId, title, launchIntent)
     }
 
     internal fun onDeleteDeadlineConfirmed() {

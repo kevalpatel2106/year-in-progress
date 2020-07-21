@@ -16,12 +16,12 @@ internal class AppShortcutHelperImpl @Inject constructor(
     private val appLaunchIntentProvider: AppLaunchIntentProvider
 ) : AppShortcutHelper {
 
-    override fun requestPinShortcut(title: String, launchIntent: Intent) {
+    override fun requestPinShortcut(deadlineId: Long, title: String, launchIntent: Intent) {
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(application)) return
 
         val shortcutInfo = ShortcutInfoCompat.Builder(
             application,
-            application.getString(R.string.deadline_pin_shortcut_id)
+            application.getString(R.string.deadline_pin_shortcut_id, deadlineId)
         ).setIcon(IconCompat.createWithResource(application, R.drawable.deadline_app_shortcut))
             .setShortLabel(title)
             .setIntent(launchIntent)

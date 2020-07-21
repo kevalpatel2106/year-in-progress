@@ -62,6 +62,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail set when pin shortcut clicked check request pin shortcut initiated`() {
         // given
+        val idCaptor = argumentCaptor<Long>()
         val titleCaptor = argumentCaptor<String>()
         val launchIntentCaptor = argumentCaptor<Intent>()
         val deadline = generateDeadline()
@@ -76,8 +77,12 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
         model.requestPinShortcut()
 
         // check
-        verify(appShortcutHelper)
-            .requestPinShortcut(titleCaptor.capture(), launchIntentCaptor.capture())
+        verify(appShortcutHelper).requestPinShortcut(
+            idCaptor.capture(),
+            titleCaptor.capture(),
+            launchIntentCaptor.capture()
+        )
+        assertEquals(deadline.id, idCaptor.lastValue)
         assertEquals(deadline.title, titleCaptor.lastValue)
         assertEquals(launchIntent, launchIntentCaptor.lastValue)
     }

@@ -4,6 +4,6 @@ import android.content.Intent
 import com.kevalpatel2106.yip.entity.Deadline
 
 interface AppShortcutHelper {
-    fun requestPinShortcut(title: String, launchIntent: Intent)
+    fun requestPinShortcut(deadlineId: Long, title: String, launchIntent: Intent)
     fun updateDynamicShortcuts(deadlines: List<Deadline>): Boolean
 }
