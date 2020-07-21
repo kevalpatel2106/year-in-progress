@@ -28,7 +28,4 @@
     <string name="dark_mode_on" translatable="false">dark_mode_on</string>
     <string name="dark_mode_off" translatable="false">dark_mode_off</string>
     <string name="dark_mode_system_default" translatable="false">dark_mode_system_default</string>
-
-    <integer name="max_process_title">20</integer>
-    <integer name="max_process_description">40</integer>
 </resources>
