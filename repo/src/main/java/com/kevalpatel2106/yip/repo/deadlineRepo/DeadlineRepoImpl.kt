@@ -90,6 +90,7 @@ internal class DeadlineRepoImpl(
     override fun addUpdateDeadline(
         deadlineId: Long,
         title: String,
+        description: String?,
         color: DeadlineColor,
         startTime: Date,
         endTime: Date,
@@ -99,6 +100,7 @@ internal class DeadlineRepoImpl(
         return Single.create<DeadlineDto> { emitter ->
             val dto = DeadlineDto(
                 id = deadlineId,
+                description = description,
                 color = color,
                 end = endTime,
                 type = type,

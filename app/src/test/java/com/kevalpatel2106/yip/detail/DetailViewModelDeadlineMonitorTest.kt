@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +41,48 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
         // check
         val viewState = model.viewState.getOrAwaitValue()
         assertEquals(deadline.title, viewState.titleText)
+    }
+
+    @Test
+    fun `given deadline detail when set deadline id called check description text`() {
+        // given
+        val deadline = generateDeadline()
+        deadlineObserver.onNext(deadline)
+
+        // when
+        model.setDeadlineIdToMonitor(deadline.id)
+
+        // check
+        val viewState = model.viewState.getOrAwaitValue()
+        assertEquals(deadline.description, viewState.descriptionText)
+    }
+
+    @Test
+    fun `given deadline with description when set deadline id called check has description true in view state`() {
+        // given
+        val deadline = generateDeadline()
+        deadlineObserver.onNext(deadline)
+
+        // when
+        model.setDeadlineIdToMonitor(deadline.id)
+
+        // check
+        val viewState = model.viewState.getOrAwaitValue()
+        assertTrue(viewState.hasDescription)
+    }
+
+    @Test
+    fun `given deadline without description when set deadline id called check has description false in view state`() {
+        // given
+        val deadline = generateDeadline().copy(description = null)
+        deadlineObserver.onNext(deadline)
+
+        // when
+        model.setDeadlineIdToMonitor(deadline.id)
+
+        // check
+        val viewState = model.viewState.getOrAwaitValue()
+        assertFalse(viewState.hasDescription)
     }
 
     @Test

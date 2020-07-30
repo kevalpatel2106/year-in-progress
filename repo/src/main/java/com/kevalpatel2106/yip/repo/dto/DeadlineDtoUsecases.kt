@@ -21,6 +21,7 @@ internal fun DeadlineDto.toEntity(now: Date) = Deadline(
     id = id,
     deadlineType = type,
     title = title,
+    description = description,
     start = start,
     end = end,
     color = color,

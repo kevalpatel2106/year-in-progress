@@ -1,5 +1,7 @@
 package com.kevalpatel2106.yip.repo.dto
 
+import com.flextrade.kfixture.KFixture
+import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import org.junit.Assert.assertEquals
@@ -10,18 +12,18 @@ import java.util.Date
 
 @RunWith(JUnit4::class)
 class DeadlineDtoToEntityTest {
-
+    private val kFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
     private val nowMills = System.currentTimeMillis()
     private val baseDeadlineDto = DeadlineDto(
-        id = 23L,
-        title = "XYZ",
+        id = kFixture(),
+        title = kFixture(),
+        description = kFixture(),
         type = DeadlineType.DAY_DEADLINE,
         color = DeadlineColor.COLOR_BLUE,
         notifications = arrayListOf(0.1F),
         start = Date(nowMills),
         end = Date(nowMills + 60_000)
     )
-
 
     @Test
     fun checkDtoTiEntity_withEndDateGreaterThanStartDate() {
@@ -30,6 +32,7 @@ class DeadlineDtoToEntityTest {
 
         assertEquals(dto.id, entity.id)
         assertEquals(dto.title, entity.title)
+        assertEquals(dto.description, entity.description)
         assertEquals(dto.color, entity.color)
         assertEquals(dto.start, entity.start)
         assertEquals(dto.end, entity.end)
@@ -48,6 +51,7 @@ class DeadlineDtoToEntityTest {
 
         assertEquals(dto.id, entity.id)
         assertEquals(dto.title, entity.title)
+        assertEquals(dto.description, entity.description)
         assertEquals(dto.color, entity.color)
         assertEquals(dto.start, entity.start)
         assertEquals(dto.end, entity.end)
@@ -66,6 +70,7 @@ class DeadlineDtoToEntityTest {
 
         assertEquals(dto.id, entity.id)
         assertEquals(dto.title, entity.title)
+        assertEquals(dto.description, entity.description)
         assertEquals(dto.color, entity.color)
         assertEquals(dto.start, entity.start)
         assertEquals(dto.end, entity.end)

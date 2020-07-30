@@ -66,6 +66,10 @@ internal class DetailViewModel @ViewModelInject internal constructor(
                 _viewState.modify {
                     copy(
                         titleText = deadline.title,
+
+                        descriptionText = deadline.description,
+                        hasDescription = !deadline.description.isNullOrEmpty(),
+
                         showRepeatable = deadline.deadlineType.isRepeatable(),
                         timeLeftText = timeLeftString,
 
@@ -100,7 +104,7 @@ internal class DetailViewModel @ViewModelInject internal constructor(
         val title = _viewState.nullSafeValue().titleText
         val launchIntent =
             appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(application, deadlineId)
-        appShortcutHelper.requestPinShortcut(title, launchIntent)
+        appShortcutHelper.requestPinShortcut(deadlineId, title, launchIntent)
     }
 
     internal fun onDeleteDeadlineConfirmed() {

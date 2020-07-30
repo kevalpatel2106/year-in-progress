@@ -12,24 +12,21 @@
     </style>
 
     <!--Edit deadline screen-->
-    <style name="EditScreenTitleStyle" parent="EditScreenTitleTivStyle">
+    <style name="EditScreenTitleStyle">
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_width">0dp</item>
+        <item name="android:textAppearance">@style/MediumText.Accent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/spacing_nano</item>
         <item name="android:layout_marginTop">@dimen/spacing_small</item>
     </style>
 
-    <style name="EditScreenSubTitleStyle" parent="EditScreenTitleTivStyle">
+    <style name="EditScreenSubTitleStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/spacing_micro</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAppearance">@style/SmallText.Secondary</item>
-    </style>
-
-    <style name="EditScreenTitleTivStyle">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAppearance">@style/MediumText.Accent</item>
     </style>
 
     <style name="EditScreenImageStyle">
@@ -39,11 +36,22 @@
         <item name="android:tint">@color/colorAccent</item>
     </style>
 
-    <style name="EditScreenValueStyle">
+    <style name="EditScreenDatesStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/MediumText.Primary</item>
         <item name="android:layout_marginTop">@dimen/spacing_micro</item>
+    </style>
+
+    <style name="EditScreenTextInputEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:importantForAutofill" tools:targetApi="o">no</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingTop">@dimen/spacing_nano</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:textAppearance">@style/MediumText.Primary</item>
+        <item name="android:textDirection">anyRtl</item>
     </style>
 
     <!--Payment screen-->

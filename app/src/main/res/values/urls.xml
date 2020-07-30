@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_invitation_url" translatable="false">https://getyip.page.link/install</string>
+    <string name="privacy_policy_url" translatable="false">https://year-in-progress.firebaseapp.com/privacy_policy.html</string>
+    <string name="changelog_url" translatable="false">https://year-in-progress.firebaseapp.com/changelog.html</string>
+    <string name="add_widget_guide_url" translatable="false">https://year-in-progress.firebaseapp.com/add_widget.html</string>
+</resources>

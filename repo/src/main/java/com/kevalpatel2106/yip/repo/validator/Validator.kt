@@ -8,6 +8,7 @@ interface Validator {
     fun isValidEndDate(startDate: Date?, endDate: Date?): Boolean
     fun isValidDeadlineColor(@ColorInt value: Int?): Boolean
     fun isValidTitle(title: String): Boolean
+    fun isValidDescription(description: String?): Boolean
     fun isValidNotification(notification: List<Float>): Boolean
 }
 

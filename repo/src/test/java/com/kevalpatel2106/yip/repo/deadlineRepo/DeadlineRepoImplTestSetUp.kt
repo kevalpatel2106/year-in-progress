@@ -90,6 +90,7 @@ internal abstract class DeadlineRepoImplTestSetUp {
                 DeadlineDto(
                     id = kFixture(),
                     title = kFixture(),
+                    description = kFixture(),
                     color = DeadlineColor.COLOR_YELLOW,
                     start = Date(System.currentTimeMillis()),
                     end = Date(System.currentTimeMillis() + 1_000_000),
@@ -105,6 +106,7 @@ internal abstract class DeadlineRepoImplTestSetUp {
         return DeadlineDto(
             id = kFixture(),
             title = kFixture(),
+            description = kFixture(),
             color = DeadlineColor.COLOR_YELLOW,
             start = Date(System.currentTimeMillis()),
             end = Date(System.currentTimeMillis() + 1_000_000),

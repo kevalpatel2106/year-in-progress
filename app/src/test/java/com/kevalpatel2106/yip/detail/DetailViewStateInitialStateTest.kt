@@ -71,6 +71,16 @@ class DetailViewStateInitialStateTest {
     }
 
     @Test
+    fun `check initial value of deadline description is empty string`() {
+        assertTrue(initialState.descriptionText!!.isEmpty())
+    }
+
+    @Test
+    fun `check initial value of has description is false`() {
+        assertFalse(initialState.hasDescription)
+    }
+
+    @Test
     fun `check initial value of is deleting false`() {
         assertFalse(initialState.isDeleting)
     }

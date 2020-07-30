@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
 class DeadlineTest {
     private val testId = 8765L
     private val testTitle = "Test title"
+    private val testdescription = "Test descriprion"
     private val testColor = DeadlineColor.COLOR_YELLOW
     private val testEndDate = Date(System.currentTimeMillis())
     private val testStartDate =
@@ -23,6 +24,7 @@ class DeadlineTest {
     private val deadline = Deadline(
         id = testId,
         title = testTitle,
+        description = testdescription,
         color = testColor,
         end = testEndDate,
         start = testStartDate,
@@ -35,6 +37,7 @@ class DeadlineTest {
     fun testConstructors() {
         assertEquals(testId, deadline.id)
         assertEquals(testTitle, deadline.title)
+        assertEquals(testdescription, deadline.description)
         assertEquals(testColor, deadline.color)
         assertEquals(testEndDate, deadline.end)
         assertEquals(testStartDate, deadline.start)

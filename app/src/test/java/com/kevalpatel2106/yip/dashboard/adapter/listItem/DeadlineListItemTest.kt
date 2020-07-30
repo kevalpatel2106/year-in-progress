@@ -20,6 +20,7 @@ class DeadlineListItemTest {
     private val deadline = Deadline(
         id = kFixture(),
         title = kFixture(),
+        description = kFixture(),
         color = DeadlineColor.COLOR_BLUE,
         end = kFixture(),
         start = kFixture(),

@@ -35,6 +35,7 @@ class DeadlineAdapterDiffCallbackTest {
             private val deadline = Deadline(
                 id = kFixture(),
                 title = kFixture(),
+                description = kFixture(),
                 color = DeadlineColor.COLOR_YELLOW,
                 end = Date(
                     System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(
@@ -91,6 +92,7 @@ class DeadlineAdapterDiffCallbackTest {
             private val deadline = Deadline(
                 id = kFixture(),
                 title = kFixture(),
+                description = kFixture(),
                 color = DeadlineColor.COLOR_YELLOW,
                 end = Date(
                     System.currentTimeMillis() - TimeUnit.MILLISECONDS.convert(

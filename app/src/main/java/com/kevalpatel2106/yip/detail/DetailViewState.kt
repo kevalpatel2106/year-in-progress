@@ -13,6 +13,9 @@ internal data class DetailViewState(
     val isDeleting: Boolean,
     val titleText: String,
 
+    val descriptionText: String?,
+    val hasDescription: Boolean,
+
     val percent: Int,
     val percentText: String,
 
@@ -38,7 +41,9 @@ internal data class DetailViewState(
                 startTimeText = emptyString(),
                 timeLeftText = emptySpannableString(),
                 deadlineColor = Color.GRAY,
-                titleText = emptyString()
+                titleText = emptyString(),
+                descriptionText = emptyString(),
+                hasDescription = false
             )
         }
     }

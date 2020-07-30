@@ -11,6 +11,7 @@ data class Deadline(
     val id: Long,
     val deadlineType: DeadlineType,
     val title: String,
+    val description: String?,
     val start: Date,
     val end: Date,
     val color: DeadlineColor,

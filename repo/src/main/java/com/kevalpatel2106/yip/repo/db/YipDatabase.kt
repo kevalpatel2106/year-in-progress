@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import java.util.concurrent.Executors
 
-@Database(entities = [DeadlineDto::class], version = 2, exportSchema = true)
+@Database(entities = [DeadlineDto::class], version = 3, exportSchema = true)
 @TypeConverters(DbTypeConverter::class)
 abstract class YipDatabase : RoomDatabase() {
 
@@ -35,7 +35,7 @@ abstract class YipDatabase : RoomDatabase() {
                             .forEach { instance.getDeviceDao().insert(it) }
                     }
                 }
-            }).addMigrations(Migration1To2).build()
+            }).addMigrations(Migration1To2, Migration2To3).build()
             return instance
         }
 

@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.edit
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
@@ -26,7 +27,6 @@ import com.kevalpatel2106.yip.repo.validator.Validator
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
 internal class EditDeadlineViewModel @ViewModelInject internal constructor(
     @ApplicationContext private val application: Context,
@@ -37,7 +37,6 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
     private val billingRepo: BillingRepo
 ) : BaseViewModel() {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
-    private val oneDayMills = TimeUnit.DAYS.toMillis(1)
     private var deadlineId: Long = NEW_DEADLINE_ID
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -90,6 +89,9 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
                         initialTitle = deadline.title,
                         currentTitle = deadline.title,
                         titleErrorMsg = null,
+
+                        initialDescription = deadline.description.orEmpty(),
+                        currentDescription = deadline.description.orEmpty(),
 
                         allowEditDate = !deadline.deadlineType.isPreBuild(),
                         startTime = deadline.start,
@@ -185,6 +187,13 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
         }
     }
 
+    fun onDescriptionChanged(newDescription: String) {
+        if (newDescription.trim() != viewState.nullSafeValue().initialDescription.trim()) {
+            isSomethingChanged = true
+            _viewState.modify { copy(currentDescription = newDescription) }
+        }
+    }
+
     fun onAddNotificationClicked() {
         _singleViewState.value = if (isPremiumUser) {
             ShowNotificationPicker
@@ -221,13 +230,15 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
         }
     }
 
+    @SuppressLint("DefaultLocale")
     fun saveDeadline() {
         _viewState.value?.run {
             if (isLoading || !isSomethingChanged || !areAllInputsValid()) return
 
             deadlineRepo.addUpdateDeadline(
                 deadlineId = deadlineId,
-                title = currentTitle.capitalize(),
+                title = currentTitle.trim().capitalize(),
+                description = currentDescription.trim().capitalize(),
                 startTime = startTime.apply { setToDayMin() },
                 endTime = endTime.apply { setToDayMax() },
                 color = selectedColor,
@@ -283,6 +294,17 @@ internal class EditDeadlineViewModel @ViewModelInject internal constructor(
                     )
                 )
             }
+            return false
+        }
+
+        if (!validator.isValidDescription(currentDescription)) {
+            _singleViewState.value = ShowUserMessage(
+                message = application.getString(
+                    R.string.error_deadline_description_long,
+                    application.resources.getInteger(R.integer.max_process_description)
+                ),
+                closeScreen = false
+            )
             return false
         }
 

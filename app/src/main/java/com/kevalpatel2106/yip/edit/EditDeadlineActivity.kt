@@ -27,6 +27,7 @@ import com.kevalpatel2106.yip.edit.notificationList.NotificationViewer
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_color
+import kotlinx.android.synthetic.main.activity_edit_deadline.edit_deadline_description
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_deadline_title
 import kotlinx.android.synthetic.main.activity_edit_deadline.edit_toolbar
 import kotlinx.android.synthetic.main.activity_edit_deadline.notification_times
@@ -54,6 +55,7 @@ internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
 
         notification_times.callback = this
         edit_deadline_title.doAfterTextChanged { model.onTitleChanged(it.toString()) }
+        edit_deadline_description.doAfterTextChanged { model.onDescriptionChanged(it.toString()) }
         val colorsAdapter = setUpColorPicker()
 
         // Monitor view model
@@ -76,6 +78,11 @@ internal class EditDeadlineActivity : AppCompatActivity(), ColorPickerListener,
                 if (!viewState.isTitleChanged()) {
                     edit_deadline_title.setText(initialTitle)
                     edit_deadline_title.setSelection(initialTitle.length)
+                }
+
+                if (!viewState.isDescriptionChanged()) {
+                    edit_deadline_description.setText(initialDescription)
+                    edit_deadline_description.setSelection(initialDescription.length)
                 }
                 colorsAdapter.setSelectedColor(selectedColor.colorInt)
                 colorsAdapter.isLocked = showLockedColorPicker

@@ -199,6 +199,7 @@ class DashboardViewModelMonitorDeadlineTest : DashboardViewModelTestSetUp() {
         return Deadline(
             id = kFixture(),
             title = kFixture(),
+            description = kFixture(),
             color = DeadlineColor.COLOR_BLUE,
             end = Date(System.currentTimeMillis()),
             start = Date(

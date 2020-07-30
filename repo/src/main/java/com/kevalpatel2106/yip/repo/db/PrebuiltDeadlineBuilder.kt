@@ -19,6 +19,7 @@ internal object PrebuiltDeadlineBuilder {
                 val now = System.currentTimeMillis()
                 DeadlineDto(
                     title = it.getName(application),
+                    description = null,
                     color = it.color,
                     type = it,
                     start = Date(now),

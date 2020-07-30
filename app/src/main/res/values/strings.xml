@@ -15,6 +15,12 @@
     <string name="dashboard_error_loading_deadline">Opps! Something went wong!</string>
     <string name="retry">Retry</string>
 
+    <!--Bottom navigation titles-->
+    <string name="navigation_title_feedback">Feedback</string>
+    <string name="navigation_title_rate_us">Rate Us</string>
+    <string name="navigation_title_debug_info" translatable="false">Debug Info</string>
+    <string name="navigation_title_settings">Settings</string>
+
     <!--Preference titles-->
     <string name="about_header">About</string>
     <string name="widget_header">Widget</string>
@@ -80,25 +86,6 @@
         <item>System default</item>
     </string-array>
 
-    <!--Bottom navigation titles-->
-    <string name="navigation_title_feedback">Feedback</string>
-    <string name="navigation_title_rate_us">Rate Us</string>
-    <string name="navigation_title_debug_info" translatable="false">Debug Info</string>
-    <string name="navigation_title_settings">Settings</string>
-
-    <!--Edit deadline-->
-    <string name="edit_date_range_title">Date</string>
-    <string name="edit_start_end_date_divider">to</string>
-    <string name="edit_color_title">Color</string>
-    <string name="edit_title_title">Title</string>
-    <string name="deadline_saved_success">Deadline saved successfully.</string>
-    <string name="error_invalid_deadline">Invalid deadline color.</string>
-    <string name="error_start_date_after_end_date">Start date cannot be after the end date.</string>
-    <string name="error_end_date_before_start_date">End date cannot be before the start date.</string>
-    <string name="invalid_notification_percent">Invalid notification.</string>
-    <string name="error_deadline_title_long">Title cannot be more than %d characters long.</string>
-    <string name="menu_title_save_deadline">Save</string>
-
     <!--Deadline detail-->
     <string name="time_left_title">Time left:\n\n%d %s  %d %s  %d %s</string>
     <string name="deadline_delete_successful">Deleted successfully.</string>
@@ -146,6 +133,19 @@
     <string name="rate_us_dialog_negative_btn">Do it later</string>
 
     <!--Edit screen-->
+    <string name="edit_date_range_title">Date</string>
+    <string name="edit_start_end_date_divider">to</string>
+    <string name="edit_color_title">Color</string>
+    <string name="edit_title_title">Title</string>
+    <string name="edit_description_title">Description</string>
+    <string name="deadline_saved_success">Deadline saved successfully.</string>
+    <string name="error_invalid_deadline">Invalid deadline color.</string>
+    <string name="error_start_date_after_end_date">Start date cannot be after the end date.</string>
+    <string name="error_end_date_before_start_date">End date cannot be before the start date.</string>
+    <string name="invalid_notification_percent">Invalid notification.</string>
+    <string name="error_deadline_title_long">Title cannot be more than %d characters long.</string>
+    <string name="error_deadline_description_long">Description cannot be more than %d characters long.</string>
+    <string name="menu_title_save_deadline">Save</string>
     <string name="edit_deadline_discard_confirm_message">All of your changed will be lost. Do you want to exit?</string>
     <string name="edit_deadline_discard_btn_title">Discard</string>
     <string name="edit_deadline_dismiss_btn_title">Dismiss</string>
@@ -156,15 +156,15 @@
     <string name="set_notification_dialog_summary">We will notify you when the deadline is %d%% complete.</string>
     <string name="error_webview">Cannot load the page. Check your internet connection.</string>
     <string name="deadline_notification_title">%s reached to %.2f%%</string>
-
-    <!--Share dialog-->
-    <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
-    <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <string name="error_deadline_not_exist">Deadline doesn\'t exist.</string>
     <string name="edit_deadline_title_hint">(e.g. This financial year)</string>
     <string name="notification_subtitle">Tell application when to notify you.</string>
     <string name="color_subtitle">Choose the color to set the theme for your deadline. Spice it up!</string>
+    <string name="description_subtitle">Add notes about your deadline. (Optional)</string>
     <string name="error_deadline_save">Cannot save the deadline info. Try again.</string>
 
+    <!--Share dialog-->
+    <string name="app_invite_message">Hey! I would like to invite you to use "%s" -Deadline Tracker- that I have been using on my phone lately. Check it out! Click here to download %s.</string>
+    <string name="app_invitation_title" translatable="false">Invitation to install "%s" -Deadline Tracker</string>
     <!--TODO: Categorize the strings-->
 </resources>
