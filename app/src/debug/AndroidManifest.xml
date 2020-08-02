@@ -5,7 +5,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <application tools:ignore="GoogleAppIndexingWarning">
+    <application
+        android:name=".DebugApplication"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!--Disable firebase analytics-->
         <meta-data

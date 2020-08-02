@@ -15,7 +15,6 @@
         android:required="false" />
 
     <application
-        android:name=".YIPApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/application_name"

@@ -2,8 +2,7 @@ package com.kevalpatel2106.yip.repo.alarmRepo
 
 import android.app.AlarmManager
 import android.content.Context
-import com.flextrade.kfixture.KFixture
-import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
+import com.kevalpatel2106.testutils.getKFixture
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.db.DeadlineDao
@@ -36,7 +35,7 @@ internal abstract class AlarmRepoImplTestSetUp {
 
     protected val nowDate = Date()
     protected lateinit var alarmRepo: AlarmRepoImpl
-    protected val kFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    protected val kFixture = getKFixture()
 
     @Before
     fun setUp() {

@@ -12,18 +12,12 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 dependencies {
     implementation project(':core')
     testImplementation project(':testUtils')
-    androidTestImplementation project(':androidTestUtils')
 
     implementation("me.saket:inboxrecyclerview:${versions.inboxrecyclerview}", excludeGrp)
-    implementation("androidx.preference:preference:${versions.preference}", excludeGrp)
     implementation('com.google.android.gms:play-services-oss-licenses:17.0.0', excludeGrp)
 
-    // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
-    implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-
     // Firebase
-    implementation 'com.google.firebase:firebase-ads:19.2.0'
+    implementation 'com.google.firebase:firebase-ads:19.3.0'
     implementation 'com.google.firebase:firebase-core:17.4.4'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
