@@ -4,7 +4,3 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: 'com.getkeepsafe.dexcount'
-
-dependencies {
-    testImplementation project(':testUtils')
-}

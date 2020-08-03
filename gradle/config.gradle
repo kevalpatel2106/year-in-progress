@@ -47,6 +47,7 @@ ext {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/rxjava.properties'
         exclude 'protobuf.meta'
+        exclude 'licenses/javolution.license.TXT'
     }
 
     //Exclude group for dependency
@@ -119,7 +120,7 @@ ext {
             }
         }
 
-        testInstrumentationRunner "com.kevalpatel2106.yip.androidtestutils.CustomTestRunner"
+        testInstrumentationRunner "com.kevalpatel2106.yip.UiTestsRunner"
     }
 
     libDefaultConfig = {
@@ -135,11 +136,11 @@ ext {
 
         consumerProguardFiles '../proguard-rules.pro'
 
-        testInstrumentationRunner "com.kevalpatel2106.yip.androidtestutils.CustomTestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/repo/schemas".toString()]
+                arguments = ["room.schemaLocation": "$projectDir/repo/src/androidTest/assets".toString()]
                 includeCompileClasspath true
             }
         }
@@ -164,13 +165,11 @@ ext {
     }
 
     testOption = {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled = true
         unitTests {
             returnDefaultValues true
+            includeAndroidResources = true
             all {
-                includeAndroidResources = true
-
                 maxParallelForks 4
 
                 minHeapSize = "1024m"
@@ -209,7 +208,7 @@ ext {
         verbose = false
         maxTreeDepth = Integer.MAX_VALUE
         runOnEachPackage = true
-        maxMethodCount = 64000
+        maxMethodCount = 120000
         enabled = System.getenv('CI') == "true"
     }
 
