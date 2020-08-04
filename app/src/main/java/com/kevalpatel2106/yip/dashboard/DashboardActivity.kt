@@ -26,21 +26,24 @@ import com.kevalpatel2106.yip.detail.DetailFragmentArgs
 import com.kevalpatel2106.yip.edit.EditDeadlineActivity
 import com.kevalpatel2106.yip.edit.EditDeadlineActivityArgs
 import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.utils.InAppUpdateHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_dashboard.add_deadline_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_dashboard.deadline_list_rv
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
+import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class DashboardActivity : AppCompatActivity(),
-    DeadlineAdapterEventListener,
-    PageStateChangeCallbacks {
-
+    DeadlineAdapterEventListener, PageStateChangeCallbacks {
     private val navArgs by navArgs<DashboardActivityArgs>()
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
     private val model: DashboardViewModel by viewModels()
+
+    @Inject
+    lateinit var inAppUpdateHelper: InAppUpdateHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ internal class DashboardActivity : AppCompatActivity(),
         observeExpandedDetail()
 
         onNewIntent(intent)
+        lifecycle.addObserver(inAppUpdateHelper)
     }
 
     override fun onNewIntent(intent: Intent) {
