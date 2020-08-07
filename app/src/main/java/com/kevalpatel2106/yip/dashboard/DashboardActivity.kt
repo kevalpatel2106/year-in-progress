@@ -19,6 +19,7 @@ import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener
+import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateManager
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
@@ -26,7 +27,6 @@ import com.kevalpatel2106.yip.detail.DetailFragmentArgs
 import com.kevalpatel2106.yip.edit.EditDeadlineActivity
 import com.kevalpatel2106.yip.edit.EditDeadlineActivityArgs
 import com.kevalpatel2106.yip.entity.Deadline
-import com.kevalpatel2106.yip.utils.InAppUpdateHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_dashboard.add_deadline_fab
 import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
@@ -43,7 +43,7 @@ internal class DashboardActivity : AppCompatActivity(),
     private val model: DashboardViewModel by viewModels()
 
     @Inject
-    lateinit var inAppUpdateHelper: InAppUpdateHelper
+    lateinit var inAppUpdateManager: InAppUpdateManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +62,7 @@ internal class DashboardActivity : AppCompatActivity(),
         observeExpandedDetail()
 
         onNewIntent(intent)
-        lifecycle.addObserver(inAppUpdateHelper)
+        lifecycle.addObserver(inAppUpdateManager)
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -2,7 +2,8 @@ package com.kevalpatel2106.yip.di
 
 import android.app.Activity
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.kevalpatel2106.yip.utils.InAppUpdateHelper
+import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateHelper
+import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,8 @@ internal class ActivityModule {
 
     @ActivityScoped
     @Provides
-    fun provideAppUpdateHelper(activity: Activity): InAppUpdateHelper {
+    fun provideAppUpdateHelper(activity: Activity, helper: InAppUpdateHelper): InAppUpdateManager {
         val appUpdateManager = AppUpdateManagerFactory.create(activity)
-        return InAppUpdateHelper(appUpdateManager, activity)
+        return InAppUpdateManager(appUpdateManager, helper, activity)
     }
 }
