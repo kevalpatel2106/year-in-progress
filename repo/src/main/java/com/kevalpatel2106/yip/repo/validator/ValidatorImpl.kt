@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.annotation.ColorInt
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.repo.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
+import javax.inject.Inject
 
-internal class ValidatorImpl constructor(private val application: Context) : Validator {
+internal class ValidatorImpl @Inject constructor(
+    @ApplicationContext private val application: Context
+) : Validator {
     private val titleLength by lazy { application.resources.getInteger(R.integer.max_process_title) }
     private val descriptionLength by lazy { application.resources.getInteger(R.integer.max_process_description) }
 
