@@ -14,8 +14,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.subjects.BehaviorSubject
+import javax.inject.Inject
 
-internal class BillingRepoImpl(
+internal class BillingRepoImpl @Inject constructor(
     @ApplicationContext private val application: Context,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : BillingRepo {
