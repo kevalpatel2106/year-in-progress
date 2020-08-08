@@ -41,7 +41,7 @@ class IsUpdateDownloadableTest {
         @Before
         fun before() {
             MockitoAnnotations.initMocks(this)
-            appUpdateHelper = InAppUpdateHelper(prefsProvider)
+            appUpdateHelper = InAppUpdateHelperImpl(prefsProvider)
         }
 
         @Test
@@ -98,7 +98,7 @@ class IsUpdateDownloadableTest {
         @Before
         fun before() {
             MockitoAnnotations.initMocks(this)
-            appUpdateHelper = InAppUpdateHelper(prefsProvider)
+            appUpdateHelper = InAppUpdateHelperImpl(prefsProvider)
             whenever(updateInfo.updateAvailability()).thenReturn(UPDATE_AVAILABLE)
             whenever(updateInfo.isUpdateTypeAllowed(anyInt())).thenReturn(true)
             whenever(prefsProvider.getLongFromPreference(anyString(), anyLong()))

@@ -18,7 +18,7 @@ class IsUpdateDownloadedTest(private val installStatus: Int, private val output:
 
     @Before
     fun before() {
-        appUpdateHelper = InAppUpdateHelper(mock())
+        appUpdateHelper = InAppUpdateHelperImpl(mock())
     }
 
     @Test

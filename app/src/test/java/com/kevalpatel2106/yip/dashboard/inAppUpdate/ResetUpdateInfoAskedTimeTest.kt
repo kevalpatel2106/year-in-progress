@@ -23,7 +23,7 @@ class ResetUpdateInfoAskedTimeTest {
     @Before
     fun before() {
         MockitoAnnotations.initMocks(this)
-        appUpdateHelper = InAppUpdateHelper(prefsProvider)
+        appUpdateHelper = InAppUpdateHelperImpl(prefsProvider)
     }
 
     @Test
