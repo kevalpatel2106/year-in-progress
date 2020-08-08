@@ -8,17 +8,24 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
 import com.kevalpatel2106.yip.R
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @MediumTest
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class LaunchTest {
 
     @Rule
     @JvmField
     var activityTestRule = ActivityTestRule(SplashActivity::class.java)
+
+    @Rule
+    @JvmField
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun checkDashboardBottomNavBarAndFabVisible() {
