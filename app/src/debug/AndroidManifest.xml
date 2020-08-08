@@ -21,5 +21,7 @@
         <activity
             android:name=".DebugActivity"
             android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+
+        <activity android:name="com.kevalpatel2106.yip.TestActivity" />
     </application>
 </manifest>
