@@ -10,7 +10,6 @@ import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateViewState.NotifyU
 import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateViewState.StartUpdateDownload
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertNull
@@ -88,9 +87,10 @@ class InAppUpdateViewModelTest {
     }
 
     @Test
-    fun `given update available and is downloadable when update info received check update available message displayed`() {
+    fun `given update is downloadable when update info received check update available message displayed`() {
         // given
         val model = InAppUpdateViewModel(mockUpdateManager, mockUpdateHelper)
+        whenever(mockUpdateHelper.isUpdateAlreadyDownloaded(any())).thenReturn(false)
         whenever(mockUpdateHelper.isUpdateDownloadable(any())).thenReturn(true)
 
         // when
@@ -101,22 +101,24 @@ class InAppUpdateViewModelTest {
     }
 
     @Test
-    fun `given update available and is downloadable when update info received check last check time resets`() {
+    fun `given update is already downloaded when update info received check ready to install message displayed`() {
         // given
-        whenever(mockUpdateHelper.isUpdateDownloadable(any())).thenReturn(true)
         val model = InAppUpdateViewModel(mockUpdateManager, mockUpdateHelper)
+        whenever(mockUpdateHelper.isUpdateAlreadyDownloaded(any())).thenReturn(false)
+        whenever(mockUpdateHelper.isUpdateDownloadable(any())).thenReturn(true)
 
         // when
         model.onUpdateInfoReceived(mock())
 
         // check
-        verify(mockUpdateHelper).resetUpdateInfoAskedTime()
+        assertTrue(model.inAppUpdateState.getOrAwaitValue() is NotifyUpdateAvailable)
     }
 
     @Test
-    fun `given update available and is not downloadable when update info received check no message displayed`() {
+    fun `given update is not downloadable or already downloaded when update info received check no message displayed`() {
         // given
         val model = InAppUpdateViewModel(mockUpdateManager, mockUpdateHelper)
+        whenever(mockUpdateHelper.isUpdateAlreadyDownloaded(any())).thenReturn(false)
         whenever(mockUpdateHelper.isUpdateDownloadable(any())).thenReturn(false)
 
         // when
@@ -127,23 +129,10 @@ class InAppUpdateViewModelTest {
     }
 
     @Test
-    fun `given update available and is not downloadable when update info received check last check time don't reset`() {
-        // given
-        val model = InAppUpdateViewModel(mockUpdateManager, mockUpdateHelper)
-        whenever(mockUpdateHelper.isUpdateDownloadable(any())).thenReturn(false)
-
-        // when
-        model.onUpdateInfoReceived(mock())
-
-        // check
-        verify(mockUpdateHelper, never()).resetUpdateInfoAskedTime()
-    }
-
-    @Test
     fun `given update not available when view model initialise check ready to install message displayed`() {
         // given
         val model = InAppUpdateViewModel(mockUpdateManager, mockUpdateHelper)
-        whenever(mockUpdateHelper.isUpdateDownloaded(any())).thenReturn(true)
+        whenever(mockUpdateHelper.isUpdateDownloadFinished(any())).thenReturn(true)
 
         // when
         model.onUpdateDownloadStateChanged(mock())
