@@ -3,11 +3,7 @@
 
     <style name="YipTheme.Base" parent="Theme.MaterialComponents" />
 
-    <style name="ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="ButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
