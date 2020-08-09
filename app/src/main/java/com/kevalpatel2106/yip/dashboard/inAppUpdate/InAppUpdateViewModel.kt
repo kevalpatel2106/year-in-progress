@@ -1,5 +1,6 @@
 package com.kevalpatel2106.yip.dashboard.inAppUpdate
 
+import androidx.annotation.VisibleForTesting
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -37,14 +38,18 @@ internal class InAppUpdateViewModel @ViewModelInject constructor(
         updateManager.completeUpdate()
     }
 
-    private fun onUpdateInfoReceived(info: AppUpdateInfo) {
+    // Need visible for testing because `FakeUpdateManage` does not work somehow
+    @VisibleForTesting
+    fun onUpdateInfoReceived(info: AppUpdateInfo) {
         if (helper.isUpdateDownloadable(info)) {
             helper.resetUpdateInfoAskedTime()
             _inAppUpdateState.value = InAppUpdateViewState.NotifyUpdateAvailable(info)
         }
     }
 
-    private fun onUpdateDownloadStateChanged(state: InstallState) {
+    // Need visible for testing because `FakeUpdateManage` does not work somehow
+    @VisibleForTesting
+    fun onUpdateDownloadStateChanged(state: InstallState) {
         if (helper.isUpdateDownloaded(state)) {
             _inAppUpdateState.value = InAppUpdateViewState.NotifyUpdateReadyToInstall
         }
