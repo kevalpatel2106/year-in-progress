@@ -2,6 +2,8 @@ package com.kevalpatel2106.yip.di
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandler
 import com.kevalpatel2106.yip.notifications.DeadlineNotificationHandlerImpl
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
@@ -40,6 +42,13 @@ internal class AppModule {
     ): DeadlineNotificationHandler {
         return DeadlineNotificationHandlerImpl(application, appLaunchIntentProvider)
     }
+
+    @Singleton
+    @Provides
+    fun appUpdateManager(@ApplicationContext context: Context): AppUpdateManager {
+        return AppUpdateManagerFactory.create(context)
+    }
+
     @Singleton
     @Provides
     fun provideAppWidgetService(@ApplicationContext application: Context): AppWidgetManager =

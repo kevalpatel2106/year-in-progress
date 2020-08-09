@@ -99,12 +99,12 @@ class EditViewInitialStateTest {
 
     @Test
     fun `given initial view state check end date`() {
-        val nowCal = Calendar.getInstance()
+        val nextDayCal = Calendar.getInstance().apply { add(Calendar.DAY_OF_MONTH, 1) }
 
         val endCal = Calendar.getInstance().apply { time = initialState.endTime }
-        assertEquals(nowCal.get(Calendar.DAY_OF_MONTH) + 1, endCal.get(Calendar.DAY_OF_MONTH))
-        assertEquals(nowCal.get(Calendar.MONTH), endCal.get(Calendar.MONTH))
-        assertEquals(nowCal.get(Calendar.YEAR), endCal.get(Calendar.YEAR))
+        assertEquals(nextDayCal.get(Calendar.DAY_OF_MONTH), endCal.get(Calendar.DAY_OF_MONTH))
+        assertEquals(nextDayCal.get(Calendar.MONTH), endCal.get(Calendar.MONTH))
+        assertEquals(nextDayCal.get(Calendar.YEAR), endCal.get(Calendar.YEAR))
         assertEquals(23, endCal.get(Calendar.HOUR_OF_DAY))
         assertEquals(59, endCal.get(Calendar.MINUTE))
         assertEquals(59, endCal.get(Calendar.SECOND))

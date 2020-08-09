@@ -49,7 +49,7 @@
 
         <!--Snackbar-->
         <item name="snackbarStyle">@style/YipComponentTheme.Snackbar</item>
-        <item name="snackbarButtonStyle">@style/YipComponentTheme.SnackbarButtom</item>
+        <item name="snackbarButtonStyle">@style/YipComponentTheme.SnackbarButton</item>
 
         <!--EditText-->
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
@@ -109,7 +109,7 @@
         <item name="android:backgroundTint">@color/colorAccent</item>
     </style>
 
-    <style name="YipComponentTheme.SnackbarButtom" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:textColor">@color/colorPrimary</item>
+    <style name="YipComponentTheme.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

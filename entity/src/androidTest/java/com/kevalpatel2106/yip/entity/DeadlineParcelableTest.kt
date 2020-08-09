@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.entity
 
 import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import org.junit.Assert.assertEquals
@@ -11,6 +12,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
+@SmallTest
 class DeadlineParcelableTest {
     private val argParcelable = "parcel"
     private val kFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }

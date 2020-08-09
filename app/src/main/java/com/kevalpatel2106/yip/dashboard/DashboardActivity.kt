@@ -19,6 +19,7 @@ import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener
+import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateManager
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
 import com.kevalpatel2106.yip.detail.DetailFragment
@@ -32,15 +33,17 @@ import kotlinx.android.synthetic.main.activity_dashboard.bottom_app_bar
 import kotlinx.android.synthetic.main.activity_dashboard.deadline_list_rv
 import kotlinx.android.synthetic.main.activity_dashboard.expandable_page_container
 import me.saket.inboxrecyclerview.page.PageStateChangeCallbacks
+import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class DashboardActivity : AppCompatActivity(),
-    DeadlineAdapterEventListener,
-    PageStateChangeCallbacks {
-
+    DeadlineAdapterEventListener, PageStateChangeCallbacks {
     private val navArgs by navArgs<DashboardActivityArgs>()
     private val bottomNavigationSheet: BottomNavigationDialog by lazy { BottomNavigationDialog() }
     private val model: DashboardViewModel by viewModels()
+
+    @Inject
+    lateinit var inAppUpdateManager: InAppUpdateManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ internal class DashboardActivity : AppCompatActivity(),
         observeExpandedDetail()
 
         onNewIntent(intent)
+        lifecycle.addObserver(inAppUpdateManager)
     }
 
     override fun onNewIntent(intent: Intent) {

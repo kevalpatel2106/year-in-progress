@@ -56,9 +56,7 @@ fun Activity.showSnack(
         message,
         duration
     ).apply {
-        actonTitle.takeIf { it > 0 }?.let { actionTitle ->
-            setAction(actionTitle, actionListener)
-        }
+        actonTitle.takeIf { it > 0 }?.let { title -> setAction(title, actionListener) }
         addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
@@ -134,5 +132,4 @@ fun Context.openBrowser(url: String) {
         Timber.e(e)
         Toast.makeText(this, getString(R.string.error_browswer_not_found), Toast.LENGTH_LONG).show()
     }
-
 }
