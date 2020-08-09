@@ -16,7 +16,6 @@
 
     <!--Bottom navigation titles-->
     <string name="navigation_title_feedback">Feedback</string>
-    <string name="navigation_title_rate_us">Rate Us</string>
     <string name="navigation_title_debug_info" translatable="false">Debug Info</string>
     <string name="navigation_title_settings">Settings</string>
 
@@ -130,6 +129,7 @@
     <string name="rate_us_dialog_message">Do you enjoy using Year in Progress? Consider rating us on the Google Play store and help us spread the word.</string>
     <string name="rate_us_dialog_positive_btn">Rate now</string>
     <string name="rate_us_dialog_negative_btn">Do it later</string>
+    <string name="rate_us_dialog_neutral_btn">Never</string>
 
     <!--Edit screen-->
     <string name="edit_date_range_title">Date</string>
@@ -172,5 +172,6 @@
     <string name="download">Download</string>
     <string name="message_new_update_available">New update available.</string>
     <string name="message_app_update_downloaded">An update has just been downloaded.</string>
+    <string name="error_message_in_app_review">Error occurred while preparing for review.</string>
     <!--TODO: Categorize the strings-->
 </resources>

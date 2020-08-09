@@ -2,5 +2,4 @@
 <resources>
     <string name="error_contact_us_no_email_client">No email client found.</string>
     <string name="contact_us_chooser_text">Contact us</string>
-    <string name="error_browswer_not_found">No application found to open the webpage.</string>
 </resources>

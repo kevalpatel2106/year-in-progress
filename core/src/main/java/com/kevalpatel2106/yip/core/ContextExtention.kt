@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.feature.core.BuildConfig
 import com.kevalpatel2106.feature.core.R
-import timber.log.Timber
 
 const val SNACK_BAR_DURATION = 2000L
 private const val NEW_TASK_INTENT_FLAG =
@@ -109,27 +108,3 @@ fun Context.sendMailToDev() {
 }
 
 fun Context.updateWidgets() = sendBroadcast(Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE))
-
-fun Context.openPlayStorePage() {
-    try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_store_deep_link)))
-            .apply { addFlags(NEW_TASK_INTENT_FLAG) }
-        startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
-        Timber.e(e)
-
-        // Open in browser
-        openBrowser(getString(R.string.play_store_url))
-    }
-}
-
-fun Context.openBrowser(url: String) {
-    try {
-        startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply { addFlags(NEW_TASK_INTENT_FLAG) }
-        )
-    } catch (e: ActivityNotFoundException) {
-        Timber.e(e)
-        Toast.makeText(this, getString(R.string.error_browswer_not_found), Toast.LENGTH_LONG).show()
-    }
-}

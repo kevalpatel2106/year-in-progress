@@ -80,55 +80,6 @@ class DashboardViewModelDeadlineDetailActionsTest : DashboardViewModelTestSetUp(
     }
 
     @Test
-    fun `given never ask for rating set when open deadline  with rating number check ask rating dialog does not appear`() {
-        // given
-        val deadlineId = kFixture<Long>()
-        whenever(deadlineRepo.isDeadlineExist(deadlineId))
-            .thenReturn(Single.just(true))
-        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
-            .thenReturn(true)
-
-        // when
-        model.onOpenDeadlineDetail(deadlineId, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
-
-        // Check
-        assertNull(model.singleEvents.value)
-    }
-
-    @Test
-    fun `given never ask for rating set to false when open deadline with rating number check ask rating dialog shows`() {
-        // given
-        val deadlineId = kFixture<Long>()
-        whenever(deadlineRepo.isDeadlineExist(deadlineId))
-            .thenReturn(Single.just(true))
-        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
-            .thenReturn(false)
-
-        // when
-        model.onOpenDeadlineDetail(deadlineId, DashboardViewModel.RANDOM_NUMBER_FOR_RATING)
-
-        // Check
-        val singleEvent = model.singleEvents.getOrAwaitValue()
-        assertTrue(singleEvent is AskForRating)
-    }
-
-    @Test
-    fun `given never ask for rating set to false when open deadline with non-rating number check ask rating dialog not shown`() {
-        // given
-        val deadlineId = kFixture<Long>()
-        whenever(deadlineRepo.isDeadlineExist(deadlineId))
-            .thenReturn(Single.just(true))
-        whenever(sharedPrefsProvider.getBoolFromPreference(DashboardViewModel.PREF_KEY_NEVER_ASK_RATE))
-            .thenReturn(false)
-
-        // when
-        model.onOpenDeadlineDetail(deadlineId, 234)
-
-        // Check
-        assertNull(model.singleEvents.value)
-    }
-
-    @Test
     fun `given user is premium when open deadline with ads number check interstitial ad never appear`() {
         // given
         val deadlineId = kFixture<Long>()

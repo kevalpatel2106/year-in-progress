@@ -9,14 +9,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.DebugActivity
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.core.showOrHide
 import com.kevalpatel2106.yip.databinding.DialogBottomNavigationBinding
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import kotlinx.android.synthetic.main.dialog_bottom_navigation.navigation_drawer_option_debug
 import kotlinx.android.synthetic.main.dialog_bottom_navigation.navigation_drawer_option_feedback
-import kotlinx.android.synthetic.main.dialog_bottom_navigation.navigation_drawer_option_rate
 import kotlinx.android.synthetic.main.dialog_bottom_navigation.navigation_drawer_option_settings
 
 internal class BottomNavigationDialog : BottomSheetDialogFragment(), View.OnClickListener {
@@ -49,7 +47,6 @@ internal class BottomNavigationDialog : BottomSheetDialogFragment(), View.OnClic
         when (viewClicked) {
             navigation_drawer_option_settings -> SettingsActivity.launch(requireContext())
             navigation_drawer_option_feedback -> context?.sendMailToDev()
-            navigation_drawer_option_rate -> context?.openPlayStorePage()
             navigation_drawer_option_debug -> DebugActivity.launch(requireContext())
         }
         dismiss()

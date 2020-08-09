@@ -41,13 +41,6 @@
             android:text="@string/navigation_title_feedback" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/navigation_drawer_option_rate"
-            style="@style/BottomDrawerOptions"
-            android:drawableStart="@drawable/ic_star"
-            android:onClick="@{clickHandler::onClick}"
-            android:text="@string/navigation_title_rate_us" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/navigation_drawer_option_debug"
             style="@style/BottomDrawerOptions"
             android:drawableStart="@drawable/ic_info_accent"
