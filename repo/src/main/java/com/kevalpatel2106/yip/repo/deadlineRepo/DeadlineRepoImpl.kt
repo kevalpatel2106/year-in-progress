@@ -5,7 +5,7 @@ import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.R
-import com.kevalpatel2106.yip.repo.db.YipDatabase
+import com.kevalpatel2106.yip.repo.db.DeadlineDao
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import com.kevalpatel2106.yip.repo.dto.modifyPrebuiltDeadline
 import com.kevalpatel2106.yip.repo.dto.toEntity
@@ -19,10 +19,11 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import java.util.Date
+import javax.inject.Inject
 
-internal class DeadlineRepoImpl(
+internal class DeadlineRepoImpl @Inject constructor(
     @ApplicationContext private val application: Context,
-    private val db: YipDatabase,
+    private val deadlineDao: DeadlineDao,
     private val timeProvider: TimeProvider,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : DeadlineRepo {
@@ -32,7 +33,7 @@ internal class DeadlineRepoImpl(
     private val orderKeyEndingTimeDesc by lazy { application.getString(R.string.order_end_time_descending) }
 
     override fun observeAllDeadlines(): Flowable<List<Deadline>> {
-        val deadlineObserver = db.getDeviceDao().observeAll()
+        val deadlineObserver = deadlineDao.observeAll()
         val deadlineOrderObserver = sharedPrefsProvider
             .observeStringFromPreference(
                 application.getString(R.string.pref_key_order),
@@ -64,7 +65,7 @@ internal class DeadlineRepoImpl(
 
     override fun observeDeadline(deadlineId: Long): Flowable<Deadline> {
         return Flowable.combineLatest(
-            db.getDeviceDao().observe(deadlineId),
+            deadlineDao.observe(deadlineId),
             timeProvider.minuteObserver(),
             BiFunction<DeadlineDto, Date, Pair<DeadlineDto, Date>> { deadlineDto, now ->
                 deadlineDto to now
@@ -75,7 +76,7 @@ internal class DeadlineRepoImpl(
     }
 
     override fun isDeadlineExist(deadlineId: Long): Single<Boolean> {
-        return db.getDeviceDao()
+        return deadlineDao
             .getCount(deadlineId)
             .map { it > 0 }
             .doOnError {
@@ -84,7 +85,7 @@ internal class DeadlineRepoImpl(
     }
 
     override fun deleteDeadline(deadlineId: Long): Completable {
-        return Completable.fromCallable { db.getDeviceDao().delete(deadlineId) }
+        return Completable.fromCallable { deadlineDao.delete(deadlineId) }
     }
 
     override fun addUpdateDeadline(
@@ -108,7 +109,7 @@ internal class DeadlineRepoImpl(
                 title = title,
                 notifications = notifications
             )
-            dto.id = db.getDeviceDao().insert(dto)
+            dto.id = deadlineDao.insert(dto)
             emitter.onSuccess(dto)
         }.zipWith(
             timeProvider.nowAsync(),

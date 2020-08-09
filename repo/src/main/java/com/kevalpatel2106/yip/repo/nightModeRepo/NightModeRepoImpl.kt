@@ -1,13 +1,15 @@
 package com.kevalpatel2106.yip.repo.nightModeRepo
 
-import android.app.Application
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Observable
+import javax.inject.Inject
 
-internal class NightModeRepoImpl(
-    private val application: Application,
+internal class NightModeRepoImpl @Inject constructor(
+    @ApplicationContext private val application: Context,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : NightModeRepo {
 

@@ -16,9 +16,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.functions.BiFunction
 import timber.log.Timber
 import java.util.Date
+import javax.inject.Inject
 import kotlin.math.roundToLong
 
-internal class AlarmRepoImpl(
+internal class AlarmRepoImpl @Inject constructor(
     private val alarmManager: AlarmManager,
     @ApplicationContext private val application: Context,
     private val timeProvider: TimeProvider,

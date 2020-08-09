@@ -5,9 +5,9 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-internal class TimeProviderImpl :
-    TimeProvider {
+internal class TimeProviderImpl @Inject constructor() : TimeProvider {
 
     override fun minuteObserver(intervalMills: Long): Flowable<Date> {
         return Flowable

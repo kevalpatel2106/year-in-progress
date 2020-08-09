@@ -8,7 +8,6 @@ import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.R
 import com.kevalpatel2106.yip.repo.db.DeadlineDao
-import com.kevalpatel2106.yip.repo.db.YipDatabase
 import com.kevalpatel2106.yip.repo.dto.DeadlineDto
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.repo.timeProvider.TimeProvider
@@ -31,9 +30,6 @@ internal abstract class DeadlineRepoImplTestSetUp {
 
     @Mock
     internal lateinit var context: Context
-
-    @Mock
-    internal lateinit var db: YipDatabase
 
     @Mock
     internal lateinit var deadlineDao: DeadlineDao
@@ -73,7 +69,6 @@ internal abstract class DeadlineRepoImplTestSetUp {
             .thenReturn(deadlineListSubject.toFlowable(BackpressureStrategy.DROP))
         whenever(deadlineDao.observe(anyLong()))
             .thenReturn(deadlineSubject.toFlowable(BackpressureStrategy.DROP))
-        whenever(db.getDeviceDao()).thenReturn(deadlineDao)
 
         whenever(sharedPrefsProvider.observeStringFromPreference(anyString(), anyString()))
             .thenReturn(sortOrderPrefSubject)
@@ -81,7 +76,7 @@ internal abstract class DeadlineRepoImplTestSetUp {
         whenever(timeProvider.minuteObserver(anyLong()))
             .thenReturn(minuteObserverSubject.toFlowable(BackpressureStrategy.DROP))
 
-        deadlineRepo = DeadlineRepoImpl(context, db, timeProvider, sharedPrefsProvider)
+        deadlineRepo = DeadlineRepoImpl(context, deadlineDao, timeProvider, sharedPrefsProvider)
     }
 
     protected fun getDeadlineList(): List<DeadlineDto> {
