@@ -9,6 +9,9 @@ import androidx.test.runner.AndroidJUnitRunner
 class UiTestsRunner : AndroidJUnitRunner() {
     override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
         // Use the test application class that can inject mock dependencies using dagger.
-        return Instrumentation.newApplication(AndroidTestApplication::class.java, context)
+        return Instrumentation.newApplication(
+            AndroidTestApplication_Application::class.java,
+            context
+        )
     }
 }
