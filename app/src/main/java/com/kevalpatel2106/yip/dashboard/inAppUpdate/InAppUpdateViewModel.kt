@@ -41,8 +41,9 @@ internal class InAppUpdateViewModel @ViewModelInject constructor(
     // Need visible for testing because `FakeUpdateManage` does not work somehow
     @VisibleForTesting
     fun onUpdateInfoReceived(info: AppUpdateInfo) {
-        if (helper.isUpdateDownloadable(info)) {
-            helper.resetUpdateInfoAskedTime()
+        if (helper.isUpdateAlreadyDownloaded(info)) {
+            _inAppUpdateState.value = InAppUpdateViewState.NotifyUpdateReadyToInstall
+        } else if (helper.isUpdateDownloadable(info)) {
             _inAppUpdateState.value = InAppUpdateViewState.NotifyUpdateAvailable(info)
         }
     }
@@ -50,7 +51,7 @@ internal class InAppUpdateViewModel @ViewModelInject constructor(
     // Need visible for testing because `FakeUpdateManage` does not work somehow
     @VisibleForTesting
     fun onUpdateDownloadStateChanged(state: InstallState) {
-        if (helper.isUpdateDownloaded(state)) {
+        if (helper.isUpdateDownloadFinished(state)) {
             _inAppUpdateState.value = InAppUpdateViewState.NotifyUpdateReadyToInstall
         }
     }

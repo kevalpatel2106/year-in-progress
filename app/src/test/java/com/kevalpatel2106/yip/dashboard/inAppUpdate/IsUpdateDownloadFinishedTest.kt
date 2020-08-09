@@ -13,12 +13,12 @@ import org.junit.runners.Parameterized
 
 
 @RunWith(Parameterized::class)
-class IsUpdateDownloadedTest(private val installStatus: Int, private val output: Boolean) {
+class IsUpdateDownloadFinishedTest(private val installStatus: Int, private val output: Boolean) {
     private lateinit var appUpdateHelper: InAppUpdateHelper
 
     @Before
     fun before() {
-        appUpdateHelper = InAppUpdateHelperImpl(mock())
+        appUpdateHelper = InAppUpdateHelperImpl()
     }
 
     @Test
@@ -28,7 +28,7 @@ class IsUpdateDownloadedTest(private val installStatus: Int, private val output:
         whenever(installState.installStatus()).thenReturn(installStatus)
 
         // when
-        val isDownloaded = appUpdateHelper.isUpdateDownloaded(installState)
+        val isDownloaded = appUpdateHelper.isUpdateDownloadFinished(installState)
 
         // check
         Assert.assertEquals(output, isDownloaded)

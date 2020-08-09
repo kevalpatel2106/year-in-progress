@@ -42,9 +42,7 @@ internal class InAppUpdateManager(
             message = activity.getString(R.string.message_new_update_available),
             duration = Snackbar.LENGTH_LONG,
             actonTitle = R.string.download,
-            actionListener = {
-                model.onNewUpdateDownloadApproved(info)
-            }
+            actionListener = { model.onNewUpdateDownloadApproved(info) }
         )
     }
 
