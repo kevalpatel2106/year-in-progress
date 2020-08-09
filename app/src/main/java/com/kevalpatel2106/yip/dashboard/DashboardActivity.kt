@@ -13,12 +13,12 @@ import com.google.android.gms.ads.InterstitialAd
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.getLaunchIntent
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.openPlayStorePage
 import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.core.slideDown
 import com.kevalpatel2106.yip.core.slideUp
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapterEventListener
+import com.kevalpatel2106.yip.dashboard.inAppReview.InAppReviewManager
 import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateManager
 import com.kevalpatel2106.yip.dashboard.navDrawer.BottomNavigationDialog
 import com.kevalpatel2106.yip.databinding.ActivityDashboardBinding
@@ -45,6 +45,9 @@ internal class DashboardActivity : AppCompatActivity(),
     @Inject
     lateinit var inAppUpdateManager: InAppUpdateManager
 
+    @Inject
+    lateinit var inAppReviewManager: InAppReviewManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityDashboardBinding>(this, R.layout.activity_dashboard)
@@ -63,6 +66,7 @@ internal class DashboardActivity : AppCompatActivity(),
 
         onNewIntent(intent)
         lifecycle.addObserver(inAppUpdateManager)
+        lifecycle.addObserver(inAppReviewManager)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -78,15 +82,8 @@ internal class DashboardActivity : AppCompatActivity(),
                     this,
                     EditDeadlineActivityArgs(event.deadlineId)
                 )
-                AskForRating -> {
-                    showRatingDialog(
-                        rateNow = { model.onRateNowClicked() },
-                        neverAsk = { model.onRateNeverClicked() }
-                    )
-                }
                 ShowInterstitialAd -> interstitialAd.loadAd(AdRequest.Builder().build())
                 OpenCreateNewDeadline -> EditDeadlineActivity.createNew(this)
-                OpenPlayStore -> openPlayStorePage()
                 CloseScreen -> finish()
                 OpenBottomNavigationSheet -> openBottomNavigation()
             }
@@ -136,7 +133,10 @@ internal class DashboardActivity : AppCompatActivity(),
 
     override fun onBackPressed() = model.onBackPressed()
 
-    override fun onDeadlineClicked(deadline: Deadline) = model.onOpenDeadlineDetail(deadline.id)
+    override fun onDeadlineClicked(deadline: Deadline) {
+        model.onOpenDeadlineDetail(deadline.id)
+        inAppReviewManager.askForReviewIfNeeded()
+    }
 
     override fun onPageAboutToCollapse(collapseAnimDuration: Long) =
         bottom_app_bar.slideUp(collapseAnimDuration)

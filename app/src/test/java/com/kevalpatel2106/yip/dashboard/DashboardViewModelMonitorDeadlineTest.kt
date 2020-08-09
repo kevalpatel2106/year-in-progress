@@ -173,7 +173,6 @@ class DashboardViewModelMonitorDeadlineTest : DashboardViewModelTestSetUp() {
         model = DashboardViewModel(
             application,
             deadlineRepo,
-            sharedPrefsProvider,
             billingRepo,
             appShortcutHelper
         )

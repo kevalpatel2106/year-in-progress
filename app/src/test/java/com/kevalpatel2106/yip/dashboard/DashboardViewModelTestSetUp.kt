@@ -10,7 +10,6 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.BackpressureStrategy
@@ -48,9 +47,6 @@ abstract class DashboardViewModelTestSetUp {
     lateinit var deadlineRepo: DeadlineRepo
 
     @Mock
-    lateinit var sharedPrefsProvider: SharedPrefsProvider
-
-    @Mock
     lateinit var billingRepo: BillingRepo
 
     @Mock
@@ -84,7 +80,6 @@ abstract class DashboardViewModelTestSetUp {
         model = DashboardViewModel(
             application,
             deadlineRepo,
-            sharedPrefsProvider,
             billingRepo,
             appShortcutHelper
         )
@@ -93,6 +88,6 @@ abstract class DashboardViewModelTestSetUp {
     protected fun setAsDeadlineDetailExpanded(testExpandedDeadline: Long) {
         whenever(deadlineRepo.isDeadlineExist(testExpandedDeadline))
             .thenReturn(Single.just(true))
-        model.onOpenDeadlineDetail(testExpandedDeadline)
+        model.onOpenDeadlineDetail(testExpandedDeadline, 0)
     }
 }

@@ -24,7 +24,6 @@ import com.kevalpatel2106.yip.dashboard.adapter.listItem.PaddingItem
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
-import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import com.kevalpatel2106.yip.utils.AppShortcutHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.BackpressureStrategy
@@ -36,7 +35,6 @@ import kotlin.random.Random
 internal class DashboardViewModel @ViewModelInject constructor(
     @ApplicationContext private val application: Context,
     private val deadlineRepo: DeadlineRepo,
-    private val sharedPrefsProvider: SharedPrefsProvider,
     private val billingRepo: BillingRepo,
     private val appShortcutHelper: AppShortcutHelper
 ) : BaseViewModel() {
@@ -111,15 +109,6 @@ internal class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
-    internal fun onRateNowClicked() {
-        _singleEvents.value = OpenPlayStore
-        sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
-    }
-
-    internal fun onRateNeverClicked() {
-        sharedPrefsProvider.savePreferences(PREF_KEY_NEVER_ASK_RATE, true)
-    }
-
     internal fun onOpenDeadlineDetail(
         deadlineId: Long,
         randomNum: Int = Random.nextInt(MAX_RANDOM_NUMBER)
@@ -132,7 +121,7 @@ internal class DashboardViewModel @ViewModelInject constructor(
             .subscribe({ exist ->
                 if (exist) {
                     _expandViewState.value = DetailViewExpanded(deadlineId)
-                    handleRandomEvents(randomNum)
+                    showInterstitialAdIfNeeded(randomNum)
                 } else {
                     _singleEvents.value = ShowUserMessage(
                         application.getString(R.string.error_deadline_not_exist)
@@ -172,16 +161,7 @@ internal class DashboardViewModel @ViewModelInject constructor(
         if (!isDetailExpanded()) _singleEvents.value = OpenBottomNavigationSheet
     }
 
-    private fun handleRandomEvents(randomNum: Int) {
-        // Should show rating dialog?
-        if (!sharedPrefsProvider.getBoolFromPreference(
-                PREF_KEY_NEVER_ASK_RATE,
-                false
-            ) && randomNum == RANDOM_NUMBER_FOR_RATING
-        ) {
-            _singleEvents.value = AskForRating
-        }
-
+    private fun showInterstitialAdIfNeeded(randomNum: Int) {
         // Should show ads?
         if (randomNum == RANDOM_NUMBER_FOR_AD && !billingRepo.isPurchased()) {
             _singleEvents.value = ShowInterstitialAd
@@ -203,12 +183,6 @@ internal class DashboardViewModel @ViewModelInject constructor(
         private const val MAX_RANDOM_NUMBER = 14
 
         @VisibleForTesting
-        internal const val RANDOM_NUMBER_FOR_RATING = 1
-
-        @VisibleForTesting
-        internal const val RANDOM_NUMBER_FOR_AD = 0
-
-        @VisibleForTesting
-        internal const val PREF_KEY_NEVER_ASK_RATE = "pref_key_rated"
+        internal const val RANDOM_NUMBER_FOR_AD = 10
     }
 }
