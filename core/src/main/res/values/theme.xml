@@ -74,8 +74,9 @@
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="dialogCornerRadius">@dimen/spacing_micro</item>
         <item name="titleTextColor">@color/colorAccent</item>
-        <item name="buttonBarNegativeButtonStyle">@style/ButtonBarNegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/ButtonBarPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/ButtonBarButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/ButtonBarButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/ButtonBarButtonStyle</item>
     </style>
 
     <style name="DialogAnimation">
@@ -83,11 +84,7 @@
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
-    <style name="ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorPrimaryText</item>
-    </style>
-
-    <style name="ButtonBarPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="ButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
