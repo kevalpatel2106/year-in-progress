@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.webviews.WebViewActivity
+import com.kevalpatel2106.yip.webviews.WebViewActivityArgs
+import com.kevalpatel2106.yip.webviews.WebViewLaunchContent
 
 internal object SettingsUseCase {
 
@@ -37,6 +40,10 @@ internal object SettingsUseCase {
     internal fun showLibraryLicences(context: Context) {
         OssLicensesMenuActivity.setActivityTitle(context.getString(R.string.title_activity_licences))
         context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+    }
+
+    fun openWebPage(context: Context, type: WebViewLaunchContent) {
+        WebViewActivity.launch(context, WebViewActivityArgs(type))
     }
 
     private const val INTENT_TYPE_TEXT = "text/plain"

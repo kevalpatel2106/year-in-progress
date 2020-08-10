@@ -5,14 +5,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-android {
-    buildTypes {
-        debug {
-            testCoverageEnabled = false
-        }
-    }
-}
-
 dependencies {
     api project(':entity')
     api project(':repo')
