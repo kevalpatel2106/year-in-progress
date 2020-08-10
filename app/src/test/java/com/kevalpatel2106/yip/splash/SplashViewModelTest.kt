@@ -26,14 +26,14 @@ class SplashViewModelTest {
 
     @Test
     fun `when view model initialised check refreshing purchase state`() {
-        SplashViewModel(billingRepo, nightModeRepo)
+        SplashViewModel(billingRepo, nightModeRepo).init()
 
         verify(billingRepo).refreshPurchaseState(BillingRepo.SKU_ID)
     }
 
     @Test
     fun `when view model initialised check night mode is set`() {
-        SplashViewModel(billingRepo, nightModeRepo)
+        SplashViewModel(billingRepo, nightModeRepo).init()
 
         verify(nightModeRepo).getNightModeSetting()
     }

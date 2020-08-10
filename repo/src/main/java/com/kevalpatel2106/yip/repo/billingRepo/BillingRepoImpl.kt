@@ -13,13 +13,16 @@ import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 internal class BillingRepoImpl @Inject constructor(
     @ApplicationContext private val application: Context,
     private val sharedPrefsProvider: SharedPrefsProvider
 ) : BillingRepo {
+
+    private var isPurchasedLocal: Boolean
+        get() = sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false)
+        set(value) = sharedPrefsProvider.savePreferences(IS_PRO_KEY, value)
 
     override fun refreshPurchaseState(sku: String) {
         val billingClient = prepareBillingClient(
@@ -29,21 +32,13 @@ internal class BillingRepoImpl @Inject constructor(
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (isBillingCodeSuccess(billingResult)) {
-                    billingClient.checkIsPurchased(sku)
-                } else {
-                    isPurchased.onNext(false)
+                    billingClient.checkIsPurchasedOffline(sku)
+                    billingClient.checkIsPurchasedOnline(sku)
                 }
             }
 
-            override fun onBillingServiceDisconnected() {
-                isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
-            }
+            override fun onBillingServiceDisconnected() = Unit
         })
-    }
-
-    private fun BillingClient.checkIsPurchased(sku: String) {
-        checkIsPurchasedOffline(sku)
-        checkIsPurchasedOnline(sku)
     }
 
     private fun BillingClient.checkIsPurchasedOnline(sku: String) {
@@ -51,9 +46,8 @@ internal class BillingRepoImpl @Inject constructor(
             if (isBillingCodeSuccess(responseCode)) {
 
                 // Update base on online status.
-                val isPro = purchasesList?.find { it.sku == sku } != null
-                sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
-                isPurchased.onNext(isPro)
+                val isPro = purchasesList?.any { it.sku == sku } == true
+                isPurchasedLocal = isPro
             }
         }
     }
@@ -63,11 +57,8 @@ internal class BillingRepoImpl @Inject constructor(
         if (isBillingCodeSuccess(purchaseResult.billingResult) &&
             purchaseResult.purchasesList?.isNotEmpty() == true
         ) {
-            val isPro = purchaseResult.purchasesList?.find { it.sku == sku } != null
-            sharedPrefsProvider.savePreferences(IS_PRO_KEY, isPro)
-            isPurchased.onNext(isPro)
-        } else {
-            isPurchased.onNext(sharedPrefsProvider.getBoolFromPreference(IS_PRO_KEY, false))
+            val isPro = purchaseResult.purchasesList?.any { it.sku == sku } == true
+            isPurchasedLocal = isPro
         }
     }
 
@@ -113,7 +104,7 @@ internal class BillingRepoImpl @Inject constructor(
                     )
                 }
             })
-        }.doAfterSuccess { isPurchased.onNext(true) }
+        }.doAfterSuccess { isPurchasedLocal = true }
             .map { sku }
     }
 
@@ -143,12 +134,11 @@ internal class BillingRepoImpl @Inject constructor(
         }
     }
 
-    override fun isPurchased(): Boolean = isPurchased.value == true
+    override fun isPurchased(): Boolean = isPurchasedLocal
 
-    override fun observeIsPurchased(): BehaviorSubject<Boolean> = isPurchased
+    override fun observeIsPurchased() = sharedPrefsProvider.observeBoolFromPreference(IS_PRO_KEY)
 
     companion object {
         private const val IS_PRO_KEY = "is_pro"
-        private val isPurchased = BehaviorSubject.createDefault<Boolean>(false)
     }
 }

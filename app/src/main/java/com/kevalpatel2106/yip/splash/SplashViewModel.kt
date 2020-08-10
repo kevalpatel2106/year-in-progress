@@ -7,10 +7,10 @@ import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo
 
 internal class SplashViewModel @ViewModelInject constructor(
-    billingRepo: BillingRepo,
-    nightModeRepo: NightModeRepo
+    private val billingRepo: BillingRepo,
+    private val nightModeRepo: NightModeRepo
 ) : BaseViewModel() {
-    init {
+    fun init() {
         billingRepo.refreshPurchaseState()
         AppCompatDelegate.setDefaultNightMode(nightModeRepo.getNightModeSetting())
     }

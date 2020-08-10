@@ -16,6 +16,8 @@ interface SharedPrefsProvider {
 
     fun observeStringFromPreference(key: String, defVal: String? = null): Observable<String>
 
+    fun observeBoolFromPreference(key: String, defVal: Boolean = false): Observable<Boolean>
+
     fun getStringFromPreference(key: String, defVal: String? = null): String?
 
     fun getBoolFromPreference(key: String, defVal: Boolean = false): Boolean

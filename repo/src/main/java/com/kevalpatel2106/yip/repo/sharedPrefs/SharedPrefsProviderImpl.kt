@@ -87,6 +87,10 @@ internal class SharedPrefsProviderImpl(
         }.asObservable()
     }
 
+    override fun observeBoolFromPreference(key: String, defVal: Boolean): Observable<Boolean> {
+        return rxPreferences.getBoolean(key, defVal).asObservable()
+    }
+
     override fun getStringFromPreference(key: String, defVal: String?): String? =
         sharedPreference.getString(key, defVal)
 
