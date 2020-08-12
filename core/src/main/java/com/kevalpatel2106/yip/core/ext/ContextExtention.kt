@@ -41,9 +41,7 @@ fun <T : AppCompatActivity> Context.getLaunchIntent(
     extras: (Intent.() -> Unit)? = null
 ): Intent {
     return Intent(this, aClass).apply {
-        if (isNewTask) {
-            addFlags(NEW_TASK_INTENT_FLAG)
-        }
+        if (isNewTask) addFlags(NEW_TASK_INTENT_FLAG)
         extras?.invoke(this)
     }
 }

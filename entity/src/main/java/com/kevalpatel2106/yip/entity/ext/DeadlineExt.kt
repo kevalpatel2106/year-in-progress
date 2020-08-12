@@ -8,8 +8,10 @@ fun Deadline.isFinished(@VisibleForTesting now: Long = System.currentTimeMillis(
     return end.time - now <= 0
 }
 
-fun Deadline.timeLeftDHM(): Triple<Long, Long, Long> {
-    var diffMills = end.time - System.currentTimeMillis()
+fun Deadline.timeLeftDHM(
+    @VisibleForTesting now: Long = System.currentTimeMillis()
+): Triple<Long, Long, Long> {
+    var diffMills = end.time - now
     if (diffMills <= 0) return Triple(0, 0, 0)
 
     // Calculate the days, hours and minutes

@@ -27,23 +27,13 @@ fun ProgressBar.setProgressTint(@ColorInt color: Int) {
         )
         progressDrawable = DrawableCompat.unwrap(wrapDrawable)
     } else {
-        progressDrawable?.setColorFilter(
-            color,
-            PorterDuff.Mode.SRC_IN
-        )
-        indeterminateDrawable?.setColorFilter(
-            color,
-            PorterDuff.Mode.SRC_IN
-        )
+        progressDrawable?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        indeterminateDrawable?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
 }
 
 fun View.showOrHide(isShow: Boolean) {
-    visibility = if (isShow) {
-        View.VISIBLE
-    } else {
-        View.GONE
-    }
+    visibility = (if (isShow) View.VISIBLE else View.GONE)
 }
 
 fun MenuItem.showOrHideLoader(context: Context, isShow: Boolean) {
