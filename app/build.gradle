@@ -11,6 +11,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 dependencies {
     implementation project(':core')
+    implementation project(':repo')
     testImplementation project(':testUtils')
 
     implementation("me.saket:inboxrecyclerview:${versions.inboxrecyclerview}", excludeGrp)

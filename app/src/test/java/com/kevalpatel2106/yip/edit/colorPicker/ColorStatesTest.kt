@@ -1,7 +1,7 @@
 package com.kevalpatel2106.yip.edit.colorPicker
 
 import android.graphics.Color
-import com.kevalpatel2106.yip.core.emptyString
+import com.kevalpatel2106.yip.core.ext.emptyString
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test

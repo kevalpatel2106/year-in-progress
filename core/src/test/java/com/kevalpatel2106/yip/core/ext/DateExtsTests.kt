@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.core
+package com.kevalpatel2106.yip.core.ext
 
 import org.junit.Assert
 import org.junit.Test

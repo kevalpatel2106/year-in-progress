@@ -9,11 +9,11 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
-import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.getBackgroundGradient
+import com.kevalpatel2106.yip.core.ext.addTo
+import com.kevalpatel2106.yip.core.ext.getBackgroundGradient
+import com.kevalpatel2106.yip.core.ext.updateWidgets
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.modify
-import com.kevalpatel2106.yip.core.updateWidgets
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.AdsItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.DeadlineListItem
 import com.kevalpatel2106.yip.dashboard.adapter.listItem.EmptyRepresentable

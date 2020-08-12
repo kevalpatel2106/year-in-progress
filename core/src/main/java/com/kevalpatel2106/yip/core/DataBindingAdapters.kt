@@ -5,6 +5,7 @@ import android.webkit.WebView
 import android.widget.ViewFlipper
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
+import com.kevalpatel2106.yip.core.ext.showOrHide
 
 @BindingAdapter("android:showOrHide")
 fun visibility(view: View, show: Boolean) {

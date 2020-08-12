@@ -1,8 +1,8 @@
 package com.kevalpatel2106.yip.edit
 
-import com.kevalpatel2106.yip.core.emptyString
-import com.kevalpatel2106.yip.core.setToDayMax
-import com.kevalpatel2106.yip.core.setToDayMin
+import com.kevalpatel2106.yip.core.ext.emptyString
+import com.kevalpatel2106.yip.core.ext.setToDayMax
+import com.kevalpatel2106.yip.core.ext.setToDayMin
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter

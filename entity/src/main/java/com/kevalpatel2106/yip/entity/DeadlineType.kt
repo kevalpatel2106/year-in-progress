@@ -9,6 +9,3 @@ enum class DeadlineType(val key: Int, val color: DeadlineColor) {
     QUARTER_DEADLINE(key = 4534, color = DeadlineColor.COLOR_TILL),
     CUSTOM(key = 3411, color = DeadlineColor.COLOR_PINK)
 }
-
-fun DeadlineType.isPreBuild() = this != DeadlineType.CUSTOM
-fun DeadlineType.isRepeatable() = this != DeadlineType.CUSTOM

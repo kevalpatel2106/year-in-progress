@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
-import com.kevalpatel2106.yip.core.emptyString
+import com.kevalpatel2106.yip.core.ext.emptyString
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Before

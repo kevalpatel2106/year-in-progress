@@ -9,8 +9,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.ext.showSnack
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateViewState.NotifyUpdateAvailable
 import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateViewState.NotifyUpdateReadyToInstall
 import com.kevalpatel2106.yip.dashboard.inAppUpdate.InAppUpdateViewState.StartUpdateDownload

@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.kevalpatel2106.yip.core.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.getLaunchIntent
 import io.palaima.debugdrawer.commons.BuildModule
 import io.palaima.debugdrawer.commons.DeviceModule
 import io.palaima.debugdrawer.commons.NetworkModule

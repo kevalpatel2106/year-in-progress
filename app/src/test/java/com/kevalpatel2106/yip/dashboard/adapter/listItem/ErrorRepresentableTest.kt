@@ -2,7 +2,7 @@ package com.kevalpatel2106.yip.dashboard.adapter.listItem
 
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
-import com.kevalpatel2106.yip.core.emptyString
+import com.kevalpatel2106.yip.core.ext.emptyString
 import com.kevalpatel2106.yip.dashboard.adapter.DeadlineAdapter
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals

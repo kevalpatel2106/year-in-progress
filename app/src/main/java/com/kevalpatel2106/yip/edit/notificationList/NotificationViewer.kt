@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.getColorCompat
+import com.kevalpatel2106.yip.core.ext.getColorCompat
 import kotlinx.android.synthetic.main.row_notification_time.view.notification_delete_icon_iv
 import kotlinx.android.synthetic.main.row_notification_time.view.notification_time_tv
 

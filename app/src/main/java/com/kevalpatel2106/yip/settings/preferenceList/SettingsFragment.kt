@@ -9,8 +9,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.ext.sendMailToDev
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.sendMailToDev
 import com.kevalpatel2106.yip.payment.PaymentActivity
 import com.kevalpatel2106.yip.settings.SettingsUseCase
 import com.kevalpatel2106.yip.webviews.WebViewLaunchContent.ADD_WIDGET
