@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.ext.showSnack
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.DashboardActivity
 import com.kevalpatel2106.yip.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint

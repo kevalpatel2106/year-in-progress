@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
-import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.ext.addTo
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo

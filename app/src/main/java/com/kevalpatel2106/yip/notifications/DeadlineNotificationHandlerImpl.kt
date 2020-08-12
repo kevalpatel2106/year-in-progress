@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.emptyString
+import com.kevalpatel2106.yip.core.ext.emptyString
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 

@@ -12,7 +12,3 @@ enum class DeadlineColor(@ColorInt val colorInt: Int) {
     COLOR_PINK(colorInt = Color.parseColor("#ED7A6C")),
     COLOR_GRAY(colorInt = Color.GRAY)
 }
-
-fun getDeadlineColor(@ColorInt value: Int): DeadlineColor {
-    return DeadlineColor.values().firstOrNull { it.colorInt == value } ?: DeadlineColor.COLOR_GRAY
-}

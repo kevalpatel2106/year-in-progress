@@ -4,6 +4,7 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.ViewFlipper
 import androidx.core.view.isVisible
+import com.kevalpatel2106.yip.core.ext.emptyString
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

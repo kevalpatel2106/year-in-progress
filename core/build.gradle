@@ -7,6 +7,5 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 dependencies {
     api project(':entity')
-    api project(':repo')
     testImplementation project(':testUtils')
 }

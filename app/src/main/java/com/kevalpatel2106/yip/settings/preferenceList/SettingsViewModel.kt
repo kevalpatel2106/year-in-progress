@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
-import com.kevalpatel2106.yip.core.addTo
+import com.kevalpatel2106.yip.core.ext.addTo
 import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.nightModeRepo.NightModeRepo

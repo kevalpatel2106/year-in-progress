@@ -7,9 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.set
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.set
 import com.kevalpatel2106.yip.databinding.ActivityPaymentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment.payment_toolbar

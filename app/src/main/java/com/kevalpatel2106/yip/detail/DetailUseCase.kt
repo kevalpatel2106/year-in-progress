@@ -15,9 +15,10 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.pm.ShortcutManagerCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.emptySpannableString
-import java.util.Date
-import java.util.concurrent.TimeUnit
+import com.kevalpatel2106.yip.core.ext.emptySpannableString
+import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.entity.ext.isFinished
+import com.kevalpatel2106.yip.entity.ext.timeLeftDHM
 
 internal object DetailUseCase {
 
@@ -48,22 +49,11 @@ internal object DetailUseCase {
     @Suppress("MagicNumber")
     internal fun prepareTimeLeft(
         application: Context,
-        endTime: Date,
+        deadline: Deadline,
         @ColorInt secondaryColor: Int
     ): SpannableString {
-
-        // Find difference in mills
-        var diffMills = endTime.time - System.currentTimeMillis()
-        if (diffMills < 0) return emptySpannableString()
-
-        // Calculate the days, hours and minutes
-        val days = TimeUnit.DAYS.convert(diffMills, TimeUnit.MILLISECONDS)
-        if (days != 0L) diffMills %= TimeUnit.MILLISECONDS.convert(days, TimeUnit.DAYS)
-
-        val hours = TimeUnit.HOURS.convert(diffMills, TimeUnit.MILLISECONDS)
-        if (hours != 0L) diffMills %= TimeUnit.MILLISECONDS.convert(hours, TimeUnit.HOURS)
-
-        val mins = TimeUnit.MINUTES.convert(diffMills, TimeUnit.MILLISECONDS)
+        if (deadline.isFinished()) return emptySpannableString()
+        val (days, hours, mins) = deadline.timeLeftDHM()
 
         // Prepare raw string
         val rawString = application.getString(

@@ -3,7 +3,7 @@ package com.kevalpatel2106.yip.utils
 import android.content.Context
 import android.content.Intent
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.getLaunchIntent
 import com.kevalpatel2106.yip.splash.SplashActivity
 import com.kevalpatel2106.yip.splash.SplashActivityArgs
 

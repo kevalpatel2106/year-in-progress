@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.getLaunchIntent
-import com.kevalpatel2106.yip.core.set
-import com.kevalpatel2106.yip.core.showOrHide
+import com.kevalpatel2106.yip.core.ext.addTo
+import com.kevalpatel2106.yip.core.ext.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.set
+import com.kevalpatel2106.yip.core.ext.showOrHide
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable

@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.text.SpannableString
 import androidx.annotation.ColorInt
-import com.kevalpatel2106.yip.core.emptySpannableString
-import com.kevalpatel2106.yip.core.emptyString
-import com.kevalpatel2106.yip.core.getBackgroundGradient
+import com.kevalpatel2106.yip.core.ext.emptySpannableString
+import com.kevalpatel2106.yip.core.ext.emptyString
+import com.kevalpatel2106.yip.core.ext.getBackgroundGradient
 
 internal data class DetailViewState(
     val isDeleting: Boolean,

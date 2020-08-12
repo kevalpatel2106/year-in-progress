@@ -8,14 +8,13 @@ import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.BaseViewModel
 import com.kevalpatel2106.yip.core.RxSchedulers
-import com.kevalpatel2106.yip.core.addTo
-import com.kevalpatel2106.yip.core.darkenColor
-import com.kevalpatel2106.yip.core.emptySpannableString
-import com.kevalpatel2106.yip.core.getBackgroundGradient
+import com.kevalpatel2106.yip.core.ext.addTo
+import com.kevalpatel2106.yip.core.ext.darkenColor
+import com.kevalpatel2106.yip.core.ext.getBackgroundGradient
 import com.kevalpatel2106.yip.core.livedata.SingleLiveEvent
 import com.kevalpatel2106.yip.core.livedata.modify
 import com.kevalpatel2106.yip.core.livedata.nullSafeValue
-import com.kevalpatel2106.yip.entity.isRepeatable
+import com.kevalpatel2106.yip.entity.ext.isRepeatable
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
@@ -53,15 +52,8 @@ internal class DetailViewModel @ViewModelInject internal constructor(
             .observeOn(RxSchedulers.main)
             .subscribe({ deadline ->
                 val deadlineThemeColor = darkenColor(deadline.color.colorInt, 0.9f)
-                val timeLeftString = if (deadline.percent >= 100f) {
-                    emptySpannableString()
-                } else {
-                    DetailUseCase.prepareTimeLeft(
-                        application = application,
-                        endTime = deadline.end,
-                        secondaryColor = deadlineThemeColor
-                    )
-                }
+                val timeLeftString =
+                    DetailUseCase.prepareTimeLeft(application, deadline, deadlineThemeColor)
 
                 _viewState.modify {
                     copy(

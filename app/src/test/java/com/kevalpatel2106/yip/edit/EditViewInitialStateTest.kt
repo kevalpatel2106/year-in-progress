@@ -2,7 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
-import com.kevalpatel2106.yip.core.emptyString
+import com.kevalpatel2106.yip.core.ext.emptyString
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter

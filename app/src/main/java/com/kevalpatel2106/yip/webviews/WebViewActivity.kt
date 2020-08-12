@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.getLaunchIntent
-import com.kevalpatel2106.yip.core.set
+import com.kevalpatel2106.yip.core.ext.getLaunchIntent
+import com.kevalpatel2106.yip.core.ext.set
 import com.kevalpatel2106.yip.databinding.ActivityWebViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_web_view.webview

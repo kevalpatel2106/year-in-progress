@@ -1,4 +1,4 @@
-package com.kevalpatel2106.yip.core
+package com.kevalpatel2106.yip.core.ext
 
 import android.text.SpannableString
 import org.junit.Assert.assertEquals
@@ -23,7 +23,10 @@ class StringExtKtTest {
     class StringExtKtRETest {
         @Test
         fun checkSpannableString() {
-            assertEquals(SpannableString(""), emptySpannableString())
+            assertEquals(
+                SpannableString(""),
+                emptySpannableString()
+            )
         }
     }
 }

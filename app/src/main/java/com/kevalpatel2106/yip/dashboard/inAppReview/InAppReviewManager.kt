@@ -8,8 +8,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.review.ReviewManager
 import com.kevalpatel2106.yip.R
+import com.kevalpatel2106.yip.core.ext.showSnack
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
-import com.kevalpatel2106.yip.core.showSnack
 import com.kevalpatel2106.yip.dashboard.inAppReview.InAppReviewViewState.LaunchReviewFlow
 import com.kevalpatel2106.yip.dashboard.inAppReview.InAppReviewViewState.NotifyReviewFailed
 import com.kevalpatel2106.yip.dashboard.inAppReview.InAppReviewViewState.ShowConfirmationDialog

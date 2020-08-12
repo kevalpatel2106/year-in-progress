@@ -9,8 +9,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kevalpatel2106.yip.BuildConfig
 import com.kevalpatel2106.yip.DebugActivity
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.sendMailToDev
-import com.kevalpatel2106.yip.core.showOrHide
+import com.kevalpatel2106.yip.core.ext.sendMailToDev
+import com.kevalpatel2106.yip.core.ext.showOrHide
 import com.kevalpatel2106.yip.databinding.DialogBottomNavigationBinding
 import com.kevalpatel2106.yip.settings.SettingsActivity
 import kotlinx.android.synthetic.main.dialog_bottom_navigation.navigation_drawer_option_debug
