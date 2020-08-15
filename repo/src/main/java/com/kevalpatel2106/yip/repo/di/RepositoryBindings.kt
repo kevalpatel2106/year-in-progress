@@ -14,6 +14,8 @@ import com.kevalpatel2106.yip.repo.timeProvider.TimeProvider
 import com.kevalpatel2106.yip.repo.timeProvider.TimeProviderImpl
 import com.kevalpatel2106.yip.repo.validator.Validator
 import com.kevalpatel2106.yip.repo.validator.ValidatorImpl
+import com.kevalpatel2106.yip.repo.widgetConfig.WidgetConfigRepo
+import com.kevalpatel2106.yip.repo.widgetConfig.WidgetConfigRepoImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -43,4 +45,7 @@ internal abstract class RepositoryBindings {
 
     @Binds
     abstract fun bindDateFormatter(repo: DateFormatterImpl): DateFormatter
+
+    @Binds
+    abstract fun bindWidgetConfigRepo(repo: WidgetConfigRepoImpl): WidgetConfigRepo
 }

@@ -9,6 +9,7 @@
     <string name="title_activity_widget_guide">Add widget</string>
     <string name="title_activity_payment">Get Pro</string>
     <string name="title_activity_licences">Open source libraries</string>
+    <string name="time_left_widget">%dd %dh %dm</string>
 
     <!--Dashboard-->
     <string name="dashboard_no_deadline_message">There is nothing to display!</string>

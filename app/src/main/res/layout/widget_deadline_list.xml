@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_widget_white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/widget_background_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        tools:background="@drawable/bg_widget_white" />
 
-        <TextView
-            android:id="@+id/widget_title"
-            style="@style/MediumText.Accent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingBottom="@dimen/spacing_micro"
-            android:paddingEnd="@dimen/spacing_small"
-            android:paddingStart="@dimen/spacing_small"
-            android:paddingTop="@dimen/spacing_micro"
-            android:text="@string/application_name"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/widget_title"
+        style="@style/MediumText.Accent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:paddingStart="@dimen/spacing_small"
+        android:paddingTop="@dimen/spacing_micro"
+        android:paddingEnd="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_micro"
+        android:text="@string/application_name"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/widget_devices_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/widget_title"
         android:scrollbars="none" />
-</LinearLayout>
+</RelativeLayout>

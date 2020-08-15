@@ -46,18 +46,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/purchase_btn"
+                style="@style/MaterialButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="@{viewModel.viewState.upgradeButtonClickable}"
                 android:onClick="@{() -> view.purchase()}"
-                android:paddingStart="@dimen/spacing_small"
-                android:paddingTop="@dimen/spacing_pico"
-                android:paddingEnd="@dimen/spacing_small"
-                android:paddingBottom="@dimen/spacing_pico"
-                android:text="@string/buy_now"
-                android:textColor="@android:color/white" />
+                android:text="@string/buy_now" />
         </com.google.android.material.card.MaterialCardView>
 
         <ScrollView

@@ -8,7 +8,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
+import com.kevalpatel2106.yip.entity.WidgetConfigTheme
+import com.kevalpatel2106.yip.repo.widgetConfig.WidgetConfigRepo
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class DeadlineListWidgetProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var sharedPrefsProvider: SharedPrefsProvider
+    lateinit var widgetConfigRepo: WidgetConfigRepo
 
     @Inject
     lateinit var appLaunchIntentProvider: AppLaunchIntentProvider
@@ -29,9 +30,7 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         // Update the list only
-        sharedPrefsProvider.getStringFromPreference(WIDGET_IDS)?.split(",")?.map {
-            it.toInt()
-        }?.toIntArray()?.let { widgetIds ->
+        widgetConfigRepo.getWidgetIds()?.let { widgetIds ->
             appWidgetManager.notifyAppWidgetViewDataChanged(
                 widgetIds,
                 R.id.widget_devices_list
@@ -46,6 +45,17 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
     ) {
         appWidgetIds?.forEach { widgetId ->
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_deadline_list)
+            val widgetConfig = widgetConfigRepo.getWidgetConfig(widgetId)
+
+            // set background
+            val backgroundRes = if (widgetConfig.theme == WidgetConfigTheme.DARK) {
+                R.drawable.bg_widget_dark
+            } else {
+                R.drawable.bg_widget_white
+            }
+            remoteViews.setImageViewResource(R.id.widget_background_image, backgroundRes)
+
+            // set list
             remoteViews.setRemoteAdapter(
                 R.id.widget_devices_list,
                 Intent(context, DeadlineListRemoteService::class.java).apply {
@@ -77,10 +87,6 @@ class DeadlineListWidgetProvider : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(widgetId, remoteViews)
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        sharedPrefsProvider.savePreferences(WIDGET_IDS, appWidgetIds?.joinToString(","))
-    }
-
-    companion object {
-        private const val WIDGET_IDS = "widget_ids"
+        widgetConfigRepo.saveWidgetIds(appWidgetIds)
     }
 }
