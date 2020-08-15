@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
         <variable
             name="viewModel"
             type="com.kevalpatel2106.yip.widget.config.WidgetConfigViewModel" />
-
     </data>
 
-    <ScrollView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -40,10 +39,10 @@
                 android:layout_height="280dp"
                 android:background="@android:color/darker_gray"
                 android:padding="@dimen/spacing_small"
+                android:src="@{viewModel.viewState.previewImageRes}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@{viewModel.viewState.previewImageRes}"
                 tools:src="@drawable/list_widget_preview" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -60,10 +59,10 @@
 
             <RadioGroup
                 android:id="@+id/widget_config_content_radio_group"
-                android:checkedButton="@{viewModel.viewState.selectedContentId}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_micro"
+                android:checkedButton="@{viewModel.viewState.selectedContentId}"
                 app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
                 app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
                 app:layout_constraintTop_toBottomOf="@id/widget_config_content_title_tv">
@@ -97,8 +96,8 @@
                 android:id="@+id/widget_config_theme_radio_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checkedButton="@{viewModel.viewState.selectedThemeId}"
                 android:layout_marginTop="@dimen/spacing_micro"
+                android:checkedButton="@{viewModel.viewState.selectedThemeId}"
                 app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
                 app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
                 app:layout_constraintTop_toBottomOf="@id/widget_config_theme_title_tv">
