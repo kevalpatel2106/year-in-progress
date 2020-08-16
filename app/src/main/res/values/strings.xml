@@ -9,7 +9,6 @@
     <string name="title_activity_widget_guide">Add widget</string>
     <string name="title_activity_payment">Get Pro</string>
     <string name="title_activity_licences">Open source libraries</string>
-    <string name="time_left_widget">%dd %dh %dm</string>
 
     <!--Dashboard-->
     <string name="dashboard_no_deadline_message">There is nothing to display!</string>
@@ -174,5 +173,15 @@
     <string name="message_new_update_available">New update available.</string>
     <string name="message_app_update_downloaded">An update has just been downloaded.</string>
     <string name="error_message_in_app_review">Error occurred while preparing for review.</string>
+
+    <!--Widget config activity-->
+    <string name="time_left_widget">%dd %dh %dm</string>
+    <string name="widget_config_content_heading">Select content to show :</string>
+    <string name="widget_config_theme_heading">Select background theme :</string>
+    <string name="widget_config_content_percent">Percent</string>
+    <string name="widget_config_content_time_left">Time left</string>
+    <string name="widget_config_theme_light">Light</string>
+    <string name="widget_config_theme_dark">Dark</string>
+    <string name="widget_config_apply_btn">Apply</string>
     <!--TODO: Categorize the strings-->
 </resources>

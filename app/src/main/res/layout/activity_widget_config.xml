@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Select content to show :"
+                android:text="@string/widget_config_content_heading"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
                 app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
@@ -71,13 +71,13 @@
                     android:id="@+id/widget_config_percent_content_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Percent" />
+                    android:text="@string/widget_config_content_percent" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/widget_config_time_left_content_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Time left" />
+                    android:text="@string/widget_config_content_time_left" />
             </RadioGroup>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -86,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Select background theme :"
+                android:text="@string/widget_config_theme_heading"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
                 app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
@@ -106,24 +106,23 @@
                     android:id="@+id/widget_config_light_theme_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Light" />
+                    android:text="@string/widget_config_theme_light" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/widget_config_dark_theme_radio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dark" />
+                    android:text="@string/widget_config_theme_dark" />
             </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/widget_config_apply_btn"
-                style="@style/MaterialButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:enabled="@{viewModel.viewState.applyButtonEnabled}"
                 android:onClick="@{() -> viewModel.onApplyWidgetConfig()}"
-                android:text="Apply"
+                android:text="@string/widget_config_apply_btn"
                 app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
                 app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
                 app:layout_constraintTop_toBottomOf="@id/widget_config_theme_radio_group" />

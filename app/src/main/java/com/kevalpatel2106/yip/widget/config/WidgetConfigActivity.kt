@@ -1,6 +1,5 @@
 package com.kevalpatel2106.yip.widget.config
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +8,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kevalpatel2106.yip.R
-import com.kevalpatel2106.yip.core.ext.updateWidgets
 import com.kevalpatel2106.yip.core.livedata.nullSafeObserve
 import com.kevalpatel2106.yip.databinding.ActivityWidgetConfigBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_widget_config.widget_config_content_radio_group
 import kotlinx.android.synthetic.main.activity_widget_config.widget_config_theme_radio_group
-
 
 @AndroidEntryPoint
 class WidgetConfigActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener {
@@ -47,7 +44,6 @@ class WidgetConfigActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeList
         model.singleEvent.nullSafeObserve(this) { event ->
             when (event) {
                 is WidgetConfigSingleEvent.CloseScreen -> {
-                    if (event.resultCode == Activity.RESULT_OK) updateWidgets()
                     val resultValue = Intent()
                         .apply { putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, event.appWidgetId) }
                     setResult(event.resultCode, resultValue)

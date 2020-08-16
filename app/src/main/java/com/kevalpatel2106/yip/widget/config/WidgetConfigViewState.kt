@@ -17,8 +17,8 @@ data class WidgetConfigViewState(
             widgetId = AppWidgetManager.INVALID_APPWIDGET_ID,
             previewImageRes = R.drawable.list_widget_preview,
             applyButtonEnabled = false,
-            selectedThemeId = 0,
-            selectedContentId = 0
+            selectedThemeId = R.id.widget_config_light_theme_radio,
+            selectedContentId = R.id.widget_config_percent_content_radio
         )
     }
 }
