@@ -1,8 +1,11 @@
 package com.kevalpatel2106.yip.repo.widgetConfig
 
+import androidx.annotation.VisibleForTesting
 import com.kevalpatel2106.yip.entity.WidgetConfig
 import com.kevalpatel2106.yip.entity.WidgetConfigContent
 import com.kevalpatel2106.yip.entity.WidgetConfigTheme
+import com.kevalpatel2106.yip.entity.ext.getWidgetConfigContent
+import com.kevalpatel2106.yip.entity.ext.getWidgetConfigTheme
 import com.kevalpatel2106.yip.repo.sharedPrefs.SharedPrefsProvider
 import javax.inject.Inject
 
@@ -18,53 +21,51 @@ internal class WidgetConfigRepoImpl @Inject constructor(
             .toIntArray()
     }
 
-    override fun saveWidgetIds(appWidgetId: Int) {
+    override fun saveWidgetIds(widgetId: Int) {
         val ids = getWidgetIds()
             .toMutableList()
-            .apply { add(appWidgetId) }
+            .apply { add(widgetId) }
             .distinct()
             .toIntArray()
         prefsProvider.savePreferences(WIDGET_IDS, ids.joinToString(SEPARATOR))
     }
 
-    override fun deleteWidgetIds(widgetIdsToDelete: IntArray) {
+    override fun deleteWidgetIds(widgetIds: IntArray) {
         val remainingIds = getWidgetIds()
-            .filter { !widgetIdsToDelete.contains(it) }
+            .filter { !widgetIds.contains(it) }
             .toIntArray()
         prefsProvider.savePreferences(WIDGET_IDS, remainingIds.joinToString(SEPARATOR))
     }
 
-    override fun getWidgetConfig(appWidgetId: Int): WidgetConfig {
-        val theme = prefsProvider.getStringFromPreference(getPrefKeyTheme(appWidgetId))
-        val content = prefsProvider.getStringFromPreference(getPrefKeyContent(appWidgetId))
-        return WidgetConfig(
-            id = appWidgetId,
-            theme = WidgetConfigTheme.values().firstOrNull { it.value == theme } ?: defaultTheme,
-            content = WidgetConfigContent.values().firstOrNull { it.value == content }
-                ?: defaultContent
-        )
+    override fun getWidgetConfig(widgetId: Int): WidgetConfig {
+        val theme = prefsProvider.getStringFromPreference(getPrefKeyTheme(widgetId))
+        val content = prefsProvider.getStringFromPreference(getPrefKeyContent(widgetId))
+        return WidgetConfig(widgetId, getWidgetConfigTheme(theme), getWidgetConfigContent(content))
     }
 
     override fun saveWidgetConfig(
-        appWidgetId: Int,
+        widgetId: Int,
         content: WidgetConfigContent,
         theme: WidgetConfigTheme
     ) {
-        prefsProvider.savePreferences(getPrefKeyContent(appWidgetId), content.value)
-        prefsProvider.savePreferences(getPrefKeyTheme(appWidgetId), theme.value)
+        prefsProvider.savePreferences(getPrefKeyContent(widgetId), content.value)
+        prefsProvider.savePreferences(getPrefKeyTheme(widgetId), theme.value)
     }
 
-    private fun getPrefKeyTheme(widgetId: Int) =
+    private fun getPrefKeyTheme(widgetId: Int): String =
         widgetId.toString() + PREF_WIDGET_ID_PREFIX + "theme"
 
-    private fun getPrefKeyContent(widgetId: Int) =
+    private fun getPrefKeyContent(widgetId: Int): String =
         widgetId.toString() + PREF_WIDGET_ID_PREFIX + "content"
 
     companion object {
-        private val defaultTheme = WidgetConfigTheme.LIGHT
-        private val defaultContent = WidgetConfigContent.PERCENT
-        private const val SEPARATOR = ","
-        private const val PREF_WIDGET_ID_PREFIX = "_widget_config_"
-        private const val WIDGET_IDS = "widget_ids"
+        @VisibleForTesting
+        const val SEPARATOR = ","
+
+        @VisibleForTesting
+        const val PREF_WIDGET_ID_PREFIX = "_widget_config_"
+
+        @VisibleForTesting
+        const val WIDGET_IDS = "widget_ids"
     }
 }

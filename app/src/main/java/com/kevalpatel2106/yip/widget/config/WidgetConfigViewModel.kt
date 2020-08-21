@@ -64,7 +64,7 @@ class WidgetConfigViewModel @ViewModelInject constructor(
         _viewState.modify { copy(applyButtonEnabled = false) }
         with(viewState.nullSafeValue()) {
             widgetConfigRepo.saveWidgetConfig(
-                appWidgetId = widgetId,
+                widgetId = widgetId,
                 content = contentMap.getFirstKey(selectedContentId),
                 theme = themeMap.getFirstKey(selectedThemeId)
             )
