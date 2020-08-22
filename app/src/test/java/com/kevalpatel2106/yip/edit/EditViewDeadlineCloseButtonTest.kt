@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.generateDeadline
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNull
 import org.junit.Before
@@ -16,7 +17,7 @@ internal class EditViewDeadlineCloseButtonTest : EditViewDeadlineModelTestSetUp(
 
     @Before
     fun setUp() {
-        deadline = generateDeadline()
+        deadline = generateDeadline(kFixture)
         viewModel.setDeadlineId(deadline.id)
     }
 

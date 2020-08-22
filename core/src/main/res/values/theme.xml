@@ -47,6 +47,9 @@
         <item name="bottomSheetDialogTheme">@style/YipComponentTheme.RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/YipComponentTheme.RoundedBottomSheet</item>
 
+        <!--Button-->
+        <item name="materialButtonStyle">@style/YipComponentTheme.MaterialButton</item>
+
         <!--Snackbar-->
         <item name="snackbarStyle">@style/YipComponentTheme.Snackbar</item>
         <item name="snackbarButtonStyle">@style/YipComponentTheme.SnackbarButton</item>
@@ -107,6 +110,16 @@
     </style>
 
     <style name="YipComponentTheme.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!--Button-->
+    <style name="YipComponentTheme.MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:paddingStart">@dimen/spacing_small</item>
+        <item name="android:paddingTop">@dimen/spacing_pico</item>
+        <item name="android:paddingEnd">@dimen/spacing_small</item>
+        <item name="android:paddingBottom">@dimen/spacing_pico</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

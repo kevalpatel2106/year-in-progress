@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.generateDeadline
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
@@ -18,7 +19,7 @@ internal class EditViewDeadlineNotificationsTest : EditViewDeadlineModelTestSetU
 
     @Before
     fun setUp() {
-        deadline = generateDeadline().copy(notificationPercent = notifications)
+        deadline = generateDeadline(kFixture).copy(notificationPercent = notifications)
         deadlineSubject.onNext(deadline)
         viewModel.setDeadlineId(deadline.id)
     }

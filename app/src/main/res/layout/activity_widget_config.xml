@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.kevalpatel2106.yip.widget.config.WidgetConfigViewModel" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/widgetConfigGuideLineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/widgetConfigGuideLineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/widget_config_preview_iv"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/widget_preview_image_height"
+                android:background="@android:color/darker_gray"
+                android:padding="@dimen/spacing_micro"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcRes="@{viewModel.viewState.previewImageRes}"
+                tools:src="@drawable/list_widget_preview_percent_light" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/widget_config_content_title_tv"
+                style="@style/MediumText.Accent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/widget_config_content_heading"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
+                app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
+                app:layout_constraintTop_toBottomOf="@id/widget_config_preview_iv" />
+
+            <RadioGroup
+                android:id="@+id/widget_config_content_radio_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_micro"
+                android:checkedButton="@{viewModel.viewState.selectedContentId}"
+                app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
+                app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
+                app:layout_constraintTop_toBottomOf="@id/widget_config_content_title_tv">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/widget_config_percent_content_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/widget_config_content_percent" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/widget_config_time_left_content_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/widget_config_content_time_left" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/widget_config_theme_title_tv"
+                style="@style/MediumText.Accent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/widget_config_theme_heading"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
+                app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
+                app:layout_constraintTop_toBottomOf="@id/widget_config_content_radio_group" />
+
+            <RadioGroup
+                android:id="@+id/widget_config_theme_radio_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_micro"
+                android:checkedButton="@{viewModel.viewState.selectedThemeId}"
+                app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
+                app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
+                app:layout_constraintTop_toBottomOf="@id/widget_config_theme_title_tv">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/widget_config_light_theme_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/widget_config_theme_light" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/widget_config_dark_theme_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/widget_config_theme_dark" />
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/widget_config_apply_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:enabled="@{viewModel.viewState.applyButtonEnabled}"
+                android:onClick="@{() -> viewModel.onApplyWidgetConfig()}"
+                android:text="@string/widget_config_apply_btn"
+                app:layout_constraintEnd_toEndOf="@id/widgetConfigGuideLineRight"
+                app:layout_constraintStart_toStartOf="@id/widgetConfigGuideLineLeft"
+                app:layout_constraintTop_toBottomOf="@id/widget_config_theme_radio_group" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

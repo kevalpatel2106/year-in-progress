@@ -7,6 +7,7 @@ import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
 import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.entity.ext.isPreBuild
+import com.kevalpatel2106.yip.generateDeadline
 import com.kevalpatel2106.yip.notifications.DeadlineNotificationReceiver
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.anyOrNull
@@ -37,7 +38,7 @@ internal class EditViewDeadlineSaveDeadlineTest : EditViewDeadlineModelTestSetUp
 
     @Before
     fun setUp() {
-        deadline = generateDeadline()
+        deadline = generateDeadline(kFixture)
         viewModel.setDeadlineId(deadline.id)
         whenever(
             deadlineRepo.addUpdateDeadline(

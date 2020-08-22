@@ -4,14 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-android {
-    buildTypes {
-        debug {
-            testCoverageEnabled = false
-        }
-    }
-}
-
 dependencies {
     implementation "androidx.test:rules:1.2.0"
     implementation "com.flextrade.jfixture:kfixture:0.2.0"

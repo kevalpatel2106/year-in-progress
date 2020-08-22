@@ -1,10 +1,8 @@
 package com.kevalpatel2106.yip.notifications
 
-import com.flextrade.kfixture.KFixture
-import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
+import com.kevalpatel2106.testutils.getKFixture
 import com.kevalpatel2106.yip.entity.Deadline
-import com.kevalpatel2106.yip.entity.DeadlineColor
-import com.kevalpatel2106.yip.entity.DeadlineType
+import com.kevalpatel2106.yip.generateDeadline
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
@@ -17,7 +15,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import java.util.Date
 
 @RunWith(JUnit4::class)
 class DeadlineNotificationReceiverHelperTest {
@@ -28,7 +25,7 @@ class DeadlineNotificationReceiverHelperTest {
     @Mock
     internal lateinit var notificationHandler: DeadlineNotificationHandler
 
-    private val kFixture: KFixture = KFixture { add(IgnoreDefaultArgsConstructorCustomisation()) }
+    private val kFixture = getKFixture()
     private lateinit var receiverHelper: DeadlineNotificationReceiverHelper
 
     @Before
@@ -42,7 +39,7 @@ class DeadlineNotificationReceiverHelperTest {
     fun `given deadline percent in tolerance when on receive called notification displayed`() {
         // given
         val percent = 34.3f
-        val deadline = generateDeadline(percent, listOf(percent + 1f))
+        val deadline = generateDeadline(kFixture, percent, listOf(percent + 1f))
         whenever(deadlineRepo.observeDeadline(deadline.id))
             .thenReturn(Single.just(deadline).toFlowable())
 
@@ -57,7 +54,7 @@ class DeadlineNotificationReceiverHelperTest {
     fun `given deadline percent out of tolerance when on receive called notification not displayed`() {
         // given
         val percent = 34.3f
-        val deadline = generateDeadline(percent, listOf(percent + 1.01f))
+        val deadline = generateDeadline(kFixture, percent, listOf(percent + 1.01f))
         whenever(deadlineRepo.observeDeadline(deadline.id))
             .thenReturn(Single.just(deadline).toFlowable())
 
@@ -81,19 +78,4 @@ class DeadlineNotificationReceiverHelperTest {
         // then
         verify(notificationHandler, never()).notify(any())
     }
-
-    private fun generateDeadline(
-        deadlinePercent: Float,
-        notificationPercents: List<Float>
-    ) = Deadline(
-        id = kFixture(),
-        title = kFixture(),
-        description = kFixture(),
-        color = DeadlineColor.COLOR_YELLOW,
-        start = Date(System.currentTimeMillis()),
-        end = Date(System.currentTimeMillis() - 1),
-        deadlineType = DeadlineType.YEAR_DEADLINE,
-        notificationPercent = notificationPercents,
-        percent = deadlinePercent
-    )
 }

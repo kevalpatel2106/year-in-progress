@@ -8,8 +8,6 @@ import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomis
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
 import com.kevalpatel2106.yip.R
 import com.kevalpatel2106.yip.entity.Deadline
-import com.kevalpatel2106.yip.entity.DeadlineColor
-import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
@@ -25,7 +23,6 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import java.util.Date
 
 abstract class DetailViewModelTestSetUp {
 
@@ -91,20 +88,6 @@ abstract class DetailViewModelTestSetUp {
             appShortcutHelper,
             appLaunchIntentProvider,
             dateFormatter
-        )
-    }
-
-    protected fun generateDeadline(deadlinePercent: Float = kFixture.range(1f..100f)): Deadline {
-        return Deadline(
-            id = kFixture(),
-            title = kFixture(),
-            description = kFixture(),
-            color = DeadlineColor.COLOR_YELLOW,
-            start = Date(System.currentTimeMillis()),
-            end = Date(System.currentTimeMillis() - 1),
-            deadlineType = DeadlineType.YEAR_DEADLINE,
-            notificationPercent = kFixture(),
-            percent = deadlinePercent
         )
     }
 }

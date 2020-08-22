@@ -49,6 +49,11 @@
         <activity android:name=".payment.PaymentActivity" />
         <activity android:name=".webviews.WebViewActivity" />
         <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".widget.config.WidgetConfigActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".dashboard.DashboardActivity"
             android:launchMode="singleInstance"

@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.DeadlineType
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
@@ -58,7 +59,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `when deadline loading in progress check is loading changes to true in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
 
         // when
         viewModel.setDeadlineId(deadline.id)
@@ -70,7 +71,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `when deadline loaded check is loading changes to false in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -83,7 +84,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check deadline type in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -96,7 +97,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check initial title in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -109,7 +110,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check current title in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -122,7 +123,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check initial description in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -135,7 +136,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check current description in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -148,7 +149,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline with null description when set deadline id check initial description in view state is empty string`() {
         // given
-        val deadline = generateDeadline().copy(description = null)
+        val deadline = generateDeadline(kFixture).copy(description = null)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -161,7 +162,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline with null description when set deadline id check current description in view state is empty string`() {
         // given
-        val deadline = generateDeadline().copy(description = null)
+        val deadline = generateDeadline(kFixture).copy(description = null)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -174,7 +175,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check no title error message is displayed`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -187,7 +188,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given prebuilt deadline when set deadline id check date edit not allowed`() {
         // given
-        val deadline = generateDeadline().copy(deadlineType = DeadlineType.DAY_DEADLINE)
+        val deadline = generateDeadline(kFixture).copy(deadlineType = DeadlineType.DAY_DEADLINE)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -200,7 +201,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given custom deadline when set deadline id check date edit allowed`() {
         // given
-        val deadline = generateDeadline().copy(deadlineType = DeadlineType.CUSTOM)
+        val deadline = generateDeadline(kFixture).copy(deadlineType = DeadlineType.CUSTOM)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -213,7 +214,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given custom deadline when set deadline id check start date`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -226,7 +227,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given custom deadline when set deadline id check start date display string`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -239,7 +240,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given custom deadline when set deadline id check end date`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -252,7 +253,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given custom deadline when set deadline id check end date display string`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -265,7 +266,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check color edit allowed`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -278,7 +279,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check selected color same as given deadline`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -291,7 +292,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check notification edit allowed`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when
@@ -304,7 +305,7 @@ internal class EditViewDeadlineLoadDetailsTest : EditViewDeadlineModelTestSetUp(
     @Test
     fun `given deadline when set deadline id check notifications list same as given deadline`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
 
         // when

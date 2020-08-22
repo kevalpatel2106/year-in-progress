@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.edit
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -21,7 +22,7 @@ internal class EditViewDeadlineDateRangeTest : EditViewDeadlineModelTestSetUp() 
 
     @Before
     fun setUp() {
-        deadline = generateDeadline()
+        deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
         viewModel.setDeadlineId(deadline.id)
 

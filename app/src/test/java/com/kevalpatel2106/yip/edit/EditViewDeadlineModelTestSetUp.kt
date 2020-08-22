@@ -7,8 +7,6 @@ import com.flextrade.kfixture.KFixture
 import com.flextrade.kfixture.customisation.IgnoreDefaultArgsConstructorCustomisation
 import com.kevalpatel2106.testutils.RxSchedulersOverrideRule
 import com.kevalpatel2106.yip.entity.Deadline
-import com.kevalpatel2106.yip.entity.DeadlineColor
-import com.kevalpatel2106.yip.entity.DeadlineType
 import com.kevalpatel2106.yip.repo.alarmRepo.AlarmRepo
 import com.kevalpatel2106.yip.repo.billingRepo.BillingRepo
 import com.kevalpatel2106.yip.repo.dateFormatter.DateFormatter
@@ -23,7 +21,6 @@ import org.junit.Rule
 import org.mockito.Mock
 import org.mockito.Mockito.anyInt
 import org.mockito.MockitoAnnotations
-import java.util.Date
 
 internal abstract class EditViewDeadlineModelTestSetUp {
 
@@ -84,20 +81,6 @@ internal abstract class EditViewDeadlineModelTestSetUp {
             validator,
             dateFormatter,
             billingRepo
-        )
-    }
-
-    protected fun generateDeadline(): Deadline {
-        return Deadline(
-            id = kFixture(),
-            title = kFixture(),
-            description = kFixture(),
-            color = DeadlineColor.COLOR_YELLOW,
-            start = Date(System.currentTimeMillis()),
-            end = Date(System.currentTimeMillis() - 1),
-            deadlineType = DeadlineType.YEAR_DEADLINE,
-            notificationPercent = kFixture(),
-            percent = kFixture.range(1f..100f)
         )
     }
 }

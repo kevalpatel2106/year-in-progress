@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.detail
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.Deadline
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
@@ -19,7 +20,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given already monitoring when set deadline id with same id called check no duplicate monitoring`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
 
         // when
@@ -32,7 +33,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check title text`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -46,7 +47,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check description text`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -60,7 +61,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline with description when set deadline id called check has description true in view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -74,7 +75,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline without description when set deadline id called check has description false in view state`() {
         // given
-        val deadline = generateDeadline().copy(description = null)
+        val deadline = generateDeadline(kFixture).copy(description = null)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -88,7 +89,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check show repeatable status`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -102,7 +103,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check start and end time`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -117,7 +118,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check percent text`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -131,7 +132,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail when set deadline id called check progress percent`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         deadlineObserver.onNext(deadline)
 
         // when
@@ -145,7 +146,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline finished when set deadline id called check time left string is empty`() {
         // given
-        val finishedDeadline = generateDeadline(101f)
+        val finishedDeadline = generateDeadline(kFixture, 101f)
         deadlineObserver.onNext(finishedDeadline)
 
         // when
@@ -159,7 +160,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given get deadline failed when set deadline id called check error message shown`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         whenever(deadlineRepo.observeDeadline(anyLong()))
             .thenReturn(Single.error<Deadline>(Throwable()).toFlowable())
 
@@ -174,7 +175,7 @@ class DetailViewModelDeadlineMonitorTest : DetailViewModelTestSetUp() {
     @Test
     fun `given get deadline failed when set deadline id called check screen close`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         whenever(deadlineRepo.observeDeadline(anyLong()))
             .thenReturn(Single.error<Deadline>(Throwable()).toFlowable())
 

@@ -10,7 +10,7 @@
     tools:background="@android:color/white">
 
     <TextView
-        android:id="@+id/widget_battery_list_level_tv"
+        android:id="@+id/widget_deadline_percent_tv"
         style="@style/MediumText.Primary"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -20,13 +20,14 @@
         tools:text="100%" />
 
     <TextView
-        android:id="@+id/widget_battery_list_name_tv"
+        android:id="@+id/widget_deadline_name_tv"
         style="@style/MediumText.Primary"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_toStartOf="@id/widget_battery_list_level_tv"
+        android:layout_toStartOf="@id/widget_deadline_percent_tv"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:singleLine="true"

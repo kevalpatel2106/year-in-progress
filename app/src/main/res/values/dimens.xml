@@ -24,6 +24,7 @@
 
     <!--Edit dimension-->
     <dimen name="color_picker_height">@dimen/spacing_huge</dimen>
+    <dimen name="widget_preview_image_height">280dp</dimen>
 
     <!--TODO: Categorize dimensions-->
 </resources>
