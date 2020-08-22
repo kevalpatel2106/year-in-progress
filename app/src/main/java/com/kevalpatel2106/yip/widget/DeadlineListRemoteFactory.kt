@@ -8,9 +8,6 @@ import com.kevalpatel2106.yip.core.AppConstants
 import com.kevalpatel2106.yip.core.ext.getColorCompat
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.WidgetConfig
-import com.kevalpatel2106.yip.entity.WidgetConfigContent
-import com.kevalpatel2106.yip.entity.WidgetConfigTheme
-import com.kevalpatel2106.yip.entity.ext.timeLeftDHM
 import com.kevalpatel2106.yip.repo.deadlineRepo.DeadlineRepo
 import com.kevalpatel2106.yip.utils.AppLaunchIntentProvider
 import timber.log.Timber
@@ -28,24 +25,17 @@ internal class DeadlineListRemoteFactory(
 
         val rowView = RemoteViews(application.packageName, R.layout.row_widget_deadline_list)
         with(deadline) {
-            val textColor = when (widgetConfig.theme) {
-                WidgetConfigTheme.DARK -> application.getColorCompat(android.R.color.white)
-                WidgetConfigTheme.LIGHT -> application.getColorCompat(android.R.color.black)
-            }
-            rowView.setTextColor(R.id.widget_deadline_name_tv, textColor)
+            rowView.setTextColor(
+                R.id.widget_deadline_name_tv, application.getColorCompat(
+                    DeadlineListWidgetHelper.getListRowTextColor(widgetConfig.theme)
+                )
+            )
             rowView.setTextViewText(R.id.widget_deadline_name_tv, title)
 
-            val content = when (widgetConfig.content) {
-                WidgetConfigContent.PERCENT -> application.getString(
-                    R.string.deadline_percentage,
-                    percent
-                )
-                WidgetConfigContent.TIME_LEFT -> {
-                    val (days, hours, mins) = deadline.timeLeftDHM()
-                    application.getString(R.string.time_left_widget, days, hours, mins)
-                }
-            }
-            rowView.setTextViewText(R.id.widget_deadline_percent_tv, content)
+            rowView.setTextViewText(
+                R.id.widget_deadline_percent_tv,
+                DeadlineListWidgetHelper.getContent(application, widgetConfig.content, deadline)
+            )
             rowView.setTextColor(R.id.widget_deadline_percent_tv, color.colorInt)
 
             rowView.setOnClickFillInIntent(

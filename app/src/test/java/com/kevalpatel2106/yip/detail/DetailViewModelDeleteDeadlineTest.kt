@@ -1,6 +1,7 @@
 package com.kevalpatel2106.yip.detail
 
 import com.kevalpatel2106.testutils.getOrAwaitValue
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Completable
 import io.reactivex.subjects.PublishSubject
@@ -17,7 +18,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete success when delete confirmed check user message displayed`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.complete())
 
@@ -32,7 +33,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete success when delete confirmed check screen closes`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.complete())
 
@@ -47,7 +48,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete fail when delete confirmed check error message displayed`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.error(Throwable()))
 
@@ -62,7 +63,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete fail when delete confirmed check screen stays open`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.error(Throwable()))
 
@@ -77,7 +78,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline deleting when delete confirmed check view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id))
             .thenReturn(PublishSubject.create<Unit>().ignoreElements())
@@ -93,7 +94,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete success when delete confirmed check view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.complete())
 
@@ -108,7 +109,7 @@ class DetailViewModelDeleteDeadlineTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete error when delete confirmed check view state`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id)).thenReturn(Completable.error(Throwable()))
 

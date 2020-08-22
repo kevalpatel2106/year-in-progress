@@ -2,8 +2,6 @@ package com.kevalpatel2106.yip.widget.config
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
-import android.content.Context
-import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -19,11 +17,8 @@ import com.kevalpatel2106.yip.entity.WidgetConfigTheme
 import com.kevalpatel2106.yip.repo.widgetConfig.WidgetConfigRepo
 import com.kevalpatel2106.yip.widget.config.WidgetConfigSingleEvent.CloseScreen
 import com.kevalpatel2106.yip.widget.config.WidgetConfigUseCase.getPreviewImage
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 class WidgetConfigViewModel @ViewModelInject constructor(
-    @ApplicationContext private val application: Context,
-    private val appWidgetManager: AppWidgetManager,
     private val widgetConfigRepo: WidgetConfigRepo
 ) : BaseViewModel() {
     private val contentMap = hashMapOf(
@@ -68,7 +63,6 @@ class WidgetConfigViewModel @ViewModelInject constructor(
                 content = contentMap.getFirstKey(selectedContentId),
                 theme = themeMap.getFirstKey(selectedThemeId)
             )
-            updateWidgets()
             _singleEvent.value = CloseScreen(Activity.RESULT_OK, widgetId)
         }
     }
@@ -77,10 +71,10 @@ class WidgetConfigViewModel @ViewModelInject constructor(
         @IdRes selectedThemeRadioId: Int,
         @IdRes selectedContentRadioId: Int
     ) {
-        if (selectedContentRadioId == -1 || selectedThemeRadioId == -1) return
-
-        if (viewState.nullSafeValue().selectedContentId != selectedContentRadioId
-            || viewState.nullSafeValue().selectedThemeId != selectedThemeRadioId
+        if ((contentMap.containsValue(selectedContentRadioId)
+                    && themeMap.containsValue(selectedThemeRadioId))
+            && (viewState.nullSafeValue().selectedContentId != selectedContentRadioId
+                    || viewState.nullSafeValue().selectedThemeId != selectedThemeRadioId)
         ) {
             _viewState.modify {
                 copy(
@@ -92,12 +86,6 @@ class WidgetConfigViewModel @ViewModelInject constructor(
                     )
                 )
             }
-        }
-    }
-
-    private fun updateWidgets() {
-        RemoteViews(application.packageName, R.layout.widget_deadline_list).also { views ->
-            appWidgetManager.updateAppWidget(viewState.nullSafeValue().widgetId, views)
         }
     }
 }

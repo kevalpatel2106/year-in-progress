@@ -4,6 +4,6 @@
     android:initialLayout="@layout/widget_deadline_list"
     android:minWidth="@dimen/widget_min_width"
     android:minHeight="@dimen/widget_min_height"
-    android:previewImage="@drawable/list_widget_preview"
+    android:previewImage="@drawable/list_widget_preview_percent_light"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="@integer/widget_refresh_time" />

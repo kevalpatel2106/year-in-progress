@@ -2,6 +2,7 @@ package com.kevalpatel2106.yip.detail
 
 import android.content.Intent
 import com.kevalpatel2106.testutils.getOrAwaitValue
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -18,7 +19,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete in progress when show option menu called check menu does not open`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         whenever(deadlineRepo.deleteDeadline(deadline.id))
             .thenReturn(PublishSubject.create<Unit>().ignoreElements())
@@ -34,7 +35,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline delete not in progress when show option menu called check menu open`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
 
         // when
@@ -47,7 +48,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
     @Test
     fun `given deadline detail set when delete deadline clicked check delete confirmation dialog appears`() {
         // given
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         model.setDeadlineIdToMonitor(deadline.id)
         deadlineObserver.onNext(deadline)
 
@@ -65,7 +66,7 @@ class DetailViewModelOptionMenuTest : DetailViewModelTestSetUp() {
         val idCaptor = argumentCaptor<Long>()
         val titleCaptor = argumentCaptor<String>()
         val launchIntentCaptor = argumentCaptor<Intent>()
-        val deadline = generateDeadline()
+        val deadline = generateDeadline(kFixture)
         val launchIntent = Intent()
         whenever(appLaunchIntentProvider.launchAppWithDeadlineDetailIntent(context, deadline.id))
             .thenReturn(launchIntent)

@@ -3,6 +3,7 @@ package com.kevalpatel2106.yip.edit
 import com.kevalpatel2106.testutils.getOrAwaitValue
 import com.kevalpatel2106.yip.entity.Deadline
 import com.kevalpatel2106.yip.entity.DeadlineColor
+import com.kevalpatel2106.yip.generateDeadline
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -20,7 +21,7 @@ internal class EditViewDeadlineColorSelectionTest : EditViewDeadlineModelTestSet
 
     @Before
     fun setUp() {
-        deadline = generateDeadline()
+        deadline = generateDeadline(kFixture)
         deadlineSubject.onNext(deadline)
         viewModel.setDeadlineId(deadline.id)
     }

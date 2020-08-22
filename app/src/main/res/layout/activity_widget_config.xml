@@ -36,14 +36,14 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/widget_config_preview_iv"
                 android:layout_width="0dp"
-                android:layout_height="280dp"
+                android:layout_height="@dimen/widget_preview_image_height"
                 android:background="@android:color/darker_gray"
-                android:padding="@dimen/spacing_small"
-                android:src="@{viewModel.viewState.previewImageRes}"
+                android:padding="@dimen/spacing_micro"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/list_widget_preview" />
+                app:srcRes="@{viewModel.viewState.previewImageRes}"
+                tools:src="@drawable/list_widget_preview_percent_light" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/widget_config_content_title_tv"

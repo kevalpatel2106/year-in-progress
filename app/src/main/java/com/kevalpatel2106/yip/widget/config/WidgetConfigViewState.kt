@@ -15,7 +15,7 @@ data class WidgetConfigViewState(
     companion object {
         fun initialState() = WidgetConfigViewState(
             widgetId = AppWidgetManager.INVALID_APPWIDGET_ID,
-            previewImageRes = R.drawable.list_widget_preview,
+            previewImageRes = R.drawable.list_widget_preview_percent_light,
             applyButtonEnabled = false,
             selectedThemeId = R.id.widget_config_light_theme_radio,
             selectedContentId = R.id.widget_config_percent_content_radio
